@@ -141,11 +141,11 @@
     Preload
     ======================================-->
 
-    <div id="loader-wrapper">
+    <!-- <div id="loader-wrapper">
         <img src="img/template/loader.jpg">
         <div class="loader-section section-left"></div>
         <div class="loader-section section-right"></div>
-    </div>  
+    </div>   -->
 
 	<!--=====================================
 	Header Promotion
@@ -156,18 +156,12 @@
 	Header
 	======================================-->
 
-    <?php include('main-header.php') ?>
-
-  	
-
-    <!--=====================================
-    Navigation Mobile
-    ======================================-->
-
-
     <?php
-    //Está comentado
-    include('navegacion-mobile.php'); 
+    
+	require_once "include/functions.php";
+	require_once "include/db_tools.php"; 
+    include('main-header.php') 
+    
     ?>
 
     <!--=====================================
@@ -180,30 +174,26 @@
     	Home Banner
     	======================================-->  
 
-    	<div class="ps-home-banner">
+    	<div class="ps-home-banner" id="inicio">
             <div class="ps-carousel--nav-inside owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on" data-owl-animate-in="fadeIn" data-owl-animate-out="fadeOut">
 
                 <div class="ps-banner--market-4" data-background="img/slider/horizontal/1.jpg">
                 	<img src="img/slider/horizontal/1.jpg" alt="">
                     <div class="ps-banner__content">
-                        <h4>Limit Edition</h4>
-                        <h3>HAPPY SUMMER <br/> 
-                        	COMBO SUPER COOL <br/> 
-                        	<p>UP TO <strong> 40%</strong></p>
+                        <h3>INTERCAMBIA LIBROS <br/> 
+                        	ENTRE ESTUDIANTES <br/> 
                         </h3>
-                        <a class="ps-btn" href="#">Shop Now</a>
+                        <!-- <a class="ps-btn" href="#">Shop Now</a> -->
                     </div>
                 </div>
 
                 <div class="ps-banner--market-4" data-background="img/slider/horizontal/2.jpg">
                 	<img src="img/slider/horizontal/2.jpg" alt="">
                     <div class="ps-banner__content">
-                        <h4>Version 2018</h4>
-                        <h3>EXPERIENCE FEEL <br/> 
-                        	GREATEST WITH VITURAL <br/> 
-                        	<p>REALITY JUST <strong> $599</strong></p>
+                        <h3>FORMA PARTE <br/> 
+                        	DE TU COMUNIDAD <br/> 
                         </h3>
-                        <a class="ps-btn" href="#">Shop Now</a>
+                        <!-- <a class="ps-btn" href="#">Shop Now</a> -->
                     </div>
                 </div>
 
@@ -263,73 +253,7 @@
 
         
 
-        <!--=====================================
-		Top Categoríes
-		======================================-->  
-
-        <div class="ps-top-categories">
-
-            <div class="container">
-
-                <h3>Top categories of the month</h3>
-
-                <div class="row">
-
-                    <div class="col-xl-2 col-lg-3 col-sm-4 col-6 ">
-                        <div class="ps-block--category">
-                        	<a class="ps-block__overlay" href="shop-default.html"></a>
-                        	<img src="img/categories/1.jpg" alt="">
-                            <p>Electronics</p>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-2 col-lg-3 col-sm-4 col-6 ">
-                        <div class="ps-block--category">
-                        	<a class="ps-block__overlay" href="shop-default.html"></a>
-                        	<img src="img/categories/2.jpg" alt="">
-                            <p>Clothings</p>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-2 col-lg-3 col-sm-4 col-6 ">
-                        <div class="ps-block--category">
-                        	<a class="ps-block__overlay" href="shop-default.html"></a>
-                        	<img src="img/categories/3.jpg" alt="">
-                            <p>Computers</p>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-2 col-lg-3 col-sm-4 col-6 ">
-                        <div class="ps-block--category">
-                        	<a class="ps-block__overlay" href="shop-default.html"></a>
-                        	<img src="img/categories/4.jpg" alt="">
-                            <p>Home &amp; Kitchen</p>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-2 col-lg-3 col-sm-4 col-6 ">
-                        <div class="ps-block--category">
-                        	<a class="ps-block__overlay" href="shop-default.html"></a>
-                        	<img src="img/categories/5.jpg" alt="">
-                            <p>Health &amp; Beauty</p>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-2 col-lg-3 col-sm-4 col-6 ">
-                        <div class="ps-block--category">
-                        	<a class="ps-block__overlay" href="shop-default.html"></a>
-                        	<img src="img/categories/6.jpg" alt="">
-                            <p>Health &amp; Beauty</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div><!-- End Top Categories -->
-
-	</div><!-- End Homepage 6-->
-
+        
  	<!--=====================================
 	Section Gray
 	======================================-->  
@@ -339,10 +263,10 @@
         <div class="container">
 
         	<!--=====================================
-			Products of category
+			            MÁS BUSCADOS
 			======================================-->  
 
-            <div class="ps-block--products-of-category">
+            <div class="ps-block--products-of-category" id="mas-buscados">
 
             	<!--=====================================
 				Menu subcategory
@@ -351,8 +275,6 @@
                 <div class="ps-block__categories">
 
                     <h3>Los Más <br> Buscados</h3>
-
-                        
 
                         <a class="ps-block__more-link" href="#">Ver Todos</a>
 
@@ -370,17 +292,59 @@
 					Product Simple
 					======================================--> 
 
-                    <div class="ps-product ps-product--simple">
+                    <?php 
+                    $cont = 0;
+                    do{
+
+                    
+                    $query1 = "SELECT * FROM libros 
+                    INNER JOIN usuarios ON libros.codigo_usuario = usuarios.codigo_usuario
+                    WHERE libros.status = 1
+                    ORDER BY num_visitas
+                    LIMIT 6";
+                    $mas_buscados = DatasetSQL($query1);
+
+                    while($row1 = mysqli_fetch_array($mas_buscados)){
+                        $id_libro = $row1['id_libro'];
+                        $codigo_usuario = $row1['codigo_usuario'];
+                        $titulo = $row1['titulo'];
+                        $autor = $row1['autor'];
+                        $editorial = $row1['editorial'];
+                        $year = $row1['year'];
+                        $sinopsis = $row1['sinopsis'];
+                        $num_visitas = $row1['num_visitas'];
+                        $num_prestamos = $row1['num_prestamos'];
+                        $ruta_foto_portada = $row1['ruta_foto_portada'];
+                        $fecha_agregado = $row1['fecha_agregado'];
+                        $status = $row1['status'];
+
+                        $nombre_usuario = $row1['nombres'];
+                        $apellido_usuario = $row1['apellidos'];
+
+                        if($year == NULL){
+                            $year = "Sin Año";
+                        }
+
+                        if($sinopsis == NULL){
+                            $sinopsis = "Sin Sinopsis";
+                        }
+
+                        if($ruta_foto_portada == NULL){
+                            $ruta_foto_portada = "imagenes/libros/no-image.jpg";
+                        }
+
+                        
+                        ?>
+
+                        <div class="ps-product ps-product--simple">
 
                         <div class="ps-product__thumbnail">
 
-                        	<a href="product-default.html">
+                            <a href="#">
 
-                        		<img src="img/products/clothing/1.jpg" alt="">
+                                <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
-                        	</a>
-
-                            <div class="ps-product__badge">-16%</div>
+                            </a>
 
                         </div>
 
@@ -388,45 +352,114 @@
 
                             <div class="ps-product__content" data-mh="clothing">
 
-                            	<a class="ps-product__title" href="product-default.html">Herschel Leather Duffle Bag In Brown Color</a>
+                                <a class="ps-product__title" href="#"><?php echo $titulo; ?></a> 
+                                <p><?php echo $autor; ?></p>
 
-                                <div class="ps-product__rating">
+                                <br>
 
-                                    <select class="ps-rating" data-read-only="true">
-
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="2">5</option>
-
-                                    </select>
-
-                                    <span>01</span>
-
-                                </div>
-
-                                <p class="ps-product__price sale">$567.99 <del>$670.00 </del></p>
+                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo rtrim($nombre_usuario)." ".rtrim($apellido_usuario); ?></a></p>
 
                             </div>
 
                         </div>
 
-                    </div> <!-- End Product Simple -->
+                        </div>
 
-                    <!--=====================================
+                    
+                    <?php } 
+                    $cont++;
+                    } while($cont < 6);?>                 
+
+                </div><!-- End Block Product Box -->
+              
+            </div><!-- End Products of category -->
+            <!-- Termino de Productos por bloque -->
+                    
+
+
+            <!--=====================================
+			            MÁS INTERCAMBIADOS
+			======================================-->  
+
+            <div class="ps-block--products-of-category" id="mas-intercambiados">
+
+            	<!--=====================================
+				Menu subcategory
+				======================================-->  
+
+                <div class="ps-block__categories">
+
+                    <h3>Con Mayor Cantidad <br> De Intercambios</h3>
+
+                        <a class="ps-block__more-link" href="#">Ver Todos</a>
+
+                </div>
+
+                <!-- Aqui estaba el slider -->
+
+                <!--=====================================
+				Block Product Box
+				======================================-->  
+
+                <div class="ps-block__product-box">
+					
+					<!--=====================================
 					Product Simple
 					======================================--> 
 
-                    <div class="ps-product ps-product--simple">
+                    <?php 
+                    $cont = 0;
+                    do{
+
+                    
+                    $query1 = "SELECT * FROM libros 
+                    INNER JOIN usuarios ON libros.codigo_usuario = usuarios.codigo_usuario
+                    WHERE libros.status = 1
+                    ORDER BY libros.num_prestamos
+                    LIMIT 6";
+                    $mas_buscados = DatasetSQL($query1);
+
+                    while($row1 = mysqli_fetch_array($mas_buscados)){
+                        $id_libro = $row1['id_libro'];
+                        $codigo_usuario = $row1['codigo_usuario'];
+                        $titulo = $row1['titulo'];
+                        $autor = $row1['autor'];
+                        $editorial = $row1['editorial'];
+                        $year = $row1['year'];
+                        $sinopsis = $row1['sinopsis'];
+                        $num_visitas = $row1['num_visitas'];
+                        $num_prestamos = $row1['num_prestamos'];
+                        $ruta_foto_portada = $row1['ruta_foto_portada'];
+                        $fecha_agregado = $row1['fecha_agregado'];
+                        $status = $row1['status'];
+
+                        $nombre_usuario = $row1['nombres'];
+                        $apellido_usuario = $row1['apellidos'];
+
+                        if($year == NULL){
+                            $year = "Sin Año";
+                        }
+
+                        if($sinopsis == NULL){
+                            $sinopsis = "Sin Sinopsis";
+                        }
+
+                        if($ruta_foto_portada == NULL){
+                            $ruta_foto_portada = "imagenes/libros/no-image.jpg";
+                        }
+
+                        
+                        ?>
+
+                        <div class="ps-product ps-product--simple">
 
                         <div class="ps-product__thumbnail">
 
-                        	<a href="product-default.html">
+                            <a href="#">
 
-                        		<img src="img/products/clothing/2.jpg" alt=""></a>
+                                <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
-                            <div class="ps-product__badge out-stock">Out Of Stock</div>
+                            </a>
 
                         </div>
 
@@ -434,128 +467,114 @@
 
                             <div class="ps-product__content" data-mh="clothing">
 
-                            	<a class="ps-product__title" href="product-default.html">Unero Military Classical Backpack</a>
-                                
-                                <div class="ps-product__rating">
+                                <a class="ps-product__title" href="#"><?php echo $titulo; ?></a> 
+                                <p><?php echo $autor; ?></p>
 
-                                    <select class="ps-rating" data-read-only="true">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="2">5</option>
-                                    </select>
-                                    <span>01</span>
+                                <br>
 
-                                </div>
-
-                                <p class="ps-product__price">$101.99</p>
+                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo rtrim($nombre_usuario)." ".rtrim($apellido_usuario); ?></a></p>
 
                             </div>
 
                         </div>
 
-                    </div><!-- End Product Simple -->
+                        </div>
 
-                    <!--=====================================
+                    
+                    <?php } 
+                    $cont++;
+                    } while($cont < 6);?>                 
+
+                </div><!-- End Block Product Box -->
+              
+            </div><!-- End Products of category -->
+            <!-- Termino de Productos por bloque -->
+
+           
+
+            <!--=====================================
+			            MÁS RECIENTES
+			======================================-->  
+
+            <div class="ps-block--products-of-category" id="recientes">
+
+            	<!--=====================================
+				Menu subcategory
+				======================================-->  
+
+                <div class="ps-block__categories">
+
+                    <h3>Añadidos <br> Recientemente</h3>
+
+                        <a class="ps-block__more-link" href="#">Ver Todos</a>
+
+                </div>
+
+                <!-- Aqui estaba el slider -->
+
+                <!--=====================================
+				Block Product Box
+				======================================-->  
+
+                <div class="ps-block__product-box">
+					
+					<!--=====================================
 					Product Simple
 					======================================--> 
 
-                    <div class="ps-product ps-product--simple">
+                    <?php 
+                    $cont = 0;
+                    do{
+
+                    
+                    $query1 = "SELECT * FROM libros 
+                    INNER JOIN usuarios ON libros.codigo_usuario = usuarios.codigo_usuario
+                    WHERE libros.status = 1
+                    ORDER BY fecha_agregado
+                    LIMIT 6";
+                    $mas_buscados = DatasetSQL($query1);
+
+                    while($row1 = mysqli_fetch_array($mas_buscados)){
+                        $id_libro = $row1['id_libro'];
+                        $codigo_usuario = $row1['codigo_usuario'];
+                        $titulo = $row1['titulo'];
+                        $autor = $row1['autor'];
+                        $editorial = $row1['editorial'];
+                        $year = $row1['year'];
+                        $sinopsis = $row1['sinopsis'];
+                        $num_visitas = $row1['num_visitas'];
+                        $num_prestamos = $row1['num_prestamos'];
+                        $ruta_foto_portada = $row1['ruta_foto_portada'];
+                        $fecha_agregado = $row1['fecha_agregado'];
+                        $status = $row1['status'];
+
+                        $nombre_usuario = $row1['nombres'];
+                        $apellido_usuario = $row1['apellidos'];
+
+                        if($year == NULL){
+                            $year = "Sin Año";
+                        }
+
+                        if($sinopsis == NULL){
+                            $sinopsis = "Sin Sinopsis";
+                        }
+
+                        if($ruta_foto_portada == NULL){
+                            $ruta_foto_portada = "imagenes/libros/no-image.jpg";
+                        }
+
+                        
+                        ?>
+
+                        <div class="ps-product ps-product--simple">
 
                         <div class="ps-product__thumbnail">
 
-                        	<a href="product-default.html">
+                            <a href="#">
 
-                        		<img src="img/products/clothing/3.jpg" alt=""></a>
+                                <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
-                            <div class="ps-product__badge">-25%</div>
-   
-                        </div>
-
-                        <div class="ps-product__container">
-
-                            <div class="ps-product__content" data-mh="clothing">
-
-                            	<a class="ps-product__title" href="product-default.html">Rayban Rounded Sunglass Brown Color</a>
-                                
-                                <div class="ps-product__rating">
-                                    <select class="ps-rating" data-read-only="true">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="2">5</option>
-                                    </select>
-                                    <span>02</span>
-                                </div>
-
-                                <p class="ps-product__price sale">$42.00 <del>$60.00 </del></p>
-
-                            </div>
-
-                        </div>
-
-                    </div><!-- End Product Simple -->
-
-                    <!--=====================================
-					Product Simple
-					======================================--> 
-
-                    <div class="ps-product ps-product--simple">
-
-                        <div class="ps-product__thumbnail">
-
-                        	<a href="product-default.html">
-
-                        		<img src="img/products/clothing/4.jpg" alt="">
-
-                        	</a>
-
-                            <div class="ps-product__badge out-stock">Out Of Stock</div>
-
-                        </div>
-
-                        <div class="ps-product__container">
-
-                            <div class="ps-product__content" data-mh="clothing">
-
-                            	<a class="ps-product__title" href="product-default.html">Sleeve Linen Blend Caro Pane Shirt</a>
-
-                                <div class="ps-product__rating">
-
-                                    <select class="ps-rating" data-read-only="true">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="2">5</option>
-                                    </select>
-                                    <span>01</span>
-
-                                </div>
-
-                                <p class="ps-product__price">$320.00</p>
-
-                            </div>
-
-                        </div>
-
-                    </div><!-- End Product Simple -->
-
-                    <!--=====================================
-					Product Simple
-					======================================--> 
-
-                    <div class="ps-product ps-product--simple">
-
-                        <div class="ps-product__thumbnail">
-
-                        	<a href="product-default.html">
-
-                        		<img src="img/products/clothing/5.jpg" alt=""></a>
-
-                            <div class="ps-product__badge out-stock">Out Of Stock</div>   
+                            </a>
 
                         </div>
 
@@ -563,66 +582,23 @@
 
                             <div class="ps-product__content" data-mh="clothing">
 
-                            	<a class="ps-product__title" href="product-default.html">Men’s Sports Runnning Swim Board Shorts</a>
-                                
-                                <div class="ps-product__rating">
-                                    <select class="ps-rating" data-read-only="true">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="2">5</option>
-                                    </select><span>01</span>
-                                </div>
+                                <a class="ps-product__title" href="#"><?php echo $titulo; ?></a> 
+                                <p><?php echo $autor; ?></p>
 
-                                <p class="ps-product__price">$85.00</p>
+                                <br>
+
+                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo rtrim($nombre_usuario)." ".rtrim($apellido_usuario); ?></a></p>
 
                             </div>
 
                         </div>
 
-                    </div><!-- End Product Simple -->
-
-                    <!--=====================================
-					Product Simple
-					======================================--> 
-
-                    <div class="ps-product ps-product--simple">
-
-                        <div class="ps-product__thumbnail">
-
-                        	<a href="product-default.html">
-
-                        		<img src="img/products/clothing/6.jpg" alt=""></a>
-
-                            <div class="ps-product__badge out-stock">Out Of Stock</div>
-
                         </div>
 
-                        <div class="ps-product__container">
-
-                            <div class="ps-product__content" data-mh="clothing">
-
-                            	<a class="ps-product__title" href="product-default.html">Paul’s Smith Sneaker InWhite Color</a>
-
-                                <div class="ps-product__rating">
-                                    <select class="ps-rating" data-read-only="true">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="2">5</option>
-                                    </select>
-                                    <span>01</span>
-                                </div>
-
-                                <p class="ps-product__price">$92.00</p>
-
-                            </div>
-
-                        </div>
-
-                    </div><!-- End Product Simple -->
+                    
+                    <?php } 
+                    $cont++;
+                    } while($cont < 6);?>                 
 
                 </div><!-- End Block Product Box -->
               
