@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-03-2024 a las 18:11:53
+-- Tiempo de generación: 27-03-2024 a las 20:01:04
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -177,8 +177,12 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`codigo_usuario`, `nombres`, `apellidos`, `carrera`, `ciclo_ingreso`, `correo`, `password`, `ruta_foto_perfil`, `ruta_foto_credencial`, `num_prestamos`, `num_prestados`, `num_strikes`, `status`) VALUES
 ('0', 'Anónimo', '', 0, '', '', '', '', '', 0, 0, 0, 1),
+('218535254', 'Brandon', 'Herrera Hernandez', 1, '2022B', 'brandon.herrera5352@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
+('219528685', 'Jorge Isaac', 'Aguilar Olivares', 1, '2022B', 'jorge.aguilar5286@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
 ('219552306', 'Diego Ivan', 'Hernandez Muñoz', 1, '2022B', 'diego.hernandez5523@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
-('222790641', 'Luis Angel', 'De La Cruz Ascencio', 1, '2022B', 'luis.delacruz9064@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1);
+('222790641', 'Luis Angel', 'De La Cruz Ascencio', 1, '2022B', 'luis.delacruz9064@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
+('222790978', 'Cristian Isai', 'Orozco Jimenez', 1, '2022B', 'cristian.orozco9097@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
+('222791192', 'Gerson Ismael', 'Flores Sanchez', 1, '2022B', 'gerson.flores9119@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
