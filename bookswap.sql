@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-03-2024 a las 10:01:37
+-- Tiempo de generación: 29-03-2024 a las 22:06:40
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -29,16 +29,16 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `administradores` (
   `id_administrador` int(11) NOT NULL,
-  `codigo_usuario` varchar(9) NOT NULL
+  `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `administradores`
 --
 
-INSERT INTO `administradores` (`id_administrador`, `codigo_usuario`) VALUES
-(1, '222790641'),
-(2, '219552306');
+INSERT INTO `administradores` (`id_administrador`, `id_usuario`) VALUES
+(1, 1),
+(2, 2);
 
 -- --------------------------------------------------------
 
@@ -98,7 +98,7 @@ INSERT INTO `ciclos` (`id_ciclo`, `ciclo`) VALUES
 
 CREATE TABLE `libros` (
   `id_libro` int(11) NOT NULL,
-  `codigo_usuario` varchar(9) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
   `titulo` varchar(60) NOT NULL,
   `autor` varchar(60) NOT NULL,
   `editorial` varchar(30) NOT NULL,
@@ -115,8 +115,8 @@ CREATE TABLE `libros` (
 -- Volcado de datos para la tabla `libros`
 --
 
-INSERT INTO `libros` (`id_libro`, `codigo_usuario`, `titulo`, `autor`, `editorial`, `year`, `sinopsis`, `num_visitas`, `num_prestamos`, `ruta_foto_portada`, `fecha_agregado`, `status`) VALUES
-(1, '222790641', 'Juego de Tronos', 'George R. R. Martin', 'Debolsillo', '', 'Tras el largo verano, el invierno se acerca a los Siete Reinos. Lord Eddars Stark, señor de Invernalia, deja sus dominios para unirse a la corte del rey Robert Baratheon el Usurpador, hombre díscolo y otrora guerrero audaz cuyas mayores aficiones son comer, beber y engendrar bastardos. Eddard Stark desempeñará el cargo de Mano del Rey e intentará desentrañar una maraña de intrigas que pondrá en peligro su vida... y la de los suyos. En un mundo cuyas estaciones duran décadas y en el que retazos de una magia inmemorial y olvidada surgen en los rincones más sombrios y maravillosos, la traición y la lealtad, la compasión y la sed de venganza, el amor y el poder hacen del juego de tronos una poderosa trampa que atrapa en sus fauces a los personajes... y al lector.', 0, 0, 'imagenes/libros/juego_de_tronos_1.jpg', '2024-03-26', 1);
+INSERT INTO `libros` (`id_libro`, `id_usuario`, `titulo`, `autor`, `editorial`, `year`, `sinopsis`, `num_visitas`, `num_prestamos`, `ruta_foto_portada`, `fecha_agregado`, `status`) VALUES
+(1, 1, 'Juego de Tronos', 'George R. R. Martin', 'Debolsillo', '', 'Tras el largo verano, el invierno se acerca a los Siete Reinos. Lord Eddars Stark, señor de Invernalia, deja sus dominios para unirse a la corte del rey Robert Baratheon el Usurpador, hombre díscolo y otrora guerrero audaz cuyas mayores aficiones son comer, beber y engendrar bastardos. Eddard Stark desempeñará el cargo de Mano del Rey e intentará desentrañar una maraña de intrigas que pondrá en peligro su vida... y la de los suyos. En un mundo cuyas estaciones duran décadas y en el que retazos de una magia inmemorial y olvidada surgen en los rincones más sombrios y maravillosos, la traición y la lealtad, la compasión y la sed de venganza, el amor y el poder hacen del juego de tronos una poderosa trampa que atrapa en sus fauces a los personajes... y al lector.', 0, 0, 'imagenes/libros/juego_de_tronos_1.jpg', '2024-03-26', 1);
 
 -- --------------------------------------------------------
 
@@ -126,8 +126,8 @@ INSERT INTO `libros` (`id_libro`, `codigo_usuario`, `titulo`, `autor`, `editoria
 
 CREATE TABLE `prestamos` (
   `id_prestamo` int(11) NOT NULL,
-  `codigo_usuario_origen` varchar(9) NOT NULL,
-  `codigo_usuario_destino` varchar(9) NOT NULL,
+  `id_usuario_origen` int(11) NOT NULL,
+  `id_usuario_destino` int(11) NOT NULL,
   `id_libro` int(11) NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
@@ -142,8 +142,8 @@ CREATE TABLE `prestamos` (
 
 CREATE TABLE `reseñas` (
   `id_reseña` int(11) NOT NULL,
-  `codigo_usuario_evaluador` varchar(9) NOT NULL,
-  `codigo_usuario_evaluado` varchar(9) NOT NULL,
+  `id_usuario_evaluador` varchar(9) NOT NULL,
+  `id_usuario_evaluado` varchar(9) NOT NULL,
   `id_prestamo` int(11) NOT NULL,
   `puntuacion` varchar(5) NOT NULL,
   `fecha` date NOT NULL
@@ -165,7 +165,8 @@ CREATE TABLE `status_usuario` (
 --
 
 INSERT INTO `status_usuario` (`id_status`, `status`) VALUES
-(1, 'Activo');
+(1, 'Validado'),
+(2, 'Sin validar');
 
 -- --------------------------------------------------------
 
@@ -175,7 +176,7 @@ INSERT INTO `status_usuario` (`id_status`, `status`) VALUES
 
 CREATE TABLE `strikes` (
   `id_strike` int(11) NOT NULL,
-  `codigo_usuario` varchar(9) NOT NULL,
+  `id_usuario` varchar(9) NOT NULL,
   `id_administrador` int(11) NOT NULL,
   `detalles` varchar(50) NOT NULL,
   `fecha` date NOT NULL
@@ -210,12 +211,12 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `codigo_usuario`, `carrera`, `ciclo_ingreso`, `correo`, `password`, `ruta_foto_perfil`, `ruta_foto_credencial`, `num_prestamos`, `num_prestados`, `num_strikes`, `status`) VALUES
 (0, 'Anónimo', '', '0', 0, 0, '', '', '', '', 0, 0, 0, 1),
-(1, 'Luis Angel', 'De La Cruz Ascencio', '222790641', 1, 12, 'luis.delacruz9064@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
-(2, 'Diego Ivan', 'Hernandez Muñoz', '219552306', 1, 12, 'diego.hernandez5523@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
-(3, 'Brandon', 'Herrera Hernandez', '218535254', 1, 12, 'brandon.herrera5352@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
-(4, 'Jorge Isaac', 'Aguilar Olivares', '219528685', 1, 12, 'jorge.aguilar5286@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
-(5, 'Cristian Isai', 'Orozco Jimenez', '222790978', 1, 12, 'cristian.orozco9097@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
-(6, 'Gerson Ismael', 'Flores Sanchez', '222791192', 1, 12, 'gerson.flores9119@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1);
+(1, 'Luis Angel', 'De La Cruz Ascencio', '222790641', 1, 12, 'luis.delacruz9064@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1),
+(2, 'Diego Iván', 'Hernández Muñoz', '219552306', 1, 12, 'diego.hernandez5523@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1),
+(3, 'Brandon', 'Herrera Hernandez', '218535254', 1, 12, 'brandon.herrera5352@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1),
+(4, 'Jorge Isaac', 'Aguilar Olivares', '219528685', 1, 12, 'jorge.aguilar5286@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1),
+(5, 'Cristian Isaí', 'Orozco Jimenez', '222790978', 1, 12, 'cristian.orozco9097@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1),
+(6, 'Gerson Ismael', 'Flores Sánchez', '222791192', 1, 12, 'gerson.flores9119@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -225,7 +226,7 @@ INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `codigo_usuario`, 
 
 CREATE TABLE `waitlist` (
   `id_waitlist` int(11) NOT NULL,
-  `codigo_usuario` varchar(9) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
   `id_libro` int(11) NOT NULL,
   `turno` int(11) NOT NULL,
   `fecha_inicio_turno` date NOT NULL
@@ -239,7 +240,7 @@ CREATE TABLE `waitlist` (
 
 CREATE TABLE `wishlist` (
   `id_wishlist` int(11) NOT NULL,
-  `codigo_usuario` varchar(9) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
   `id_libro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -247,8 +248,8 @@ CREATE TABLE `wishlist` (
 -- Volcado de datos para la tabla `wishlist`
 --
 
-INSERT INTO `wishlist` (`id_wishlist`, `codigo_usuario`, `id_libro`) VALUES
-(1, '222790641', 1);
+INSERT INTO `wishlist` (`id_wishlist`, `id_usuario`, `id_libro`) VALUES
+(1, 1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -364,7 +365,7 @@ ALTER TABLE `reseñas`
 -- AUTO_INCREMENT de la tabla `status_usuario`
 --
 ALTER TABLE `status_usuario`
-  MODIFY `id_status` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_status` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `strikes`
