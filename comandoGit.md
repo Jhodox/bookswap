@@ -47,3 +47,25 @@ Presiona `ctrl + shift + V` para visusalizar el documento
 `git clone` `URL`
 
 `git clone` `https://github.com/AscAngel/bookswap`
+
+
+### Crear una nueva rama:
+`git branch angel`
+
+### Cambiar a la rama:
+`git checkout angel`
+### Hacer push a tu rama específica:
+`git push -u origin angel`
+
+### Crear una copia de main en tu rama(hacer siempre antes de comenzar a trabajar):
+`git checkout angel`
+`git pull origin main`
+
+### Hacer tus cambios en tu rama:
+`Realiza tus cambios y commits en tu rama según sea necesario.`
+
+### Hacer merge al main desde tu rama(cuando los cambios de la rama esten listos para integrarse al main):
+`git checkout main               # Cambiar a la rama main`
+`git pull origin main          # Actualizar la rama main con los últimos cambios`
+`git merge angel          # Fusionar tus cambios desde tu rama a main`
+`git push origin main           # Subir los cambios fusionados a la rama main en GitHub`
