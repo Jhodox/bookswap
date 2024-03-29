@@ -1,276 +1,488 @@
-<?php 
-ob_start();
+<?php
+//ob_start();
+session_start();
 ?>
 
+
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="es">
 <head>
-	<meta charset="UTF-8">
-    <title>D-SUPREME | Sneakers</title>
-	<?php include("include/headertagbase.php"); ?>
-	<!-- =================== META =================== -->
-	<meta name="keywords" content="">
-	<meta name="description" content="">
-	<meta name="format-detection" content="telephone=no">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="shortcut icon" href="img/banners/logoDsupreme-icono.png">
-	<!-- =================== STYLE =================== -->
-	<link rel="stylesheet" href="assets/css/slick.min.css">
-	<link rel="stylesheet" href="assets/css/bootstrap-grid.css">
-	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-	<link rel="stylesheet" href="assets/css/jquery-ui.css">
-	<link rel="stylesheet" href="assets/css/nice-select.css">
-	<link rel="stylesheet" href="assets/css/style.css">
-	<link rel="stylesheet" href="assets/css/custom.css">
+
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+	<title>BookSwap | Inicio</title>
+
+	<link rel="icon" href="img/template/icono.png">
+
+	<!--=====================================
+	CSS
+	======================================-->
+	
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap" rel="stylesheet">
+
+	<!-- font awesome -->
+	<link rel="stylesheet" href="css/plugins/fontawesome.min.css">
+
+	<!-- linear icons -->
+	<link rel="stylesheet" href="css/plugins/linearIcons.css">
+
+	<!-- Bootstrap 4 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	
+	<!-- Owl Carousel -->
+	<link rel="stylesheet" href="css/plugins/owl.carousel.css">
+
+	<!-- Slick -->
+	<link rel="stylesheet" href="css/plugins/slick.css">
+
+	<!-- Light Gallery -->
+	<link rel="stylesheet" href="css/plugins/lightgallery.min.css">
+
+	<!-- Font Awesome Start -->
+	<link rel="stylesheet" href="css/plugins/fontawesome-stars.css">
+
+	<!-- jquery Ui -->
+	<link rel="stylesheet" href="css/plugins/jquery-ui.min.css">
+
+	<!-- Select 2 -->
+	<link rel="stylesheet" href="css/plugins/select2.min.css">
+
+	<!-- Scroll Up -->
+	<link rel="stylesheet" href="css/plugins/scrollUp.css">
+    
+    <!-- DataTable -->
+    <link rel="stylesheet" href="css/plugins/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="css/plugins/responsive.bootstrap.datatable.min.css">
+	
+	<!-- estilo principal -->
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Market Place 4 -->
+	<link rel="stylesheet" href="css/market-place-4.css">
+
+	<!--=====================================
+	PLUGINS JS
+	======================================-->
+
+	<!-- jQuery library -->
+	<script src="js/plugins/jquery-1.12.4.min.js"></script>
+
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+	<!-- Owl Carousel -->
+	<script src="js/plugins/owl.carousel.min.js"></script>
+
+	<!-- Images Loaded -->
+	<script src="js/plugins/imagesloaded.pkgd.min.js"></script>
+
+	<!-- Masonry -->
+	<script src="js/plugins/masonry.pkgd.min.js"></script>
+
+	<!-- Isotope -->
+	<script src="js/plugins/isotope.pkgd.min.js"></script>
+
+	<!-- jQuery Match Height -->
+	<script src="js/plugins/jquery.matchHeight-min.js"></script>
+
+	<!-- Slick -->
+	<script src="js/plugins/slick.min.js"></script>
+
+	<!-- jQuery Barrating -->
+	<script src="js/plugins/jquery.barrating.min.js"></script>
+
+	<!-- Slick Animation -->
+	<script src="js/plugins/slick-animation.min.js"></script>
+
+	<!-- Light Gallery -->
+	<script src="js/plugins/lightgallery-all.min.js"></script>
+    <script src="js/plugins/lg-thumbnail.min.js"></script>
+    <script src="js/plugins/lg-fullscreen.min.js"></script>
+    <script src="js/plugins/lg-pager.min.js"></script>
+
+	<!-- jQuery UI -->
+	<script src="js/plugins/jquery-ui.min.js"></script>
+
+	<!-- Sticky Sidebar -->
+	<script src="js/plugins/sticky-sidebar.min.js"></script>
+
+	<!-- Slim Scroll -->
+	<script src="js/plugins/jquery.slimscroll.min.js"></script>
+
+	<!-- Select 2 -->
+	<script src="js/plugins/select2.full.min.js"></script>
+
+	<!-- Scroll Up -->
+	<script src="js/plugins/scrollUP.js"></script>
+
+    <!-- DataTable -->
+    <script src="js/plugins/jquery.dataTables.min.js"></script>
+    <script src="js/plugins/dataTables.bootstrap4.min.js"></script>
+    <script src="js/plugins/dataTables.responsive.min.js"></script>
+
+    <!-- Chart -->
+    <script src="js/plugins/Chart.min.js"></script>
+
+    
     <script src="https://kit.fontawesome.com/471d91ac13.js" crossorigin="anonymous"></script>
 	<!--alerts CSS --> 
 	<link href="assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
-	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>	
 </head>
 
-<body id="home" class="home-dark">
-    <div class="loading"></div>
-	<!--================ PRELOADER ================-->
-	<!--div class="preloader-cover">
-		<div class="preloader">
-			<span></span>
-			<span></span>
-			<span></span>
-			<span></span>
-		</div>
-	</div>-->
-	<!--============== PRELOADER END ==============-->
-	<?php 
+<body>
+
+    <!--=====================================
+    Preload
+    ======================================-->
+
+    <!-- <div id="loader-wrapper">
+        <img src="img/template/loader.jpg">
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>   -->
+
+	<!--=====================================
+	Header Promotion
+	======================================-->
+
+
+    <!--=====================================
+	Header
+	======================================-->
+
+    <?php
+    // Estos tres siempre se ponen despues del body, del archivo que estemos creando
 	require_once "include/functions.php";
-	require_once "include/db_tools.php"; 
-	include('variables.php');
-	include('main-header.php');
-    
-	?>
+	require_once "include/db_tools.php";  
+    include('main-header.php') 
+
+    ?>
+
+    <!--=====================================
+    Breadcrumb
+    ======================================-->  
 	
-	<!--=================== S-CONTACTS ===================-->
-	<section class="s-shop">
-	<input type="hidden" id="id_usuario">
-		<div class="container" id="carrito_content">
-			<div class="row">
-				<div class="col-12 col-lg-12 shop-cover mt-5">
-                    <div class="p-5">
-                        <span class="mask"></span>
-                        <?php 
-                        if($id_usuario == 0){
-                            header('location: index');
-                            exit;
-                        } else{
-                            $query1 = 'SELECT * FROM usuarios WHERE id_usuario = '.$id_usuario;
-                            $nombre = GetValueSQL($query1, 'nombre');
-                            $apaterno = GetValueSQL($query1, 'apaterno');
-                            $amaterno = GetValueSQL($query1, 'amaterno');
-                            $telefono = GetValueSQL($query1, 'telefono');
-                            $email = GetValueSQL($query1, 'email');
-                        }
-                        
+	<div class="ps-breadcrumb">
+
+        <div class="container">
+
+            <ul class="breadcrumb">
+
+                <li><a href="index.php">Inicio</a></li>
+
+                <li>Perfil</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+<!-- Aqui se puede empezar a trabajar lo nuevo  -->
+
+
+
+
+
+
+     <!--=====================================
+    My Account Content
+    ======================================--> 
+
+    <div class="ps-vendor-dashboard pro">
+
+        <div class="container">
+
+            <div class="ps-section__header">
+
+                <!--=====================================
+                Profile
+                ======================================--> 
+
+                <?php
+                    if($sesion != 0){
+                        $query1 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario_global";
+                        $nombres = GetValueSQL($query1, 'nombres');
+                        $apellidos = GetValueSQL($query1, 'apellidos');
+                        $codigo_usuario = GetValueSQL($query1, 'codigo_usuario');
+                        $carrera = GetValueSQL($query1, 'carrera');
+                        $ciclo_ingreso = GetValueSQL($query1, 'ciclo_ingreso');
+                        $correo = GetValueSQL($query1, 'correo');
+                    }
+                
+                ?> 
+
+
+                <aside class="ps-block--store-banner">
+
+                    <div class="ps-block__user">
+
+                        <div class="ps-block__user-avatar">
+
+                            <img src="img/vendor/store/user/5.jpg" alt="">
+
+                            <div class="br-wrapper">
+
+                               <button class="btn btn-primary btn-lg rounded-circle"><i class="fas fa-pencil-alt"></i></button>
+
+                            </div>
+
+                            <div class="br-wrapper br-theme-fontawesome-stars mt-3">
+
+                                <select class="ps-rating" data-read-only="true" style="display: none;">
+                                    <option value="1">1</option>
+                                    <option value="1">2</option>
+                                    <option value="1">3</option>
+                                    <option value="1">4</option>
+                                    <option value="2">5</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Aqui se muestra lo del peerfil -->
+
+                        <div class="ps-block__user-content text-center text-lg-left">
+
+                            <h2 class="text-white"> <?php  echo $nombres. ' '.$apellidos ;?></h2>
+
+                            <p><i class="fas fa-user"></i> <?php  echo $codigo_usuario;?></p>
+
+                            <p><i class="fas fa-envelope"></i> <?php  echo $correo;?></p>
+
+                            <button class="btn btn-warning btn-lg">Change Password</button>
+
+                        </div>
+                        <!-- Aqui se muestra lo del peerfil -->
+                        <div class="row ml-lg-auto pt-5">
+
+                        <?php
+                        $query2 = "SELECT COUNT(*) AS cuantos FROM wishlist WHERE id_usuario = $id_usuario_global";
+                        $cuantos = GetValueSQL($query2, 'cuantos');
+
                         ?>
-                        <div id="info-perfil" class="baner-item-content">
-                            <h2 style="color: white !important;">Información de Perfil</h2>
-                            <h4 class="white normal mt-3">Nombre: <span style="color: #23c050;"> <?php echo $nombre; ?> </span></h4>
-                            <h4 class="white normal">Apellido Paterno: <span style="color: #23c050;"> <?php echo $apaterno; ?> </span></h4>
-                            <h4 class="white normal">Apellido Materno: <span style="color: #23c050;"> <?php echo $amaterno; ?> </span></h4>
-                            <h4 class="white normal">Teléfono: <span style="color: #23c050;"> <?php echo $telefono; ?> </span></h4>
-                            <h4 class="white normal">Correo Electrónico: <span style="text-transform: none !important; color: #23c050;"> <?php echo $email; ?> </span></h4>
-                            <p><a style="text-decoration: underline; float: left; cursor: pointer;" class="mr-5" onclick="llenar_form_info(1)">Actualizar información</a></p>
-                            <p><a style="text-decoration: underline; cursor: pointer; clear: both;" onclick="llenar_form_info(2)">Cambiar Contraseña</a></p>
-                           
-                            <div id="form_info" style="display: none;"> 
-                                <div style="margin-top: 50px !important; text-align: center;" class="container s-anim text-center">
-                                    <h4 class="title text-center mb-2">Actualizar Datos</h4>
-                                    <div class="row justify-content-md-center">
-                                        <form id='form_cambiar_info' name="form_cambiar_info">
-                                            <ul class="form-cover">
-                                                <div class="col-12" style="text-align: left;">
-                                                    <p>Nombre * </p>
-                                                    <li class=""><input class="obligatorio white" type="text" id="info_nombre" name="info_nombre" placeholder="Nombre(s)"></li>
-                                                </div>
-                                                <div class="col-md-6" style="text-align: left;">
-                                                    <p>Apellido Paterno * </p>
-                                                    <li class=""><input class="obligatorio white" type="text" id="info_apaterno" name="info_apaterno" placeholder="Apellido Paterno"></li>
-                                                </div>
-                                                <div class="col-md-6" style="text-align: left;">
-                                                    <p>Apellido Materno * </p>
-                                                    <li class=""><input class="obligatorio white" type="text" id="info_amaterno" name="info_amaterno" placeholder="Apellido Materno"></li>
-                                                </div>
-                                                <div class="col-md-6" style="text-align: left;">
-                                                    <p>Teléfono * </p>
-                                                    <li class=""><input class="obligatorio white" type="tel" maxlength="10" id="info_telefono" name="info_telefono" placeholder="Teléfono"></li>
-                                                </div>
-                                                <div class="col-md-6" style="text-align: left;">
-                                                    <p>Correo Electrónico * </p>
-                                                    <li class=""><input class="obligatorio white" type="email" id="info_email" name="info_email" placeholder="Correo Electrónico"></li>
-                                                </div>
-                                            </ul>
-                                            <div class="btn-form-cover">
-                                                <a style="cursor: pointer;" onclick="guardar_nva_info()" class="btn dark-gray"><span class="white">Guardar</span></a>
-                                                <!--<button id="btn_info" type="submit" class="btn white"><span>Registrarse</span></button>-->
-                                            </div>
-                                        </form>
-                                        
-                                        <div id="message"></div>
-                                    </div>
+                
+                            <div class="col-lg-3 col-6">
+                                <div class="text-center">
+                                    <a href="#">
+                                        <h1><i class="fas fa-heart text-white"></i></h1>
+                                        <h4 class="text-white">Wishlist <span class="badge badge-secondary rounded-circle"><?php echo $cuantos;?></span></h4>
+                                    </a>
                                 </div>
-                            </div>
-
-                            <div id="form_password" style="display: none;"> 
-                                <div style="margin-top: 50px !important; text-align: center;" class="container s-anim text-center">
-                                    <h4 class="title text-center mb-2">Cambiar Contraseña</h4>
-                                    <div class="row justify-content-md-center">
-                                        <form id='form_cambiar_password' name="form_cambiar_password">
-                                            <ul class="form-cover">
-                                                <div class="col-md-12" style="text-align: left;">
-                                                    <p>Contraseña Actual *</p>
-                                                    <li class=""><input class="obligatorio white" type="password" id="info_password_actual" name="info_password_actual" placeholder="Contraseña Actual"></li>
-                                                </div>
-                                                <div class="col-md-12" style="text-align: left;">
-                                                    <p>Nueva Contraseña *</p>
-                                                    <li class=""><input class="obligatorio white" type="password" id="info_password_nueva" name="info_password_nueva" placeholder="Nueva Contraseña"></li>
-                                                </div>
-                                                <div class="col-md-12" style="text-align: left;">
-                                                    <p>Confirmar Contraseña *</p>
-                                                    <li class=""><input class="obligatorio white" type="password" id="info_password_conf" name="info_password_conf" placeholder="Confirmar contraseña"></li>
-                                                </div>
-                                            </ul>
-                                            <div class="btn-form-cover">
-                                                <a style="cursor: pointer;" onclick="guardar_nva_password()" class="btn dark-gray"><span class="white">Guardar</span></a>
-                                                <!--<button id="btn_info" type="submit" class="btn white"><span>Registrarse</span></button>-->
-                                            </div>
-                                        </form>
-                                        
-                                        <div id="message"></div>
-                                    </div>
+                            </div><!-- box /-->
+                
+                            <div class="col-lg-3 col-6">
+                                <div class="text-center">
+                                    <a href="#">
+                                        <h1><i class="fas fa-bell text-white"></i></h1>
+                                        <h4 class="text-white">Nots <span class="badge badge-secondary rounded-circle">51</span></h4>
+                                    </a>
                                 </div>
-                            </div>
-                            
+                            </div><!-- box /-->
+                
+                            <div class="col-lg-3 col-6">
+                                <div class="text-center">
+                                    <a href="#">
+                                        <h1><i class="fas fa-comments text-white"></i></h1>
+                                        <h4 class="text-white">Messages <span class="badge badge-secondary rounded-circle">51</span></h4>
+                                    </a>
+                                </div>
+                            </div><!-- box /-->
                         </div>
 
-
-                        <div class="baner-item-content mt-5">
-                            <h2 style="color: white !important;">Pedidos</h2>
-                                <div style="margin-top: 50px !important;" class="container s-anim text-center">
-                        
-                        <?php 
-                        $query2 = "SELECT * FROM folios 
-                        INNER JOIN datos_folio ON folios.id_folio = datos_folio.id_folio
-                        WHERE folios.id_usuario = $id_usuario ORDER BY fecha DESC, folios.id_folio DESC";
-                        $folios = DatasetSQL($query2);
-                        while($row2 = mysqli_fetch_array($folios)){
-                            $id_folio = $row2['id_folio'];
-                            $total_pago = $row2['total_pago'];
-                            $fecha = $row2['fecha'];
-                            $tipo = $row2['tipo'];
-                            $estatus = $row2['estatus'];
-                            $estatus_pago = '';
-                            $tipo_pago = '';
-                            if($estatus == 0){
-                                $estatus_pago = 'Sin pago';
-                            } else if($estatus == 1){
-                                $estatus_pago = 'Pagado';
-                            } 
-                            if($tipo == 'mercadopago'){
-                                $tipo_pago = 'Mercado Pago';
-                            } else if($tipo == 'transferencia'){
-                                $tipo_pago = 'Depósito o Transferencia';
-                            } else if($tipo == 'paypal'){
-                                $tipo_pago = 'PayPal';
-                            }
-                            
-                            
-                            ?>
-                                <h5 class="title mb-2 mt-5"><?php echo $fecha; ?></h5>
-                                <div class="row ">
-                                    <div class="col-md-4">
-                                        <p style="font-weight: bold;">Subtotal: <span style="font-weight: normal;">$<?php echo number_format($total_pago,2);?></span></p>
-                                    </div> 
-                                    <div class="col-md-4">
-                                        <p style="font-weight: bold;">Tipo de Pago: <span style="font-weight: normal;"> <?php echo $tipo_pago;?></span></p>
-                                    </div> 
-                                    <div class="col-md-4">
-                                        <p style="font-weight: bold;">Estatus: <span style="font-weight: normal;"> <?php echo $estatus_pago;?></span></p>
-                                    </div> 
-                                </div>
-                                <?php 
-                                $query3 = "SELECT * FROM folio_detalle
-                                INNER JOIN estilos ON folio_detalle.id_estilo = estilos.id_estilo
-                                INNER JOIN productos ON folio_detalle.id_producto = productos.id_producto
-                                INNER JOIN tallas ON folio_detalle.id_talla = tallas.id_talla
-                                WHERE id_folio = $id_folio";
-                                $productos_folio = DatasetSQL($query3);
-                                while($row3 = mysqli_fetch_array($productos_folio)){
-                                    $cantidad = $row3['cantidad'];
-                                    $precio_unitario = $row3['precio_unitario'];
-                                    $talla = $row3['talla'];
-                                    $nombre_estilo = $row3['nombre_estilo'];
-                                    $nombre_producto = $row3['nombre'];
-                                    ?>
-                                    <div class="container" style="border: 1px solid #192330; border-radius: 10px; background-color: white;">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <p class="dark-blue" style="font-weight: bold;">Producto: <span style="font-weight: normal;"> <?php echo $nombre_producto;?></span></p>
-                                            </div> 
-                                            <div class="col-md-6">
-                                                <p class="dark-blue" style="font-weight: bold;">Estilo: <span style="font-weight: normal;"> <?php echo $nombre_estilo;?></span></p>
-                                            </div> 
-                                            <div class="col-md-6">
-                                                <p class="dark-blue" style="font-weight: bold;">Precio Unitario: <span style="font-weight: normal;">$<?php echo number_format($precio_unitario, 2);?></span></p>
-                                            </div> 
-                                            <div class="col-md-6">
-                                                <p class="dark-blue" style="font-weight: bold;">Cantidad: <span style="font-weight: normal;"> <?php echo $cantidad;?></span></p>
-                                            </div> 
-                                            <div class="col-md-6">
-                                                <p class="dark-blue" style="font-weight: bold;">Talla: <span style="font-weight: normal;"> <?php echo $talla;?></span></p>
-                                            </div> 
-                                        </div>
-                                    </div>
-                            
-                            
-                                <?php }
-                                ?>
-
-                            <?php
-                            }
-                            
-                            ?>
-                                </div>                            
-                            
-                        </div>
                     </div>
-				</div>
-			</div>
-            
-		</div>
-	</section>
 
-	
-	<!--==================== FOOTER ====================-->
-	<?php include('main-footer.php');?>
-	<!--================== FOOTER END ==================-->
+                </aside><!-- s -->
 
-	<!--===================== TO TOP =====================-->
-	<a class="to-top" href="#home">
-		<i class="fa fa-angle-double-up" aria-hidden="true"></i>
-	</a>
-	<!--=================== TO TOP END ===================-->
-	<!--=================== SCRIPT	===================-->
+                <!--=====================================
+                Nav Account
+                ======================================--> 
+   
+                <div class="ps-section__content">
+
+                    <ul class="ps-section__links">
+                        <li><a href=my-account_wishlist.html>My Wishlist</a></li>
+                        <li><a href="my-account_my-shopping.html">My Shopping</a></li>
+                        <li><a href="my-account_my-store.html">My Store</a></li>
+                        <li  class="active"><a href="my-account_my-sales.html">My Sales</a></li>
+                    </ul>
+
+                    
+
+                    <div class="row">
+
+                        <div class="col-lg-6 col-12 ">
+
+                            <figure class="ps-block--vendor-status">
+
+                                <figcaption>Recent Orders</figcaption>
+
+                                <table class="table ps-table ps-table--vendor">
+
+                                    <thead>
+
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Product</th>
+                                            <th>Totals</th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr>
+                                            <td><a href="#">MS46891357</a>
+                                                <p>Nov 4, 2017</p>
+                                            </td>
+                                            <td><a href="#">1 x Marshall Kilburn Portable...</a>
+                                                <p>Shipping</p>
+                                            </td>
+                                            <td>
+                                                <p>$295.47</p>
+                                                <p>$0.00</p>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><a href="#">MS46891357</a>
+                                                <p>Nov 2, 2017</p>
+                                            </td>
+                                            <td><a href="#">1 x Unero Military Classical Ba...</a>
+                                                <p>Shipping</p>
+                                            </td>
+                                            <td>
+                                                <p>$45.39</p>
+                                                <p>$0.00</p>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                                <div class="ps-block__footer"><a href="#">View All Orders</a></div>
+
+                            </figure>
+
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+
+                            <figure class="ps-block--vendor-status">
+
+                                <figcaption>Recent Products</figcaption>
+
+                                <table class="table ps-table ps-table--vendor">
+
+                                    <thead>
+
+                                        <tr>
+                                            <th><i class="icon-picture"></i></th>
+                                            <th>Product</th>
+                                            <th>Status</th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr>
+                                            <td><a href="#"><img src="img/products/electronic/1.jpg" alt="" width="50"></a></td>
+                                            <td><a href="#">Marshall Kilburn Wireless...</a>
+                                                <p>$295.47</p>
+                                            </td>
+                                            <td>
+                                                <p class="ps-tag--in-stock">In Stock</p>
+                                                <p>Published: Oct 10, 2018</p>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><a href="#"><img src="img/products/electronic/2.jpg" alt="" width="50"></a></td>
+                                            <td><a href="#">Marshall Kilburn Wireless...</a>
+                                                <p>$295.47</p>
+                                            </td>
+                                            <td>
+                                                <p class="ps-tag--in-stock">In Stock</p>
+                                                <p>Published: Oct 10, 2018</p>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                                <div class="ps-block__footer"><a href="#">View All Orders</a></div>
+
+                            </figure>
+
+                        </div>
+
+                    </div>             
+
+                </div>
+
+ 
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--=====================================
+	Footer
+	======================================-->  
+    <!-- Este es el pie de pagina, el cual va antes de que se acabe el body -->
+    <?php include('main-footer.php'); ?>
+
+
+	<!--=====================================
+	JS PERSONALIZADO
+	======================================-->
+
+	<script src="js/main.js"></script>
+    
 	<script src="assets/js/jquery-2.2.4.min.js"></script>
 	<script src="assets/js/slick.min.js"></script>
 	<script src="assets/js/jquery-ui.js"></script>
 	<script src="assets/js/jquery.nice-select.js"></script>
 	<script src="assets/js/scripts.js"></script>
 	<script src="assets/js/funciones.js"></script>
-    <script>
-    $(document).ready(function() {
-        $(".loading").fadeOut("slow");;
-    });
-    </script>
 	
 	<script src="assets/plugins/sweetalert/sweetalert.min.js"></script> 
 	<script src="assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
+    
+	<script>
+		 $(document).ready(function() { 
+			llenar_select_carreras();
+			llenar_select_ciclos();
+		});
+	</script>
 </body>
 </html>
