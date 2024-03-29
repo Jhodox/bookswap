@@ -157,11 +157,11 @@
 	======================================-->
 
     <?php
-    
+    // Estos tres siempre se ponen despues del body, del archivo que estemos creando
 	require_once "include/functions.php";
-	require_once "include/db_tools.php"; 
+	require_once "include/db_tools.php";  
     include('main-header.php') 
-    
+
     ?>
 
     <!--=====================================
@@ -301,7 +301,7 @@
                     INNER JOIN usuarios ON libros.codigo_usuario = usuarios.codigo_usuario
                     WHERE libros.status = 1
                     ORDER BY num_visitas
-                    LIMIT 6";
+                    LIMIT 6";   
                     $mas_buscados = DatasetSQL($query1);
 
                     while($row1 = mysqli_fetch_array($mas_buscados)){
@@ -526,6 +526,7 @@
                     $cont = 0;
                     do{
 
+                    
                     $query1 = "SELECT * FROM libros 
                     INNER JOIN usuarios ON libros.codigo_usuario = usuarios.codigo_usuario
                     WHERE libros.status = 1
@@ -614,7 +615,7 @@
     <!--=====================================
 	Footer
 	======================================-->  
-
+    <!-- Este es el pie de pagina, el cual va antes de que se acabe el body -->
     <?php include('main-footer.php'); ?>
 
     <!--=====================================
