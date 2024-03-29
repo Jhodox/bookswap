@@ -16,13 +16,7 @@ function Init_DBParams(){
 	$DB_Password = "";
 	$DB_Database ="bookswap";
 	$DB_Init_Params = true; 
-/*
-	$DB_Host ="localhost";
-	$DB_User = "dsupreme_dsupreme";
-	$DB_Password = "dsupr3m32022."; 
-	$DB_Database ="dsupreme_dsupreme";
-	$DB_Init_Params = true;
-*/
+
 }
 
 ?>

@@ -58,45 +58,49 @@
 
 
 
-// if (Requesting("action")=="inicia_sesion"){ 	
-// 	$login_email			= Requesting("login_email");
-// 	$login_password 	= Requesting("login_password");	
-// 	$resultStatus 	= "ok"; 
-// 	$resultText 		= "Inicio de sesión exitoso.";
-// 	$aidi		 			= "";  
-// 	$avance 			= 1;	
-// 	$id_tipo_usuario 	= "";
-// 	$pagina_inicio 		= "";
-//     $nombre_usuario = "";
-	 
-// 	$query = "SELECT COUNT(id_usuario) AS existe, id_usuario AS id_sesion, email, nombre FROM usuarios WHERE email = '".$login_email."' AND password = '".md5($login_password)."'";
-// 	$existe = GetValueSQL($query,"existe");
-// 	if($existe == 0){
-// 		$resultStatus 	= "error"; 
-// 		$resultText 		= "Los datos ingresados son incorrectos.";
-// 	}else{		
-// 		$id_sesion 	= GetValueSQL($query,"id_sesion");
-//         $nombre_usuario = GetValueSQL($query, 'nombre');
-//         /*Define la pagina de inicio*/
-// 		/* Si por cualquier motivo existe una sesión, la destruye primero */	
-// 		session_start();
-//         session_destroy();
-//         session_start();
-// 		$_SESSION['id_sesion'] 		= $id_sesion; 
-// 		$_SESSION['email'] 			= $login_email;						
-// 	} 
-	 	
-// 	$result = array( 
-// 		'pagina_inicio' 	=> $pagina_inicio, 
-// 		'result' 					=> $resultStatus, 
-// 		'result_text' 			=> $resultText, 
-// 		'nombre_usuario' 	=> $nombre_usuario 
-// 	);	 
+if (Requesting("action")=="inicia_sesion"){ 	
+	$login_email			= Requesting("login_email");
+	$login_password 	= Requesting("login_password");	
 
-// 	XML_Envelope($result);     
-// 	exit;
+	
+	$resultStatus 	= "ok"; 
+	$resultText 		= "Inicio de sesión exitoso.";
+	$aidi		 			= "";  
+	$avance 			= 1;	
+	$id_tipo_usuario 	= "";
+	$pagina_inicio 		= "";
+    $nombre_usuario = "";
+	 
+	$query = "SELECT COUNT(id_usuario) AS existe, id_usuario AS id_sesion, email, nombre FROM usuarios WHERE email = '".$login_email."' AND password = '".md5($login_password)."'";
+
+
+	$existe = GetValueSQL($query,"existe");
+	if($existe == 0){
+		$resultStatus 	= "error"; 
+		$resultText 		= "Los datos ingresados son incorrectos.";
+	}else{		
+		$id_sesion 	= GetValueSQL($query,"id_sesion");
+        $nombre_usuario = GetValueSQL($query, 'nombre');
+        /*Define la pagina de inicio*/
+		/* Si por cualquier motivo existe una sesión, la destruye primero */	
+		session_start();
+        session_destroy();
+        session_start();
+		$_SESSION['id_sesion'] 		= $id_sesion; 
+		$_SESSION['email'] 			= $login_email;						
+	} 
+	 	
+	$result = array( 
+		'pagina_inicio' 	=> $pagina_inicio, 
+		'result' 					=> $resultStatus, 
+		'result_text' 			=> $resultText, 
+		'nombre_usuario' 	=> $nombre_usuario 
+	);	 
+
+	XML_Envelope($result);     
+	exit;
  
-// }
+}
 
 
 // if(Requesting("action")=="registro_user"){

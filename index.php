@@ -526,7 +526,6 @@
                     $cont = 0;
                     do{
 
-                    
                     $query1 = "SELECT * FROM libros 
                     INNER JOIN usuarios ON libros.codigo_usuario = usuarios.codigo_usuario
                     WHERE libros.status = 1
@@ -648,6 +647,7 @@
 	JS PERSONALIZADO
 	======================================-->
 
+    <script src="assets/js/funciones.js"></script>
 	<script src="js/main.js"></script>
 	
 </body>

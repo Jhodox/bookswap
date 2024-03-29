@@ -1,58 +1,59 @@
 
 
 $(document).ready(function() { 
-	// valida_sesion();	
+	 valida_sesion();	
 	
 	
 });
 
  
-// function valida_sesion(){
-// 	console.log("Validando sesion...");
-// 	$.post("controller.php", 
-// 		{ 	action : "valida_sesion"
-// 		}, end_valida_sesion);  
+function valida_sesion(){
+	console.log("Validando sesion...");
+	$.post("controller.php", 
+		{ 	action : "valida_sesion"
+		}, end_valida_sesion);  
 	
-// }
-// function end_valida_sesion(xml){
-// 	$(xml).find("response").each(function(i){		  
-// 		if ($(this).find("result").text()=="ok"){ 
-// 			console.log("Sesion Validada");
-// 			$("#acciones_usuario").html('<a class="header-user" href="javascript:cerrar_sesion()"><i class="fa-solid fa-right-from-bracket"></i></a>');
-// 			$("#perfil").html('<a class="header-user" href="perfil"><i class="fa-solid fa-user"></i></a>');
-// 			$("#nombre_usuario").html($(this).find("nombre").text());	
-// 			$("#id_usuario").val($(this).find("id_usuario").text());
+}
+function end_valida_sesion(xml){
+	$(xml).find("response").each(function(i){		  
+		if ($(this).find("result").text()=="ok"){ 
+			console.log("Sesion Validada");
+			$("#acciones_usuario").html('<a class="header-user" href="javascript:cerrar_sesion()"><i class="fa-solid fa-right-from-bracket"></i></a>');
+			$("#perfil").html('<a class="header-user" href="perfil"><i class="fa-solid fa-user"></i></a>');
+			$("#nombre_usuario").html($(this).find("nombre").text());	
+			$("#id_usuario").val($(this).find("id_usuario").text());
 
-// 		}else{
-// 			console.log("Sesion NO Validada");
-// 			$("#acciones_usuario").html('<a class="header-user" href="login"><i class="fa fa-user" aria-hidden="true"></i></a>');
-// 		}
-// 	});
-// }
+		}else{
+			console.log("Sesion NO Validada");
+			$("#acciones_usuario").html('<a class="header-user" href="login"><i class="fa fa-user" aria-hidden="true"></i></a>');
+		}
+	});
+}
 
 
 
-// function inicia_sesion(e){
-// 		e.preventDefault();
-// 	var login_email  = $("#login_email").val();
-// 	var login_password  = $("#login_password").val();
-// 	$.post("controller.php",
-// 		{ 	action 					: "inicia_sesion",
-// 			login_email 		: login_email,
-// 			login_password 	: login_password 
-// 		}, end_inicia_sesion);
-// }
-// function end_inicia_sesion(xml){	   
-// 	$(xml).find("response").each(function(i){		 
-// 		if ($(this).find("result").text()=="ok"){ 
-// 			console.log("Logeado"); 
-// 			window.location.href  = 'index';
-// 			//valida_sesion();			 
-// 		}else{
-// 			swal("Error", $(this).find("result_text").text(), "error");
-// 		}
-// 	});
-// }
+function inicia_sesion(e){
+		e.preventDefault();
+	var login_email  = $("#login_email").val();
+	var login_password  = $("#login_password").val();
+	$.post("controller.php",
+		{ 	action 					: "inicia_sesion",
+			login_email 		: login_email,
+			login_password 	: login_password 
+		}, end_inicia_sesion);
+}
+
+function end_inicia_sesion(xml){	   
+	$(xml).find("response").each(function(i){		 
+		if ($(this).find("result").text()=="ok"){ 
+			console.log("Logeado"); 
+			window.location.href  = 'index';
+			//valida_sesion();			 
+		}else{
+			swal("Error", $(this).find("result_text").text(), "error");
+		}
+	});
+}
 
 
 

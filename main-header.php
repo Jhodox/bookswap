@@ -35,7 +35,7 @@ if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
                 Logo
                 ======================================-->
 
-                <a class="ps-logo" href="index.html">
+                <a class="ps-logo" href="index.php">
                     <img src="img/template/logo_light.png" alt="">
                 </a>
 
@@ -180,8 +180,8 @@ if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
                             <i class="icon-user"></i>
                         </div>
                         <div class="ps-block__right">
-                            <a href="my-account.html">Ingresar</a>
-                            <a href="my-account.html">¡Regístrate!</a>
+                            <a href="login.php">Ingresar</a>
+                            <a href="register.php">¡Regístrate!</a>
                         </div>
                     </div>
 
@@ -328,8 +328,8 @@ Header Mobile
                         <i class="icon-user"></i>
                     </div>
                     <div class="ps-block__right">
-                        <a href="my-account.html">Login</a>
-                        <a href="my-account.html">Register</a>
+                        <a href="login.php">Login</a>
+                        <a href="register.php">Register</a>
                     </div>
 
                 </div>
