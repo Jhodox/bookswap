@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-03-2024 a las 20:01:04
+-- Tiempo de generación: 29-03-2024 a las 10:01:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -57,6 +57,38 @@ CREATE TABLE `carreras` (
 
 INSERT INTO `carreras` (`id_carrera`, `carrera`) VALUES
 (1, 'Ingeniería Informática');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ciclos`
+--
+
+CREATE TABLE `ciclos` (
+  `id_ciclo` int(11) NOT NULL,
+  `ciclo` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `ciclos`
+--
+
+INSERT INTO `ciclos` (`id_ciclo`, `ciclo`) VALUES
+(1, '2017A'),
+(2, '2017B'),
+(3, '2018A'),
+(4, '2018B'),
+(5, '2019A'),
+(6, '2019B'),
+(7, '2020A'),
+(8, '2020B'),
+(9, '2021A'),
+(10, '2021B'),
+(11, '2022A'),
+(12, '2022B'),
+(13, '2023A'),
+(14, '2023B'),
+(15, '2024A');
 
 -- --------------------------------------------------------
 
@@ -156,11 +188,12 @@ CREATE TABLE `strikes` (
 --
 
 CREATE TABLE `usuarios` (
-  `codigo_usuario` varchar(9) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
   `nombres` varchar(40) NOT NULL,
   `apellidos` varchar(40) NOT NULL,
+  `codigo_usuario` varchar(9) NOT NULL,
   `carrera` int(11) NOT NULL,
-  `ciclo_ingreso` varchar(6) NOT NULL,
+  `ciclo_ingreso` int(11) NOT NULL,
   `correo` varchar(45) NOT NULL,
   `password` varchar(255) NOT NULL,
   `ruta_foto_perfil` varchar(100) NOT NULL,
@@ -175,14 +208,14 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`codigo_usuario`, `nombres`, `apellidos`, `carrera`, `ciclo_ingreso`, `correo`, `password`, `ruta_foto_perfil`, `ruta_foto_credencial`, `num_prestamos`, `num_prestados`, `num_strikes`, `status`) VALUES
-('0', 'Anónimo', '', 0, '', '', '', '', '', 0, 0, 0, 1),
-('218535254', 'Brandon', 'Herrera Hernandez', 1, '2022B', 'brandon.herrera5352@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
-('219528685', 'Jorge Isaac', 'Aguilar Olivares', 1, '2022B', 'jorge.aguilar5286@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
-('219552306', 'Diego Ivan', 'Hernandez Muñoz', 1, '2022B', 'diego.hernandez5523@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
-('222790641', 'Luis Angel', 'De La Cruz Ascencio', 1, '2022B', 'luis.delacruz9064@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
-('222790978', 'Cristian Isai', 'Orozco Jimenez', 1, '2022B', 'cristian.orozco9097@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
-('222791192', 'Gerson Ismael', 'Flores Sanchez', 1, '2022B', 'gerson.flores9119@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1);
+INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `codigo_usuario`, `carrera`, `ciclo_ingreso`, `correo`, `password`, `ruta_foto_perfil`, `ruta_foto_credencial`, `num_prestamos`, `num_prestados`, `num_strikes`, `status`) VALUES
+(0, 'Anónimo', '', '0', 0, 0, '', '', '', '', 0, 0, 0, 1),
+(1, 'Luis Angel', 'De La Cruz Ascencio', '222790641', 1, 12, 'luis.delacruz9064@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
+(2, 'Diego Ivan', 'Hernandez Muñoz', '219552306', 1, 12, 'diego.hernandez5523@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
+(3, 'Brandon', 'Herrera Hernandez', '218535254', 1, 12, 'brandon.herrera5352@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
+(4, 'Jorge Isaac', 'Aguilar Olivares', '219528685', 1, 12, 'jorge.aguilar5286@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
+(5, 'Cristian Isai', 'Orozco Jimenez', '222790978', 1, 12, 'cristian.orozco9097@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1),
+(6, 'Gerson Ismael', 'Flores Sanchez', '222791192', 1, 12, 'gerson.flores9119@alumnos.udg.mx', '1234', '', '', 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -234,6 +267,12 @@ ALTER TABLE `carreras`
   ADD PRIMARY KEY (`id_carrera`);
 
 --
+-- Indices de la tabla `ciclos`
+--
+ALTER TABLE `ciclos`
+  ADD PRIMARY KEY (`id_ciclo`);
+
+--
 -- Indices de la tabla `libros`
 --
 ALTER TABLE `libros`
@@ -267,7 +306,7 @@ ALTER TABLE `strikes`
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`codigo_usuario`);
+  ADD PRIMARY KEY (`id_usuario`);
 
 --
 -- Indices de la tabla `waitlist`
@@ -298,6 +337,12 @@ ALTER TABLE `carreras`
   MODIFY `id_carrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `ciclos`
+--
+ALTER TABLE `ciclos`
+  MODIFY `id_ciclo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
@@ -326,6 +371,12 @@ ALTER TABLE `status_usuario`
 --
 ALTER TABLE `strikes`
   MODIFY `id_strike` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `waitlist`

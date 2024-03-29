@@ -99,38 +99,38 @@
 // }
 
 
-// if(Requesting("action")=="registro_user"){
-//     $registro_nombre        = Requesting("registro_nombre");
-//     $registro_apaterno      = Requesting("registro_apaterno");
-//     $registro_amaterno      = Requesting("registro_amaterno");
-//     $registro_telefono      = Requesting("registro_telefono");
-//     $registro_email         = Requesting("registro_email");
-//     $registro_password      = Requesting("registro_password");
+if(Requesting("action")=="registro_user"){
+    $registro_nombre        = Requesting("registro_nombre");
+    $registro_apaterno      = Requesting("registro_apaterno");
+    $registro_amaterno      = Requesting("registro_amaterno");
+    $registro_telefono      = Requesting("registro_telefono");
+    $registro_email         = Requesting("registro_email");
+    $registro_password      = Requesting("registro_password");
 
-//     $resultStatus = 'ok';
-//     $resultText = '';
+    $resultStatus = 'ok';
+    $resultText = '';
 
-//     $query1 = "SELECT COUNT(*) AS existe FROM usuarios WHERE email = '".$registro_email."'";
-//     $existe = GetValueSQL($query1, 'existe');
-//     if($existe > 0){
-//         $resultText = 'El correo electrónico ya existe. Ingresa uno nuevo.';
-//         $resultStatus = 'error';
-//     } else{
-//         $query2 = 'INSERT INTO usuarios (nombre, apaterno, amaterno, email, password, telefono) VALUES ("'.$registro_nombre.'", "'.$registro_apaterno.'", "'.$registro_amaterno.'", "'.$registro_email.'", "'.md5($registro_password).'", "'.$registro_telefono.'")';
-//         if(ExecuteSQL($query2)){
-//             $resultText = 'Se ha creado la cuenta con éxito. Por favor inicia sesión.';
-//         }
-//     }
+    $query1 = "SELECT COUNT(*) AS existe FROM usuarios WHERE email = '".$registro_email."'";
+    $existe = GetValueSQL($query1, 'existe');
+    if($existe > 0){
+        $resultText = 'El correo electrónico ya existe. Ingresa uno nuevo.';
+        $resultStatus = 'error';
+    } else{
+        $query2 = 'INSERT INTO usuarios (nombre, apaterno, amaterno, email, password, telefono) VALUES ("'.$registro_nombre.'", "'.$registro_apaterno.'", "'.$registro_amaterno.'", "'.$registro_email.'", "'.md5($registro_password).'", "'.$registro_telefono.'")';
+        if(ExecuteSQL($query2)){
+            $resultText = 'Se ha creado la cuenta con éxito. Por favor inicia sesión.';
+        }
+    }
 
 
-//     $result = array( 
-// 		'result' 					=> $resultStatus, 
-// 		'result_text' 			=> $resultText, 
-// 	);	 
+    $result = array( 
+		'result' 					=> $resultStatus, 
+		'result_text' 			=> $resultText, 
+	);	 
 
-// 	XML_Envelope($result);     
-// 	exit;
-// }
+	XML_Envelope($result);     
+	exit;
+}
 
 
 
@@ -151,6 +151,48 @@
 // }
 
 
+
+
+if(Requesting("action")=="llenar_select_carreras"){
+	$resultStatus 	= "ok";
+	$resultText 		= "Correcto.";	 
+	$xmlRow = "<option value='0'>Selecciona carrera...</option>";
+
+	$query = "SELECT * FROM carreras ORDER BY id_carrera ASC";
+	$carreras = DatasetSQL($query);
+	while($row1 = mysqli_fetch_array($carreras)){
+		$xmlRow .= "<option value='".$row1['id_carrera']."'>".$row1['carrera']."</option>";
+	}
+	
+	$result = array( 
+		'select_carrera' 	=> $xmlRow,   
+		'result' 			=> $resultStatus, 
+		'result_text' 		=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;		
+}
+
+
+if(Requesting("action")=="llenar_select_ciclos"){
+	$resultStatus 	= "ok";
+	$resultText 		= "Correcto.";	 
+	$xmlRow = "<option value='0'>Selecciona ciclo de ingreso...</option>";
+
+	$query = "SELECT * FROM ciclos ORDER BY id_ciclo ASC";
+	$ciclos = DatasetSQL($query);
+	while($row1 = mysqli_fetch_array($ciclos)){
+		$xmlRow .= "<option value='".$row1['id_ciclo']."'>".$row1['ciclo']."</option>";
+	}
+	
+	$result = array( 
+		'select_ciclo' 	=> $xmlRow,   
+		'result' 			=> $resultStatus, 
+		'result_text' 		=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;		
+}
 
 
 ?>

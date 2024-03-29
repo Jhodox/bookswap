@@ -1,3 +1,6 @@
+// $("#btn_login").click(inicia_sesion);
+$("#btn_registro").click(registro_user);
+
 
 
 $(document).ready(function() { 
@@ -33,7 +36,7 @@ $(document).ready(function() {
 
 
 // function inicia_sesion(e){
-// 		e.preventDefault();
+// 	e.preventDefault();
 // 	var login_email  = $("#login_email").val();
 // 	var login_password  = $("#login_password").val();
 // 	$.post("controller.php",
@@ -56,85 +59,105 @@ $(document).ready(function() {
 
 
 
-// function registro_user(){
-// 	console.log("Registrando...");
-// 	var registro_nombre  	= $("#registro_nombre").val();
-// 	var registro_apaterno  	= $("#registro_apaterno").val();
-// 	var registro_amaterno  	= $("#registro_amaterno").val();
-// 	var registro_telefono 	= $("#registro_telefono").val();
-// 	var registro_email 		= $("#registro_email").val();
-// 	var registro_password  	= $("#registro_password").val();
-// 	var registro_rep_password = $("#registro_rep_password").val();
+function registro_user(e){
+	e.preventDefault();
+	console.log("Registrando...");
 
-// 	var continua = 1;
-// 	var motivo_error = '';
+	var registro_nombre  	= $("#registro_nombre").val();
+	var registro_apellidos 	= $("#registro_apellidos").val();
+	var registro_codigo 	= $("#registro_codigo").val();
+	var registro_carrera 	= $("#registro_carrera").val();
+	var registro_ciclo_ingreso 	= $("#registro_ciclo_ingreso").val();
+	var registro_email 		= $("#registro_email").val();
+	var registro_password  	= $("#registro_password").val();
+	var registro_confirm_password = $("#registro_confirm_password").val();
+
+	var continua = 1;
+	var motivo_error = '';
 
 
-// 	$("#form_registro .obligatorio").each(function (index) {
-// 		if($(this).val() == ""){
-// 				$(this).css("border", "2px solid #9B2F2F");
-// 				continua = 0;
-// 				motivo_error = "Llena todos los campos marcados como OBLIGATORIO";
-// 		} else{
-// 			$(this).css("border", "2px solid #ebedec");
-// 		}
-// 	});
+	$("#form_registro .obligatorio").each(function (index) {
+		// if($(this).val() == ""){
+		// 		$(this).css("border", "2px solid #CB2413");
+		// 		continua = 0;
+		// 		motivo_error = "Llena todos los campos.";
+		// } else{
+		// 	$(this).css("border", "2px solid #dddddd");
+		// }
+
+
+		if ($(this).is('select')) { 
+			if ($(this).val() == 0) { 
+				$(this).css("border", "2px solid #CB2413");
+				continua = 0;
+				motivo_error = "Selecciona una opción en todos los campos.";
+			} else {
+				$(this).css("border", "2px solid #dddddd");
+			}
+		} else {
+			if ($(this).val() == "") {
+				$(this).css("border", "2px solid #CB2413");
+				continua = 0;
+				motivo_error = "Llena todos los campos.";
+			} else {
+				$(this).css("border", "2px solid #dddddd");
+			}
+		}
+	});
+
 
 	
-// 	if( !validateEmail(registro_email)) {
-// 		$("#registro_email").css("border", "2px solid #9B2F2F");
-// 		motivo_error = "Ingresa un correo electrónico VÁLIDO.";
-// 		continua = 0; 
-// 	}
-
-// 	if(isNaN($("#registro_telefono").val())){
-// 		motivo_error = "El teléfono únicamente debe contener NÚMEROS.";
-// 		continua = 0;
-// 	}
-
-// 	if(registro_password != registro_rep_password){
-// 		motivo_error = "Las contraseñas NO COINCIDEN.";
-// 		continua = 0; 
-// 	}
+	if( !validateEmail(registro_email)) {
+		$("#registro_email").css("border", "2px solid #CB2413");
+		motivo_error = "Ingresa un correo electrónico válido.";
+		continua = 0; 
+	}
 
 
-// 	 if(continua == 1){
-// 		$("#form_registro .obligatorio").each(function (index) {
-// 			$(this).css("border", "2px solid #ebedec");
-// 		});
+	if(registro_password != registro_confirm_password){
+		motivo_error = "Las contraseñas no coinciden.";
+		continua = 0; 
+	}
 
-// 		$.post("controller.php",
-// 		{ 	action 					: "registro_user",
-// 			registro_nombre			: registro_nombre,
-// 			registro_apaterno		: registro_apaterno,
-// 			registro_amaterno		: registro_amaterno,
-// 			registro_telefono		: registro_telefono,
-// 			registro_email			: registro_email,
-// 			registro_password		: registro_password
-// 		}, end_registro_user);
-// 	 } else{
-// 		// Swal.fire({
-// 		// 	icon: 'error',
-// 		// 	title: 'Error',
-// 		// 	text: motivo_error,
-// 		// 	timer: 1300,
-// 		// 	timerProgressBar: true,
-// 		// })
-// 		swal("Error", motivo_error, "error");
-// 	 }
+
+	 if(continua == 1){
+		$("#form_registro .obligatorio").each(function (index) {
+			$(this).css("border", "2px solid #dddddd");
+		});
+
+		$.post("controller.php",
+		{ 	action 					: "registro_user",
+			registro_nombre			: registro_nombre,
+			registro_apellidos		: registro_apellidos,
+			registro_codigo			: registro_codigo,
+			registro_carrera		: registro_carrera,
+			registro_ciclo_ingreso	: registro_ciclo_ingreso,
+			registro_email			: registro_email,
+			registro_password		: registro_password
+		}, end_registro_user);
+	 } else{
+		// Swal.fire({
+		// 	icon: 'error',
+		// 	title: 'Error',
+		// 	text: motivo_error,
+		// 	timer: 1300,
+		// 	timerProgressBar: true,
+		// })
+		swal("Error", motivo_error, "error");
+	 }
 	
-// }
+}
 
-// function end_registro_user(xml){	   
-// 	$(xml).find("response").each(function(i){		 
-// 		if ($(this).find("result").text()=="ok"){  	
-// 			$("#form_registro")[0].reset();
-// 			 swal("¡Correcto!", $(this).find("result_text").text(), "success");
-// 		}else{		
-// 			 swal("¡Error!", $(this).find("result_text").text(), "error");
-// 		}
-// 	});
-// }
+function end_registro_user(xml){	   
+	$(xml).find("response").each(function(i){		 
+		if ($(this).find("result").text()=="ok"){  	
+			$("#form_registro")[0].reset();
+			 swal("¡Correcto!", $(this).find("result_text").text(), "success");
+		}else{		
+			 swal("¡Error!", $(this).find("result_text").text(), "error");
+		}
+	});
+}
 
 
 
@@ -158,6 +181,39 @@ $(document).ready(function() {
 
 
 
+
+function llenar_select_carreras(){
+	console.log("llega aqui");
+	$.post("controller.php",
+	{	action : "llenar_select_carreras",
+	}, end_llenar_select_carreras);
+}
+
+function end_llenar_select_carreras(xml){
+	$(xml).find("response").each(function(i){		 
+		if ($(this).find("result").text()=="ok"){       
+			$("#registro_carrera").html($(this).find("select_carrera").text()); 
+		}
+		
+	console.log("pasa aqui");
+	}); 
+}
+
+
+
+function llenar_select_ciclos(){
+	$.post("controller.php",
+	{	action : "llenar_select_ciclos",
+	}, end_llenar_select_ciclos);
+}
+
+function end_llenar_select_ciclos(xml){
+	$(xml).find("response").each(function(i){		 
+		if ($(this).find("result").text()=="ok"){       
+			$("#registro_ciclo_ingreso").html($(this).find("select_ciclo").text()); 
+		}
+	}); 
+}
 
 
 

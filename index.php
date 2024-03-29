@@ -132,7 +132,12 @@
 
     <!-- Chart -->
     <script src="js/plugins/Chart.min.js"></script>
-	
+
+    
+    <script src="https://kit.fontawesome.com/471d91ac13.js" crossorigin="anonymous"></script>
+	<!--alerts CSS --> 
+	<link href="assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>	
 </head>
 
 <body>
@@ -648,8 +653,16 @@
 	JS PERSONALIZADO
 	======================================-->
 
-    <script src="assets/js/funciones.js"></script>
 	<script src="js/main.js"></script>
+    
+	<script src="assets/js/jquery-2.2.4.min.js"></script>
+	<script src="assets/js/slick.min.js"></script>
+	<script src="assets/js/jquery-ui.js"></script>
+	<script src="assets/js/jquery.nice-select.js"></script>
+	<script src="assets/js/scripts.js"></script>
+	<script src="assets/js/funciones.js"></script>
 	
+	<script src="assets/plugins/sweetalert/sweetalert.min.js"></script> 
+	<script src="assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
 </body>
 </html>
