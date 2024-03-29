@@ -63,13 +63,13 @@
 
                     <ul class="ps-list--link">
 
-                        <li><a href="about-us.html">About Us</a></li>
+                        <li><a href="about-us">About Us</a></li>
 
                         <li><a href="#">Affilate</a></li>
 
                         <li><a href="#">Career</a></li>
 
-                        <li><a href="contact-us.html">Contact</a></li>
+                        <li><a href="contact-us">Contact</a></li>
 
                     </ul>
 
@@ -87,11 +87,11 @@
 
                         <li><a href="#">Our Press</a></li>
 
-                        <li><a href="checkout.html">Checkout</a></li>
+                        <li><a href="checkout">Checkout</a></li>
 
                         <li><a href="#">Mi Cuenta</a></li>
 
-                        <li><a href="shop-default.html">Shop</a></li>
+                        <li><a href="shop-default">Shop</a></li>
 
                     </ul>
 

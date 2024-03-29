@@ -1,5 +1,6 @@
 <?php
-//ob_start();
+// ob_start();
+session_start();
 ?>
 
 
@@ -303,7 +304,7 @@
 
                     
                     $query1 = "SELECT * FROM libros 
-                    INNER JOIN usuarios ON libros.codigo_usuario = usuarios.codigo_usuario
+                    INNER JOIN usuarios ON libros.id_usuario = usuarios.id_usuario
                     WHERE libros.status = 1
                     ORDER BY num_visitas
                     LIMIT 6";   
@@ -418,7 +419,7 @@
 
                     
                     $query1 = "SELECT * FROM libros 
-                    INNER JOIN usuarios ON libros.codigo_usuario = usuarios.codigo_usuario
+                    INNER JOIN usuarios ON libros.id_usuario = usuarios.id_usuario
                     WHERE libros.status = 1
                     ORDER BY libros.num_prestamos
                     LIMIT 6";
@@ -533,7 +534,7 @@
 
                     
                     $query1 = "SELECT * FROM libros 
-                    INNER JOIN usuarios ON libros.codigo_usuario = usuarios.codigo_usuario
+                    INNER JOIN usuarios ON libros.id_usuario = usuarios.id_usuario
                     WHERE libros.status = 1
                     ORDER BY fecha_agregado
                     LIMIT 6";

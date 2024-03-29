@@ -1,15 +1,18 @@
 
 <?php
-//session_start();
+// session_start();
 if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
-	$id_usuario = $_SESSION['id_sesion'];
+	$id_usuario_global = $_SESSION['id_sesion'];
 	$sesion = 1;
 } else{
 	$sesion = 0;
-	$id_usuario = 0;
+	$id_usuario_global = 0;
 }
-	//echo "ID SESION: ".$_SESSION['id_sesion'];
-	//echo "EMAIL: ".$_SESSION['email'];
+	// echo "ID SESION: ".$_SESSION['id_sesion'];
+	// echo "EMAIL: ".$_SESSION['email'];
+    
+    // echo "Sesion: ".$sesion;
+    // echo "\nId: ".$id_usuario_global;
 	
 ?>
 
@@ -35,7 +38,7 @@ if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
                 Logo
                 ======================================-->
 
-                <a class="ps-logo" href="index.php">
+                <a class="ps-logo" href="index">
                     <img src="img/template/logo_light.png" alt="">
                 </a>
 
@@ -69,6 +72,8 @@ if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
 
                 <div class="header__actions">
 
+                <?php 
+                if($sesion != 0){ ?>
                     <!--=====================================
                     Wishlist
                     ======================================-->
@@ -77,25 +82,30 @@ if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
 
                         <?php 
                         $query1 = "SELECT COUNT(*) AS cuantos FROM wishlist
-                        INNER JOIN usuarios ON wishlist.codigo_usuario = usuarios.codigo_usuario
+                        INNER JOIN usuarios ON wishlist.id_usuario = usuarios.id_usuario
                         INNER JOIN libros ON wishlist.id_libro = libros.id_libro
-                        WHERE wishlist.codigo_usuario = '222790641'";
-                        $cuantos = GetValueSQL($query1, 'cuantos');
+                        WHERE wishlist.id_usuario = $id_usuario_global";
+                        $cuantos_wishlist = GetValueSQL($query1, 'cuantos');
+
+                        echo '<a class="header__extra" href="#">
+                            <i class="icon-heart"></i><span><i>'.$cuantos_wishlist.'</i></span>
+                        </a>';
+                        
+                            
                         
                         ?>
 
-                        <a class="header__extra" href="#">
-                            <i class="icon-heart"></i><span><i><?php echo $cuantos; ?></i></span>
-                        </a>
 
                         <div class="ps-cart__content">
 
                             <?php 
-                            if($cuantos > 0){
+                            if($cuantos_wishlist > 0){
                                 $query2 = "SELECT * FROM wishlist
-                                INNER JOIN usuarios ON wishlist.codigo_usuario = usuarios.codigo_usuario
+                                INNER JOIN usuarios ON wishlist.id_usuario = usuarios.id_usuario
                                 INNER JOIN libros ON wishlist.id_libro = libros.id_libro
-                                WHERE wishlist.codigo_usuario = '222790641'";
+                                WHERE wishlist.id_usuario = $id_usuario_global
+                                ORDER BY id_wishlist DESC
+                                LIMIT 4";
                                 $wishlist = DatasetSQL($query2);
 
                                 while($row2 = mysqli_fetch_array($wishlist)){
@@ -156,34 +166,51 @@ if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
                             }
                             ?>
 
-                            
-
 
                         </div>
 
                     </div>
 
                     <!--=====================================
-                    Notificaciones de Waitlist
-                    ======================================-->
-
-                    <a class="header__extra" href="#">
-                        <i class="icon-alarm"></i><span><i>0</i></span>
-                    </a>
-
-                    <!--=====================================
-                    Login and Register
+                    Perfil
                     ======================================-->
 
                     <div class="ps-block--user-header">
                         <div class="ps-block__left">
-                            <i class="icon-user"></i>
-                        </div>
-                        <div class="ps-block__right">
-                            <a href="login.php">Ingresar</a>
-                            <a href="register.php">¡Regístrate!</a>
+                            <a class="header__extra" href="perfil">
+                                <i class="icon-user"></i><span><i>0</i></span>
+                            </a>
+                            <a class="ml-4" href="perfil">Luis Angel</a>
                         </div>
                     </div>
+
+                    
+
+                    <!--=====================================
+                    Cerrar Sesión
+                    ======================================-->
+                    
+                    <a class="header__extra" href="javascript:cerrar_sesion()" title="Cerrar sesión">
+                        <i class="icon-exit" style="font-size: 30px"></i>
+                    </a>
+                        
+                    
+                <?php 
+                } else{ ?>
+
+                    <div class="ps-block--user-header">
+                        <div class="ps-block__left">
+                            <a href="login"><i class="icon-user"></i></a>
+                        </div>
+                        <div class="ps-block__right">
+                            <a href="login">Ingresar</a>
+                        </div>
+                    </div>
+
+
+                <?php }
+                ?>
+                   
 
                 </div><!-- End Header Actions-->
 
@@ -224,115 +251,144 @@ Header Mobile
 
             <div class="header__actions">
 
-                <!--=====================================
-                Wishlist
-                ======================================-->
-                <div class="ps-cart--mini">
+            <?php 
+                if($sesion != 0){ ?>
+                    <!--=====================================
+                    Wishlist
+                    ======================================-->
 
-                    <?php 
-                    $query1 = "SELECT COUNT(*) AS cuantos FROM wishlist
-                    INNER JOIN usuarios ON wishlist.codigo_usuario = usuarios.codigo_usuario
-                    INNER JOIN libros ON wishlist.id_libro = libros.id_libro
-                    WHERE wishlist.codigo_usuario = '222790641'";
-                    $cuantos = GetValueSQL($query1, 'cuantos');
-
-                    ?>
-
-                    <a class="header__extra" href="#">
-                        <i class="icon-heart"></i><span><i><?php echo $cuantos; ?></i></span>
-                    </a>
-
-                    <div class="ps-cart__content">
+                    <div class="ps-cart--mini">
 
                         <?php 
-                        if($cuantos > 0){
-                            $query2 = "SELECT * FROM wishlist
-                            INNER JOIN usuarios ON wishlist.codigo_usuario = usuarios.codigo_usuario
-                            INNER JOIN libros ON wishlist.id_libro = libros.id_libro
-                            WHERE wishlist.codigo_usuario = '222790641'";
-                            $wishlist = DatasetSQL($query2);
+                        $query1 = "SELECT COUNT(*) AS cuantos FROM wishlist
+                        INNER JOIN usuarios ON wishlist.id_usuario = usuarios.id_usuario
+                        INNER JOIN libros ON wishlist.id_libro = libros.id_libro
+                        WHERE wishlist.id_usuario = $id_usuario_global";
+                        $cuantos_wishlist = GetValueSQL($query1, 'cuantos');
 
-                            while($row2 = mysqli_fetch_array($wishlist)){
-                                $id_libro = $row2['id_libro'];
-                                $codigo_usuario = $row2['codigo_usuario'];
-                                $titulo = $row2['titulo'];
-                                $autor = $row2['autor'];
-                                $editorial = $row2['editorial'];
-                                $year = $row2['year'];
-                                $sinopsis = $row2['sinopsis'];
-                                $num_visitas = $row2['num_visitas'];
-                                $num_prestamos = $row2['num_prestamos'];
-                                $ruta_foto_portada = $row2['ruta_foto_portada'];
-                                $fecha_agregado = $row2['fecha_agregado'];
-                                $status = $row2['status'];
-
-                                $nombre_usuario = $row2['nombres'];
-                                $apellido_usuario = $row2['apellidos'];
-
-                                if($year == NULL){
-                                    $year = "Sin Año";
-                                }
-
-                                if($sinopsis == NULL){
-                                    $sinopsis = "Sin Sinopsis";
-                                }
-
-                                if($ruta_foto_portada == NULL){
-                                    $ruta_foto_portada = "imagenes/libros/no-image.jpg";
-                                }
-
-                                ?>
-
-                                <div class="ps-cart__items">
-
-                                <div class="ps-product--cart-mobile">
-
-                                    <div class="ps-product__thumbnail">
-                                        <a href="#">
-                                            <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
-                                        </a>
-                                    </div>
-
-                                    <div class="ps-product__content">
-                                        <a class="ps-product__remove" href="#">
-                                            <i class="icon-cross"></i>
-                                        </a>
-                                        <a href="product-default.html"><?php echo $titulo; ?></a>
-                                        <p><?php echo $autor; ?></p>
-                                        <p><strong>Ofrecido por: </strong> <?php echo rtrim($nombre_usuario)." ".rtrim($apellido_usuario); ?></p>
-                                    </div>
-
-                                </div>
-
-                                </div>
-                            <?php 
-                            }
-                        }
+                        echo '<a class="header__extra" href="#">
+                            <i class="icon-heart"></i><span><i>'.$cuantos_wishlist.'</i></span>
+                        </a>';
+                        
+                            
+                        
                         ?>
 
+
+                        <div class="ps-cart__content">
+
+                            <?php 
+                            if($cuantos_wishlist > 0){
+                                $query2 = "SELECT * FROM wishlist
+                                INNER JOIN usuarios ON wishlist.id_usuario = usuarios.id_usuario
+                                INNER JOIN libros ON wishlist.id_libro = libros.id_libro
+                                WHERE wishlist.id_usuario = $id_usuario_global
+                                ORDER BY id_wishlist DESC
+                                LIMIT 4";
+                                $wishlist = DatasetSQL($query2);
+
+                                while($row2 = mysqli_fetch_array($wishlist)){
+                                    $id_libro = $row2['id_libro'];
+                                    $codigo_usuario = $row2['codigo_usuario'];
+                                    $titulo = $row2['titulo'];
+                                    $autor = $row2['autor'];
+                                    $editorial = $row2['editorial'];
+                                    $year = $row2['year'];
+                                    $sinopsis = $row2['sinopsis'];
+                                    $num_visitas = $row2['num_visitas'];
+                                    $num_prestamos = $row2['num_prestamos'];
+                                    $ruta_foto_portada = $row2['ruta_foto_portada'];
+                                    $fecha_agregado = $row2['fecha_agregado'];
+                                    $status = $row2['status'];
+
+                                    $nombre_usuario = $row2['nombres'];
+                                    $apellido_usuario = $row2['apellidos'];
+
+                                    if($year == NULL){
+                                        $year = "Sin Año";
+                                    }
+
+                                    if($sinopsis == NULL){
+                                        $sinopsis = "Sin Sinopsis";
+                                    }
+
+                                    if($ruta_foto_portada == NULL){
+                                        $ruta_foto_portada = "imagenes/libros/no-image.jpg";
+                                    }
+
+                                    ?>
+
+                                    <div class="ps-cart__items">
+
+                                    <div class="ps-product--cart-mobile">
+
+                                        <div class="ps-product__thumbnail">
+                                            <a href="#">
+                                                <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                            </a>
+                                        </div>
+
+                                        <div class="ps-product__content">
+                                            <a class="ps-product__remove" href="#">
+                                                <i class="icon-cross"></i>
+                                            </a>
+                                            <a href="product-default.html"><?php echo $titulo; ?></a>
+                                            <p><?php echo $autor; ?></p>
+                                            <p><strong>Ofrecido por: </strong> <?php echo rtrim($nombre_usuario)." ".rtrim($apellido_usuario); ?></p>
+                                        </div>
+
+                                    </div>
+
+                                    </div>
+                                <?php 
+                                }
+                            }
+                            ?>
+
+
+                        </div>
+
+                    </div>
+
+                    <!--=====================================
+                    Perfil
+                    ======================================-->
+
+                    <div class="ps-block--user-header">
+                        <div class="ps-block__left">
+                            <a class="header__extra" href="perfil">
+                                <i class="icon-user"></i><span><i>0</i></span>
+                            </a>
+                            <a class="ml-4" href="perfil">Luis Angel</a>
+                        </div>
+                    </div>
+
+
+                    <!--=====================================
+                    Cerrar Sesión
+                    ======================================-->
+                    
+                    <a class="header__extra" href="javascript:cerrar_sesion()" title="Cerrar sesión">
+                        <i class="icon-exit" style="font-size: 30px"></i>
+                    </a>
                         
+                    
+                <?php 
+                } else{ ?>
 
-
+                    <div class="ps-block--user-header">
+                        <div class="ps-block__left">
+                            <a href="login"><i class="icon-user"></i></a>
+                        </div>
+                        <div class="ps-block__right">
+                            <a href="login">Ingresar</a>
+                        </div>
                     </div>
 
-                </div>
 
-           
-                <!--=====================================
-                Login and Register
-                ======================================-->
-
-                <div class="ps-block--user-header">
-
-                    <div class="ps-block__left">
-                        <i class="icon-user"></i>
-                    </div>
-                    <div class="ps-block__right">
-                        <a href="login.php">Ingresar</a>
-                        <a href="register.php">¡Regístrate!</a>
-                    </div>
-
-                </div>
+                <?php }
+                ?>
+                
 
             </div>
 

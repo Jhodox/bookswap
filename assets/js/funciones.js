@@ -1,67 +1,71 @@
-// $("#btn_login").click(inicia_sesion);
+$("#btn_login").click(inicia_sesion);
 $("#btn_registro").click(registro_user);
 
 
 
 $(document).ready(function() { 
-	// valida_sesion();	
+	valida_sesion();	
 	
 	
 });
 
  
-// function valida_sesion(){
-// 	console.log("Validando sesion...");
-// 	$.post("controller.php", 
-// 		{ 	action : "valida_sesion"
-// 		}, end_valida_sesion);  
+function valida_sesion(){
+	console.log("Validando sesion...");
+	$.post("controller.php", 
+		{ 	action : "valida_sesion"
+		}, end_valida_sesion);  
 	
-// }
-// function end_valida_sesion(xml){
-// 	$(xml).find("response").each(function(i){		  
-// 		if ($(this).find("result").text()=="ok"){ 
-// 			console.log("Sesion Validada");
-// 			$("#acciones_usuario").html('<a class="header-user" href="javascript:cerrar_sesion()"><i class="fa-solid fa-right-from-bracket"></i></a>');
-// 			$("#perfil").html('<a class="header-user" href="perfil"><i class="fa-solid fa-user"></i></a>');
-// 			$("#nombre_usuario").html($(this).find("nombre").text());	
-// 			$("#id_usuario").val($(this).find("id_usuario").text());
+}
+function end_valida_sesion(xml){
+	$(xml).find("response").each(function(i){		  
+		if ($(this).find("result").text()=="ok"){ 
+			console.log("Sesion Validada");
+			// $("#acciones_usuario").html('<a href="javascript:cerrar_sesion()" title="Cerrar sesión"><i class="icon-exit" style="font-size: 30px"></i></a>');
+			// $("#perfil").html('<a class="" href="perfil"><i class="icon-user"></i><p></p></p></a> <a href="perfil"><i class="icon-user"></i><p></p></p></a>');
 
-// 		}else{
-// 			console.log("Sesion NO Validada");
-// 			$("#acciones_usuario").html('<a class="header-user" href="login"><i class="fa fa-user" aria-hidden="true"></i></a>');
-// 		}
-// 	});
-// }
+			// $("#acciones_usuario_mobile").html('<a href="javascript:cerrar_sesion()"  title="Cerrar sesión"><i class="icon-exit" style="font-size: 30px"></i></a>');
+			// $("#perfil_mobile").html('<a class="" href="perfil"><i class="icon-user"></i></a>');
+			// $("#nombre_usuario").html($(this).find("nombre").text());	
+			// $("#id_usuario").val($(this).find("id_usuario").text());
+
+		}else{
+			console.log("Sesion NO Validada");
+			$("#acciones_usuario").html('<a href="login">Ingresar</a>');
+			$("#acciones_usuario_mobile").html('<a href="login">Ingresar</a>');
+		}
+	});
+}
 
 
 
-// function inicia_sesion(e){
-// 	e.preventDefault();
-// 	var login_email  = $("#login_email").val();
-// 	var login_password  = $("#login_password").val();
-// 	$.post("controller.php",
-// 		{ 	action 					: "inicia_sesion",
-// 			login_email 		: login_email,
-// 			login_password 	: login_password 
-// 		}, end_inicia_sesion);
-// }
-// function end_inicia_sesion(xml){	   
-// 	$(xml).find("response").each(function(i){		 
-// 		if ($(this).find("result").text()=="ok"){ 
-// 			console.log("Logeado"); 
-// 			window.location.href  = 'index';
-// 			//valida_sesion();			 
-// 		}else{
-// 			swal("Error", $(this).find("result_text").text(), "error");
-// 		}
-// 	});
-// }
+function inicia_sesion(e){
+	e.preventDefault();
+	var login_email  = $("#login_email").val();
+	var login_password  = $("#login_password").val();
+	$.post("controller.php",
+		{ 	action 					: "inicia_sesion",
+				login_email 		: login_email,
+				login_password 		: login_password 
+		}, end_inicia_sesion);
+}
+function end_inicia_sesion(xml){	   
+	$(xml).find("response").each(function(i){		 
+		if ($(this).find("result").text()=="ok"){ 
+			console.log("Logeado"); 
+			window.location.href  = 'index';
+			//valida_sesion();			 
+		}else{
+			swal("Error", $(this).find("result_text").text(), "error");
+		}
+	});
+}
 
 
 
 function registro_user(e){
 	e.preventDefault();
-	console.log("Registrando...");
+	// console.log("Registrando...");
 
 	var registro_nombre  	= $("#registro_nombre").val();
 	var registro_apellidos 	= $("#registro_apellidos").val();
@@ -106,10 +110,16 @@ function registro_user(e){
 	});
 
 
+	if(!validateCodigoUDG(registro_codigo)){
+		$("#registro_codigo").css("border", "2px solid #CB2413");
+		motivo_error = "Ingresa un código de estudiante válido.";
+		continua = 0; 
+	}
+
 	
 	if( !validateEmail(registro_email)) {
 		$("#registro_email").css("border", "2px solid #CB2413");
-		motivo_error = "Ingresa un correo electrónico válido.";
+		motivo_error = "Ingresa un correo institucional válido.";
 		continua = 0; 
 	}
 
@@ -127,22 +137,15 @@ function registro_user(e){
 
 		$.post("controller.php",
 		{ 	action 					: "registro_user",
-			registro_nombre			: registro_nombre,
-			registro_apellidos		: registro_apellidos,
-			registro_codigo			: registro_codigo,
-			registro_carrera		: registro_carrera,
-			registro_ciclo_ingreso	: registro_ciclo_ingreso,
-			registro_email			: registro_email,
-			registro_password		: registro_password
+				registro_nombre			: registro_nombre,
+				registro_apellidos		: registro_apellidos,
+				registro_codigo			: registro_codigo,
+				registro_carrera		: registro_carrera,
+				registro_ciclo_ingreso	: registro_ciclo_ingreso,
+				registro_email			: registro_email,
+				registro_password		: registro_password
 		}, end_registro_user);
 	 } else{
-		// Swal.fire({
-		// 	icon: 'error',
-		// 	title: 'Error',
-		// 	text: motivo_error,
-		// 	timer: 1300,
-		// 	timerProgressBar: true,
-		// })
 		swal("Error", motivo_error, "error");
 	 }
 	
@@ -162,28 +165,33 @@ function end_registro_user(xml){
 
 
 
-// function cerrar_sesion(){	
-// 	console.log("Cerrando sesion");
-// 	$.post("controller.php",
-// 		{ 	action 					: "cerrar_sesion"
-// 		}, end_cerrar_sesion);
-// }
-// function end_cerrar_sesion(xml){	  
-// 	console.log("Sesion cerrada"); 
-// 	$(xml).find("response").each(function(i){		 
-// 		if ($(this).find("result").text()=="ok"){  
-// 			window.location.href  = "index.php";	 
-// 		}else{
-// 		}
-// 	});
-// }
+function cerrar_sesion(){	
+	console.log("Cerrando sesion");
+	$.post("controller.php",
+		{ 	action 					: "cerrar_sesion"
+		}, end_cerrar_sesion);
+}
+function end_cerrar_sesion(xml){	  
+	console.log("Sesion cerrada"); 
+	$(xml).find("response").each(function(i){		 
+		if ($(this).find("result").text()=="ok"){  
+			window.location.href  = "index";	 
+		}else{
+		}
+	});
+}
+
+
+
+
+
 
 
 
 
 
 function llenar_select_carreras(){
-	console.log("llega aqui");
+	// console.log("llega aqui");
 	$.post("controller.php",
 	{	action : "llenar_select_carreras",
 	}, end_llenar_select_carreras);
@@ -195,10 +203,9 @@ function end_llenar_select_carreras(xml){
 			$("#registro_carrera").html($(this).find("select_carrera").text()); 
 		}
 		
-	console.log("pasa aqui");
+	// console.log("pasa aqui");
 	}); 
 }
-
 
 
 function llenar_select_ciclos(){
@@ -226,12 +233,27 @@ function end_llenar_select_ciclos(xml){
 
 
 
+function validateCodigoUDG(codigo) {
+    var regex = /^[0-9]{9}$/;
+    
+    if (regex.test(codigo)) {
+        return true; 
+    } else {
+        return false; 
+    }
+}
 
 
-
-function validateEmail($email) {
+function validateEmail(email) {
 	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-	return emailReg.test( $email );
+	var dominioUdgReg = /\.udg\.mx$/;
+
+
+	if(emailReg.test(email) && dominioUdgReg.test(email)){
+        return true; //El email es válido y termina con ".udg.mx"
+    } else {
+        return false; //El email no es válido o no termina con ".udg.mx"
+    }
   }
 
 

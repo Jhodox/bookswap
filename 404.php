@@ -179,9 +179,9 @@
 
             <ul class="breadcrumb">
 
-                <li><a href="index.php">Inicio</a></li>
+                <li><a href="index">Inicio</a></li>
 
-                <li>Mi Cuenta</li>
+                <li>Error 404</li>
 
             </ul>
 
@@ -190,139 +190,17 @@
     </div>
 
     <!--=====================================
-    Login - Register Content
-    ======================================--> 
-
-    <div class="ps-my-account">
-
+    404 Content
+    ======================================-->
+   <div class="ps-page--404">
         <div class="container">
-
-            <form class="ps-form--account ps-tab-root" action="link.html" method="get">
-
-                <ul class="ps-tab-list">
-
-                    <li class="active"><a href="#sign-in">Ingresar</a></li>
-
-                    <li class=""><a href="#register">¡Regístrate!</a></li>
-
-                </ul>
-
-                <div class="ps-tabs">
-
-                    <!--=====================================
-                    Login Form
-                    ======================================--> 
-
-                    <div class="ps-tab active" id="sign-in">
-
-                        <div class="ps-form__content">
-                            <h5>Iniciar sesión</h5>
-                            <form id="form_login" name="form_login">
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="email" id="login_email" name="login_email" placeholder="Correo electrónico">
-
-                                </div>
-
-                                <div class="form-group form-forgot">
-
-                                    <input class="obligatorio form-control" type="password" id="login_password" name="login_password" placeholder="Contraseña">
-
-                                    <!-- <a onclick="">Reestablecer</a> -->
-
-                                </div>
-
-                                <div class="form-group submtit">
-
-                                    <button class="ps-btn ps-btn--fullwidth" id="btn_login">Ingresar</button>
-
-                                </div>
-                            </form>
-                        </div>
-
-
-                    </div><!-- End Login Form -->
-
-                    <!--=====================================
-                    Register Form
-                    ======================================--> 
-
-                    <div class="ps-tab" id="register">
-
-                        <div class="ps-form__content">
-
-                            <h5>Crea una nueva cuenta</h5>
-
-                            <form id="form_registro" name="form_registro">
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="text" id="registro_nombre" name="registro_nombre" placeholder="Nombre(s)">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="text" id="registro_apellidos" name="registro_apellidos" placeholder="Apellidos">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="text" id="registro_codigo" name="registro_codigo" placeholder="Código UDG">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <select class="form-control obligatorio" name="registro_carrera" id="registro_carrera"></select>
-                                
-                                </div>
-
-                                <div class="form-group">
-
-                                    <select class="form-control obligatorio" name="registro_ciclo_ingreso" id="registro_ciclo_ingreso"></select>
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="email" id="registro_email" name="registro_email" placeholder="Correo institucional">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="password" id="registro_password" name="registro_password" placeholder="Contraseña">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="password" id="registro_confirm_password" name="registro_confirm_password" placeholder="Confirmar contraseña">
-
-                                </div>
-
-                                <div class="form-group submtit">
-
-                                    <button class="ps-btn ps-btn--fullwidth" id="btn_registro">Registrarse</button>
-
-                                </div>
-
-                            </form>
-
-                        </div>
-
-
-                    </div><!-- End Register Form -->
-
-                </div>
-
-            </form>
-
+            <div class="ps-section__content"><img src="img/404.jpg" alt="">
+                <h3>¡Página no encontrada!</h3>
+                <p>Parece que no encontramos la página que estas buscando. Puedes volver a <a href="index"> Inicio</a></p>
+            </div>
         </div>
-
     </div>
-
+  
 
     <!--=====================================
 	Footer
