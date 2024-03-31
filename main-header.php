@@ -1,12 +1,59 @@
+<?php
+
+    // $query1 = "SELECT * FROM usuarios WHERE id_usuario = 1";
+    // $nombre = GetValueSQL($query1, 'nombre');
+    // $apellido = GetValueSQL($query1, 'apellido');
+    // $email = GetValueSQL($query1, 'email');
+
+
+    // $query2 = "SELECT * FROM libros WHERE id_usuario = 1";
+    // $libros = DatasetSQL($query2);
+    // //Juego de Tronos - George. R. - DeBolsillo - 1    row1
+    // //Harry Potter - J. k. rowling - Salamandra - 1    row2
+
+    // while($row2 = mysqli_fetch_array($libros)){
+    //     $id_libro = $row2['id_libro'];
+    //     $codigo_usuario = $row2['codigo_usuario'];
+    //     $titulo = $row2['titulo'];
+    //     $autor = $row2['autor'];
+    //     $editorial = $row2['editorial'];
+    //     $fecha_agregado = $row2['fecha_agregado'];
+    //     $num_visitas = $row2['num_visitas'];
+    //     $status = $row2['status'];
+
+    //     ?>
+
+            
+
+        <?php
+
+    //     echo "<p>".$id_libro."</p>";
+    //     echo "<p>".$codigo_usuario."</p>";
+    //     echo "<p>".$titulo."</p>";
+    // }
+
+    // $query3 = "INSERT INTO usuarios VALUES  (";
+    // ExecuteSQL($query3); 
+
+?>
+
+
+
 
 <?php
 // session_start();
 if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
 	$id_usuario_global = $_SESSION['id_sesion'];
 	$sesion = 1;
+
+    $query0 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario_global";
+    $nombre_usuario_global = GetValueSQL($query0, 'nombres');
+    
 } else{
 	$sesion = 0;
 	$id_usuario_global = 0;
+
+    $nombre_usuario_global = " ";
 }
 	// echo "ID SESION: ".$_SESSION['id_sesion'];
 	// echo "EMAIL: ".$_SESSION['email'];
@@ -63,7 +110,7 @@ if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
 
             <div class="header__content-center">
                 <form class="ps-form--quick-search" action="index.html" method="get">
-                    <input class="form-control" type="text" placeholder="Título, Autor, Usuario,...">
+                    <input class="form-control" type="text" placeholder="Título, Autor, Usuario...">
                     <button>Buscar</button>
                 </form>
             </div>
@@ -180,7 +227,7 @@ if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
                             <a class="header__extra" href="perfil">
                                 <i class="icon-user"></i><span><i>0</i></span>
                             </a>
-                            <a class="ml-4" href="perfil">Luis Angel</a>
+                            <a class="ml-4" href="perfil"><?php echo $nombre_usuario_global; ?></a>
                         </div>
                     </div>
 
@@ -359,7 +406,7 @@ Header Mobile
                             <a class="header__extra" href="perfil">
                                 <i class="icon-user"></i><span><i>0</i></span>
                             </a>
-                            <a class="ml-4" href="perfil">Luis Angel</a>
+                            <a class="ml-4" href="perfil"><?php echo $nombre_usuario_global; ?></a>
                         </div>
                     </div>
 
@@ -404,7 +451,7 @@ Header Mobile
 
         <form class="ps-form--search-mobile" action="index.html" method="get">
             <div class="form-group--nest">
-                <input class="form-control" type="text" placeholder="Título, Autor, Usuario,...">
+                <input class="form-control" type="text" placeholder="Título, Autor, Usuario...">
                 <button><i class="icon-magnifier"></i></button>
             </div>
         </form>
@@ -441,7 +488,7 @@ Header Mobile
         <div class="ps-panel__header">
             <form class="ps-form--search-mobile" action="#" method="get">
                 <div class="form-group--nest">
-                    <input class="form-control" type="text" placeholder="Título, Autor, Usuario,...">
+                    <input class="form-control" type="text" placeholder="Título, Autor, Usuario...">
                     <button><i class="icon-magnifier"></i></button>
                 </div>
             </form>

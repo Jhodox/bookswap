@@ -223,6 +223,21 @@ function end_llenar_select_ciclos(xml){
 }
 
 
+function sumar_visitas(id_libro){
+	$.post("controller.php",
+    {    action : "sumar_visitas",
+        id_libro : id_libro
+    }, end_sumar_visitas);
+}
+
+function end_sumar_visitas(xml){
+	$(xml).find("response").each(function(i){		 
+		if ($(this).find("result").text()=="ok"){       
+			
+		}
+	}); 
+}
+
 
 
 

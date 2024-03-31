@@ -1,5 +1,6 @@
 <?php
 //ob_start();
+session_start();
 ?>
 
 
@@ -17,6 +18,7 @@
     <meta name="description" content="">
 
 	<title>BookSwap | Inicio</title>
+	<?php include("include/headertagbase.php"); ?>
 
 	<link rel="icon" href="img/template/icono.png">
 
@@ -165,7 +167,7 @@
     // Estos tres siempre se ponen despues del body, del archivo que estemos creando
 	require_once "include/functions.php";
 	require_once "include/db_tools.php";  
-    include('main-header.php') 
+    include('main-header.php'); 
 
     ?>
 
@@ -229,8 +231,8 @@
     
 	<script>
 		 $(document).ready(function() { 
-			llenar_select_carreras();
-			llenar_select_ciclos();
+			// llenar_select_carreras();
+			// llenar_select_ciclos();
 		});
 	</script>
 </body>

@@ -17,6 +17,7 @@
     <meta name="description" content="">
 
 	<title>BookSwap | Inicio</title>
+	<?php include("include/headertagbase.php"); ?>
 
 	<link rel="icon" href="img/template/icono.png">
 

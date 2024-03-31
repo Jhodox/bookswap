@@ -305,7 +305,7 @@ session_start();
                     
                     $query1 = "SELECT * FROM libros 
                     INNER JOIN usuarios ON libros.id_usuario = usuarios.id_usuario
-                    WHERE libros.status = 1
+                    WHERE libros.status != 3
                     ORDER BY num_visitas
                     LIMIT 6";   
                     $mas_buscados = DatasetSQL($query1);
@@ -324,8 +324,15 @@ session_start();
                         $fecha_agregado = $row1['fecha_agregado'];
                         $status = $row1['status'];
 
+                        $url_producto = str_replace(" ", "-", $titulo);
+                        $url_producto = str_replace("/", "-", $url_producto);
+                        $url_producto = str_replace("Ñ", "N", $url_producto);
+                        $url_producto = str_replace("ñ", "ñ", $url_producto);
+
                         $nombre_usuario = $row1['nombres'];
                         $apellido_usuario = $row1['apellidos'];
+
+                        $nombre_usuario_completo = rtrim($nombre_usuario)." ".rtrim($apellido_usuario);
 
                         if($year == NULL){
                             $year = "Sin Año";
@@ -346,7 +353,7 @@ session_start();
 
                         <div class="ps-product__thumbnail">
 
-                            <a href="#">
+                            <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
 
                                 <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
@@ -358,12 +365,12 @@ session_start();
 
                             <div class="ps-product__content" data-mh="clothing">
 
-                                <a class="ps-product__title" href="#"><?php echo $titulo; ?></a> 
+                                <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" class="ps-product__title" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $titulo; ?></a> 
                                 <p><?php echo $autor; ?></p>
 
                                 <br>
 
-                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo rtrim($nombre_usuario)." ".rtrim($apellido_usuario); ?></a></p>
+                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo $nombre_usuario_completo; ?></a></p>
 
                             </div>
 
@@ -420,7 +427,7 @@ session_start();
                     
                     $query1 = "SELECT * FROM libros 
                     INNER JOIN usuarios ON libros.id_usuario = usuarios.id_usuario
-                    WHERE libros.status = 1
+                    WHERE libros.status != 3
                     ORDER BY libros.num_prestamos
                     LIMIT 6";
                     $mas_buscados = DatasetSQL($query1);
@@ -439,8 +446,15 @@ session_start();
                         $fecha_agregado = $row1['fecha_agregado'];
                         $status = $row1['status'];
 
+                        $url_producto = str_replace(" ", "-", $titulo);
+                        $url_producto = str_replace("/", "-", $url_producto);
+                        $url_producto = str_replace("Ñ", "N", $url_producto);
+                        $url_producto = str_replace("ñ", "ñ", $url_producto);
+
                         $nombre_usuario = $row1['nombres'];
                         $apellido_usuario = $row1['apellidos'];
+                        
+                        $nombre_usuario_completo = rtrim($nombre_usuario)." ".rtrim($apellido_usuario);
 
                         if($year == NULL){
                             $year = "Sin Año";
@@ -461,7 +475,7 @@ session_start();
 
                         <div class="ps-product__thumbnail">
 
-                            <a href="#">
+                            <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
 
                                 <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
@@ -473,12 +487,12 @@ session_start();
 
                             <div class="ps-product__content" data-mh="clothing">
 
-                                <a class="ps-product__title" href="#"><?php echo $titulo; ?></a> 
+                                <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" class="ps-product__title" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $titulo; ?></a> 
                                 <p><?php echo $autor; ?></p>
 
                                 <br>
 
-                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo rtrim($nombre_usuario)." ".rtrim($apellido_usuario); ?></a></p>
+                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo $nombre_usuario_completo; ?></a></p>
 
                             </div>
 
@@ -535,7 +549,7 @@ session_start();
                     
                     $query1 = "SELECT * FROM libros 
                     INNER JOIN usuarios ON libros.id_usuario = usuarios.id_usuario
-                    WHERE libros.status = 1
+                    WHERE libros.status != 3
                     ORDER BY fecha_agregado
                     LIMIT 6";
                     $mas_buscados = DatasetSQL($query1);
@@ -554,8 +568,15 @@ session_start();
                         $fecha_agregado = $row1['fecha_agregado'];
                         $status = $row1['status'];
 
+                        $url_producto = str_replace(" ", "-", $titulo);
+                        $url_producto = str_replace("/", "-", $url_producto);
+                        $url_producto = str_replace("Ñ", "N", $url_producto);
+                        $url_producto = str_replace("ñ", "ñ", $url_producto);
+
                         $nombre_usuario = $row1['nombres'];
                         $apellido_usuario = $row1['apellidos'];
+
+                        $nombre_usuario_completo = rtrim($nombre_usuario)." ".rtrim($apellido_usuario);
 
                         if($year == NULL){
                             $year = "Sin Año";
@@ -576,7 +597,7 @@ session_start();
 
                         <div class="ps-product__thumbnail">
 
-                            <a href="#">
+                            <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
 
                                 <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
@@ -588,12 +609,12 @@ session_start();
 
                             <div class="ps-product__content" data-mh="clothing">
 
-                                <a class="ps-product__title" href="#"><?php echo $titulo; ?></a> 
+                                <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" class="ps-product__title" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $titulo; ?></a> 
                                 <p><?php echo $autor; ?></p>
 
                                 <br>
 
-                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo rtrim($nombre_usuario)." ".rtrim($apellido_usuario); ?></a></p>
+                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo $nombre_usuario_completo; ?></a></p>
 
                             </div>
 

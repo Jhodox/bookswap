@@ -208,4 +208,25 @@ if(Requesting("action")=="llenar_select_ciclos"){
 }
 
 
+if(Requesting("action")=="sumar_visitas"){
+	$id_libro = Requesting("id_libro");
+	$result = "Correcto.";
+	$resultStatus = "ok";
+
+	$query1 = "SELECT COUNT(*) AS cuantos FROM libros WHERE id_libro = $id_libro";
+	$cuantos = GetValueSQL($query1, 'cuantos');
+
+	if($cuantos > 0){
+		$query2 = "UPDATE libros SET num_visitas = num_visitas + 1 WHERE id_libro = $id_libro";
+        ExecuteSQL($query2);
+	}
+
+	$result = array(    
+		'result' 			=> $resultStatus, 
+		'result_text' 		=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;	
+}
+
 ?>
