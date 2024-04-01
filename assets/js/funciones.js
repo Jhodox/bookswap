@@ -238,8 +238,95 @@ function end_sumar_visitas(xml){
 	}); 
 }
 
+function wishlist_remove(id_usuario, id_libro, e){
+	e.preventDefault();
+
+	$.post("controller.php",
+    {    action : "wishlist_remove",
+		id_usuario	: id_usuario,
+        id_libro : id_libro
+    }, end_wishlist_remove);
+}
+
+function end_wishlist_remove(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){   
+			// swal("¡Correcto!", "¡Libro eliminado de tu wishlist!", "success");
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: '¡Libro eliminado de tu wishlist!',
+				timer: 1000,
+				timerProgressBar: false,
+			})
+
+            var id_usuario = $(this).find("id_usuario").text();
+            var id_libro = $(this).find("id_libro").text();      
+            $("#wishlist_spot").html('<a onclick="wishlist_add('+id_usuario+', '+id_libro+', event)" href=""><i class="fa-regular fa-heart fa-xl"></i></a>');
+			// $("#wishlist_spot").load(location.href + " #wishlist_spot"); 
+
+			$("#header_icons").load(location.href + " #header_icons"); 
+			$("#header_icons_mobile").load(location.href + " #header_icons_mobile"); 
+
+        } else{
+			// swal("¡Error!", $(this).find("result_text").text(), "error");
+
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: false,
+			})
+		}
+    });
+}
 
 
+function wishlist_add(id_usuario, id_libro, e){
+	e.preventDefault();
+
+	$.post("controller.php",
+    {    action : "wishlist_add",
+		id_usuario	: id_usuario,
+        id_libro : id_libro
+    }, end_wishlist_add);
+}
+
+function end_wishlist_add(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+			// swal("Correcto", "¡Libro agregado a tu wishlist!", "success");
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: '¡Libro agregado a tu wishlist!',
+				timer: 1000,
+				timerProgressBar: false,
+			})
+
+            var id_usuario = $(this).find("id_usuario").text();
+            var id_libro = $(this).find("id_libro").text();  
+            $("#wishlist_spot").html('<a onclick="wishlist_remove('+id_usuario+', '+id_libro+', event)" href=""><i class="fas fa-heart fa-xl"></i></a>');
+			// $("#wishlist_spot").load(location.href + " #wishlist_spot"); 
+
+			$("#header_icons").load(location.href + " #header_icons"); 	
+			$("#header_icons_mobile").load(location.href + " #header_icons_mobile"); 
+
+        } else{
+			// swal("¡Error!", $(this).find("result_text").text(), "error");
+			
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: false,
+			})
+		}
+    });
+}
 
 
 

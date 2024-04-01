@@ -125,7 +125,7 @@ if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
                     Wishlist
                     ======================================-->
 
-                    <div class="ps-cart--mini">
+                    <div id="header_icons" class="ps-cart--mini">
 
                         <?php 
                         $query1 = "SELECT COUNT(*) AS cuantos FROM wishlist
@@ -134,7 +134,7 @@ if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
                         WHERE wishlist.id_usuario = $id_usuario_global";
                         $cuantos_wishlist = GetValueSQL($query1, 'cuantos');
 
-                        echo '<a class="header__extra" href="#">
+                        echo '<a id="header_wishlist" class="header__extra" href="#">
                             <i class="icon-heart"></i><span><i>'.$cuantos_wishlist.'</i></span>
                         </a>';
                         
@@ -169,6 +169,13 @@ if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
                                     $fecha_agregado = $row2['fecha_agregado'];
                                     $status = $row2['status'];
 
+                                    
+                                    $url_producto = str_replace(" ", "-", $titulo);
+                                    $url_producto = str_replace("/", "-", $url_producto);
+                                    $url_producto = str_replace("Ñ", "N", $url_producto);
+                                    $url_producto = str_replace("ñ", "ñ", $url_producto);
+
+
                                     $nombre_usuario = $row2['nombres'];
                                     $apellido_usuario = $row2['apellidos'];
 
@@ -191,16 +198,16 @@ if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
                                     <div class="ps-product--cart-mobile">
 
                                         <div class="ps-product__thumbnail">
-                                            <a href="#">
+                                            <a href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
                                                 <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
                                             </a>
                                         </div>
 
                                         <div class="ps-product__content">
-                                            <a class="ps-product__remove" href="#">
+                                            <a class="ps-product__remove" href="" onclick="wishlist_remove(<?php echo $id_usuario_global.', '.$id_libro.', event' ?>)">
                                                 <i class="icon-cross"></i>
                                             </a>
-                                            <a href="product-default.html"><?php echo $titulo; ?></a>
+                                            <a href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $titulo; ?></a>
                                             <p><?php echo $autor; ?></p>
                                             <p><strong>Ofrecido por: </strong> <?php echo rtrim($nombre_usuario)." ".rtrim($apellido_usuario); ?></p>
                                         </div>
@@ -304,7 +311,7 @@ Header Mobile
                     Wishlist
                     ======================================-->
 
-                    <div class="ps-cart--mini">
+                    <div id="header_icons_mobile" class="ps-cart--mini">
 
                         <?php 
                         $query1 = "SELECT COUNT(*) AS cuantos FROM wishlist
@@ -348,6 +355,11 @@ Header Mobile
                                     $fecha_agregado = $row2['fecha_agregado'];
                                     $status = $row2['status'];
 
+                                    $url_producto = str_replace(" ", "-", $titulo);
+                                    $url_producto = str_replace("/", "-", $url_producto);
+                                    $url_producto = str_replace("Ñ", "N", $url_producto);
+                                    $url_producto = str_replace("ñ", "ñ", $url_producto);
+                                    
                                     $nombre_usuario = $row2['nombres'];
                                     $apellido_usuario = $row2['apellidos'];
 
@@ -370,16 +382,16 @@ Header Mobile
                                     <div class="ps-product--cart-mobile">
 
                                         <div class="ps-product__thumbnail">
-                                            <a href="#">
+                                            <a href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
                                                 <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
                                             </a>
                                         </div>
 
                                         <div class="ps-product__content">
-                                            <a class="ps-product__remove" href="#">
+                                            <a class="ps-product__remove" href="" onclick="wishlist_remove(<?php echo $id_usuario_global.', '.$id_libro.', event' ?>)">
                                                 <i class="icon-cross"></i>
                                             </a>
-                                            <a href="product-default.html"><?php echo $titulo; ?></a>
+                                            <a href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $titulo; ?></a>
                                             <p><?php echo $autor; ?></p>
                                             <p><strong>Ofrecido por: </strong> <?php echo rtrim($nombre_usuario)." ".rtrim($apellido_usuario); ?></p>
                                         </div>

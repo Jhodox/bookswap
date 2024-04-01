@@ -139,6 +139,7 @@
 	<!--alerts CSS --> 
 	<link href="assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>	
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-7U0k3Xu0BUw7+oTgnOUMW4JCxW3IaOwFNMDkPTi2B5cg7x17OOJUtGkObUcZDQw2FXmO1w+23r00Yod/7uCC3w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>

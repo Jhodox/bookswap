@@ -140,6 +140,8 @@ session_start();
 	<!--alerts CSS --> 
 	<link href="assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>	
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-7U0k3Xu0BUw7+oTgnOUMW4JCxW3IaOwFNMDkPTi2B5cg7x17OOJUtGkObUcZDQw2FXmO1w+23r00Yod/7uCC3w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 
 <body>
@@ -329,11 +331,28 @@ session_start();
                                 <div class="ps-product__desc">
 
                                     <p> 
+                                                
+                                        <div class="ps-product__actions" id="wishlist_spot">
+                                            <?php 
+                                            $query10 = "SELECT COUNT(*) AS existe FROM wishlist WHERE id_usuario = $id_usuario AND id_libro = $id_libro_global";
+                                            $existe_wishlist = GetValueSQL($query10, 'existe');
 
-                                        <div class="ps-product__actions">
-                                            <a onclick="" href="">
-                                                <i class="icon-heart" style="font-size: 20px"></i>
-                                            </a>
+                                            if($existe_wishlist > 0){ //El producto está en la wishlist
+                                                $icon_wishlist = 
+                                                '<a onclick="wishlist_remove('.$id_usuario.', '.$id_libro_global.', event)" href="">
+                                                    <i class="fas fa-heart fa-xl"></i>
+                                                </a>';
+
+                                            } else{ //El producto no está en la wishlist
+                                                $icon_wishlist = 
+                                                '<a onclick="wishlist_add('.$id_usuario.', '.$id_libro_global.', event)" href="">
+                                                    <i class="fa-regular fa-heart fa-xl"></i>
+                                                </a>';
+                                            }
+
+                                            echo $icon_wishlist;
+                                            ?>
+                                            
                                         </div>
                                         <?php 
                                         $query9 = "SELECT * FROM status_libro WHERE id_status = $statusLibro";

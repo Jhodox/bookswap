@@ -210,7 +210,7 @@ if(Requesting("action")=="llenar_select_ciclos"){
 
 if(Requesting("action")=="sumar_visitas"){
 	$id_libro = Requesting("id_libro");
-	$result = "Correcto.";
+	$resultText = "Correcto.";
 	$resultStatus = "ok";
 
 	$query1 = "SELECT COUNT(*) AS cuantos FROM libros WHERE id_libro = $id_libro";
@@ -227,6 +227,79 @@ if(Requesting("action")=="sumar_visitas"){
 	);		 
 	XML_Envelope($result);  
 	exit;	
+}
+
+
+
+if(Requesting("action")=="wishlist_remove"){
+	$id_usuario = Requesting("id_usuario");
+	$id_libro = Requesting("id_libro");
+
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+	
+	$query1 = "DELETE FROM wishlist WHERE id_usuario = $id_usuario AND id_libro = $id_libro";
+	if(ExecuteSQL($query1)){
+		$result = "Correcto.";
+		$resultStatus = "ok";
+	} else {
+		$result = "Ocurrió un error.";
+		$resultStatus = "error";
+	}
+
+
+	$result = array(    
+		'id_usuario' 		=> $id_usuario,
+		'id_libro' 			=> $id_libro, 
+		'result' 			=> $resultStatus, 
+		'result_text' 		=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;	
+    
+
+}
+
+
+
+
+if(Requesting("action")=="wishlist_add"){
+	$id_usuario = Requesting("id_usuario");
+	$id_libro = Requesting("id_libro");
+
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+	
+	$query1 = "SELECT COUNT(*) AS existe FROM wishlist WHERE id_usuario = $id_usuario AND id_libro = $id_libro";
+	$existe = GetValueSQL($query1, 'existe');
+
+	if($existe > 0){
+		$result = "El libro ya se encuentra en la wishlist.";
+		$resultStatus = "error";
+	} else{
+		$query2 = "INSERT INTO wishlist (id_usuario, id_libro) VALUES ($id_usuario, $id_libro)";
+        if(ExecuteSQL($query2)){
+            $result = "Correcto.";
+            $resultStatus = "ok";
+        } else {
+            $result = "Ocurrió un error.";
+            $resultStatus = "error";
+        }
+	}
+
+
+	$result = array(   
+		'id_usuario' 		=> $id_usuario,
+		'id_libro' 			=> $id_libro, 
+		'result' 			=> $resultStatus, 
+		'result_text' 		=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;	
+    
+
 }
 
 ?>
