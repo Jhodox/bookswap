@@ -238,8 +238,8 @@ function end_sumar_visitas(xml){
 	}); 
 }
 
-function wishlist_remove(id_usuario, id_libro, e){
-	e.preventDefault();
+function wishlist_remove(id_usuario, id_libro, event){
+	event.preventDefault();
 
 	$.post("controller.php",
     {    action : "wishlist_remove",
@@ -284,8 +284,8 @@ function end_wishlist_remove(xml){
 }
 
 
-function wishlist_add(id_usuario, id_libro, e){
-	e.preventDefault();
+function wishlist_add(id_usuario, id_libro, event){
+	event.preventDefault();
 
 	$.post("controller.php",
     {    action : "wishlist_add",
@@ -328,6 +328,41 @@ function end_wishlist_add(xml){
     });
 }
 
+
+function solicitar_libro(id_usuario, id_libro, event) { 
+	event.preventDefault();
+
+	$.post("controller.php",
+    {    action 	: "solicitar_libro",
+       	 	id_usuario  : id_usuario,
+        	id_libro 	: id_libro
+    }, end_solicitar_libro);
+}
+
+function end_solicitar_libro(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+			// swal("Correcto", $(this).find("result_text").text(), "success");
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1500,
+				timerProgressBar: true,
+			})
+        } else{
+
+			Swal.fire({
+				icon: $(this).find("result").text(),
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1500,
+				timerProgressBar: true,
+			})
+		}
+    });
+}
 
 
 

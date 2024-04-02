@@ -302,4 +302,112 @@ if(Requesting("action")=="wishlist_add"){
 
 }
 
+
+if(Requesting("action")=="solicitar_libro"){
+	//*NOTA: Al momento del dueño aceptar a un usuario, el sistema tiene que verificar que no haya un préstamo con dicho usuario con status 2, 3 o 5
+	$id_usuario_destino = Requesting("id_usuario");
+    $id_libro = Requesting("id_libro");
+
+	$fecha_hoy = date("Y-m-d");
+
+	// echo date('Y-m-d');
+
+	// echo "usuario: ".$id_usuario_destino;
+
+    $resultText = "Correcto.";
+    $resultStatus = "ok";
+
+	$query1 = "SELECT * FROM libros WHERE id_libro = $id_libro";
+	$id_usuario_owner = GetValueSQL($query1, 'id_usuario');
+
+	//Status de préstamos
+	//1. Solicitado			2. Aceptado 		3. En proceso 		4. Concluído 		5. Fecha de entrega excedida 		6. Denegado
+
+	$query9 = "SELECT COUNT(*) AS existe FROM prestamos WHERE id_usuario_destino = $id_usuario_destino AND (status = 2 OR status = 3 OR status = 5)";
+	$existe = GetValueSQL($query9, 'existe');
+
+	if($existe == 0){ //El usuario no tiene ningun préstamo activo
+
+		$query5 = "SELECT COUNT(*) AS existe_prestamos_usuario FROM prestamos WHERE id_usuario_destino = $id_usuario_destino AND id_libro = $id_libro";
+		$existe_prestamos_usuario = GetValueSQL($query5, 'existe_prestamos_usuario');
+	
+		if($existe_prestamos_usuario == 0){ // No ha solicitado el libro
+			
+	
+			$query2 = "SELECT COUNT(*) AS existe_waitlist FROM waitlist WHERE id_libro = $id_libro";
+			$existe_waitlist = GetValueSQL($query2, 'existe_waitlist');
+	
+			if($existe_waitlist == 0){ //No hay nadie en la waitlist que haya solicitado el libro
+	
+				$query8 = "SELECT COUNT(*) AS existe_prestamos FROM prestamos WHERE id_libro = $id_libro";
+				$existe_prestamos = GetValueSQL($query8, 'existe_prestamos');
+	
+				if($existe_prestamos == 0){ //El libro no se encuentra prestado
+					$query3 = "INSERT INTO prestamos (id_usuario_owner, id_usuario_destino, id_libro, status) VALUES ($id_usuario_owner, $id_usuario_destino, $id_libro, 1)";
+					$resultText = "Solicitud enviada. Espera a que el dueño del libro apruebe tu solicitud.";
+				} else{ //El libro se encuentra prestado. Se inserta en la waitlist con turno 1
+					$query3 = "INSERT INTO waitlist (id_usuario, id_libro, turno, fecha_inicio_turno) VALUES ($id_usuario_destino, $id_libro, 1, '$fecha_hoy')";
+					$resultText = "Solicitud enviada. Espera tu turno.";
+				}
+				
+				if(ExecuteSQL($query3)){
+					$resultStatus = "ok";
+	
+				} else{
+					$resultText = "Ocurrió un error.";
+					$resultStatus = "error";
+	
+				}
+			} else{ //Hay gente en la waitlist que solicitó el libro
+	
+				$query4 = "SELECT COUNT(*) AS existe_waitlist FROM waitlist WHERE id_usuario = $id_usuario_destino AND id_libro = $id_libro";
+				$existe_waitlist_usuario = GetValueSQL($query4, 'existe_waitlist');
+	
+				if($existe_waitlist_usuario == 0){ //No ha ingresado a la waitlist
+					$query6 = "SELECT * FROM waitlist WHERE id_libro = $id_libro ORDER BY turno ASC";
+					$waitlist = DatasetSQL($query6);
+	
+					while($row6 = mysqli_fetch_array($waitlist)){
+						$turno = $row6['turno'];
+					}
+					$turno = $turno + 1;
+					$query7 = "INSERT INTO waitlist (id_usuario, id_libro, turno, fecha_inicio_turno) VALUES($id_usuario_destino, $id_libro, $turno, '$fecha_hoy')";
+					if(ExecuteSQL($query7)){
+						$resultText = "Solicitud enviada. Espera tu turno.";
+						$resultStatus = "ok";
+	
+					} else{
+						$resultText = "Ocurrió un error.";
+						$resultStatus = "error";
+					}
+	
+				} else{ //El usuario ya está en la waitlist por el libro
+					$resultText = "¡Ya te encuentras en la lista de espera!";
+					$resultStatus = "warning";
+	
+				}
+			}
+					
+		} else{ //El libro ya fue solicitado por el usuario
+			$resultText = "¡Ya solicitaste este libro!";
+			$resultStatus = "warning";
+		}
+
+	} else{ //El usuario tiene un préstamo activo
+
+		$resultText = "¡Ya cuentas con un préstamo activo!";
+		$resultStatus = "warning";
+	}
+
+	
+
+	$result = array(   
+		'result' 			=> $resultStatus, 
+		'result_text' 		=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;	
+    
+}
+
 ?>

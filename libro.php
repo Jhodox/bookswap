@@ -334,18 +334,18 @@ session_start();
                                                 
                                         <div class="ps-product__actions" id="wishlist_spot">
                                             <?php 
-                                            $query10 = "SELECT COUNT(*) AS existe FROM wishlist WHERE id_usuario = $id_usuario AND id_libro = $id_libro_global";
+                                            $query10 = "SELECT COUNT(*) AS existe FROM wishlist WHERE id_usuario = $id_usuario_global AND id_libro = $id_libro_global";
                                             $existe_wishlist = GetValueSQL($query10, 'existe');
 
                                             if($existe_wishlist > 0){ //El producto está en la wishlist
                                                 $icon_wishlist = 
-                                                '<a onclick="wishlist_remove('.$id_usuario.', '.$id_libro_global.', event)" href="">
+                                                '<a onclick="wishlist_remove('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
                                                     <i class="fas fa-heart fa-xl"></i>
                                                 </a>';
 
                                             } else{ //El producto no está en la wishlist
                                                 $icon_wishlist = 
-                                                '<a onclick="wishlist_add('.$id_usuario.', '.$id_libro_global.', event)" href="">
+                                                '<a onclick="wishlist_add('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
                                                     <i class="fa-regular fa-heart fa-xl"></i>
                                                 </a>';
                                             }
@@ -357,9 +357,18 @@ session_start();
                                         <?php 
                                         $query9 = "SELECT * FROM status_libro WHERE id_status = $statusLibro";
                                         $status_libro_text = GetValueSQL($query9, 'status');
+                                        if($statusLibro == 1){
+                                            $style_status = "color: #42831F !important;";
+                                        } elseif($statusLibro == 2){
+                                            $style_status = "color: #C47E1A !important;";
+                                        } elseif($statusLibro == 3){
+                                            $style_status = "color: #C4411A !important;";
+                                        } else{
+                                            $style_status = "";
+                                        }
                                         ?>
 
-                                        Status:<a class="mr-20" href="#"><strong class="ps-tag--in-stock"> <?php echo $status_libro_text; ?></strong></a>
+                                        Status:<a class="mr-20" style="<?php echo $style_status; ?>"><strong> <?php echo $status_libro_text; ?></strong></a>
                                         <?php
                                         $query8 = "SELECT COUNT(*) AS cuantos FROM waitlist WHERE id_libro = $id_libro_global";
                                         $cuantos_waitlist = GetValueSQL($query8, 'cuantos');
@@ -374,9 +383,9 @@ session_start();
 
                                 <div class="ps-product__shopping">
 
-                                    <a class="ps-btn ps-btn--black" onclick="" href="">Solicitar</a>
+                                    <a class="ps-btn ps-btn--black disabled" onclick="solicitar_libro(<?php echo $id_usuario_global.', '.$id_libro_global.', event'; ?>)" href="">Solicitar</a>
 
-                                    <a class="ps-btn" onclick="" href="">Entrar a Lista de Espera</a>
+                                    <!-- <a class="ps-btn ps-disabled" onclick="" href="">Solicitar</a> -->
 
 
                                 </div>
