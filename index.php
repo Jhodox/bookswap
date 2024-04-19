@@ -22,7 +22,7 @@ session_start();
 	<link rel="icon" href="img/template/icono.png">
 
 	<!--=====================================
-	CSS
+	#region CSS
 	======================================-->
 	
 	<!-- google font -->
@@ -69,7 +69,7 @@ session_start();
 	<link rel="stylesheet" href="css/market-place-4.css">
 
 	<!--=====================================
-	PLUGINS JS
+	#region PLUGINS JS
 	======================================-->
 
 	<!-- jQuery library -->
@@ -145,7 +145,7 @@ session_start();
 <body>
 
     <!--=====================================
-    Preload
+    #region Preload
     ======================================-->
 
     <!-- <div id="loader-wrapper">
@@ -160,7 +160,7 @@ session_start();
 
 
     <!--=====================================
-	Header
+	#region HEADER
 	======================================-->
 
     <?php
@@ -178,7 +178,7 @@ session_start();
     <div id="homepage-6">
 
     	<!--=====================================
-    	Home Banner
+    	#region HOME BANNER
     	======================================-->  
 
     	<div class="ps-home-banner" id="inicio">
@@ -209,7 +209,7 @@ session_start();
         </div><!-- End Home Banner-->
 
         <!--=====================================
-    	Home Features
+    	#region HOME FEATURES
     	======================================-->  
 
         <div class="ps-site-features">
@@ -256,10 +256,6 @@ session_start();
 
         </div><!-- End Home Features-->
 
-       
-
-        
-
         
  	<!--=====================================
 	Section Gray
@@ -270,7 +266,7 @@ session_start();
         <div class="container">
 
         	<!--=====================================
-			            MÁS BUSCADOS
+			#region MÁS BUSCADOS
 			======================================-->  
 
             <div class="ps-block--products-of-category" id="mas-buscados">
@@ -382,7 +378,7 @@ session_start();
                     
                     <?php } 
                     $cont++;
-                    } while($cont < 6);?>                 
+                    } while($cont < 6); ?>                 
 
                 </div><!-- End Block Product Box -->
               
@@ -392,7 +388,7 @@ session_start();
 
 
             <!--=====================================
-			            MÁS INTERCAMBIADOS
+			            #region MÁS INTERCAMBIADOS
 			======================================-->  
 
             <div class="ps-block--products-of-category" id="mas-intercambiados">
@@ -514,7 +510,7 @@ session_start();
            
 
             <!--=====================================
-			            MÁS RECIENTES
+			            #region MÁS RECIENTES
 			======================================-->  
 
             <div class="ps-block--products-of-category" id="recientes">
@@ -641,7 +637,7 @@ session_start();
 
 
     <!--=====================================
-	Footer
+	#region FOOTER
 	======================================-->  
     <!-- Este es el pie de pagina, el cual va antes de que se acabe el body -->
     <?php include('main-footer.php'); ?>
@@ -673,7 +669,7 @@ session_start();
     </div> -->
 
 	<!--=====================================
-	JS PERSONALIZADO
+	#region JS PERSONALIZADO
 	======================================-->
 
 	<script src="js/main.js"></script>

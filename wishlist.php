@@ -1,5 +1,6 @@
 <?php
 //ob_start();
+session_start();
 ?>
 
 
@@ -23,7 +24,6 @@
     <link rel="icon" href="img/template/icono.png">
 
     <!--=====================================
-    CSS
     #region CSS
     ======================================-->
 
@@ -71,7 +71,6 @@
     <link rel="stylesheet" href="css/market-place-4.css">
 
     <!--=====================================
-    PLUGINS JS
     #region PLUGINS JS
     ======================================-->
 
@@ -165,7 +164,6 @@
 
 
     <!--=====================================
-    Header
     #region HEADER
     ======================================-->
 
@@ -173,13 +171,12 @@
     // Estos tres siempre se ponen despues del body, del archivo que estemos creando
     require_once "include/functions.php";
     require_once "include/db_tools.php";
-    include ('main-header.php')
+    include ('main-header.php');
 
-        ?>
+    ?>
 
     <!--=====================================
-    Breadcrumb
-    #region BREADCRUMB
+    #region Breadcrumb
     ======================================-->
 
     <div class="ps-breadcrumb">
@@ -190,7 +187,7 @@
 
                 <li><a href="index.php">Inicio</a></li>
 
-                <li>Mi Cuenta</li>
+                <li>Wishlist</li>
 
             </ul>
 
@@ -198,164 +195,100 @@
 
     </div>
 
+    <!-- Aqui se puede empezar a trabajar lo nuevo  -->
     <!--=====================================
-    Login - Register Content
-    ======================================-->
+    #region WISHLIST
+======================================-->
 
-    <div class="ps-my-account">
-
+    <div class="ps-section--gray">
         <div class="container">
+            <div class="ps-block--products-of-category" id="wishlist">
+                <div class="ps-block__product-box">
+                    <?php
+                    $cont = 0;
+                    $query = "SELECT DISTINCT libros.* FROM wishlist JOIN libros ON libros.id_usuario = wishlist.id_usuario WHERE libros.status != 3 AND wishlist.id_usuario = 1";
+                    $wishlist = DatasetSQL($query);
+                    while ($row = mysqli_fetch_array($wishlist)) {
+                        $id_libro = $row['id_libro'];
+                        $titulo = $row['titulo'];
+                        $autor = $row['autor'];
+                        $editorial = $row['editorial'];
+                        $year = $row['year'];
+                        $sinopsis = $row['sinopsis'];
+                        $num_visitas = $row['num_visitas'];
+                        $num_prestamos = $row['num_prestamos'];
+                        $ruta_foto_portada = $row['ruta_foto_portada'];
+                        $fecha_agregado = $row['fecha_agregado'];
+                        $status = $row['status'];
 
-            <form class="ps-form--account ps-tab-root" action="link.html" method="get">
+                        $url_producto = str_replace(" ", "-", $titulo);
+                        $url_producto = str_replace("/", "-", $url_producto);
+                        $url_producto = str_replace("Ñ", "N", $url_producto);
+                        $url_producto = str_replace("ñ", "ñ", $url_producto);
 
-                <ul class="ps-tab-list">
+                        // $year == NULL ? "Sin Año" : $year;
+                        if ($year == NULL) {
+                            $year = "Sin Año";
+                        }
 
-                    <li class="active"><a href="#sign-in">Ingresar</a></li>
+                        if ($sinopsis == NULL) {
+                            $sinopsis = "Sin Sinopsis";
+                        }
 
-                    <li class=""><a href="#register">¡Regístrate!</a></li>
+                        if ($ruta_foto_portada == NULL) {
+                            $ruta_foto_portada = "imagenes/libros/no-image.jpg";
+                        }
+                        ?>
+                        <div class="ps-product ps-product--simple">
+                            <div class="ps-product__thumbnail">
+                                <a onclick="sumar_visitas(<?php echo $id_libro; ?>)"
+                                    href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?>">
 
-                </ul>
+                                    <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                </a>
+                            </div>
 
-                <div class="ps-tabs">
-
-                    <!--=====================================
-                    Login Form
-                    #region LOGIN
-                    ======================================-->
-
-                    <div class="ps-tab active" id="sign-in">
-
-                        <div class="ps-form__content">
-                            <h5>Iniciar sesión</h5>
-                            <form id="form_login" name="form_login">
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="email" id="login_email"
-                                        name="login_email" placeholder="Correo electrónico">
-
+                            <div class="ps-product__container">
+                                <div class="ps-product__content" data-mh="clothing">
+                                    <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" class="ps-product__title"
+                                        href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $titulo; ?></a>
+                                    <p><?php echo $autor; ?></p>
                                 </div>
-
-                                <div class="form-group form-forgot">
-
-                                    <input class="obligatorio form-control" type="password" id="login_password"
-                                        name="login_password" placeholder="Contraseña">
-
-                                    <!-- <a onclick="">Reestablecer</a> -->
-
-                                </div>
-
-                                <div class="form-group submtit">
-
-                                    <button class="ps-btn ps-btn--fullwidth" id="btn_login">Ingresar</button>
-
-                                </div>
-                            </form>
-                        </div>
-
-
-                    </div><!-- End Login Form -->
-
-                    <!--=====================================
-                    Register Form
-                    #region REGISTER
-                    ======================================-->
-
-                    <div class="ps-tab" id="register">
-
-                        <div class="ps-form__content">
-
-                            <h5>Crea una nueva cuenta</h5>
-
-                            <form id="form_registro" name="form_registro">
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="text" id="registro_nombre"
-                                        name="registro_nombre" placeholder="Nombre(s)">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="text" id="registro_apellidos"
-                                        name="registro_apellidos" placeholder="Apellidos">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="text" id="registro_codigo"
-                                        name="registro_codigo" placeholder="Código UDG">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <select class="form-control obligatorio" name="registro_carrera"
-                                        id="registro_carrera"></select>
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <select class="form-control obligatorio" name="registro_ciclo_ingreso"
-                                        id="registro_ciclo_ingreso"></select>
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="email" id="registro_email"
-                                        name="registro_email" placeholder="Correo institucional">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="password" id="registro_password"
-                                        name="registro_password" placeholder="Contraseña">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="password"
-                                        id="registro_confirm_password" name="registro_confirm_password"
-                                        placeholder="Confirmar contraseña">
-
-                                </div>
-
-                                <div class="form-group submtit">
-
-                                    <button class="ps-btn ps-btn--fullwidth" id="btn_registro">Registrarse</button>
-
-                                </div>
-
-                            </form>
+                            </div>
 
                         </div>
+                        <div class="ps-product ps-product--simple">
+                            <div class="ps-product__thumbnail">
+                                <a onclick="sumar_visitas(<?php echo $id_libro; ?>)"
+                                    href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?>">
 
+                                    <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                </a>
+                            </div>
 
-                    </div><!-- End Register Form -->
+                            <div class="ps-product__container">
+                                <div class="ps-product__content" data-mh="clothing">
+                                    <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" class="ps-product__title"
+                                        href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $titulo; ?></a>
+                                    <p><?php echo $autor; ?></p>
+                                </div>
+                            </div>
 
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
+                        </div>
+                    <?php } ?>
+                </div> <!-- End Block Product Box -->
+            </div> <!-- End Products of category -->
+        </div> <!-- End Container-->
+    </div> <!-- End Section Gray -->
 
     <!--=====================================
-    Footer
-    #region FOOTER
+    #region Footer
     ======================================-->
     <!-- Este es el pie de pagina, el cual va antes de que se acabe el body -->
     <?php include ('main-footer.php'); ?>
 
 
     <!--=====================================
-    JS PERSONALIZADO
     #region JS PERSONALIZADO
     ======================================-->
 
@@ -373,8 +306,8 @@
 
     <script>
         $(document).ready(function () {
-            llenar_select_carreras();
-            llenar_select_ciclos();
+            // llenar_select_carreras();
+            // llenar_select_ciclos();
         });
     </script>
 </body>

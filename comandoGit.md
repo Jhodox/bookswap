@@ -12,7 +12,7 @@ Presiona `ctrl + shift + V` para visusalizar el documento
 `git commit -m` **`"commentario"`**
 
 ### Ingresa los ultimos cambios al origen
-`git push`
+`git push -u origin`**`nombre`**
 
 * * *
 # Obtener cambios (pull)
@@ -31,6 +31,7 @@ Presiona `ctrl + shift + V` para visusalizar el documento
 
 ### Cambiar de rama
 `git checkout` **`nombre de la rama`**
+
 ### Muestra los archivos nuevos o modificados que no tienen commit
 `git status`
 

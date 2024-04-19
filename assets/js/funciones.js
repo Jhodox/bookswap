@@ -40,6 +40,7 @@ function end_valida_sesion(xml){
 
 
 function inicia_sesion(e){
+	//Evita que se recargue la pagina
 	e.preventDefault();
 	var login_email  = $("#login_email").val();
 	var login_password  = $("#login_password").val();
@@ -54,7 +55,7 @@ function end_inicia_sesion(xml){
 		if ($(this).find("result").text()=="ok"){ 
 			console.log("Logeado"); 
 			window.location.href  = 'index';
-			//valida_sesion();			 
+			//valida_sesion();
 		}else{
 			swal("Error", $(this).find("result_text").text(), "error");
 		}
