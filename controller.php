@@ -2,7 +2,6 @@
 	require_once "include/functions.php";
 	require_once "include/db_tools.php";
 
-
     use PHPMailer\PHPMailer\PHPMailer;
 	
 	require 'include/PHPMailer2022/src/Exception.php';
@@ -10,7 +9,9 @@
 	require 'include/PHPMailer2022/src/SMTP.php';		
 	require_once "extensiones/vendor/autoload.php";
 
-    
+	/*
+		#region valida_sesion
+	*/
 if (Requesting("action")=="valida_sesion"){ 
 	session_start();
 	$resultStatus 	= "ok"; 
@@ -19,9 +20,7 @@ if (Requesting("action")=="valida_sesion"){
 	$email 			= "NULL";
     $nombre         = "NULL";
 
-
-	if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
-                
+	if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){    
 		$query = "SELECT COUNT(id_usuario) AS existe_usuario, id_usuario, correo, nombres FROM usuarios WHERE id_usuario = ".$_SESSION['id_sesion'];
 		//echo $query;
 		$existe_usuario 	= GetValueSQL($query,"existe_usuario");
@@ -29,18 +28,14 @@ if (Requesting("action")=="valida_sesion"){
 			$resultStatus 	= "error"; 
 			$resultText 		= "Sesion NO válida";
 		}else{
-			
 			$id_usuario 	= GetValueSQL($query,"id_usuario");
 			$email      	= GetValueSQL($query,"correo");
 			$nombres 		= GetValueSQL($query,"nombres");
-		
 		}		
-
 	}else{
 		$resultStatus 	= "error"; 
-		$resultText 		= "Sesion NO válida";
+		$resultText 	= "Sesion NO válida";
 	}
-
 
 	$result = array(
 		'id_usuario' 		=> $id_usuario,
@@ -48,20 +43,23 @@ if (Requesting("action")=="valida_sesion"){
         'nombres'           => $nombres,
 		'result' 			=> $resultStatus, 
 		'result_text' 		=> $resultText
-	);	 	 
+	);
 	
 	XML_Envelope($result);     
 	exit;
 }
 
-
-
-if (Requesting("action")=="inicia_sesion"){ 	
+	/*
+		#region inicia_sesion
+	*/
+if (Requesting("action")=="inicia_sesion"){ 
 	$login_email		= Requesting("login_email");
-	$login_password 	= Requesting("login_password");	
+	$login_password 	= Requesting("login_password");
 
+	// Siempre se ponen inicio
 	$resultStatus 	= "ok"; 
 	$resultText 		= "Inicio de sesión exitoso.";
+	// Siempre se ponen fin
 	$avance 			= 1;	
     $nombre_usuario = "";
 	 
@@ -91,7 +89,9 @@ if (Requesting("action")=="inicia_sesion"){
  
 }
 
-
+	/*
+		#region registro_user
+	*/
 if(Requesting("action")=="registro_user"){
     $registro_nombre        = Requesting("registro_nombre");
     $registro_apellidos     = Requesting("registro_apellidos");
@@ -147,7 +147,9 @@ if(Requesting("action")=="registro_user"){
 
 
 
-
+	/*
+		#region cerrar_sesion
+	*/
 if (Requesting("action")=="cerrar_sesion"){
 	$resultStatus 	= "ok"; 
 	$resultText 		= "Sesion Cerrada";	
@@ -165,7 +167,9 @@ if (Requesting("action")=="cerrar_sesion"){
 
 
 
-
+	/*
+		#region llenar select carreras
+	*/
 if(Requesting("action")=="llenar_select_carreras"){
 	$resultStatus 	= "ok";
 	$resultText 		= "Correcto.";	 
@@ -187,6 +191,9 @@ if(Requesting("action")=="llenar_select_carreras"){
 }
 
 
+	/*
+		#region llenar select ciclos
+	*/
 if(Requesting("action")=="llenar_select_ciclos"){
 	$resultStatus 	= "ok";
 	$resultText 		= "Correcto.";	 
@@ -207,7 +214,9 @@ if(Requesting("action")=="llenar_select_ciclos"){
 	exit;		
 }
 
-
+	/*
+		#region sumar visitas
+	*/
 if(Requesting("action")=="sumar_visitas"){
 	$id_libro = Requesting("id_libro");
 	$resultText = "Correcto.";
@@ -230,7 +239,9 @@ if(Requesting("action")=="sumar_visitas"){
 }
 
 
-
+	/*
+		#region wishlist remove
+	*/
 if(Requesting("action")=="wishlist_remove"){
 	$id_usuario = Requesting("id_usuario");
 	$id_libro = Requesting("id_libro");
@@ -263,7 +274,9 @@ if(Requesting("action")=="wishlist_remove"){
 
 
 
-
+	/*
+		#region wishlist add
+	*/
 if(Requesting("action")=="wishlist_add"){
 	$id_usuario = Requesting("id_usuario");
 	$id_libro = Requesting("id_libro");
@@ -302,7 +315,9 @@ if(Requesting("action")=="wishlist_add"){
 
 }
 
-
+	/*
+		#region solicitar libro
+	*/
 if(Requesting("action")=="solicitar_libro"){
 	//*NOTA: Al momento del dueño aceptar a un usuario, el sistema tiene que verificar que no haya un préstamo con dicho usuario con status 2, 3 o 5
 	$id_usuario_destino = Requesting("id_usuario");
