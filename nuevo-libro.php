@@ -1,5 +1,6 @@
 <?php
 //ob_start();
+session_start();
 ?>
 
 
@@ -16,7 +17,7 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
 
-	<title>BookSwap | Inicio</title>
+	<title>Nuevo libro</title>
 	<?php include("include/headertagbase.php"); ?>
 
 	<link rel="icon" href="img/template/icono.png">
@@ -167,7 +168,7 @@
     // Estos tres siempre se ponen despues del body, del archivo que estemos creando
 	require_once "include/functions.php";
 	require_once "include/db_tools.php";  
-    include('main-header.php') 
+    include('main-header.php'); 
 
     ?>
 
@@ -183,7 +184,7 @@
 
                 <li><a href="index.php">Inicio</a></li>
 
-                <li>Mi Cuenta</li>
+                <li>Nuevo libro</li>
 
             </ul>
 
@@ -191,139 +192,151 @@
 
     </div>
 
-    <!--=====================================
-    Login - Register Content
-    ======================================--> 
+    <!-- Aqui se puede empezar a trabajar lo nuevo  -->
 
-    <div class="ps-my-account">
+     <!--=====================================
+    Checkout
+    ======================================--> 
+    <div class="ps-checkout ps-section--shopping">
 
         <div class="container">
 
-            <form class="ps-form--account ps-tab-root" action="link.html" method="get">
+            <div class="ps-section__header">
 
-                <ul class="ps-tab-list">
+                <h1>Nuevo Libro</h1>
 
-                    <li class="active"><a href="#sign-in">Ingresar</a></li>
+            </div>
 
-                    <li class=""><a href="#register">¡Regístrate!</a></li>
+            <div class="ps-section__content">
 
-                </ul>
+                <form class="ps-form--checkout" action="do_action" method="post">
 
-                <div class="ps-tabs">
+                    <div class="row">
 
-                    <!--=====================================
-                    Login Form
-                    ======================================--> 
+                        <div class="col-xl-7 col-lg-8 col-sm-12 mx-auto">
 
-                    <div class="ps-tab active" id="sign-in">
+                            <div class="ps-form__billing-info">
 
-                        <div class="ps-form__content">
-                            <h5>Iniciar sesión</h5>
-                            <form id="form_login" name="form_login">
+                                <h3 class="ps-form__heading">Billing Details</h3>
+
                                 <div class="form-group">
 
-                                    <input class="obligatorio form-control" type="email" id="login_email" name="login_email" placeholder="Correo electrónico">
+                                    <label>First Name<sup>*</sup></label>
+
+                                    <div class="form-group__content">
+
+                                        <input class="form-control" type="text">
+
+                                    </div>
 
                                 </div>
 
-                                <div class="form-group form-forgot">
+                                <div class="form-group">
 
-                                    <input class="obligatorio form-control" type="password" id="login_password" name="login_password" placeholder="Contraseña">
+                                    <label>Last Name<sup>*</sup></label>
 
-                                    <!-- <a onclick="">Reestablecer</a> -->
+                                    <div class="form-group__content">
+
+                                        <input class="form-control" type="text">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label>Email Address<sup>*</sup></label>
+
+                                    <div class="form-group__content">
+
+                                        <input class="form-control" type="email">
+
+                                    </div>
 
                                 </div>
 
-                                <div class="form-group submtit">
+                                <div class="form-group">
 
-                                    <button class="ps-btn ps-btn--fullwidth" id="btn_login">Ingresar</button>
+                                    <label>Country<sup>*</sup></label>
+
+                                    <div class="form-group__content">
+
+                                        <input class="form-control" type="text">
+
+                                    </div>
 
                                 </div>
-                            </form>
+
+                                <div class="form-group">
+
+                                    <label>Phone<sup>*</sup></label>
+
+                                    <div class="form-group__content">
+
+                                        <input class="form-control" type="text">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label>Address<sup>*</sup></label>
+
+                                    <div class="form-group__content">
+
+                                        <input class="form-control" type="text">
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <div class="ps-checkbox">
+
+                                        <input class="form-control" type="checkbox" id="create-account">
+
+                                        <label for="create-account">Save address?</label>
+
+                                    </div>
+
+                                </div>
+
+                                <h3 class="mt-40"> Addition information</h3>
+
+                                <div class="form-group">
+
+                                    <label>Order Notes</label>
+
+                                    <div class="form-group__content">
+
+                                        <textarea class="form-control" rows="7" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+
+                                    </div>
+
+                                </div>
+
+                                <a class="ps-btn ps-btn--fullwidth" onclick="" href="">Proceed to checkout</a>
+
+                            </div>
+
                         </div>
 
+                    </div>
 
-                    </div><!-- End Login Form -->
+                </form>
 
-                    <!--=====================================
-                    Register Form
-                    ======================================--> 
-
-                    <div class="ps-tab" id="register">
-
-                        <div class="ps-form__content">
-
-                            <h5>Crea una nueva cuenta</h5>
-
-                            <form id="form_registro" name="form_registro">
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="text" id="registro_nombre" name="registro_nombre" placeholder="Nombre(s)">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="text" id="registro_apellidos" name="registro_apellidos" placeholder="Apellidos">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="text" id="registro_codigo" name="registro_codigo" placeholder="Código UDG">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <select class="form-control obligatorio" name="registro_carrera" id="registro_carrera">
-                                    </select>
-                                
-                                </div>
-
-                                <div class="form-group">
-
-                                    <select class="form-control obligatorio" name="registro_ciclo_ingreso" id="registro_ciclo_ingreso"></select>
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="email" id="registro_email" name="registro_email" placeholder="Correo institucional">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="password" id="registro_password" name="registro_password" placeholder="Contraseña">
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <input class="obligatorio form-control" type="password" id="registro_confirm_password" name="registro_confirm_password" placeholder="Confirmar contraseña">
-
-                                </div>
-
-                                <div class="form-group submtit">
-
-                                    <button class="ps-btn ps-btn--fullwidth" id="btn_registro">Registrarse</button>
-
-                                </div>
-
-                            </form>
-
-                        </div>
-
-                    </div><!-- End Register Form -->
-
-                </div>
-
-            </form>
+            </div>
 
         </div>
 
     </div>
+
+
+
+
+
 
 
     <!--=====================================
@@ -350,9 +363,9 @@
 	<script src="assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
     
 	<script>
-		$(document).ready(function() { 
-			llenar_select_carreras();
-			llenar_select_ciclos();
+		 $(document).ready(function() { 
+			// llenar_select_carreras();
+			// llenar_select_ciclos();
 		});
 	</script>
 </body>

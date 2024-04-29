@@ -201,6 +201,7 @@ function end_llenar_select_carreras(xml){
 	$(xml).find("response").each(function(i){		 
 		if ($(this).find("result").text()=="ok"){       
 			$("#registro_carrera").html($(this).find("select_carrera").text()); 
+
 		}
 		
 	// console.log("pasa aqui");

@@ -382,7 +382,7 @@ session_start();
                     
                     <?php } 
                     $cont++;
-                    } while($cont < 6);?>                 
+                    } while($cont < 3);?>                 
 
                 </div><!-- End Block Product Box -->
               
@@ -504,7 +504,7 @@ session_start();
                     
                     <?php } 
                     $cont++;
-                    } while($cont < 6);?>                 
+                    } while($cont < 3);?>                 
 
                 </div><!-- End Block Product Box -->
               
@@ -626,7 +626,7 @@ session_start();
                     
                     <?php } 
                     $cont++;
-                    } while($cont < 6);?>                 
+                    } while($cont < 3);?>                 
 
                 </div><!-- End Block Product Box -->
               
