@@ -9,6 +9,9 @@
 	require 'include/PHPMailer2022/src/SMTP.php';		
 	require_once "extensiones/vendor/autoload.php";
 
+	
+	require 'variables.php';	
+
 	/*
 		#region valida_sesion
 	*/
@@ -423,6 +426,157 @@ if(Requesting("action")=="solicitar_libro"){
 	XML_Envelope($result);  
 	exit;	
     
+}
+
+
+if(Requesting("action")=="llenar_formulario_actualizar_datos"){
+	$id_usuario = Requesting("id_usuario");
+
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+	$query1 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario";
+	
+	$nombres = GetValueSQL($query1, 'nombres');
+	$apellidos = GetValueSQL($query1, 'apellidos');
+	$codigo_usuario = GetValueSQL($query1, 'codigo_usuario');
+	$id_carrera = GetValueSQL($query1, 'carrera');
+	$id_ciclo_ingreso = GetValueSQL($query1, 'ciclo_ingreso');
+	$correo = GetValueSQL($query1, 'correo');
+	$ruta_foto_perfil = GetValueSQL($query1, 'ruta_foto_perfil');
+	$ruta_foto_credencial = GetValueSQL($query1, 'ruta_foto_credencial');
+
+	$query2 = "SELECT * FROM carreras WHERE id_carrera = '$id_carrera'";
+	$carrera = GetValueSQL($query2, 'carrera');
+
+	$query3 = "SELECT * FROM ciclos WHERE id_ciclo = '$id_ciclo_ingreso'";
+	$ciclo_ingreso = GetValueSQL($query3, 'ciclo');
+
+	if($ruta_foto_perfil == NULL){
+		$ruta_foto_perfil = $ruta_foto_no_usuario;
+	}
+	
+	if($ruta_foto_credencial == NULL){
+		$ruta_foto_credencial = $ruta_foto_no_existente;
+	}
+
+
+
+	$result = array(   
+		'id_usuario' 			=> $id_usuario,
+		'nombres'				=> $nombres,
+		'apellidos'            	=> $apellidos,
+        'codigo_usuario'    	=> $codigo_usuario,
+        'carrera'            	=> $carrera,
+        'ciclo_ingreso'        	=> $ciclo_ingreso,
+        'correo'            	=> $correo,
+		'ruta_foto_perfil'    	=> $ruta_foto_perfil,
+        'ruta_foto_credencial'  => $ruta_foto_credencial,
+		'result' 				=> $resultStatus, 
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;	
+}
+
+
+if(Requesting("action")=="actualizar_usuario"){
+	$id_usuario = $_POST["id_usuario"];
+    $nombres = $_POST["nombres"];
+    $apellidos = $_POST["apellidos"];
+    
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+
+	$query1 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario";
+	$codigo = GetValueSQL($query1, 'codigo_usuario');
+
+	$query_imagenes = "";
+
+	if(isset($_FILES["foto_perfil"]) && $_FILES["foto_perfil"]["size"] > 0){
+		$foto_perfil = $_FILES["foto_perfil"];
+
+		//Obtener la extensión de la imagen
+		$extension_perfil = ".".strtolower(pathinfo($foto_perfil["name"], PATHINFO_EXTENSION));
+
+		//Generar la ruta de la foto
+		$ruta_foto_perfil = "imagenes/perfil/perfil_".$codigo."".$extension_perfil;
+
+		//Mover la imagen a la ruta
+		move_uploaded_file($foto_perfil["tmp_name"], $ruta_foto_perfil);
+
+		//query para concatenar en la sentencia sql
+		$query_imagenes .= ", ruta_foto_perfil = '".$ruta_foto_perfil."'";
+	}
+
+	if(isset($_FILES["foto_credencial"]) && $_FILES["foto_credencial"]["size"] > 0){
+		$foto_credencial = $_FILES["foto_credencial"];
+
+		//Obtener la extensión de la imagen
+		$extension_credencial = ".".strtolower(pathinfo($foto_credencial["name"], PATHINFO_EXTENSION));
+		
+		//Generar la ruta de la foto
+		$ruta_foto_credencial = "imagenes/credenciales/credencial_".$codigo."".$extension_perfil;
+
+		//Mover la imagen a la ruta
+		move_uploaded_file($foto_credencial["tmp_name"], $ruta_foto_credencial);
+
+		//query para concatenar en la sentencia sql
+		$query_imagenes .= ", ruta_foto_credencial = '".$ruta_foto_credencial."'";
+	}
+
+
+	$query1 = "UPDATE usuarios SET nombres = '".$nombres."', apellidos = '".$apellidos."'".$query_imagenes." WHERE id_usuario = $id_usuario";
+	if(ExecuteSQL($query1)){
+		$resultText = "Los datos se han actualizado correctamente.";
+		$resultStatus = "ok";
+	} else{
+		$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo. ";
+		$resultStatus = "error";
+	}
+
+
+	$result = array(   
+		'result' 				=> $resultStatus, 
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;	
+}
+
+if(Requesting("action")=="cambiar_password"){
+	$id_usuario = Requesting("id_usuario");
+	$password_actual = Requesting("password_actual");
+	$nueva_password = Requesting("nueva_password");
+
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+	$query1 = "SELECT COUNT(*) AS existe FROM usuarios WHERE id_usuario = $id_usuario AND password = '".md5($password_actual)."'";
+	// echo $query1;
+	$existe = GetValueSQL($query1, 'existe');
+
+    if($existe > 0){
+		$query2 = "UPDATE usuarios SET password = '".md5($nueva_password)."' WHERE id_usuario = $id_usuario";
+		if(ExecuteSQL($query2)){
+			$resultText = "Los datos se han actualizado correctamente.";
+            $resultStatus = "ok";
+		} else{
+			$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo. ";
+            $resultStatus = "error";
+		}
+	} else{
+		$resultText = "La contraseña actual es incorrecta.";
+        $resultStatus = "error";
+	}
+
+	$result = array(   
+		'result' 				=> $resultStatus, 
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;
 }
 
 ?>

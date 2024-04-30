@@ -170,8 +170,10 @@ session_start();
 	require_once "include/db_tools.php";  
     include('main-header.php') 
 
+
     ?>
 
+    <input type="hidden" id="id_usuario_global" value="<?php echo $id_usuario_global; ?>">
     <!--=====================================
     Breadcrumb
     ======================================-->  
@@ -219,25 +221,49 @@ session_start();
                         $nombres = GetValueSQL($query1, 'nombres');
                         $apellidos = GetValueSQL($query1, 'apellidos');
                         $codigo_usuario = GetValueSQL($query1, 'codigo_usuario');
-                        $carrera = GetValueSQL($query1, 'carrera');
-                        $ciclo_ingreso = GetValueSQL($query1, 'ciclo_ingreso');
+                        $id_carrera = GetValueSQL($query1, 'carrera');
+                        $id_ciclo_ingreso = GetValueSQL($query1, 'ciclo_ingreso');
                         $correo = GetValueSQL($query1, 'correo');
+                        $ruta_foto_perfil = GetValueSQL($query1, 'ruta_foto_perfil');
+                        $ruta_foto_credencial = GetValueSQL($query1, 'ruta_foto_credencial');
+                        $id_status = GetValueSQL($query1, 'status');
+
+                        $query2 = "SELECT * FROM carreras WHERE id_carrera = '$id_carrera'";
+                        $carrera = GetValueSQL($query2, 'carrera');
+
+                        $query3 = "SELECT * FROM ciclos WHERE id_ciclo = '$id_ciclo_ingreso'";
+                        $ciclo_ingreso = GetValueSQL($query3, 'ciclo');
+
+                        $query4 = "SELECT * FROM status_usuario WHERE id_status = $id_status";
+                        $status = GetValueSQL($query4,'status');
+
+                        if($ruta_foto_perfil == NULL){
+                            $ruta_foto_perfil = $ruta_foto_no_usuario;
+                        }
+                        
+                        if($ruta_foto_credencial == NULL){
+                            $ruta_foto_credencial = $ruta_foto_no_existente;
+                        }
+                    
                     }
                 
                 ?> 
 
 
-                <aside class="ps-block--store-banner">
+                <aside class="ps-block--store-banner" id="div-perfil">
 
-                    <div class="ps-block__user">
+                    <div class="ps-block__user ">
 
-                        <div class="ps-block__user-avatar">
+                        <div class="ps-block__user-avatar-quitar-esto text-center">
 
-                            <img src="img/vendor/store/user/5.jpg" alt="">
+                            <img style="width: 300px; height: 150px; margin-bottom: 10px; border-radius: 50%;" src="<?php echo $ruta_foto_perfil ?>" alt="Foto de Perfil">
 
                             <div class="br-wrapper">
 
-                               <button class="btn btn-primary btn-lg rounded-circle"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="btn btn-primary btn-lg rounded-circle" onclick="activar_actualizar_datos()">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+
 
                             </div>
 
@@ -255,19 +281,38 @@ session_start();
 
                         </div>
 
-                        <!-- Aqui se muestra lo del peerfil -->
+                        <!-- Aqui se muestra lo del perfil -->
 
-                        <div class="ps-block__user-content text-center text-lg-left">
+                        <div class="ps-block__user-content text-center text-lg-left ml-">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h2 class="text-white"><?php echo $nombres . ' ' . $apellidos; ?></h2>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <p><i class="fas fa-user"></i> Código: <?php echo $codigo_usuario; ?></p>
+                                        <p><i class="fas fa-envelope"></i> Correo Institucional: <?php echo $correo; ?></p>
+                                        <p><i class="fas fa-graduation-cap"></i> Carrera: <?php echo $carrera; ?></p>
+                                        <p><i class="fas fa-calendar-days"></i> Ciclo de ingreso: <?php echo $ciclo_ingreso; ?></p>
+                                        <p><i class="fas fa-flag"></i> Status: <?php echo $status; ?></p>
+                                    </div>
 
-                            <h2 class="text-white"> <?php  echo $nombres. ' '.$apellidos ;?></h2>
+                                    <!-- Columna derecha (imagen de la credencial) -->
+                                    <div class="col-lg-6">
+                                        <p><i class="fas fa-id-card"></i> Credencial de UDG:</p>
+                                        <img style="max-width: 250px; height: auto;" src="<?php echo $ruta_foto_credencial; ?>" class="img-fluid" alt="Credencial de Estudiante">
+                                    </div>
 
-                            <p><i class="fas fa-user"></i> <?php  echo $codigo_usuario;?></p>
-
-                            <p><i class="fas fa-envelope"></i> <?php  echo $correo;?></p>
-
-                            <button class="btn btn-warning btn-lg">Change Password</button>
-
+                                    <!-- Botones -->
+                                    <div class="col-lg-12">
+                                        <button class="btn btn-warning btn-lg" onclick="activar_actualizar_datos()">Actualizar datos</button>
+                                        <button class="btn btn-info btn-lg" onclick="activar_cambiar_password()">Cambiar contraseña</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
+
                         <!-- Aqui se muestra lo del peerfil -->
                         <div class="row ml-lg-auto pt-5">
 
@@ -276,15 +321,15 @@ session_start();
                         $cuantos = GetValueSQL($query2, 'cuantos');
 
                         ?>
-                
-                            <div class="col-lg-3 col-6">
+            
+                            <!-- <div class="col-lg-3 col-6">
                                 <div class="text-center">
                                     <a href="#">
                                         <h1><i class="fas fa-heart text-white"></i></h1>
                                         <h4 class="text-white">Wishlist <span class="badge badge-secondary rounded-circle"><?php echo $cuantos;?></span></h4>
                                     </a>
                                 </div>
-                            </div><!-- box /-->
+                            </div>
                 
                             <div class="col-lg-3 col-6">
                                 <div class="text-center">
@@ -293,7 +338,7 @@ session_start();
                                         <h4 class="text-white">Nots <span class="badge badge-secondary rounded-circle">51</span></h4>
                                     </a>
                                 </div>
-                            </div><!-- box /-->
+                            </div>
                 
                             <div class="col-lg-3 col-6">
                                 <div class="text-center">
@@ -302,7 +347,8 @@ session_start();
                                         <h4 class="text-white">Messages <span class="badge badge-secondary rounded-circle">51</span></h4>
                                     </a>
                                 </div>
-                            </div><!-- box /-->
+                            </div> -->
+
                         </div>
 
                     </div>
@@ -310,21 +356,144 @@ session_start();
                 </aside><!-- s -->
 
                 <!--=====================================
-                Nav Account
+                Formularios para acciones
                 ======================================--> 
+
+                <div class="container mt-5">
+
+                    <div class="row justify-content-center">
+                        <div class="col-6" id="formulario_acciones">
+
+                            <div id="actualizar_info_usuario">
+                            <!--=====================================
+                            #region Información de Usuario
+                            ======================================-->
+                                <div class="ps-form__content">
+                                    <figure class="ps-block--vendor-status row m-3" style="margin-bottom: -10px">
+                                        <figcaption>Información de Usuario</figcaption>
+                                    </figure>
+                                    
+                                    <form id="form_actualizar_datos" name="form_actualizar_datos">
+                                        <div class="form-group row">
+                                            <p class="h3 text-dark" >Nombre(s):</p>
+                                            <input class="obligatorio form-control" type="text" id="nombres" name="nombres" placeholder="Nombre(s)" required>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <p class="h3 text-dark">Apellidos:</p>
+                                            <input class="obligatorio form-control" type="text" id="apellidos" name="apellidos" placeholder="Apellidos" required>
+                                        </div>
+
+                                        <!-- <div class="form-group row">
+                                            <p class="h3 text-dark">Código UDG:</p>
+                                            <input disabled class="obligatorio form-control" type="text" id="codigo_usuario" name="codigo_usuario" placeholder="Código UDG">
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <p class="h3 text-dark">Carrera:</p>
+                                            <input disabled class="obligatorio form-control" type="text" id="carrera" name="carrera" placeholder="Carrera">
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <p class="h3 text-dark">Cíclo de Ingreso:</p>
+                                            <input disabled class="obligatorio form-control" type="text" id="ciclo_ingreso" name="ciclo_ingreso" placeholder="Cíclo de Ingreso">
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <p class="h3 text-dark">Correo Institucional:</p>
+                                            <input disabled class="obligatorio form-control" type="text" id="correo" name="correo" placeholder="Correo Institucional">
+                                        </div> -->
+
+                                        <div class="form-group">
+                                            <p class="h3 text-dark">Foto de Perfil(Máximo 2mb): </p>
+                                            <div class="col">
+                                                <input type="file" class="custom-file-input form-control" id="foto_perfil" onchange="updateFileName(this, 'foto_perfil_label')">
+                                                <label class="custom-file-label" id="foto_perfil_label" for="foto_perfil">Seleccionar archivo</label>
+                                                <div id="imagen-perfil"></div> <!-- Aquí se jala la imagen desde la funcion llenar_formulario_actualizar_datos -->
+                                            </div>
+                                        </div>
+                                            
+                                        <div class="form-group">
+                                            <p class="h3 text-dark">Credencial de Estudiante(Máximo 2mb): </p>
+                                            <div class="col">
+                                                <input type="file" class="custom-file-input" id="foto_credencial" onchange="updateFileName(this, 'foto_credencial_label')">
+                                                <label class="custom-file-label" id="foto_credencial_label" for="foto_credencial">Seleccionar archivo</label>
+                                                <div id="imagen-credencial"></div> <!-- Aquí igual -->
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group submit row justify-content-center" >
+
+                                            <button class="ps-btn col-lg-5 m-1" onclick="actualizar_usuario(<?php echo $id_usuario_global; ?>, event)">Guardar</button>
+                                            <button type="button" class="btn ps-btn col-lg-5 m-1" onclick="activar_cerrar_ventanas()" style="background-color: gray;">Cancelar</button>
+
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                            </div>
+
+                            <!--=====================================
+                            #region Cambiar contraseña
+                            ======================================-->
+
+                        
+                            <div id="cambiar_password">
+
+                                <div class="ps-form__content">
+                                    <figure class="ps-block--vendor-status row m-3" style="margin-bottom: -10px">
+                                        <figcaption>Cambiar Contraseña</figcaption>
+                                    </figure>
+                                    
+                                    <form id="form_cambiar_password" name="form_cambiar_password">
+                                        <div class="form-group row">
+                                            <input class="obligatorio form-control" type="password" id="password_actual" name="password_actual" placeholder="Contraseña actual">
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <input class="obligatorio form-control" type="password" id="nueva_password" name="nueva_password" placeholder="Nueva contraseña">
+                                        </div>
+                                        
+                                        <div class="form-group row">
+                                            <input class="obligatorio form-control" type="password" id="confirmar_nueva_password" name="confirmar_nueva_password" placeholder="Confirmar nueva contraseña">
+                                        </div>
+
+                                        <div class="form-group submit row justify-content-center" >
+
+                                            <button type="button" class="ps-btn col-lg-5 m-1" onclick="cambiar_password(<?php echo $id_usuario_global; ?>, event)">Guardar</button>
+                                            <button type="button" class="btn ps-btn col-lg-5 m-1" onclick="activar_cerrar_ventanas()" style="background-color: gray;">Cancelar</button>
+
+
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    
+
+   
+                </div>
    
                 <div class="ps-section__content">
 
-                    <ul class="ps-section__links">
+                    <!-- <ul class="ps-section__links">
                         <li><a href=my-account_wishlist.html>My Wishlist</a></li>
                         <li><a href="my-account_my-shopping.html">My Shopping</a></li>
                         <li><a href="my-account_my-store.html">My Store</a></li>
                         <li  class="active"><a href="my-account_my-sales.html">My Sales</a></li>
-                    </ul>
+                    </ul> -->
 
                     
 
-                    <div class="row">
+                    <div class="row mt-5">
 
                         <div class="col-lg-6 col-12 ">
 

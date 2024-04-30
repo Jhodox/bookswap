@@ -2,10 +2,57 @@ $("#btn_login").click(inicia_sesion);
 $("#btn_registro").click(registro_user);
 
 
+function activar_actualizar_datos(){
+	$("#actualizar_info_usuario").show('slow');
+	$("#cambiar_password").hide('slow');
+
+	var formulario_acciones = $("#formulario_acciones");
+	if(formulario_acciones.length) {
+		var offset = formulario_acciones.offset().top;
+		var scrollPosition = offset - 200; //Cantidad de compensación de posicionamiento
+		$('html, body').animate({
+			scrollTop: scrollPosition
+		}, 400);
+	}
+	llenar_formulario_actualizar_datos();
+}
+
+function activar_cambiar_password(){
+	$("#actualizar_info_usuario").hide('slow');
+	$("#cambiar_password").show('slow');
+
+	var formulario_acciones = $('#formulario_acciones');
+	if(formulario_acciones.length) {
+		var offset = formulario_acciones.offset().top;
+		var scrollPosition = offset - 200; //Cantidad de compensación de posicionamiento
+		$('html, body').animate({
+			scrollTop: scrollPosition
+		}, 400);
+	}
+	llenar_formulario_cambiar_password();
+}
+
+function activar_cerrar_ventanas(){
+	$("#actualizar_info_usuario").hide('slow');
+	$("#cambiar_password").hide('slow');
+
+	var div_perfil = $("#div-perfil");
+	if(div_perfil.length) {
+		var offset = div_perfil.offset().top;
+		var scrollPosition = offset - 200; //Cantidad de compensación de posicionamiento
+		$('html, body').animate({
+			scrollTop: scrollPosition
+		}, 400);
+	}
+}
+
+
+
 
 $(document).ready(function() { 
 	valida_sesion();	
-	
+	$("#actualizar_info_usuario").hide();
+	$("#cambiar_password").hide();
 	
 });
 
@@ -44,6 +91,7 @@ function inicia_sesion(e){
 	e.preventDefault();
 	var login_email  = $("#login_email").val();
 	var login_password  = $("#login_password").val();
+	
 	$.post("controller.php",
 		{ 	action 					: "inicia_sesion",
 				login_email 		: login_email,
@@ -124,6 +172,11 @@ function registro_user(e){
 		continua = 0; 
 	}
 
+	if(!validarTexto(registro_nombre) || !validarTexto(registro_apellidos)){
+		motivo_error = "Por favor, ingresa tus nombres y apellidos.";
+		continua = 0;
+	}
+
 
 	if(registro_password != registro_confirm_password){
 		motivo_error = "Las contraseñas no coinciden.";
@@ -147,7 +200,7 @@ function registro_user(e){
 				registro_password		: registro_password
 		}, end_registro_user);
 	 } else{
-		swal("Error", motivo_error, "error");
+		swal("¡Error!", motivo_error, "error");
 	 }
 	
 }
@@ -181,11 +234,6 @@ function end_cerrar_sesion(xml){
 		}
 	});
 }
-
-
-
-
-
 
 
 
@@ -367,10 +415,193 @@ function end_solicitar_libro(xml){
 }
 
 
+function llenar_formulario_actualizar_datos(){
+	var id_usuario = $("#id_usuario_global").val();
+
+	$.post("controller.php",
+    {    action 	: "llenar_formulario_actualizar_datos",
+       	 	id_usuario  : id_usuario
+    }, end_llenar_formulario_actualizar_datos);
+}
+
+
+function end_llenar_formulario_actualizar_datos(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+
+			$("#nombres").val($(this).find("nombres").text());
+			$("#apellidos").val($(this).find("apellidos").text());
+			$("#codigo_usuario").val($(this).find("codigo_usuario").text());
+			$("#carrera").val($(this).find("carrera").text());
+			$("#ciclo_ingreso").val($(this).find("ciclo_ingreso").text());
+			$("#correo").val($(this).find("correo").text());
+			$("#imagen-perfil").html('<img style="max-width: 100px; height: auto;" src="'+$(this).find("ruta_foto_perfil").text()+'" alt="Foto de Perfil">');
+			$("#imagen-credencial").html('<img style="max-width: 100px; height: auto;" src="'+$(this).find("ruta_foto_credencial").text()+'" alt="Credencial de Estudiante">');
+            
+        } 
+    });
+}
+
+function actualizar_usuario(id_usuario, e){
+	e.preventDefault();
+	var nombres = $("#nombres").val();
+	var apellidos = $("#apellidos").val();
+	var foto_perfil = $("#foto_perfil")[0].files[0];
+	var foto_credencial = $("#foto_credencial")[0].files[0];
+
+	var continua = 1;
+
+	// Verificar la imagen de perfil
+    if(foto_perfil){
+        if(!validarImagen(foto_perfil)){
+			continua = 0;
+			swal("¡Error!", "La imagen de perfil seleccionada no es válida.", "error");
+        }
+    } 
+	// else{
+	// 	continua = 0;
+	// 	swal("¡Error!", "Por favor, selecciona una imagen de perfil.", "error");
+    // }
+
+    // Verificar la foto de credencial
+    if(foto_credencial){
+        if(!validarImagen(foto_credencial)){
+			continua = 0;
+			swal("¡Error!", "La imagen de perfil seleccionada no es válida.", "error");
+        }
+    } 
+	// else{
+	// 	continua = 0;
+	// 	swal("¡Error!", "Por favor, selecciona una imagen de perfil.", "error");
+    // }
+	
+	if(!validarTexto(nombres) || !validarTexto(apellidos)){
+		continua = 0;
+		swal("¡Error!", "Por favor, ingresa tus nombres y apellidos.", "error");
+	}
+
+
+	if(continua == 1){
+		//Crear un objeto FormData para enviar los datos del formulario, incluida la imagen
+		var formData = new FormData();
+		formData.append('action', 'actualizar_usuario');
+		formData.append('id_usuario', id_usuario);
+		formData.append('nombres', nombres);
+		formData.append('apellidos', apellidos);
+		formData.append('foto_perfil', foto_perfil);
+		formData.append('foto_credencial', foto_credencial);
+	
+		//Realizar la solicitud POST utilizando AJAX
+		$.ajax({
+			url: 'controller.php',
+			type: 'POST',
+			data: formData,
+			contentType: false, //No establecer el tipo de contenido, dejar que jQuery lo determine automáticamente
+			processData: false, //No procesar los datos, dejar que jQuery maneje los datos del formulario
+			success: end_actualizar_usuario 
+		});
+	}
+
+	
+}
+
+function end_actualizar_usuario(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+			swal("¡Correcto!", $(this).find("result_text").text(), "success");
+			$("#div-perfil").load(location.href + " #div-perfil");    
+
+
+			var div_perfil = $("#div-perfil");
+			if(div_perfil.length) {
+				var offset = div_perfil.offset().top;
+				var scrollPosition = offset - 200; //Cantidad de compensación de posicionamiento
+				$('html, body').animate({
+					scrollTop: scrollPosition
+				}, 400);
+			}
+        } else{
+			swal("Error!", $(this).find("result_text").text(), "error");    
+		}
+
+		
+		$("#actualizar_info_usuario").hide('slow');
+		$("#cambiar_password").hide('slow');
+    });
+}
+
+function cambiar_password(id_usuario){
+	var password_actual = $("#password_actual").val();
+	var nueva_password = $("#nueva_password").val();
+	var confirmar_nueva_password = $("#confirmar_nueva_password").val();
+
+	var continuar = 1;
+
+	if(nueva_password !== confirmar_nueva_password){
+		continuar = 0;
+        swal("¡Error!", "Las contraseñas no coinciden.", "error");
+	}
+
+	if(continuar == 1){
+		$.post("controller.php",
+		{    action 	: "cambiar_password",
+				id_usuario 					: id_usuario,
+				password_actual 			: password_actual,
+				nueva_password 				: nueva_password,
+				confirmar_nueva_password 	: confirmar_nueva_password,
+		}, end_cambiar_password);
+	}
+
+	
+
+}
+
+function end_cambiar_password(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+			swal("¡Correcto!", $(this).find("result_text").text(), "success");
+
+
+			var div_perfil = $("#div-perfil");
+			if(div_perfil.length) {
+				var offset = div_perfil.offset().top;
+				var scrollPosition = offset - 200; //Cantidad de compensación de posicionamiento
+				$('html, body').animate({
+					scrollTop: scrollPosition
+				}, 400);
+			}
+
+			$("#actualizar_info_usuario").hide('slow'); //Sólo esconderse los divs cuando se hizo el cambio de contraseña
+			$("#cambiar_password").hide('slow');
+
+			$("#form_cambiar_password")[0].reset();
+        } else{
+			swal("Error!", $(this).find("result_text").text(), "error");    
+		}
+		
+    });
+}
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+function updateFileName(input, labelId) {
+    var fileName = input.files[0].name;
+    var label = document.getElementById(labelId);
+    label.innerText = fileName;
+}
 
 function validateCodigoUDG(codigo) {
     var regex = /^[0-9]{9}$/;
@@ -394,6 +625,33 @@ function validateEmail(email) {
         return false; //El email no es válido o no termina con ".udg.mx"
     }
   }
+
+  function validarImagen(image){
+    var allowedTypes = ['image/jpeg', 'image/png', 'image/gif']; 
+    if(allowedTypes.indexOf(image.type) === -1){
+        return false;
+    }
+
+    //Verificar el tamaño de la imagen
+    var maxSize = 2 * 1024 * 1024; //2MB en bytes
+    if (image.size > maxSize) {
+        return false;
+    }
+
+    var fileName = image.name;
+    var fileExtension = fileName.split('.').pop().toLowerCase();
+    var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif']; 
+    if(allowedExtensions.indexOf(fileExtension) === -1){
+        return false;
+    }
+
+    return true;
+}
+
+function validarTexto(cadena){
+    var regex = /^[a-zA-Z\s]+$/;
+    return regex.test(cadena);
+}
 
 
   function fecha_formato_sql(fecha){  

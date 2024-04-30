@@ -206,7 +206,7 @@
 
         <div class="container">
 
-            <form class="ps-form--account ps-tab-root" action="link.html" method="get">
+            <form class="ps-form--account ps-tab-root" >
 
                 <ul class="ps-tab-list">
 
@@ -293,12 +293,6 @@
                                     <select class="form-control obligatorio" name="registro_carrera" id="registro_carrera">
                                     </select>
                                 
-                                </div>
-
-                                <div class="form-group">
-
-                                    <select class="form-control obligatorio" name="registro_ciclo_ingreso" id="registro_ciclo_ingreso"></select>
-
                                 </div>
 
                                 <div class="form-group">

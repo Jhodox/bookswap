@@ -41,6 +41,9 @@
 
 
 <?php
+
+
+require "variables.php";  
 // session_start();
 if(isset($_SESSION['id_sesion']) AND isset($_SESSION['email'])){
 	$id_usuario_global = $_SESSION['id_sesion'];
