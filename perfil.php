@@ -200,7 +200,11 @@ session_start();
     My Account Content
     ======================================--> 
 
-    <div class="ps-vendor-dashboard pro">
+    <!--=====================================
+    #region Mi Perfil
+    ======================================-->
+
+    <div class="ps-vendor-dashboard pro" style="margin-top: -50px">
 
         <div class="container">
 
@@ -245,9 +249,9 @@ session_start();
                 ?> 
 
 
-                <aside class="ps-block--store-banner" id="div-perfil">
+                <aside class="ps-block--store-banner container" id="div-perfil">
 
-                    <div class="ps-block__user ">
+                    <div class="ps-block__user row" >
 
                         <div class="ps-block__user-avatar-quitar-esto text-center">
 
@@ -361,7 +365,7 @@ session_start();
 
                             <div id="actualizar_info_usuario">
                             <!--=====================================
-                            #region Información de Usuario
+                            #region Cambiar informacion de Usuario
                             ======================================-->
                                 <div class="ps-form__content">
                                     <figure class="ps-block--vendor-status row m-3" style="margin-bottom: -10px">
@@ -479,126 +483,487 @@ session_start();
    
                 <div class="ps-section__content">
 
-                    <!-- <ul class="ps-section__links">
-                        <li><a href=my-account_wishlist.html>My Wishlist</a></li>
-                        <li><a href="my-account_my-shopping.html">My Shopping</a></li>
-                        <li><a href="my-account_my-store.html">My Store</a></li>
-                        <li  class="active"><a href="my-account_my-sales.html">My Sales</a></li>
-                    </ul> -->
+                    <ul class="ps-section__links">
+                        <li id="li_mis_libros" class="active"><a type="button" href="" onclick="cambiar_opciones_perfil(1, event)">Mis Libros</a></li>
+                        <li id="li_prestamos_activos"><a type="button" href="" onclick="cambiar_opciones_perfil(2, event)">Préstamos activos</a></li>
+                        <li id="li_historial_prestamos"><a type="button" href=""  onclick="cambiar_opciones_perfil(3, event)">Historial de Préstamos</a></li>
+                    </ul>
 
                     
+                    <!--------------------------------------- 
+                        #region Mis Libros
+                    ---------------------------------------->
 
-                    <div class="row mt-5">
+                    <div class="ps-section--shopping ps-shopping-cart" style="margin-top: -70px;">
 
-                        <div class="col-lg-6 col-12 ">
+                        <div class="container" id="div_mis_libros">
 
-                            <figure class="ps-block--vendor-status">
+                            <div class="ps-section__header">
 
-                                <figcaption>Recent Orders</figcaption>
+                                <h1>Mis Libros</h1>
 
-                                <table class="table ps-table ps-table--vendor">
+                            </div>
 
-                                    <thead>
+                            <div class="ps-section__content" style="margin-top: -50px;">
 
-                                        <tr>
-                                            <th>Order ID</th>
-                                            <th>Product</th>
-                                            <th>Totals</th>
-                                        </tr>
+                                <div class="table-responsive">
+                                    
+                                <div class="ps-section__cart-actions">
 
-                                    </thead>
+                                    <a class="ps-btn" onmouseover="this.style.color='white';" onmouseout="this.style.color='black';"  onclick="abrir_modal(1)">
+                                        <i class="fa-solid fa-circle-plus" data-bs-whatever="@mdo"></i> Agregar Libro
+                                    </a>
 
-                                    <tbody>
 
-                                        <tr>
-                                            <td><a href="#">MS46891357</a>
-                                                <p>Nov 4, 2017</p>
-                                            </td>
-                                            <td><a href="#">1 x Marshall Kilburn Portable...</a>
-                                                <p>Shipping</p>
-                                            </td>
-                                            <td>
-                                                <p>$295.47</p>
-                                                <p>$0.00</p>
-                                            </td>
-                                        </tr>
+                                </div>
 
-                                        <tr>
-                                            <td><a href="#">MS46891357</a>
-                                                <p>Nov 2, 2017</p>
-                                            </td>
-                                            <td><a href="#">1 x Unero Military Classical Ba...</a>
-                                                <p>Shipping</p>
-                                            </td>
-                                            <td>
-                                                <p>$45.39</p>
-                                                <p>$0.00</p>
-                                            </td>
-                                        </tr>
+                                    <table class="table ps-table--shopping-cart">
 
-                                    </tbody>
+                                        <thead>
 
-                                </table>
+                                            <tr>
 
-                                <div class="ps-block__footer"><a href="#">View All Orders</a></div>
+                                                <th>Libro</th>
+                                                <th>Editorial</th>
+                                                <th>Año</th>
+                                                <th>Fecha de Agregado</th>
+                                                <th>Estatus</th>
+                                                <th>Opciones</th>
 
-                            </figure>
+                                            </tr>
 
+                                        </thead>
+
+                                        <tbody>
+
+                                            <?php 
+                                            $query5 = "SELECT COUNT(*) AS cuantos FROM libros WHERE id_usuario = $id_usuario_global";
+                                            $cuantos_libros = GetValueSQL($query5, 'cuantos');
+
+                                            if($cuantos_libros > 0){
+                                                $query6 = "SELECT * FROM libros
+                                                INNER JOIN status_libro ON libros.status = status_libro.id_status
+                                                WHERE id_usuario = $id_usuario_global";
+                                                $mis_libros = DatasetSQL($query6);
+
+                                                while($row6 = mysqli_fetch_array($mis_libros)){
+                                                    $id_libro = $row6['id_libro'];
+                                                    $titulo = $row6['titulo'];
+                                                    $autor = $row6['autor'];
+                                                    $editorial = $row6['editorial'];
+                                                    $year = $row6['year'];
+                                                    $sinopsis = $row6['sinopsis'];
+                                                    $id_libro = $row6['id_libro'];
+                                                    $ruta_foto_portada = $row6['ruta_foto_portada'];
+                                                    $status = $row6['status_nombre'];
+
+                                                    if($year == NULL){
+                                                        $year = "Sin Año";
+                                                    }
+                                                
+                                                    if($sinopsis == NULL){
+                                                        $sinopsis = "Sin Sinopsis";
+                                                    }
+
+                                                    if($ruta_foto_portada == NULL){
+                                                        $ruta_foto_portada = $ruta_foto_no_existente;
+                                                    }
+
+                                                    echo '<tr>
+                                                        <td>
+        
+                                                            <div class="ps-product--cart">
+        
+                                                                <div class="ps-product__thumbnail">
+        
+                                                                    <a href="product-default.html"><img src="'.$ruta_foto_portada.'" alt="$titulo"></a>
+        
+                                                                </div>
+        
+                                                                <div class="ps-product__content">
+        
+                                                                    <a href="product-default.html">'.$titulo.'</a>
+        
+                                                                    <p>Autor: <strong>'.$autor.'</strong></p>
+                                                                    <a type="button" href="" onclick="ver_sinopsis('.$id_libro.', event)">Ver sinopsis</a>
+        
+                                                                </div>
+        
+                                                            </div>
+        
+                                                        </td>
+
+                                                        <td class="text-center">'.$editorial.'</td>
+                                                        
+                                                        <td class="text-center">'.$year.'</td>
+        
+                                                        <td class="text-center">'.$fecha_agregado.'</td>
+        
+                                                        <td class="text-center">'.$status.'</td>                       
+        
+                                                        <td class="text-center">
+        
+                                                            <a type="button" href="" onclick=""><i class="fa-solid fa-pen-to-square"></i></a>&emsp;
+                                                            <a type="button" href="" onclick=""><i class="fa-solid fa-xmark"></i></a>
+        
+                                                        </td>
+        
+                                                    </tr>';
+
+                                                    echo '<tr id="sinopsis_'.$id_libro.'" style="display: none;">
+                                                        <td class="text-justify " colspan="5"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
+                                                    </tr>';
+
+                                                }
+                                            }
+
+                                            ?>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                                <hr>
+
+                                <!-- <div class="d-flex flex-row-reverse">
+                                <div class="p-2"><h3>Total <span>$414.00</span></h3></div>             
+                                </div>
+
+                                <div class="ps-section__cart-actions">
+
+                                    <a class="ps-btn" href="categories.html.html">
+                                        <i class="icon-arrow-left"></i> Back to Shop
+                                    </a>
+
+                                    <a class="ps-btn" href="checkout.html">
+                                        Proceed to checkout <i class="icon-arrow-right"></i> 
+                                    </a>
+
+                                </div> -->
+
+                            </div> 
+                            
                         </div>
 
-                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+                        <!-- Fin sección -->
 
-                            <figure class="ps-block--vendor-status">
+                        <!-- Inicio sección 
+                            #region Prestamos Activos
+                        -->
 
-                                <figcaption>Recent Products</figcaption>
+                        <div class="container" id="div_prestamos_activos">
 
-                                <table class="table ps-table ps-table--vendor">
+                            <div class="ps-section__header">
 
-                                    <thead>
+                                <h1>Préstamos Activos</h1>
 
-                                        <tr>
-                                            <th><i class="icon-picture"></i></th>
-                                            <th>Product</th>
-                                            <th>Status</th>
-                                        </tr>
+                            </div>
 
-                                    </thead>
+                            <div class="ps-section__content" style="margin-top: -50px;">
 
-                                    <tbody>
+                                <div class="table-responsive">
+                                    
+                                <div class="ps-section__cart-actions">
 
-                                        <tr>
-                                            <td><a href="#"><img src="img/products/electronic/1.jpg" alt="" width="50"></a></td>
-                                            <td><a href="#">Marshall Kilburn Wireless...</a>
-                                                <p>$295.47</p>
-                                            </td>
-                                            <td>
-                                                <p class="ps-tag--in-stock">In Stock</p>
-                                                <p>Published: Oct 10, 2018</p>
-                                            </td>
-                                        </tr>
+                                    <!-- <a class="ps-btn" onmouseover="this.style.color='white';" onmouseout="this.style.color='black';"  onclick="abrir_modal(1)">
+                                        <i class="fa-solid fa-circle-plus" data-bs-whatever="@mdo"></i> Agregar Libro
+                                    </a> -->
 
-                                        <tr>
-                                            <td><a href="#"><img src="img/products/electronic/2.jpg" alt="" width="50"></a></td>
-                                            <td><a href="#">Marshall Kilburn Wireless...</a>
-                                                <p>$295.47</p>
-                                            </td>
-                                            <td>
-                                                <p class="ps-tag--in-stock">In Stock</p>
-                                                <p>Published: Oct 10, 2018</p>
-                                            </td>
-                                        </tr>
 
-                                    </tbody>
+                                </div>
 
-                                </table>
+                                    <table class="table ps-table--shopping-cart">
 
-                                <div class="ps-block__footer"><a href="#">View All Orders</a></div>
+                                        <thead>
 
-                            </figure>
+                                            <tr>
 
+                                                <th>Libro</th>
+                                                <th>Editorial</th>
+                                                <th>Año</th>
+                                                <th>Fecha de Agregado</th>
+                                                <th>Estatus</th>
+                                                <th>Opciones</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+
+                                            <?php 
+                                            $query5 = "SELECT COUNT(*) AS cuantos FROM libros WHERE id_usuario = $id_usuario_global";
+                                            $cuantos_libros = GetValueSQL($query5, 'cuantos');
+
+                                            if($cuantos_libros > 0){
+                                                $query6 = "SELECT * FROM libros
+                                                INNER JOIN status_libro ON libros.status = status_libro.id_status
+                                                WHERE id_usuario = $id_usuario_global";
+                                                $mis_libros = DatasetSQL($query6);
+
+                                                while($row6 = mysqli_fetch_array($mis_libros)){
+                                                    $id_libro = $row6['id_libro'];
+                                                    $titulo = $row6['titulo'];
+                                                    $autor = $row6['autor'];
+                                                    $editorial = $row6['editorial'];
+                                                    $year = $row6['year'];
+                                                    $sinopsis = $row6['sinopsis'];
+                                                    $id_libro = $row6['id_libro'];
+                                                    $ruta_foto_portada = $row6['ruta_foto_portada'];
+                                                    $status = $row6['status_nombre'];
+
+                                                    if($year == NULL){
+                                                        $year = "Sin Año";
+                                                    }
+                                                
+                                                    if($sinopsis == NULL){
+                                                        $sinopsis = "Sin Sinopsis";
+                                                    }
+
+                                                    if($ruta_foto_portada == NULL){
+                                                        $ruta_foto_portada = $ruta_foto_no_existente;
+                                                    }
+
+                                                    echo '<tr>
+                                                        <td>
+        
+                                                            <div class="ps-product--cart">
+        
+                                                                <div class="ps-product__thumbnail">
+        
+                                                                    <a href="product-default.html"><img src="'.$ruta_foto_portada.'" alt="$titulo"></a>
+        
+                                                                </div>
+        
+                                                                <div class="ps-product__content">
+        
+                                                                    <a href="product-default.html">'.$titulo.'</a>
+        
+                                                                    <p>Autor: <strong>'.$autor.'</strong></p>
+                                                                    <a type="button" href="" onclick="ver_sinopsis('.$id_libro.', event)">Ver sinopsis</a>
+        
+                                                                </div>
+        
+                                                            </div>
+        
+                                                        </td>
+
+                                                        <td class="text-center">'.$editorial.'</td>
+                                                        
+                                                        <td class="text-center">'.$year.'</td>
+        
+                                                        <td class="text-center">'.$fecha_agregado.'</td>
+        
+                                                        <td class="text-center">'.$status.'</td>                       
+        
+                                                        <td class="text-center">
+        
+                                                            <a type="button" href="" onclick=""><i class="fa-solid fa-pen-to-square"></i></a>&emsp;
+                                                            <a type="button" href="" onclick=""><i class="fa-solid fa-xmark"></i></a>
+        
+                                                        </td>
+        
+                                                    </tr>';
+
+                                                    echo '<tr id="sinopsis_'.$id_libro.'" style="display: none;">
+                                                        <td class="text-justify " colspan="5"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
+                                                    </tr>';
+
+                                                }
+                                            }
+
+                                            ?>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                                <hr>
+
+                                <!-- <div class="d-flex flex-row-reverse">
+                                <div class="p-2"><h3>Total <span>$414.00</span></h3></div>             
+                                </div>
+
+                                <div class="ps-section__cart-actions">
+
+                                    <a class="ps-btn" href="categories.html.html">
+                                        <i class="icon-arrow-left"></i> Back to Shop
+                                    </a>
+
+                                    <a class="ps-btn" href="checkout.html">
+                                        Proceed to checkout <i class="icon-arrow-right"></i> 
+                                    </a>
+
+                                </div> -->
+
+                            </div> 
+                            
                         </div>
 
-                    </div>             
+                        <!-- Fin sección -->
+
+                        <!-- Inicio sección 
+                            #region Historial de Prestamos
+                        -->
+
+                        <div class="container" id="div_historial_prestamos">
+
+                            <div class="ps-section__header">
+
+                                <h1>Historial de Préstamos</h1>
+
+                            </div>
+
+                            <div class="ps-section__content" style="margin-top: -50px;">
+
+                                <div class="table-responsive">
+                                    
+                                <div class="ps-section__cart-actions">
+
+                                    <!-- <a class="ps-btn" onmouseover="this.style.color='white';" onmouseout="this.style.color='black';"  onclick="abrir_modal(1)">
+                                        <i class="fa-solid fa-circle-plus" data-bs-whatever="@mdo"></i> Agregar Libro
+                                    </a> -->
+
+
+                                </div>
+
+                                    <table class="table ps-table--shopping-cart">
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th>Libro</th>
+                                                <th>Editorial</th>
+                                                <th>Año</th>
+                                                <th>Fecha de Agregado</th>
+                                                <th>Estatus</th>
+                                                <th>Opciones</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+
+                                            <?php 
+                                            $query5 = "SELECT COUNT(*) AS cuantos FROM libros WHERE id_usuario = $id_usuario_global";
+                                            $cuantos_libros = GetValueSQL($query5, 'cuantos');
+
+                                            if($cuantos_libros > 0){
+                                                $query6 = "SELECT * FROM libros
+                                                INNER JOIN status_libro ON libros.status = status_libro.id_status
+                                                WHERE id_usuario = $id_usuario_global";
+                                                $mis_libros = DatasetSQL($query6);
+
+                                                while($row6 = mysqli_fetch_array($mis_libros)){
+                                                    $id_libro = $row6['id_libro'];
+                                                    $titulo = $row6['titulo'];
+                                                    $autor = $row6['autor'];
+                                                    $editorial = $row6['editorial'];
+                                                    $year = $row6['year'];
+                                                    $sinopsis = $row6['sinopsis'];
+                                                    $id_libro = $row6['id_libro'];
+                                                    $ruta_foto_portada = $row6['ruta_foto_portada'];
+                                                    $status = $row6['status_nombre'];
+
+                                                    if($year == NULL){
+                                                        $year = "Sin Año";
+                                                    }
+                                                
+                                                    if($sinopsis == NULL){
+                                                        $sinopsis = "Sin Sinopsis";
+                                                    }
+
+                                                    if($ruta_foto_portada == NULL){
+                                                        $ruta_foto_portada = $ruta_foto_no_existente;
+                                                    }
+
+                                                    echo '<tr>
+                                                        <td>
+        
+                                                            <div class="ps-product--cart">
+        
+                                                                <div class="ps-product__thumbnail">
+        
+                                                                    <a href="product-default.html"><img src="'.$ruta_foto_portada.'" alt="$titulo"></a>
+        
+                                                                </div>
+        
+                                                                <div class="ps-product__content">
+        
+                                                                    <a href="product-default.html">'.$titulo.'</a>
+        
+                                                                    <p>Autor: <strong>'.$autor.'</strong></p>
+                                                                    <a type="button" href="" onclick="ver_sinopsis('.$id_libro.', event)">Ver sinopsis</a>
+        
+                                                                </div>
+        
+                                                            </div>
+        
+                                                        </td>
+
+                                                        <td class="text-center">'.$editorial.'</td>
+                                                        
+                                                        <td class="text-center">'.$year.'</td>
+        
+                                                        <td class="text-center">'.$fecha_agregado.'</td>
+        
+                                                        <td class="text-center">'.$status.'</td>                       
+        
+                                                        <td class="text-center">
+        
+                                                            <a type="button" href="" onclick=""><i class="fa-solid fa-pen-to-square"></i></a>&emsp;
+                                                            <a type="button" href="" onclick=""><i class="fa-solid fa-xmark"></i></a>
+        
+                                                        </td>
+        
+                                                    </tr>';
+
+                                                    echo '<tr id="sinopsis_'.$id_libro.'" style="display: none;">
+                                                        <td class="text-justify " colspan="5"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
+                                                    </tr>';
+
+                                                }
+                                            }
+
+                                            ?>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                                <hr>
+
+                                <!-- <div class="d-flex flex-row-reverse">
+                                <div class="p-2"><h3>Total <span>$414.00</span></h3></div>             
+                                </div>
+
+                                <div class="ps-section__cart-actions">
+
+                                    <a class="ps-btn" href="categories.html.html">
+                                        <i class="icon-arrow-left"></i> Back to Shop
+                                    </a>
+
+                                    <a class="ps-btn" href="checkout.html">
+                                        Proceed to checkout <i class="icon-arrow-right"></i> 
+                                    </a>
+
+                                </div> -->
+
+                            </div> 
+                            
+                        </div>
+
+                        <!-- Fin Sección -->
+
+                    </div>           
 
                 </div>
 
@@ -616,9 +981,30 @@ session_start();
 
 
 
-
-
-
+    <!---------------------------------------
+    #region Ventanas Modales
+    ---------------------------------------->
+        
+    <!-- Ventana modal para añadir nuevo registro -->
+    <div class="modal fade" id="modalAgregar"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir Nuevo Libro</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick=''>Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!--=====================================
@@ -643,6 +1029,7 @@ session_start();
 	
 	<script src="assets/plugins/sweetalert/sweetalert.min.js"></script> 
 	<script src="assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
+    
     
 	<script>
 		 $(document).ready(function() { 

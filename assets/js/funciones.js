@@ -54,6 +54,10 @@ $(document).ready(function() {
 	$("#actualizar_info_usuario").hide();
 	$("#cambiar_password").hide();
 	
+
+	//perfil.php
+	$("#div_prestamos_activos").hide();
+	$("#div_historial_prestamos").hide();
 });
 
  
@@ -583,7 +587,51 @@ function end_cambiar_password(xml){
 }
 
 
+function ver_sinopsis(id_libro, e){
+	e.preventDefault();
+	$("#sinopsis_"+id_libro).toggle('fast');
+}
 
+function abrir_modal(tipo){
+	console.log(tipo);
+	
+	if(tipo == 1){
+		$('#modalAgregar').modal('show');
+	}
+}
+
+function cambiar_opciones_perfil(tipo, e){
+	e.preventDefault();
+	switch(tipo){
+		case 1:
+			$("#li_mis_libros").addClass("active");
+			$("#li_prestamos_activos").removeClass("active");
+			$("#li_historial_prestamos").removeClass("active");
+
+			$("#div_mis_libros").show('slow');
+			$("#div_prestamos_activos").hide('slow');
+			$("#div_historial_prestamos").hide('slow');
+		break;
+		case 2:
+			$("#li_mis_libros").removeClass("active");
+			$("#li_prestamos_activos").addClass("active");
+			$("#li_historial_prestamos").removeClass("active");
+
+			$("#div_mis_libros").hide('slow');
+			$("#div_prestamos_activos").show('slow');
+			$("#div_historial_prestamos").hide('slow');
+		break;
+		case 3:
+			$("#li_mis_libros").removeClass("active");
+			$("#li_prestamos_activos").removeClass("active");
+			$("#li_historial_prestamos").addClass("active");
+
+			$("#div_mis_libros").hide('slow');
+			$("#div_prestamos_activos").hide('slow');
+			$("#div_historial_prestamos").show('slow');
+		break;
+	}
+}
 
 
 
