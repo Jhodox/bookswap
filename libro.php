@@ -219,7 +219,7 @@ session_start();
     }
 
     if($ruta_foto_portada == NULL){
-        $ruta_foto_portada = "imagenes/libros/no-image.jpg";
+        $ruta_foto_portada = $ruta_foto_no_existente;
     }
 
     ?>
@@ -356,7 +356,7 @@ session_start();
                                         </div>
                                         <?php 
                                         $query9 = "SELECT * FROM status_libro WHERE id_status = $statusLibro";
-                                        $status_libro_text = GetValueSQL($query9, 'status');
+                                        $status_libro_text = GetValueSQL($query9, 'status_nombre');
                                         if($statusLibro == 1){
                                             $style_status = "color: #42831F !important;";
                                         } elseif($statusLibro == 2){
@@ -431,7 +431,7 @@ session_start();
                                 $row_year = $row3['year'];
                                 $row_sinopsis = $row3['sinopsis'];
                                 $row_ruta_foto_portada = $row3['ruta_foto_portada'];
-                                $row_statusLibro = $row3['titulo'];
+                                $row_statusLibro = $row3['status'];
 
                                 
                                 $url_producto = str_replace(" ", "-", $row_titulo);
@@ -559,7 +559,7 @@ session_start();
                                 $row_year = $row5['year'];
                                 $row_sinopsis = $row5['sinopsis'];
                                 $row_ruta_foto_portada = $row5['ruta_foto_portada'];
-                                $row_statusLibro = $row5['titulo'];
+                                $row_statusLibro = $row5['status'];
 
                                 $row_id_usuario = $row5['id_usuario'];
 
@@ -674,7 +674,7 @@ session_start();
                                 $row_year = $row7['year'];
                                 $row_sinopsis = $row7['sinopsis'];
                                 $row_ruta_foto_portada = $row7['ruta_foto_portada'];
-                                $row_statusLibro = $row7['titulo'];
+                                $row_statusLibro = $row7['status'];
 
                                 $row_id_usuario = $row7['id_usuario'];
 
