@@ -10,14 +10,14 @@
 
                 <aside class="widget widget_footer widget_contact-us">
 
-                    <h4 class="widget-title">Contact us</h4>
+                    <h4 class="widget-title">Contactanos!</h4>
 
                     <div class="widget_content">
 
-                        <p>Call us 24/7</p>
+                        <p>Llamanos 24/7</p>
                         <h3>1800 97 97 69</h3>
-                        <p>502 New Design Str, Melbourne, Australia <br>
-                        	<a href="mailto:contact@marketplace.co">contact@marketplace.co</a>
+                        <p>CUCEI, Jalisco, México <br>
+                        	<a href="mailto:contact@marketplace.com">contact@marketplace.com</a>
                     	</p>
 
                         <ul class="ps-list--social">
@@ -59,17 +59,15 @@
 
                 <aside class="widget widget_footer">
 
-                    <h4 class="widget-title">Company</h4>
+                    <h4 class="widget-title">Equipo de desarrollo</h4>
 
                     <ul class="ps-list--link">
 
-                        <li><a href="about-us">About Us</a></li>
+                        <li><a href="about-us">Sobre nosotros</a></li>
 
-                        <li><a href="#">Affilate</a></li>
+                        <li><a href="#">Unete</a></li>
 
-                        <li><a href="#">Career</a></li>
-
-                        <li><a href="contact-us">Contact</a></li>
+                        <li><a href="contact-us">Contacto</a></li>
 
                     </ul>
 
@@ -81,18 +79,16 @@
 
                 <aside class="widget widget_footer">
 
-                    <h4 class="widget-title">Bussiness</h4>
+                    <h4 class="widget-title">Cuenta</h4>
 
                     <ul class="ps-list--link">
 
-                        <li><a href="#">Our Press</a></li>
+                        <li><a href="wishlist">Wishlist</a></li>
 
-                        <li><a href="checkout">Checkout</a></li>
-
-                        <li><a href="#">Mi Cuenta</a></li>
-
-                        <li><a href="shop-default">Shop</a></li>
-
+                        <li><a href="perfil">Mi Cuenta</a></li>
+                        
+                        <li><a href="javascript:cerrar_sesion()">Cerrar sesión</a></li>
+                        
                     </ul>
 
                 </aside>

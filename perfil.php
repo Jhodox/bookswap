@@ -196,11 +196,6 @@ session_start();
 
 <!-- Aqui se puede empezar a trabajar lo nuevo  -->
 
-
-
-
-
-
      <!--=====================================
     My Account Content
     ======================================--> 
