@@ -579,4 +579,62 @@ if(Requesting("action")=="cambiar_password"){
 	exit;
 }
 
+
+
+if(Requesting("action")=="agregar_libro"){
+	$id_usuario = $_POST["id_usuario"];
+	$titulo = $_POST["titulo"];
+	$autor = $_POST["autor"];
+	$editorial = $_POST["editorial"];
+	$year = $_POST["year"];
+	$sinopsis = $_POST["sinopsis"];
+
+	$ruta_nombre_libro = str_replace(' ', '_', strtolower($titulo));
+    
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+
+	$query1 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario";
+	$codigo = GetValueSQL($query1, 'codigo_usuario');
+
+	$query_imagenes = "";
+
+	if(isset($_FILES["foto_portada"]) && $_FILES["foto_portada"]["size"] > 0){
+		$foto_portada = $_FILES["foto_portada"];
+
+		//Obtener la extensión de la imagen
+		$extension_foto = ".".strtolower(pathinfo($foto_portada["name"], PATHINFO_EXTENSION));
+
+		//Generar la ruta de la foto
+		$ruta_foto = "imagenes/libros/".$ruta_nombre_libro."_".$codigo."".$extension_foto;
+
+		//Mover la imagen a la ruta
+		move_uploaded_file($foto_portada["tmp_name"], $ruta_foto);
+
+		//query para concatenar en la sentencia sql
+		// $query_imagenes .= ", ruta_foto_portada = '".$ruta_foto."'";
+	}
+
+	$query2 = "INSERT INTO libros (id_usuario, titulo, autor, editorial, year, sinopsis, ruta_foto_portada) 
+				VALUES ($id_usuario, '$titulo', '$autor', '$editorial', '$year', '$sinopsis', '$ruta_foto')";
+
+
+	if(ExecuteSQL($query2)){
+		$resultText = "El libro se ha añadido a tu colección.";
+		$resultStatus = "ok";
+	} else{
+		$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo. ";
+		$resultStatus = "error";
+	}
+
+
+	$result = array(   
+		'result' 				=> $resultStatus, 
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;	
+}
+
 ?>

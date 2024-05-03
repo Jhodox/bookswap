@@ -6,14 +6,7 @@ function activar_actualizar_datos(){
 	$("#actualizar_info_usuario").show('slow');
 	$("#cambiar_password").hide('slow');
 
-	var formulario_acciones = $("#formulario_acciones");
-	if(formulario_acciones.length) {
-		var offset = formulario_acciones.offset().top;
-		var scrollPosition = offset - 200; //Cantidad de compensación de posicionamiento
-		$('html, body').animate({
-			scrollTop: scrollPosition
-		}, 400);
-	}
+	
 	llenar_formulario_actualizar_datos();
 }
 
@@ -21,14 +14,7 @@ function activar_cambiar_password(){
 	$("#actualizar_info_usuario").hide('slow');
 	$("#cambiar_password").show('slow');
 
-	var formulario_acciones = $('#formulario_acciones');
-	if(formulario_acciones.length) {
-		var offset = formulario_acciones.offset().top;
-		var scrollPosition = offset - 200; //Cantidad de compensación de posicionamiento
-		$('html, body').animate({
-			scrollTop: scrollPosition
-		}, 400);
-	}
+	
 	llenar_formulario_cambiar_password();
 }
 
@@ -109,7 +95,13 @@ function end_inicia_sesion(xml){
 			window.location.href  = 'index';
 			//valida_sesion();
 		}else{
-			swal("Error", $(this).find("result_text").text(), "error");
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
 		}
 	});
 }
@@ -204,7 +196,13 @@ function registro_user(e){
 				registro_password		: registro_password
 		}, end_registro_user);
 	 } else{
-		swal("¡Error!", motivo_error, "error");
+		Swal.fire({
+			icon: 'error',
+			title: '¡Error!',
+			text: motivo_error,
+			timer: 1000,
+			timerProgressBar: true,
+		})
 	 }
 	
 }
@@ -213,9 +211,21 @@ function end_registro_user(xml){
 	$(xml).find("response").each(function(i){		 
 		if ($(this).find("result").text()=="ok"){  	
 			$("#form_registro")[0].reset();
-			 swal("¡Correcto!", $(this).find("result_text").text(), "success");
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
 		}else{		
-			 swal("¡Error!", $(this).find("result_text").text(), "error");
+			 Swal.fire({
+				 icon: 'error',
+				 title: '¡Error!',
+				 text: $(this).find("result_text").text(),
+				 timer: 1000,
+				 timerProgressBar: true,
+			 })
 		}
 	});
 }
@@ -312,7 +322,7 @@ function end_wishlist_remove(xml){
 				title: '¡Correcto!',
 				text: '¡Libro eliminado de tu wishlist!',
 				timer: 1000,
-				timerProgressBar: false,
+				timerProgressBar: true,
 			})
 
             var id_usuario = $(this).find("id_usuario").text();
@@ -331,7 +341,7 @@ function end_wishlist_remove(xml){
 				title: '¡Error!',
 				text: $(this).find("result_text").text(),
 				timer: 1000,
-				timerProgressBar: false,
+				timerProgressBar: true,
 			})
 		}
     });
@@ -357,7 +367,7 @@ function end_wishlist_add(xml){
 				title: '¡Correcto!',
 				text: '¡Libro agregado a tu wishlist!',
 				timer: 1000,
-				timerProgressBar: false,
+				timerProgressBar: true,
 			})
 
             var id_usuario = $(this).find("id_usuario").text();
@@ -376,7 +386,7 @@ function end_wishlist_add(xml){
 				title: '¡Error!',
 				text: $(this).find("result_text").text(),
 				timer: 1000,
-				timerProgressBar: false,
+				timerProgressBar: true,
 			})
 		}
     });
@@ -439,8 +449,8 @@ function end_llenar_formulario_actualizar_datos(xml){
 			$("#carrera").val($(this).find("carrera").text());
 			$("#ciclo_ingreso").val($(this).find("ciclo_ingreso").text());
 			$("#correo").val($(this).find("correo").text());
-			$("#imagen-perfil").html('<img style="max-width: 100px; height: auto;" src="'+$(this).find("ruta_foto_perfil").text()+'" alt="Foto de Perfil">');
-			$("#imagen-credencial").html('<img style="max-width: 100px; height: auto;" src="'+$(this).find("ruta_foto_credencial").text()+'" alt="Credencial de Estudiante">');
+			$("#imagen-perfil").html('<img style="max-width: 200px; height: auto;" src="'+$(this).find("ruta_foto_perfil").text()+'" alt="Foto de Perfil">');
+			$("#imagen-credencial").html('<img style="max-width: 200px; height: auto;" src="'+$(this).find("ruta_foto_credencial").text()+'" alt="Credencial de Estudiante">');
             
         } 
     });
@@ -453,13 +463,22 @@ function actualizar_usuario(id_usuario, e){
 	var foto_perfil = $("#foto_perfil")[0].files[0];
 	var foto_credencial = $("#foto_credencial")[0].files[0];
 
+	console.log("Nombre: " + nombres);
+	console.log("Apellidos: " + apellidos);
+
 	var continua = 1;
 
 	// Verificar la imagen de perfil
     if(foto_perfil){
         if(!validarImagen(foto_perfil)){
 			continua = 0;
-			swal("¡Error!", "La imagen de perfil seleccionada no es válida.", "error");
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "La imagen de perfil no es válida.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
         }
     } 
 	// else{
@@ -471,7 +490,14 @@ function actualizar_usuario(id_usuario, e){
     if(foto_credencial){
         if(!validarImagen(foto_credencial)){
 			continua = 0;
-			swal("¡Error!", "La imagen de perfil seleccionada no es válida.", "error");
+			
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "La imagen de la credencial no es válida.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
         }
     } 
 	// else{
@@ -481,7 +507,13 @@ function actualizar_usuario(id_usuario, e){
 	
 	if(!validarTexto(nombres) || !validarTexto(apellidos)){
 		continua = 0;
-		swal("¡Error!", "Por favor, ingresa tus nombres y apellidos.", "error");
+		Swal.fire({
+			icon: 'error',
+			title: '¡Error!',
+			text: "Por favor, ingresa tus nombres y apellidos.",
+			timer: 1000,
+			timerProgressBar: true,
+		})
 	}
 
 
@@ -512,20 +544,28 @@ function actualizar_usuario(id_usuario, e){
 function end_actualizar_usuario(xml){
 	$(xml).find("response").each(function(i){         
         if ($(this).find("result").text()=="ok"){     
-			swal("¡Correcto!", $(this).find("result_text").text(), "success");
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
 			$("#div-perfil").load(location.href + " #div-perfil");    
+			$('#modalCambiarInfoUsuario').modal('hide');
 
 
-			var div_perfil = $("#div-perfil");
-			if(div_perfil.length) {
-				var offset = div_perfil.offset().top;
-				var scrollPosition = offset - 200; //Cantidad de compensación de posicionamiento
-				$('html, body').animate({
-					scrollTop: scrollPosition
-				}, 400);
-			}
-        } else{
-			swal("Error!", $(this).find("result_text").text(), "error");    
+        } else{ 
+
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
 		}
 
 		
@@ -543,7 +583,14 @@ function cambiar_password(id_usuario){
 
 	if(nueva_password !== confirmar_nueva_password){
 		continuar = 0;
-        swal("¡Error!", "Las contraseñas no coinciden.", "error");
+		
+		Swal.fire({
+			icon: 'error',
+			title: '¡Error!',
+			text: "Las contraseñas no coinciden. ",
+			timer: 1000,
+			timerProgressBar: true,
+		})
 	}
 
 	if(continuar == 1){
@@ -563,24 +610,26 @@ function cambiar_password(id_usuario){
 function end_cambiar_password(xml){
 	$(xml).find("response").each(function(i){         
         if ($(this).find("result").text()=="ok"){     
-			swal("¡Correcto!", $(this).find("result_text").text(), "success");
 
-
-			var div_perfil = $("#div-perfil");
-			if(div_perfil.length) {
-				var offset = div_perfil.offset().top;
-				var scrollPosition = offset - 200; //Cantidad de compensación de posicionamiento
-				$('html, body').animate({
-					scrollTop: scrollPosition
-				}, 400);
-			}
-
-			$("#actualizar_info_usuario").hide('slow'); //Sólo esconderse los divs cuando se hizo el cambio de contraseña
-			$("#cambiar_password").hide('slow');
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
 
 			$("#form_cambiar_password")[0].reset();
+			$('#modalCambiarPassword').modal('hide');
         } else{
-			swal("Error!", $(this).find("result_text").text(), "error");    
+			
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})  
 		}
 		
     });
@@ -635,6 +684,161 @@ function cambiar_opciones_perfil(tipo, e){
 
 
 
+
+
+function agregar_libro(id_usuario){
+	var titulo = $("#al_titulo").val();
+	var autor = $("#al_autor").val();
+	var editorial = $("#al_editorial").val();
+	var year = $("#al_año").val();
+	var sinopsis = $("#al_sinopsis").val();
+	var foto_portada = $("#al_foto_portada")[0].files[0];
+
+	var continua = 1;
+
+	// Verificar la imagen de portada
+    if(foto_portada){
+        if(!validarImagen(foto_portada)){
+			continua = 0;
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "La imagen de portada no es válida.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
+        }
+    } 
+	
+	if(!validarTextoConSignos(titulo)) {
+		continua = 0;
+		Swal.fire({
+			icon: 'error',
+			title: '¡Error!',
+			text: "El formato del título es incorrecto.",
+			timer: 1000,
+			timerProgressBar: true,
+		})
+	}
+	
+	if(!validarTextoConSignos(autor)) {
+		continua = 0;
+		Swal.fire({
+			icon: 'error',
+			title: '¡Error!',
+			text: "El formato del autor es incorrecto.",
+			timer: 1000,
+			timerProgressBar: true,
+		})
+	}
+	
+	if(!validarTextoConSignos(editorial)) {
+		continua = 0;
+		Swal.fire({
+			icon: 'error',
+			title: '¡Error!',
+			text: "El formato de la editorial es incorrecto.",
+			timer: 1000,
+			timerProgressBar: true,
+		})
+	}
+
+	if(year){
+		if(!validarYear(year)){
+			continua = 0;
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "El formato del año es incorrecto.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+	}
+
+	if(sinopsis){
+		if(!validarTextoConSignos(sinopsis)){
+			continua = 0;
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "El formato de la sinopsis es incorrecto.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+	}
+
+	//Verificar campos vacíos
+	$("#form_agregar_libro .obligatorio").each(function (index) {
+		if ($(this).val() == "") {
+			continua = 0;
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "Llena todos los campos obligatorios.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
+			return;
+		} 
+	});
+
+	if(continua == 1){
+		//Crear un objeto FormData para enviar los datos del formulario, incluida la imagen
+		var formData = new FormData();
+		formData.append('action', 'agregar_libro');
+		formData.append('id_usuario', id_usuario);
+		formData.append('titulo', titulo);
+		formData.append('autor', autor);
+		formData.append('editorial', editorial);
+		formData.append('year', year);
+		formData.append('sinopsis', sinopsis);
+		formData.append('foto_portada', foto_portada);
+	
+		//Realizar la solicitud POST utilizando AJAX
+		$.ajax({
+			url: 'controller.php',
+			type: 'POST',
+			data: formData,
+			contentType: false, 
+			processData: false, 
+			success: end_agregar_libro 
+		});
+	}
+
+	
+}
+
+function end_agregar_libro(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
+			$("#div_mis_libros").load(location.href + " #div_mis_libros");    
+			$('#modalAgregarLibro').modal('hide');
+
+
+        } else{ 
+
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+
+    });
+}
 
 
 
@@ -697,8 +901,40 @@ function validateEmail(email) {
 }
 
 function validarTexto(cadena){
-    var regex = /^[a-zA-Z\s]+$/;
+    var regex = /^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/;
     return regex.test(cadena);
+}
+
+function validarTextoConSignos(texto) {
+    // Expresión regular para validar texto con letras, números, signos de puntuación y acentos
+    var regex = /^[a-zA-Z0-9\s\.,!?'"()\-áéíóúÁÉÍÓÚ]+$/;
+    
+    // Verificar si el texto cumple con la expresión regular
+    if (regex.test(texto)) {
+        return true; // El texto es válido
+    } else {
+        return false; // El texto no es válido
+    }
+}
+
+function validarYear(year) {
+    // Verificar si el año es una cadena de texto
+    if (typeof year === 'string' || year instanceof String) {
+        // Verificar si la cadena de texto representa un número entero
+        if (/^\d{4}$/.test(year)) {
+            // Convertir la cadena de texto a un número entero y verificar si está dentro del rango comúnmente aceptado
+            var yearInt = parseInt(year, 10);
+            if (yearInt >= 1000 && yearInt <= 9999) {
+                return true; // El año es válido
+            } else {
+                return false; // El año está fuera del rango comúnmente aceptado
+            }
+        } else {
+            return false; // No es un número entero de cuatro dígitos
+        }
+    } else {
+        return false; // No es una cadena de texto
+    }
 }
 
 

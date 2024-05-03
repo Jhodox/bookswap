@@ -1,5 +1,5 @@
 <?php
-//ob_start();
+ob_start();
 session_start();
 ?>
 
@@ -36,7 +36,10 @@ session_start();
 	<link rel="stylesheet" href="css/plugins/linearIcons.css">
 
 	<!-- Bootstrap 4 -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+ 
+
 	
 	<!-- Owl Carousel -->
 	<link rel="stylesheet" href="css/plugins/owl.carousel.css">
@@ -168,8 +171,11 @@ session_start();
     // Estos tres siempre se ponen despues del body, del archivo que estemos creando
 	require_once "include/functions.php";
 	require_once "include/db_tools.php";  
-    include('main-header.php') 
+    include('main-header.php'); 
 
+    if($sesion == 0){
+        header("Location: index");
+    }
 
     ?>
 
@@ -225,7 +231,8 @@ session_start();
                         $correo = GetValueSQL($query1, 'correo');
                         $ruta_foto_perfil = GetValueSQL($query1, 'ruta_foto_perfil');
                         $ruta_foto_credencial = GetValueSQL($query1, 'ruta_foto_credencial');
-                        $id_status = GetValueSQL($query1, 'status');
+                        $id_status_usuario = GetValueSQL($query1, 'status');
+
 
                         $query2 = "SELECT * FROM carreras WHERE id_carrera = '$id_carrera'";
                         $carrera = GetValueSQL($query2, 'carrera');
@@ -233,7 +240,7 @@ session_start();
                         $query3 = "SELECT * FROM ciclos WHERE id_ciclo = '$id_ciclo_ingreso'";
                         $ciclo_ingreso = GetValueSQL($query3, 'ciclo');
 
-                        $query4 = "SELECT * FROM status_usuario WHERE id_status = $id_status";
+                        $query4 = "SELECT * FROM status_usuario WHERE id_status = $id_status_usuario";
                         $status = GetValueSQL($query4,'status');
 
                         if($ruta_foto_perfil == NULL){
@@ -242,6 +249,12 @@ session_start();
                         
                         if($ruta_foto_credencial == NULL){
                             $ruta_foto_credencial = $ruta_foto_no_existente;
+                        }
+
+                        if($id_status_usuario != 1){
+                            $mensaje_status = "* Para validar tu cuenta, actualiza tu foto de perfil y la credencial de UDG.";
+                        } else{
+                            $mensaje_status = "";
                         }
                     
                     }
@@ -253,13 +266,13 @@ session_start();
 
                     <div class="ps-block__user row" >
 
-                        <div class="ps-block__user-avatar-quitar-esto text-center">
+                        <div class="ps-block__user-avatar-quitar-esto text-center col-lg-2">
 
                             <img style="width: 300px; height: 150px; margin-bottom: 10px; border-radius: 50%;" src="<?php echo $ruta_foto_perfil ?>" alt="Foto de Perfil">
 
                             <div class="br-wrapper">
 
-                            <button class="btn btn-primary btn-lg rounded-circle" onclick="activar_actualizar_datos()">
+                            <button class="btn btn-primary btn-lg rounded-circle" onclick="activar_actualizar_datos()" data-bs-toggle="modal" data-bs-target="#modalCambiarInfoUsuario" data-bs-whatever="@mdo">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
 
@@ -282,7 +295,7 @@ session_start();
 
                         <!-- Aqui se muestra lo del perfil -->
 
-                        <div class="ps-block__user-content text-center text-lg-left ml-">
+                        <div class="ps-block__user-content text-left text-lg-left col-lg-6">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-12">
@@ -291,9 +304,10 @@ session_start();
                                     <div class="col-lg-6">
                                         <p><i class="fas fa-user"></i> Código: <?php echo $codigo_usuario; ?></p>
                                         <p><i class="fas fa-envelope"></i> Correo Institucional: <?php echo $correo; ?></p>
-                                        <p><i class="fas fa-graduation-cap"></i> Carrera: <?php echo $carrera; ?></p>
+                                        <p><i class="fas fa-graduation-cap"></i>Carrera: <?php echo $carrera; ?></p>
                                         <p><i class="fas fa-calendar-days"></i> Ciclo de ingreso: <?php echo $ciclo_ingreso; ?></p>
-                                        <p><i class="fas fa-flag"></i> Status: <?php echo $status; ?></p>
+                                        <p><i class="fas fa-flag"></i> Status: <?php echo $status ?></p>
+                                        <p><?php echo $mensaje_status; ?></p>
                                     </div>
 
                                     <!-- Columna derecha (imagen de la credencial) -->
@@ -304,8 +318,8 @@ session_start();
 
                                     <!-- Botones -->
                                     <div class="col-lg-12">
-                                        <button class="btn btn-warning btn-lg" onclick="activar_actualizar_datos()">Actualizar datos</button>
-                                        <button class="btn btn-info btn-lg" onclick="activar_cambiar_password()">Cambiar contraseña</button>
+                                        <button class="btn btn-warning btn-lg" onclick="activar_actualizar_datos()" data-bs-toggle="modal" data-bs-target="#modalCambiarInfoUsuario" data-bs-whatever="@mdo">Actualizar datos</button>
+                                        <button class="btn btn-info btn-lg" onclick="activar_cambiar_password()" data-bs-toggle="modal" data-bs-target="#modalCambiarPassword" data-bs-whatever="@mdo">Cambiar contraseña</button>
                                     </div>
                                 </div>
                             </div>
@@ -313,7 +327,7 @@ session_start();
                         </div>
 
                         <!-- Aqui se muestra lo del peerfil -->
-                        <div class="row ml-lg-auto pt-5">
+                        <div class="row ml-lg-auto pt-5 col-lg-4">
 
                         <?php
                         $query2 = "SELECT COUNT(*) AS cuantos FROM wishlist WHERE id_usuario = $id_usuario_global";
@@ -353,134 +367,8 @@ session_start();
                     </div>
 
                 </aside><!-- s -->
-
-                <!--=====================================
-                Formularios para acciones
-                ======================================--> 
-
-                <div class="container mt-5">
-
-                    <div class="row justify-content-center">
-                        <div class="col-6" id="formulario_acciones">
-
-                            <div id="actualizar_info_usuario">
-                            <!--=====================================
-                            #region Cambiar informacion de Usuario
-                            ======================================-->
-                                <div class="ps-form__content">
-                                    <figure class="ps-block--vendor-status row m-3" style="margin-bottom: -10px">
-                                        <figcaption>Información de Usuario</figcaption>
-                                    </figure>
-                                    
-                                    <form id="form_actualizar_datos" name="form_actualizar_datos">
-                                        <div class="form-group row">
-                                            <p class="h3 text-dark" >Nombre(s):</p>
-                                            <input class="obligatorio form-control" type="text" id="nombres" name="nombres" placeholder="Nombre(s)" required>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <p class="h3 text-dark">Apellidos:</p>
-                                            <input class="obligatorio form-control" type="text" id="apellidos" name="apellidos" placeholder="Apellidos" required>
-                                        </div>
-
-                                        <!-- <div class="form-group row">
-                                            <p class="h3 text-dark">Código UDG:</p>
-                                            <input disabled class="obligatorio form-control" type="text" id="codigo_usuario" name="codigo_usuario" placeholder="Código UDG">
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <p class="h3 text-dark">Carrera:</p>
-                                            <input disabled class="obligatorio form-control" type="text" id="carrera" name="carrera" placeholder="Carrera">
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <p class="h3 text-dark">Cíclo de Ingreso:</p>
-                                            <input disabled class="obligatorio form-control" type="text" id="ciclo_ingreso" name="ciclo_ingreso" placeholder="Cíclo de Ingreso">
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <p class="h3 text-dark">Correo Institucional:</p>
-                                            <input disabled class="obligatorio form-control" type="text" id="correo" name="correo" placeholder="Correo Institucional">
-                                        </div> -->
-
-                                        <div class="form-group">
-                                            <p class="h3 text-dark">Foto de Perfil(Máximo 2mb): </p>
-                                            <div class="col">
-                                                <input type="file" class="custom-file-input form-control" id="foto_perfil" onchange="updateFileName(this, 'foto_perfil_label')">
-                                                <label class="custom-file-label" id="foto_perfil_label" for="foto_perfil">Seleccionar archivo</label>
-                                                <div id="imagen-perfil"></div> <!-- Aquí se jala la imagen desde la funcion llenar_formulario_actualizar_datos -->
-                                            </div>
-                                        </div>
-                                            
-                                        <div class="form-group">
-                                            <p class="h3 text-dark">Credencial de Estudiante(Máximo 2mb): </p>
-                                            <div class="col">
-                                                <input type="file" class="custom-file-input" id="foto_credencial" onchange="updateFileName(this, 'foto_credencial_label')">
-                                                <label class="custom-file-label" id="foto_credencial_label" for="foto_credencial">Seleccionar archivo</label>
-                                                <div id="imagen-credencial"></div> <!-- Aquí igual -->
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group submit row justify-content-center" >
-
-                                            <button class="ps-btn col-lg-5 m-1" onclick="actualizar_usuario(<?php echo $id_usuario_global; ?>, event)">Guardar</button>
-                                            <button type="button" class="btn ps-btn col-lg-5 m-1" onclick="activar_cerrar_ventanas()" style="background-color: gray;">Cancelar</button>
-
-                                        </div>
-                                    </form>
-                                </div>
-
-
-                            </div>
-
-                            <!--=====================================
-                            #region Cambiar contraseña
-                            ======================================-->
-
-                        
-                            <div id="cambiar_password">
-
-                                <div class="ps-form__content">
-                                    <figure class="ps-block--vendor-status row m-3" style="margin-bottom: -10px">
-                                        <figcaption>Cambiar Contraseña</figcaption>
-                                    </figure>
-                                    
-                                    <form id="form_cambiar_password" name="form_cambiar_password">
-                                        <div class="form-group row">
-                                            <input class="obligatorio form-control" type="password" id="password_actual" name="password_actual" placeholder="Contraseña actual">
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <input class="obligatorio form-control" type="password" id="nueva_password" name="nueva_password" placeholder="Nueva contraseña">
-                                        </div>
-                                        
-                                        <div class="form-group row">
-                                            <input class="obligatorio form-control" type="password" id="confirmar_nueva_password" name="confirmar_nueva_password" placeholder="Confirmar nueva contraseña">
-                                        </div>
-
-                                        <div class="form-group submit row justify-content-center" >
-
-                                            <button type="button" class="ps-btn col-lg-5 m-1" onclick="cambiar_password(<?php echo $id_usuario_global; ?>, event)">Guardar</button>
-                                            <button type="button" class="btn ps-btn col-lg-5 m-1" onclick="activar_cerrar_ventanas()" style="background-color: gray;">Cancelar</button>
-
-
-                                        </div>
-                                    </form>
-                                </div>
-
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    
-
-   
-                </div>
-   
+                
+                
                 <div class="ps-section__content">
 
                     <ul class="ps-section__links">
@@ -494,7 +382,7 @@ session_start();
                         #region Mis Libros
                     ---------------------------------------->
 
-                    <div class="ps-section--shopping ps-shopping-cart" style="margin-top: -70px;">
+                    <div class="ps-section--shopping ps-shopping-cart" style="margin-top: -120px;">
 
                         <div class="container" id="div_mis_libros">
 
@@ -508,11 +396,13 @@ session_start();
 
                                 <div class="table-responsive">
                                     
-                                <div class="ps-section__cart-actions">
-
-                                    <a class="ps-btn" onmouseover="this.style.color='white';" onmouseout="this.style.color='black';"  onclick="abrir_modal(1)">
-                                        <i class="fa-solid fa-circle-plus" data-bs-whatever="@mdo"></i> Agregar Libro
-                                    </a>
+                                <div class="ps-section__cart-actions" style="margin-top: -100px; margin-bottom: -50px;">
+                                    <?php
+                                    if($id_status_usuario != 1){?>
+                                        <a class="btn ps-btn" type="button" data-bs-toggle="modal" data-bs-target="#modalAgregarLibro" data-bs-whatever="@mdo">
+                                            <i class="fa-solid fa-circle-plus"></i> Agregar Libro
+                                        </a>
+                                    <?php } ?>
 
 
                                 </div>
@@ -611,7 +501,7 @@ session_start();
                                                     </tr>';
 
                                                     echo '<tr id="sinopsis_'.$id_libro.'" style="display: none;">
-                                                        <td class="text-justify " colspan="5"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
+                                                        <td class="text-center " colspan="5"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
                                                     </tr>';
 
                                                 }
@@ -665,7 +555,7 @@ session_start();
 
                                 <div class="table-responsive">
                                     
-                                <div class="ps-section__cart-actions">
+                                <div class="ps-section__cart-actions" style="margin-top: -100px; margin-bottom: -50px;">
 
                                     <!-- <a class="ps-btn" onmouseover="this.style.color='white';" onmouseout="this.style.color='black';"  onclick="abrir_modal(1)">
                                         <i class="fa-solid fa-circle-plus" data-bs-whatever="@mdo"></i> Agregar Libro
@@ -822,7 +712,7 @@ session_start();
 
                                 <div class="table-responsive">
                                     
-                                <div class="ps-section__cart-actions">
+                                <div class="ps-section__cart-actions" style="margin-top: -100px; margin-bottom: -50px;">
 
                                     <!-- <a class="ps-btn" onmouseover="this.style.color='white';" onmouseout="this.style.color='black';"  onclick="abrir_modal(1)">
                                         <i class="fa-solid fa-circle-plus" data-bs-whatever="@mdo"></i> Agregar Libro
@@ -977,20 +867,190 @@ session_start();
 
 
 
-
-
-
-
     <!---------------------------------------
     #region Ventanas Modales
     ---------------------------------------->
+
+
+
+
+    <!-- 
+        #region Modal Cambiar Información de Usuario
+    -->
+    <div class="modal fade" id="modalCambiarInfoUsuario"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title title" id="exampleModalLabel">Actualizar Información</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_actualizar_datos" name="form_actualizar_datos">
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark" >Nombre(s): <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="text" id="nombres" name="nombres" placeholder="Nombre(s)" required>
+                        </div>
+
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Apellidos: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="text" id="apellidos" name="apellidos" placeholder="Apellidos" required>
+                        </div>
+
+                        <!-- <div class="form-group row">
+                            <p class="h3 text-dark">Código UDG:</p>
+                            <input disabled class="obligatorio form-control" type="text" id="codigo_usuario" name="codigo_usuario" placeholder="Código UDG">
+                        </div>
+
+                        <div class="form-group row">
+                            <p class="h3 text-dark">Carrera:</p>
+                            <input disabled class="obligatorio form-control" type="text" id="carrera" name="carrera" placeholder="Carrera">
+                        </div>
+
+                        <div class="form-group row">
+                            <p class="h3 text-dark">Cíclo de Ingreso:</p>
+                            <input disabled class="obligatorio form-control" type="text" id="ciclo_ingreso" name="ciclo_ingreso" placeholder="Cíclo de Ingreso">
+                        </div>
+
+                        <div class="form-group row">
+                            <p class="h3 text-dark">Correo Institucional:</p>
+                            <input disabled class="obligatorio form-control" type="text" id="correo" name="correo" placeholder="Correo Institucional">
+                        </div> -->
+
+                        <div class="form-group m-2">
+                            <p class="h3 text-dark">Foto de Perfil(Máximo 2mb): </p>
+                            <div class="col">
+                                <input type="file" class="form-control-file form-control" id="foto_perfil">
+                                <div id="imagen-perfil" class="text-center mt-2"></div> <!-- Aquí se jala la imagen desde la funcion llenar_formulario_actualizar_datos -->
+                            </div>
+                        </div>
+                            
+                        <div class="form-group m-2">
+                            <p class="h3 text-dark">Credencial de Estudiante(Máximo 2mb): </p>
+                            <div class="col">
+                                <input type="file" class="form-control-file form-control" id="foto_credencial">
+                                <div id="imagen-credencial" class="text-center mt-2"></div> <!-- Aquí igual -->
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" class="btn ps-btn" data-bs-dismiss="modal" style="background-color: gray;">Cancelar</button>
+                        <button type="button" class="btn ps-btn" onclick='actualizar_usuario(<?php echo $id_usuario_global; ?>, event)'>Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        #region Modal Cambiar Contraseña
+    -->
+    <div class="modal fade" id="modalCambiarPassword"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title title" id="exampleModalLabel">Cambiar Contraseña</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_cambiar_password" name="form_cambiar_password">
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark" >Contraseña Actual: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="password" id="password_actual" name="password_actual" placeholder="Contraseña actual">
+                        </div>
+
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark" >Nueva Contraseña: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="password" id="nueva_password" name="nueva_password" placeholder="Nueva contraseña">
+                        </div>
+                        
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark" >Confirmar Contraseña <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="password" id="confirmar_nueva_password" name="confirmar_nueva_password" placeholder="Confirmar contraseña">
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" class="btn ps-btn" data-bs-dismiss="modal" style="background-color: gray;">Cancelar</button>
+                        <button type="button" class="btn ps-btn" onclick='cambiar_password(<?php echo $id_usuario_global; ?>, event)'>Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 
+        #region Modal Agregar Nuevo Libro
+    -->
+    <div class="modal fade" id="modalAgregarLibro"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title title" id="exampleModalLabel">Nuevo Libro</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_agregar_libro" name="form_agregar_libro">
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Título: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="text" id="al_titulo" name="add_libro_titulo" placeholder="Título" required>
+                        </div>
+
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Autor: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="text" id="al_autor" name="al_autor" placeholder="Autor" required>
+                        </div>
+
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Editorial: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="text" id="al_editorial" name="al_editorial" placeholder="Editorial" required>
+                        </div>
+                        
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Año de Publicación: </p>
+                            <input class="form-control" type="text" id="al_año" name="al_año" placeholder="Año">
+                        </div>
+                        
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Sinopsis: </p>
+                            <textarea class="form-control" rows="5" id="al_sinopsis" name="al_sinopsis" placeholder="Sinópsis"></textarea>
+                        </div>
+
+                        <div class="form-group m-2">
+                            <p class="h3 text-dark">Foto del Libro (Máximo 2mb): <span class="text-danger">*</span></p>
+                            <div class="col">
+                                <input type="file" class="form-control-file form-control" id="al_foto_portada">
+                                <div id="imagen-perfil" class="text-center mt-2"></div> <!-- Aquí se jala la imagen desde la funcion llenar_formulario_actualizar_datos -->
+                            </div>
+                        </div>
+                            
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" class="btn ps-btn" data-bs-dismiss="modal" style="background-color: gray;">Cancelar</button>
+                        <button type="button" class="btn ps-btn" onclick='agregar_libro(<?php echo $id_usuario_global; ?>)'>Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
         
     <!-- Ventana modal para añadir nuevo registro -->
     <div class="modal fade" id="modalAgregar"  aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir Nuevo Libro</h1>
+                    <h1 class="modal-title title" id="exampleModalLabel">Añadir Nuevo Libro</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -1029,6 +1089,8 @@ session_start();
 	
 	<script src="assets/plugins/sweetalert/sweetalert.min.js"></script> 
 	<script src="assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  
     
     
 	<script>

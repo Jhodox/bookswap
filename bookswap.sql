@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-04-2024 a las 03:09:05
+-- Tiempo de generación: 03-05-2024 a las 06:57:57
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -116,8 +116,8 @@ CREATE TABLE `libros` (
 --
 
 INSERT INTO `libros` (`id_libro`, `id_usuario`, `titulo`, `autor`, `editorial`, `year`, `sinopsis`, `num_visitas`, `num_prestamos`, `ruta_foto_portada`, `fecha_agregado`, `status`) VALUES
-(1, 1, 'Juego de Tronos', 'George R. R. Martin', 'Debolsillo', '', 'Tras el largo verano, el invierno se acerca a los Siete Reinos. Lord Eddars Stark, señor de Invernalia, deja sus dominios para unirse a la corte del rey Robert Baratheon el Usurpador, hombre díscolo y otrora guerrero audaz cuyas mayores aficiones son comer, beber y engendrar bastardos. Eddard Stark desempeñará el cargo de Mano del Rey e intentará desentrañar una maraña de intrigas que pondrá en peligro su vida... y la de los suyos. En un mundo cuyas estaciones duran décadas y en el que retazos de una magia inmemorial y olvidada surgen en los rincones más sombrios y maravillosos, la traición y la lealtad, la compasión y la sed de venganza, el amor y el poder hacen del juego de tronos una poderosa trampa que atrapa en sus fauces a los personajes... y al lector.', 34, 0, 'imagenes/libros/juego_de_tronos_1.jpg', '2024-03-26', 1),
-(2, 1, 'Choque de Reyes', 'George R. R. Martin', 'Debolsillo', NULL, NULL, 32, 0, 'imagenes/libros/choque_de_reyes.jpg', '2024-03-31', 1);
+(1, 1, 'Juego de Tronos', 'George R. R. Martin', 'Debolsillo', '', 'Tras el largo verano, el invierno se acerca a los Siete Reinos. Lord Eddars Stark, señor de Invernalia, deja sus dominios para unirse a la corte del rey Robert Baratheon el Usurpador, hombre díscolo y otrora guerrero audaz cuyas mayores aficiones son comer, beber y engendrar bastardos. Eddard Stark desempeñará el cargo de Mano del Rey e intentará desentrañar una maraña de intrigas que pondrá en peligro su vida... y la de los suyos. En un mundo cuyas estaciones duran décadas y en el que retazos de una magia inmemorial y olvidada surgen en los rincones más sombrios y maravillosos, la traición y la lealtad, la compasión y la sed de venganza, el amor y el poder hacen del juego de tronos una poderosa trampa que atrapa en sus fauces a los personajes... y al lector.', 43, 0, 'imagenes/libros/juego_de_tronos_1.jpg', '2024-03-26', 1),
+(2, 1, 'Choque de Reyes', 'George R. R. Martin', 'Debolsillo', NULL, 'Choque de reyes continua donde acabó el Juego de Tronos. La guerra civil se ha extendido por los reinos de Poniente y pasará a conocerse como la Guerra de los Cinco Reyes. Mientras, la Guardia de la Noche envía un grupo de reconocimiento al norte, más allá del muro. En el lejano este, Daenerys Targaryen continua con su misión: volver a los Siete Reinos para reconquistarlos.', 39, 0, 'imagenes/libros/choque_de_reyes.jpg', '2024-03-31', 1);
 
 -- --------------------------------------------------------
 
@@ -166,14 +166,14 @@ CREATE TABLE `reseñas` (
 
 CREATE TABLE `status_libro` (
   `id_status` int(11) NOT NULL,
-  `status` varchar(50) NOT NULL
+  `status_nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `status_libro`
 --
 
-INSERT INTO `status_libro` (`id_status`, `status`) VALUES
+INSERT INTO `status_libro` (`id_status`, `status_nombre`) VALUES
 (1, 'Disponible'),
 (2, 'Prestado'),
 (3, 'Inactivo');
@@ -262,13 +262,13 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `codigo_usuario`, `carrera`, `ciclo_ingreso`, `correo`, `password`, `ruta_foto_perfil`, `ruta_foto_credencial`, `num_prestamos`, `num_prestados`, `num_strikes`, `status`) VALUES
-(0, 'Anónimo', '', '0', 0, 0, '', '', '', '', 0, 0, 0, 1),
-(1, 'Luis Angel', 'De La Cruz Ascencio', '222790641', 1, 12, 'luis.delacruz9064@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1),
-(2, 'Diego Iván', 'Hernández Muñoz', '219552306', 1, 12, 'diego.hernandez5523@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1),
-(3, 'Brandon', 'Herrera Hernandez', '218535254', 1, 12, 'brandon.herrera5352@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1),
-(4, 'Jorge Isaac', 'Aguilar Olivares', '219528685', 1, 12, 'jorge.aguilar5286@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1),
-(5, 'Cristian Isaí', 'Orozco Jimenez', '222790978', 1, 12, 'cristian.orozco9097@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1),
-(6, 'Gerson Ismael', 'Flores Sánchez', '222791192', 1, 12, 'gerson.flores9119@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1);
+(0, 'Anónimo', '', '0', 0, 0, '', '', 'imagenes/perfil/perfil_jpg', 'imagenes/credenciales/credencial_jpg', 0, 0, 0, 1),
+(1, 'Angel', 'De La Cruz', '222790641', 1, 12, 'luis.delacruz9064@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', 'imagenes/perfil/perfil_222790641.gif', 'imagenes/credenciales/credencial_222790641', 0, 0, 0, 2),
+(2, 'Diego', 'Hernández', '219552306', 1, 12, 'diego.hernandez5523@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2),
+(3, 'Brandon', 'Herrera', '218535254', 1, 12, 'brandon.herrera5352@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2),
+(4, 'Jorge', 'Aguilar', '219528685', 1, 12, 'jorge.aguilar5286@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2),
+(5, 'Cristian', 'Orozco', '222790978', 1, 12, 'cristian.orozco9097@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2),
+(6, 'Gerson', 'Flores', '222791192', 1, 12, 'gerson.flores9119@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -292,7 +292,9 @@ INSERT INTO `waitlist` (`id_waitlist`, `id_usuario`, `id_libro`, `turno`, `fecha
 (4, 1, 1, 1, '2024-04-02'),
 (5, 1, 2, 1, '2024-04-02'),
 (6, 3, 1, 2, '2024-04-02'),
-(8, 6, 2, 2, '2024-04-02');
+(8, 6, 2, 2, '2024-04-02'),
+(9, 6, 1, 3, '2024-04-04'),
+(11, 0, 2, 3, '2024-04-19');
 
 -- --------------------------------------------------------
 
@@ -311,10 +313,10 @@ CREATE TABLE `wishlist` (
 --
 
 INSERT INTO `wishlist` (`id_wishlist`, `id_usuario`, `id_libro`) VALUES
-(35, 1, 2),
-(38, 1, 1),
 (41, 3, 1),
-(42, 6, 1);
+(42, 6, 1),
+(45, 2, 1),
+(47, 1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -472,13 +474,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `waitlist`
 --
 ALTER TABLE `waitlist`
-  MODIFY `id_waitlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_waitlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `id_wishlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_wishlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
