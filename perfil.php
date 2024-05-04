@@ -256,6 +256,15 @@ session_start();
                         } else{
                             $mensaje_status = "";
                         }
+
+                        $query7 = "SELECT COUNT(*) AS cuantos FROM strikes WHERE id_usuario = $id_usuario_global";
+                        $cuantos_strikes = GetValueSQL($query7, 'cuantos');
+
+                        if($cuantos_strikes > 0){
+                            $mensaje_strikes = "<a class='text-decoration-underline' href=''>(Ver detalles)</a>";
+                        } else{
+                            $mensaje_strikes = "";
+                        }
                     
                     }
                 
@@ -272,7 +281,7 @@ session_start();
 
                             <div class="br-wrapper">
 
-                            <button class="btn btn-primary btn-lg rounded-circle" onclick="activar_actualizar_datos()" data-bs-toggle="modal" data-bs-target="#modalCambiarInfoUsuario" data-bs-whatever="@mdo">
+                            <button class="btn btn-primary btn-lg rounded-circle" onclick="activar_actualizar_datos(<?php echo $id_usuario_global; ?>)" data-bs-toggle="modal" data-bs-target="#modalCambiarInfoUsuario" data-bs-whatever="@mdo">
                                 <i class="fas fa-pencil-alt"></i>
                             </button>
 
@@ -306,6 +315,7 @@ session_start();
                                         <p><i class="fas fa-envelope"></i> Correo Institucional: <?php echo $correo; ?></p>
                                         <p><i class="fas fa-graduation-cap"></i>Carrera: <?php echo $carrera; ?></p>
                                         <p><i class="fas fa-calendar-days"></i> Ciclo de ingreso: <?php echo $ciclo_ingreso; ?></p>
+                                        <p><i class="fa-solid fa-xmark"></i> Strikes: <?php echo $cuantos_strikes." ".$mensaje_strikes; ?> </p>
                                         <p><i class="fas fa-flag"></i> Status: <?php echo $status ?></p>
                                         <p><?php echo $mensaje_status; ?></p>
                                     </div>
@@ -318,8 +328,8 @@ session_start();
 
                                     <!-- Botones -->
                                     <div class="col-lg-12">
-                                        <button class="btn btn-warning btn-lg" onclick="activar_actualizar_datos()" data-bs-toggle="modal" data-bs-target="#modalCambiarInfoUsuario" data-bs-whatever="@mdo">Actualizar datos</button>
-                                        <button class="btn btn-info btn-lg" onclick="activar_cambiar_password()" data-bs-toggle="modal" data-bs-target="#modalCambiarPassword" data-bs-whatever="@mdo">Cambiar contraseña</button>
+                                        <button class="btn btn-warning btn-lg" onclick="activar_actualizar_datos(<?php echo $id_usuario_global; ?>)" data-bs-toggle="modal" data-bs-target="#modalCambiarInfoUsuario" data-bs-whatever="@mdo">Actualizar datos</button>
+                                        <button class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#modalCambiarPassword" data-bs-whatever="@mdo">Cambiar contraseña</button>
                                     </div>
                                 </div>
                             </div>
@@ -398,7 +408,10 @@ session_start();
                                     
                                 <div class="ps-section__cart-actions" style="margin-top: -100px; margin-bottom: -50px;">
                                     <?php
-                                    if($id_status_usuario != 1){?>
+                                    if($id_status_usuario != 1){  ?>
+                                        <!-- 
+                                            #region CAMBIAR IF A != 0
+                                        -->
                                         <a class="btn ps-btn" type="button" data-bs-toggle="modal" data-bs-target="#modalAgregarLibro" data-bs-whatever="@mdo">
                                             <i class="fa-solid fa-circle-plus"></i> Agregar Libro
                                         </a>
@@ -433,7 +446,8 @@ session_start();
                                             if($cuantos_libros > 0){
                                                 $query6 = "SELECT * FROM libros
                                                 INNER JOIN status_libro ON libros.status = status_libro.id_status
-                                                WHERE id_usuario = $id_usuario_global";
+                                                WHERE id_usuario = $id_usuario_global
+                                                ORDER BY (id_libro = 3) DESC";
                                                 $mis_libros = DatasetSQL($query6);
 
                                                 while($row6 = mysqli_fetch_array($mis_libros)){
@@ -446,6 +460,23 @@ session_start();
                                                     $id_libro = $row6['id_libro'];
                                                     $ruta_foto_portada = $row6['ruta_foto_portada'];
                                                     $status = $row6['status_nombre'];
+
+                                                    $id_status = $row6['id_status'];
+
+                                                    switch($id_status){
+                                                        case 1:
+                                                            $cambiar_status_libro = '<a type="button" onclick="cambiar_status_libro('.$id_libro.', 1)"><i class="fas fa-toggle-on"></i></a>';
+                                                            $mensaje_status = '<i class="fas fa-book-openfas fa-book-open"></i> '.$status;
+                                                        break;
+                                                        case 2:
+                                                            $cambiar_status_libro = '';
+                                                            $mensaje_status = '<i class="fas fa-book-reader"></i> '.$status;
+                                                        break;
+                                                        case 3:
+                                                            $cambiar_status_libro = '<a type="button" onclick="cambiar_status_libro('.$id_libro.', 3)"><i class="fas fa-toggle-off"></i></a>';
+                                                            $mensaje_status = '<i class="fas fa-book"></i> '.$status;
+                                                        break;
+                                                    }
 
                                                     if($year == NULL){
                                                         $year = "Sin Año";
@@ -489,12 +520,12 @@ session_start();
         
                                                         <td class="text-center">'.$fecha_agregado.'</td>
         
-                                                        <td class="text-center">'.$status.'</td>                       
+                                                        <td class="text-center">'.$mensaje_status.'</td>                       
         
                                                         <td class="text-center">
         
-                                                            <a type="button" href="" onclick=""><i class="fa-solid fa-pen-to-square"></i></a>&emsp;
-                                                            <a type="button" href="" onclick=""><i class="fa-solid fa-xmark"></i></a>
+                                                            <a type="button" data-bs-toggle="modal" data-bs-target="#modalEditarLibro" data-bs-whatever="@mdo" onclick="llenar_form_editar_libro('.$id_libro.')"><i class="fa-solid fa-pen-to-square"></i></a>&emsp;
+                                                            '.$cambiar_status_libro.'
         
                                                         </td>
         
@@ -503,6 +534,11 @@ session_start();
                                                     echo '<tr id="sinopsis_'.$id_libro.'" style="display: none;">
                                                         <td class="text-center " colspan="5"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
                                                     </tr>';
+
+                                                    //fas fa-book-openfas fa-book-open     - Disponible
+                                                    //fas fa-book-reader                   - Prestado
+                                                    //fas fa-book   -                      - Inactivo
+                                                    
 
                                                 }
                                             }
@@ -976,7 +1012,7 @@ session_start();
                 <div class="modal-footer">
                     <div class="form-group">
                         <button type="button" class="btn ps-btn" data-bs-dismiss="modal" style="background-color: gray;">Cancelar</button>
-                        <button type="button" class="btn ps-btn" onclick='cambiar_password(<?php echo $id_usuario_global; ?>, event)'>Guardar</button>
+                        <button type="button" class="btn ps-btn" onclick='cambiar_password(<?php echo $id_usuario_global; ?>)'>Guardar</button>
                     </div>
                 </div>
             </div>
@@ -998,7 +1034,7 @@ session_start();
                     <form id="form_agregar_libro" name="form_agregar_libro">
                         <div class="form-group row m-2">
                             <p class="h3 text-dark">Título: <span class="text-danger">*</span></p>
-                            <input class="obligatorio form-control" type="text" id="al_titulo" name="add_libro_titulo" placeholder="Título" required>
+                            <input class="obligatorio form-control" type="text" id="al_titulo" name="al_titulo" placeholder="Título" required>
                         </div>
 
                         <div class="form-group row m-2">
@@ -1024,7 +1060,7 @@ session_start();
                         <div class="form-group m-2">
                             <p class="h3 text-dark">Foto del Libro (Máximo 2mb): <span class="text-danger">*</span></p>
                             <div class="col">
-                                <input type="file" class="form-control-file form-control" id="al_foto_portada">
+                                <input type="file" class="form-control-file form-control obligatorio" id="al_foto_portada">
                                 <div id="imagen-perfil" class="text-center mt-2"></div> <!-- Aquí se jala la imagen desde la funcion llenar_formulario_actualizar_datos -->
                             </div>
                         </div>
@@ -1042,6 +1078,65 @@ session_start();
         </div>
     </div>
 
+
+    <!-- 
+        #region Modal Editar Libro
+    -->
+    <div class="modal fade" id="modalEditarLibro"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title title" id="exampleModalLabel">Nuevo Libro</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_editar_libro" name="form_editar_libro">
+                        <input type="hidden" id="el_id_libro" name="el_id_libro">
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Título: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="text" id="el_titulo" name="el_titulo" placeholder="Título" required>
+                        </div>
+
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Autor: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="text" id="el_autor" name="el_autor" placeholder="Autor" required>
+                        </div>
+
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Editorial: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="text" id="el_editorial" name="el_editorial" placeholder="Editorial" required>
+                        </div>
+                        
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Año de Publicación: </p>
+                            <input class="form-control" type="text" id="el_año" name="el_año" placeholder="Año">
+                        </div>
+                        
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Sinopsis: </p>
+                            <textarea class="form-control" rows="5" id="el_sinopsis" name="el_sinopsis" placeholder="Sinópsis"></textarea>
+                        </div>
+
+                        <div class="form-group m-2">
+                            <p class="h3 text-dark">Foto del Libro (Máximo 2mb): </p>
+                            <div class="col">
+                                <input type="file" class="form-control-file form-control" id="el_foto_portada">
+                                <div id="imagen-perfil" class="text-center mt-2"></div> <!-- Aquí se jala la imagen desde la funcion llenar_formulario_actualizar_datos -->
+                            </div>
+                        </div>
+                            
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" class="btn ps-btn" data-bs-dismiss="modal" style="background-color: gray;">Cancelar</button>
+                        <button type="button" class="btn ps-btn" onclick='editar_libro(<?php echo $id_usuario_global; ?>)'>Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
         
@@ -1098,6 +1193,14 @@ session_start();
 			llenar_select_carreras();
 			llenar_select_ciclos();
 		});
+
+        // $('#modalEditarLibro').on('show.bs.modal', function (event) {
+        //     var button = $(event.relatedTarget);
+        //     var id = button.data('id');
+        //     var modal = $(this);
+        //     // console.log(id);
+        //     modal.find('#el_id_libro').val(id);
+        // });
 	</script>
 </body>
 </html>

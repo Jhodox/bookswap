@@ -383,7 +383,14 @@ session_start();
 
                                 <div class="ps-product__shopping">
 
+                                <?php
+                                if($id_usuario_global == $id_usuario){ ?>
+                                    <a class="ps-btn ps-btn--black disabled" href="perfil" href="">Ver Lista de Espera</a>
+                                <?php } else{ ?>
                                     <a class="ps-btn ps-btn--black disabled" onclick="solicitar_libro(<?php echo $id_usuario_global.', '.$id_libro_global.', event'; ?>)" href="">Solicitar</a>
+                                <?php }?>
+
+                                    
 
                                     <!-- <a class="ps-btn ps-disabled" onclick="" href="">Solicitar</a> -->
 

@@ -2,21 +2,14 @@ $("#btn_login").click(inicia_sesion);
 $("#btn_registro").click(registro_user);
 
 
-function activar_actualizar_datos(){
+function activar_actualizar_datos(id_usuario){
 	$("#actualizar_info_usuario").show('slow');
 	$("#cambiar_password").hide('slow');
 
 	
-	llenar_formulario_actualizar_datos();
+	llenar_formulario_actualizar_datos(id_usuario);
 }
 
-function activar_cambiar_password(){
-	$("#actualizar_info_usuario").hide('slow');
-	$("#cambiar_password").show('slow');
-
-	
-	llenar_formulario_cambiar_password();
-}
 
 function activar_cerrar_ventanas(){
 	$("#actualizar_info_usuario").hide('slow');
@@ -429,8 +422,7 @@ function end_solicitar_libro(xml){
 }
 
 
-function llenar_formulario_actualizar_datos(){
-	var id_usuario = $("#id_usuario_global").val();
+function llenar_formulario_actualizar_datos(id_usuario){
 
 	$.post("controller.php",
     {    action 	: "llenar_formulario_actualizar_datos",
@@ -839,6 +831,226 @@ function end_agregar_libro(xml){
 
     });
 }
+
+
+function llenar_form_editar_libro(id_libro){
+    var id_libro = id_libro;
+
+	$.post("controller.php",
+    {    action 	: "llenar_form_editar_libro",
+       	 	id_libro  : id_libro
+    }, end_llenar_form_editar_libro);
+}
+
+function end_llenar_form_editar_libro(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){   
+			
+			$("#el_id_libro").val($(this).find("id_libro").text());
+			$("#el_titulo").val($(this).find("titulo").text());
+			$("#el_autor").val($(this).find("autor").text());
+			$("#el_editorial").val($(this).find("editorial").text());
+			$("#el_año").val($(this).find("year").text());
+			$("#el_sinopsis").val($(this).find("sinopsis").text());
+
+        } 
+    });
+}
+
+
+
+
+function editar_libro(id_usuario){
+	var id_libro = $("#el_id_libro").val();
+	var titulo = $("#el_titulo").val();
+	var autor = $("#el_autor").val();
+	var editorial = $("#el_editorial").val();
+	var year = $("#el_año").val();
+	var sinopsis = $("#el_sinopsis").val();
+	var foto_portada = $("#el_foto_portada")[0].files[0];
+
+	var continua = 1;
+
+	// Verificar la imagen de portada
+    if(foto_portada){
+        if(!validarImagen(foto_portada)){
+			continua = 0;
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "La imagen de portada no es válida.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
+        }
+    } 
+	
+	if(!validarTextoConSignos(titulo)) {
+		continua = 0;
+		Swal.fire({
+			icon: 'error',
+			title: '¡Error!',
+			text: "El formato del título es incorrecto.",
+			timer: 1000,
+			timerProgressBar: true,
+		})
+	}
+	
+	if(!validarTextoConSignos(autor)) {
+		continua = 0;
+		Swal.fire({
+			icon: 'error',
+			title: '¡Error!',
+			text: "El formato del autor es incorrecto.",
+			timer: 1000,
+			timerProgressBar: true,
+		})
+	}
+	
+	if(!validarTextoConSignos(editorial)) {
+		continua = 0;
+		Swal.fire({
+			icon: 'error',
+			title: '¡Error!',
+			text: "El formato de la editorial es incorrecto.",
+			timer: 1000,
+			timerProgressBar: true,
+		})
+	}
+
+	if(year){
+		if(!validarYear(year)){
+			continua = 0;
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "El formato del año es incorrecto.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+	}
+
+	if(sinopsis){
+		if(!validarTextoConSignos(sinopsis)){
+			continua = 0;
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "El formato de la sinopsis es incorrecto.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+	}
+
+	//Verificar campos vacíos
+	$("#form_editar_libro .obligatorio").each(function (index) {
+		if ($(this).val() == "") {
+			continua = 0;
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "Llena todos los campos obligatorios.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
+			return;
+		} 
+	});
+
+	if(continua == 1){
+		//Crear un objeto FormData para enviar los datos del formulario, incluida la imagen
+		var formData = new FormData();
+		formData.append('action', 'editar_libro');
+		formData.append('id_libro', id_libro);
+		formData.append('id_usuario', id_usuario);
+		formData.append('titulo', titulo);
+		formData.append('autor', autor);
+		formData.append('editorial', editorial);
+		formData.append('year', year);
+		formData.append('sinopsis', sinopsis);
+		formData.append('foto_portada', foto_portada);
+	
+		//Realizar la solicitud POST utilizando AJAX
+		$.ajax({
+			url: 'controller.php',
+			type: 'POST',
+			data: formData,
+			contentType: false, 
+			processData: false, 
+			success: end_editar_libro 
+		});
+	}
+
+	
+}
+
+function end_editar_libro(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
+			$("#div_mis_libros").load(location.href + " #div_mis_libros");    
+			$('#modalEditarLibro').modal('hide');
+
+
+        } else{ 
+
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+
+    });
+}
+
+function cambiar_status_libro(id_libro, tipo){
+	
+	$.post("controller.php",
+    {    	action 		: "cambiar_status_libro",
+       	 	id_libro  	: id_libro,
+			tipo		: tipo
+    }, end_cambiar_status_libro);
+}
+
+function end_cambiar_status_libro(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
+			$("#div_mis_libros").load(location.href + " #div_mis_libros");  
+
+        }  else{
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+    });
+}
+
 
 
 

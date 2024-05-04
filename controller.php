@@ -637,4 +637,134 @@ if(Requesting("action")=="agregar_libro"){
 	exit;	
 }
 
+
+if(Requesting("action") == "llenar_form_editar_libro"){
+	$id_libro = Requesting("id_libro");
+
+    $resultText = "Correcto.";
+    $resultStatus = "ok";
+
+    $query1 = "SELECT * FROM libros WHERE id_libro = $id_libro";
+    $titulo = GetValueSQL($query1, 'titulo');
+    $autor = GetValueSQL($query1, 'autor');
+    $editorial = GetValueSQL($query1, 'editorial');
+    $year = GetValueSQL($query1, 'year');
+    $sinopsis = GetValueSQL($query1,'sinopsis');
+    $ruta_foto_portada = GetValueSQL($query1, 'ruta_foto_portada');
+
+
+
+
+	$result = array(   
+		'id_libro'				=> $id_libro,
+		'titulo'                => $titulo,
+        'autor'                 => $autor,
+        'editorial'             => $editorial,
+        'year'                  => $year,
+        'sinopsis'              => $sinopsis,
+		'result' 				=> $resultStatus, 
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;	
+}
+
+if(Requesting("action") == "editar_libro"){
+	$id_libro = $_POST["id_libro"];
+	$id_usuario = $_POST["id_usuario"];
+	$titulo = $_POST["titulo"];
+	$autor = $_POST["autor"];
+	$editorial = $_POST["editorial"];
+	$year = $_POST["year"];
+	$sinopsis = $_POST["sinopsis"];
+
+	$ruta_nombre_libro = str_replace(' ', '_', strtolower($titulo));
+    
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+
+	$query1 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario";
+	$codigo = GetValueSQL($query1, 'codigo_usuario');
+
+	$query_imagenes = "";
+
+	if(isset($_FILES["foto_portada"]) && $_FILES["foto_portada"]["size"] > 0){
+		$foto_portada = $_FILES["foto_portada"];
+
+		//Obtener la extensión de la imagen
+		$extension_foto = ".".strtolower(pathinfo($foto_portada["name"], PATHINFO_EXTENSION));
+
+		//Generar la ruta de la foto
+		$ruta_foto = "imagenes/libros/".$ruta_nombre_libro."_".$codigo."".$extension_foto;
+
+		//Mover la imagen a la ruta
+		move_uploaded_file($foto_portada["tmp_name"], $ruta_foto);
+
+		//query para concatenar en la sentencia sql
+		// $query_imagenes .= ", ruta_foto_portada = '".$ruta_foto."'";
+
+		$query2 = "UPDATE libros SET titulo = '$titulo', autor = '$autor', editorial = '$editorial', year = '$year', sinopsis = '$sinopsis', ruta_foto_portada = '$ruta_foto' 
+		WHERE id_libro = $id_libro AND id_usuario = $id_usuario";
+	} else{
+		$query2 = "UPDATE libros SET titulo = '$titulo', autor = '$autor', editorial = '$editorial', year = '$year', sinopsis = '$sinopsis' 
+        WHERE id_libro = $id_libro AND id_usuario = $id_usuario";
+	}
+
+	
+
+
+	if(ExecuteSQL($query2)){
+		$resultText = "El libro se ha actualizado.";
+		$resultStatus = "ok";
+	} else{
+		$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo. ";
+		$resultStatus = "error";
+	}
+
+
+	$result = array(   
+		'result' 				=> $resultStatus, 
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;	
+}
+
+
+if(Requesting("action") == "cambiar_status_libro"){
+	$id_libro = Requesting("id_libro");
+	$tipo = Requesting("tipo");
+
+	
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+	if($tipo == 3){
+		$query1 = "UPDATE libros SET status = 1 WHERE id_libro = $id_libro";
+		$resultText = "El libro se ha habilitado.";
+	} else{
+		$query1 = "UPDATE libros SET status = 3 WHERE id_libro = $id_libro";
+		$resultText = "El libro se ha deshabilitado.";
+	}
+	
+
+	if(ExecuteSQL($query1)){
+        $resultStatus = "ok";
+	} else{
+		$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo. ";
+        $resultStatus = "error";
+	}
+
+
+	$result = array(   
+		'result' 				=> $resultStatus, 
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;
+}
+
+
+
 ?>
