@@ -456,6 +456,7 @@ session_start();
                                                     $autor = $row6['autor'];
                                                     $editorial = $row6['editorial'];
                                                     $year = $row6['year'];
+                                                    $fecha_agregado = $row6['fecha_agregado']; 
                                                     $sinopsis = $row6['sinopsis'];
                                                     $id_libro = $row6['id_libro'];
                                                     $ruta_foto_portada = $row6['ruta_foto_portada'];
