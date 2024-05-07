@@ -296,8 +296,8 @@ session_start();
 					======================================--> 
 
                     <?php 
-                    $cont = 0;
-                    do{
+                    // $cont = 0;
+                    // do{
 
                     
                     $query1 = "SELECT * FROM libros 
@@ -323,8 +323,7 @@ session_start();
 
                         $url_producto = str_replace(" ", "-", $titulo);
                         $url_producto = str_replace("/", "-", $url_producto);
-                        $url_producto = str_replace("Ñ", "N", $url_producto);
-                        $url_producto = str_replace("ñ", "ñ", $url_producto);
+                        $url_producto = quitarAcentos($url_producto);
 
                         $nombre_usuario = $row1['nombres'];
                         $apellido_usuario = $row1['apellidos'];
@@ -352,7 +351,7 @@ session_start();
 
                             <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
 
-                                <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                <img style="width: 300px; height: auto;" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
                             </a>
 
@@ -377,8 +376,8 @@ session_start();
 
                     
                     <?php } 
-                    $cont++;
-                    } while($cont < 2);?>                 
+                    // $cont++;
+                    // } while($cont < 2);?>                 
 
                 </div><!-- End Block Product Box -->
               
@@ -418,8 +417,8 @@ session_start();
 					======================================--> 
 
                     <?php 
-                    $cont = 0;
-                    do{
+                    // $cont = 0;
+                    // do{
 
                     
                     $query1 = "SELECT * FROM libros 
@@ -445,8 +444,7 @@ session_start();
 
                         $url_producto = str_replace(" ", "-", $titulo);
                         $url_producto = str_replace("/", "-", $url_producto);
-                        $url_producto = str_replace("Ñ", "N", $url_producto);
-                        $url_producto = str_replace("ñ", "ñ", $url_producto);
+                        $url_producto = quitarAcentos($url_producto);
 
                         $nombre_usuario = $row1['nombres'];
                         $apellido_usuario = $row1['apellidos'];
@@ -474,7 +472,7 @@ session_start();
 
                             <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
 
-                                <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                <img style="width: 300px; height: auto;" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
                             </a>
 
@@ -499,8 +497,8 @@ session_start();
 
                     
                     <?php } 
-                    $cont++;
-                    } while($cont < 2);?>                 
+                    // $cont++;
+                    // } while($cont < 2);?>                 
 
                 </div><!-- End Block Product Box -->
               
@@ -540,8 +538,8 @@ session_start();
 					======================================--> 
 
                     <?php 
-                    $cont = 0;
-                    do{
+                    // $cont = 0;
+                    // do{
 
                     
                     $query1 = "SELECT * FROM libros 
@@ -567,8 +565,7 @@ session_start();
 
                         $url_producto = str_replace(" ", "-", $titulo);
                         $url_producto = str_replace("/", "-", $url_producto);
-                        $url_producto = str_replace("Ñ", "N", $url_producto);
-                        $url_producto = str_replace("ñ", "ñ", $url_producto);
+                        $url_producto = quitarAcentos($url_producto);
 
                         $nombre_usuario = $row1['nombres'];
                         $apellido_usuario = $row1['apellidos'];
@@ -596,7 +593,7 @@ session_start();
 
                             <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
 
-                                <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                <img style="width: 300px; height: auto;" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
                             </a>
 
@@ -621,8 +618,8 @@ session_start();
 
                     
                     <?php } 
-                    $cont++;
-                    } while($cont < 2);?>                 
+                    // $cont++;
+                    // } while($cont < 2);?>                 
 
                 </div><!-- End Block Product Box -->
               

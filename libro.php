@@ -288,7 +288,7 @@ session_start();
 
                                     <div class="item">
                                         <a href="<?php echo $ruta_foto_portada; ?>">
-                                            <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                            <img style="width: 400px; height: auto;" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
                                         </a>
                                     </div>
 
@@ -336,18 +336,23 @@ session_start();
                                             <?php 
                                             $query10 = "SELECT COUNT(*) AS existe FROM wishlist WHERE id_usuario = $id_usuario_global AND id_libro = $id_libro_global";
                                             $existe_wishlist = GetValueSQL($query10, 'existe');
+                                            
+                                            if($id_usuario_global != $id_usuario){ //El libro no es del usuario con la sesión iniciada
 
-                                            if($existe_wishlist > 0){ //El producto está en la wishlist
-                                                $icon_wishlist = 
-                                                '<a onclick="wishlist_remove('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
-                                                    <i class="fas fa-heart fa-xl"></i>
-                                                </a>';
+                                               if($existe_wishlist > 0){ //El producto está en la wishlist
+                                                    $icon_wishlist = 
+                                                    '<a onclick="wishlist_remove('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
+                                                        <i class="fas fa-heart fa-xl"></i>
+                                                    </a>';
 
-                                            } else{ //El producto no está en la wishlist
-                                                $icon_wishlist = 
-                                                '<a onclick="wishlist_add('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
-                                                    <i class="fa-regular fa-heart fa-xl"></i>
-                                                </a>';
+                                                } else{ //El producto no está en la wishlist
+                                                    $icon_wishlist = 
+                                                    '<a onclick="wishlist_add('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
+                                                        <i class="fa-regular fa-heart fa-xl"></i>
+                                                    </a>';
+                                                }
+                                            } else{
+                                                $icon_wishlist = '';
                                             }
 
                                             echo $icon_wishlist;
@@ -443,8 +448,7 @@ session_start();
                                 
                                 $url_producto = str_replace(" ", "-", $row_titulo);
                                 $url_producto = str_replace("/", "-", $url_producto);
-                                $url_producto = str_replace("Ñ", "N", $url_producto);
-                                $url_producto = str_replace("ñ", "ñ", $url_producto);
+                                $url_producto = quitarAcentos($url_producto);
                                 ?>
 
                                 <div class="ps-product">
@@ -503,8 +507,8 @@ session_start();
                     <div class="row">
                     
                     <?php 
-                    $cont = 0;
-                    do{
+                    // $cont = 0;
+                    // do{
 
                     
                         $query4 = "SELECT COUNT(*) AS cuantos FROM libros 
@@ -579,8 +583,7 @@ session_start();
                                 
                                 $url_producto = str_replace(" ", "-", $row_titulo);
                                 $url_producto = str_replace("/", "-", $url_producto);
-                                $url_producto = str_replace("Ñ", "N", $url_producto);
-                                $url_producto = str_replace("ñ", "ñ", $url_producto);
+                                $url_producto = quitarAcentos($url_producto);
                                 ?>
                                 <!-- Inicio Producto -->
                                 <div class="col-lg-2 col-md-4 col-6 ">
@@ -623,8 +626,8 @@ session_start();
                             <?php
                             }
                         }
-                        $cont++;
-                    } while($cont < 6);
+                    //     $cont++;
+                    // } while($cont < 6);
 
                     
                     ?>
@@ -653,8 +656,8 @@ session_start();
                         <!-- Puedo añadir unos 10 libros -->
 
                         <?php 
-                    $cont = 0;
-                    do{
+                    // $cont = 0;
+                    // do{
 
                     
                         $query6 = "SELECT COUNT(*) AS cuantos FROM libros 
@@ -694,8 +697,7 @@ session_start();
                                 
                                 $url_producto = str_replace(" ", "-", $row_titulo);
                                 $url_producto = str_replace("/", "-", $url_producto);
-                                $url_producto = str_replace("Ñ", "N", $url_producto);
-                                $url_producto = str_replace("ñ", "ñ", $url_producto);
+                                $url_producto = quitarAcentos($url_producto);
                                 ?>
 
                                 <!-- Inicio Producto -->
@@ -725,8 +727,8 @@ session_start();
                             <?php
                             }
                         }
-                        $cont++;
-                    } while($cont < 10);
+                    //     $cont++;
+                    // } while($cont < 10);
 
                     ?>
 
