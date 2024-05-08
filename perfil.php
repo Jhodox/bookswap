@@ -281,7 +281,7 @@ session_start();
 
                             <div class="br-wrapper">
 
-                                <button class="btn btn-primary btn-lg rounded-circle" onclick="activar_actualizar_datos(<?php echo $id_usuario_global; ?>)" data-bs-toggle="modal" data-bs-target="#modalCambiarInfoUsuario" data-bs-whatever="@mdo">
+                                <button class="btn btn-primary btn-lg rounded-circle" title="Editar" onclick="activar_actualizar_datos(<?php echo $id_usuario_global; ?>)" data-bs-toggle="modal" data-bs-target="#modalCambiarInfoUsuario" data-bs-whatever="@mdo">
                                     <i class="fas fa-pencil-alt"></i>
                                 </button>
 
@@ -476,7 +476,7 @@ session_start();
 
                                                         switch($id_status){
                                                             case 1:
-                                                                $cambiar_status_libro = '<a type="button" onclick="cambiar_status_libro('.$id_libro.', 1)"><i class="fas fa-toggle-on"></i></a>';
+                                                                $cambiar_status_libro = '<a type="button" onclick="cambiar_status_libro('.$id_libro.', 1)" title="Cambiar estatus"><i class="fas fa-toggle-on"></i></a>';
                                                                 $mensaje_status = '<i class="fas fa-book-openfas fa-book-open"></i> '.$status;
                                                             break;
                                                             case 2:
@@ -658,7 +658,7 @@ session_start();
             
                                                             <td class="text-center">
             
-                                                                <a type="button" data-bs-toggle="modal" data-bs-target="#modalEditarLibro" data-bs-whatever="@mdo" onclick="llenar_form_editar_libro('.$id_libro.')"><i class="fa-solid fa-pen-to-square"></i></a>&emsp;
+                                                                <a type="button" data-bs-toggle="modal" data-bs-target="#modalEditarLibro" data-bs-whatever="@mdo" onclick="llenar_form_editar_libro('.$id_libro.')" title="Editar libro"><i class="fa-solid fa-pen-to-square"></i></a>&emsp;
                                                                 '.$cambiar_status_libro.'
             
                                                             </td>
@@ -667,7 +667,7 @@ session_start();
                                                                 <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="ver_waitlist('.$id_libro.', event)">Ver préstamos</a>
                                                             </td>
             
-                                                        </tr>';
+                                                        </tr>'; 
 
                                                         echo '<tr id="sinopsis_'.$id_libro.'" style="display: none;">
                                                             <td class="text-center " colspan="7"><strong>Sinopsis: </strong>'.$sinopsis.'</td>

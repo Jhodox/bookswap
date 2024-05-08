@@ -211,6 +211,7 @@ function end_registro_user(xml){
 				timer: 1000,
 				timerProgressBar: true,
 			})
+			window.location.href  = 'index';
 		}else{		
 			 Swal.fire({
 				 icon: 'error',

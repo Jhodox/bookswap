@@ -126,15 +126,31 @@ if(Requesting("action")=="registro_user"){
 		} else{
 			$query3 = 'INSERT INTO usuarios (nombres, apellidos, codigo_usuario, carrera, ciclo_ingreso, correo, password, status)
 			VALUES ("'.$registro_nombre.'", "'.$registro_apellidos.'", "'.$registro_codigo.'", "'.$registro_carrera.'", "'.$registro_ciclo_ingreso.'", "'.$registro_email.'", "'.md5($registro_password).'", 2)';
-			
-			if(ExecuteSQL($query3)){
-				$resultText = 'Se ha creado la cuenta con éxito. Por favor inicia sesión.';
-				
-			} else{
-				$resultText = 'Ha ocurrido un error. Inténtalo de nuevo.';
-				$resultStatus = 'error';
 
-			}
+			$id_sesion = ExecuteSQL_returnID($query3);
+			 if($id_sesion !== false) {
+				$resultStatus = "ok";
+				$resultText = "Se inicio sesión con éxito";
+				session_start();
+				session_destroy();
+				session_start();
+				$_SESSION['id_sesion'] 		= $id_sesion; 
+				$_SESSION['email'] 			= $registro_email;
+
+			 } else {
+				$resultStatus = "error";
+				$resultText = "Error al iniciar sesión";
+			 }
+
+			// if(ExecuteSQL($query3)){
+			// 	$resultText = 'Se ha creado la cuenta con éxito.';
+				
+				
+			// } else{
+			// 	$resultText = 'Ha ocurrido un error. Inténtalo de nuevo.';
+			// 	$resultStatus = 'error';
+
+			// }
 		}
     }
 

@@ -162,7 +162,7 @@ session_start();
 
 
     <!--=====================================
-	Header
+	#region Header
 	======================================-->
 
     <?php
@@ -225,7 +225,7 @@ session_start();
     ?>
 
     <!--=====================================
-    Breadcrumb
+    #region Breadcrumb
     ======================================-->  
 	
 	<div class="ps-breadcrumb">
@@ -251,7 +251,7 @@ session_start();
 
 
     <!--=====================================
-    Product Content
+    #region Product Content
     ======================================--> 
 
 	<div class="ps-page--product">
@@ -297,7 +297,7 @@ session_start();
                             </div><!-- End Gallery -->
 
                             <!--=====================================
-                            Product Info
+                            #region Product Info
                             ======================================--> 
 
                             <div class="ps-product__info">
@@ -332,7 +332,7 @@ session_start();
 
                                     <p> 
                                                 
-                                        <div class="ps-product__actions" id="wishlist_spot">
+                                        <div class="ps-product__actions" id="wishlist_spot" title="Agregar a wishlist">
                                             <?php 
                                             $query10 = "SELECT COUNT(*) AS existe FROM wishlist WHERE id_usuario = $id_usuario_global AND id_libro = $id_libro_global";
                                             $existe_wishlist = GetValueSQL($query10, 'existe');
@@ -411,7 +411,7 @@ session_start();
                 </div><!-- End Left Column -->
 
                 <!--=====================================
-                Right Column
+                #region Right Column
                 ======================================--> 
 
                 <div class="ps-page__right d-block d-sm-none d-xl-block">
@@ -491,7 +491,7 @@ session_start();
             </div><!--  End Product Container -->
 
             <!--=====================================
-            Customers who bought
+             #region Customers who bought
             ======================================--> 
 
             <div class="ps-section--default ps-customer-bought">
@@ -639,7 +639,7 @@ session_start();
             </div><!--  End Customers who bought -->
 
             <!--=====================================
-            Related products
+            #region Related products
             ======================================--> 
 
             <div class="ps-section--default">
@@ -700,7 +700,9 @@ session_start();
                                 $url_producto = quitarAcentos($url_producto);
                                 ?>
 
-                                <!-- Inicio Producto -->
+                                <!--=====================================
+                                #region Inicio producto
+                                ======================================-->
                                 
                                 <div class="ps-product">
                                     <div class="ps-product__thumbnail">

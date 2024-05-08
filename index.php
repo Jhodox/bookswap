@@ -184,22 +184,16 @@ session_start();
     	<div class="ps-home-banner" id="inicio">
             <div class="ps-carousel--nav-inside owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on" data-owl-animate-in="fadeIn" data-owl-animate-out="fadeOut">
 
-                <div class="ps-banner--market-4" data-background="img/slider/horizontal/1.jpg">
-                	<img src="img/slider/horizontal/1.jpg" alt="">
+                <div class="ps-banner--market-4" data-background="imagenes/banners/1.jpg">
+                	<img src="imagenes/banners/1.jpg" alt="">
                     <div class="ps-banner__content">
-                        <h3>INTERCAMBIA LIBROS <br/> 
-                        	ENTRE ESTUDIANTES <br/> 
-                        </h3>
                         <!-- <a class="ps-btn" href="#">Shop Now</a> -->
                     </div>
                 </div>
 
-                <div class="ps-banner--market-4" data-background="img/slider/horizontal/2.jpg">
-                	<img src="img/slider/horizontal/2.jpg" alt="">
+                <div class="ps-banner--market-4" data-background="imagenes/banners/2.jpg">
+                	<img src="imagenes/banners/2.jpg" alt="">
                     <div class="ps-banner__content">
-                        <h3>FORMA PARTE <br/> 
-                        	DE TU COMUNIDAD <br/> 
-                        </h3>
                         <!-- <a class="ps-btn" href="#">Shop Now</a> -->
                     </div>
                 </div>
