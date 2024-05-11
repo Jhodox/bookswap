@@ -184,22 +184,16 @@ session_start();
     	<div class="ps-home-banner" id="inicio">
             <div class="ps-carousel--nav-inside owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on" data-owl-animate-in="fadeIn" data-owl-animate-out="fadeOut">
 
-                <div class="ps-banner--market-4" data-background="img/slider/horizontal/1.jpg">
-                	<img src="img/slider/horizontal/1.jpg" alt="">
+                <div class="ps-banner--market-4" data-background="imagenes/banners/1.jpg">
+                	<img src="imagenes/banners/1.jpg" alt="">
                     <div class="ps-banner__content">
-                        <h3>INTERCAMBIA LIBROS <br/> 
-                        	ENTRE ESTUDIANTES <br/> 
-                        </h3>
                         <!-- <a class="ps-btn" href="#">Shop Now</a> -->
                     </div>
                 </div>
 
-                <div class="ps-banner--market-4" data-background="img/slider/horizontal/2.jpg">
-                	<img src="img/slider/horizontal/2.jpg" alt="">
+                <div class="ps-banner--market-4" data-background="imagenes/banners/2.jpg">
+                	<img src="imagenes/banners/2.jpg" alt="">
                     <div class="ps-banner__content">
-                        <h3>FORMA PARTE <br/> 
-                        	DE TU COMUNIDAD <br/> 
-                        </h3>
                         <!-- <a class="ps-btn" href="#">Shop Now</a> -->
                     </div>
                 </div>
@@ -296,8 +290,8 @@ session_start();
 					======================================--> 
 
                     <?php 
-                    $cont = 0;
-                    do{
+                    // $cont = 0;
+                    // do{
 
                     
                     $query1 = "SELECT * FROM libros 
@@ -323,8 +317,7 @@ session_start();
 
                         $url_producto = str_replace(" ", "-", $titulo);
                         $url_producto = str_replace("/", "-", $url_producto);
-                        $url_producto = str_replace("Ñ", "N", $url_producto);
-                        $url_producto = str_replace("ñ", "ñ", $url_producto);
+                        $url_producto = quitarAcentos($url_producto);
 
                         $nombre_usuario = $row1['nombres'];
                         $apellido_usuario = $row1['apellidos'];
@@ -352,7 +345,7 @@ session_start();
 
                             <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
 
-                                <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                <img style="width: 300px; height: auto;" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
                             </a>
 
@@ -377,8 +370,8 @@ session_start();
 
                     
                     <?php } 
-                    $cont++;
-                    } while($cont < 2);?>                 
+                    // $cont++;
+                    // } while($cont < 2);?>                 
 
                 </div><!-- End Block Product Box -->
               
@@ -418,8 +411,8 @@ session_start();
 					======================================--> 
 
                     <?php 
-                    $cont = 0;
-                    do{
+                    // $cont = 0;
+                    // do{
 
                     
                     $query1 = "SELECT * FROM libros 
@@ -445,8 +438,7 @@ session_start();
 
                         $url_producto = str_replace(" ", "-", $titulo);
                         $url_producto = str_replace("/", "-", $url_producto);
-                        $url_producto = str_replace("Ñ", "N", $url_producto);
-                        $url_producto = str_replace("ñ", "ñ", $url_producto);
+                        $url_producto = quitarAcentos($url_producto);
 
                         $nombre_usuario = $row1['nombres'];
                         $apellido_usuario = $row1['apellidos'];
@@ -474,7 +466,7 @@ session_start();
 
                             <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
 
-                                <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                <img style="width: 300px; height: auto;" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
                             </a>
 
@@ -499,8 +491,8 @@ session_start();
 
                     
                     <?php } 
-                    $cont++;
-                    } while($cont < 2);?>                 
+                    // $cont++;
+                    // } while($cont < 2);?>                 
 
                 </div><!-- End Block Product Box -->
               
@@ -540,8 +532,8 @@ session_start();
 					======================================--> 
 
                     <?php 
-                    $cont = 0;
-                    do{
+                    // $cont = 0;
+                    // do{
 
                     
                     $query1 = "SELECT * FROM libros 
@@ -567,8 +559,7 @@ session_start();
 
                         $url_producto = str_replace(" ", "-", $titulo);
                         $url_producto = str_replace("/", "-", $url_producto);
-                        $url_producto = str_replace("Ñ", "N", $url_producto);
-                        $url_producto = str_replace("ñ", "ñ", $url_producto);
+                        $url_producto = quitarAcentos($url_producto);
 
                         $nombre_usuario = $row1['nombres'];
                         $apellido_usuario = $row1['apellidos'];
@@ -596,7 +587,7 @@ session_start();
 
                             <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
 
-                                <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                <img style="width: 300px; height: auto;" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
                             </a>
 
@@ -621,8 +612,8 @@ session_start();
 
                     
                     <?php } 
-                    $cont++;
-                    } while($cont < 2);?>                 
+                    // $cont++;
+                    // } while($cont < 2);?>                 
 
                 </div><!-- End Block Product Box -->
               

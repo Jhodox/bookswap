@@ -88,7 +88,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                 Logo
                 ======================================-->
 
-                <a class="ps-logo" href="index">
+                <a class="ps-logo" href="index" title="Inicio">
                     <img src="img/template/logo_light.png" alt="">
                 </a>
 
@@ -137,7 +137,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                         WHERE wishlist.id_usuario = $id_usuario_global";
                             $cuantos_wishlist = GetValueSQL($query1, 'cuantos');
 
-                            echo '<a id="header_wishlist" class="header__extra" href="wishlist">
+                            echo '<a id="header_wishlist" class="header__extra" href="wishlist" title="Wishlist">
                             <i class="icon-heart"></i><span><i>' . $cuantos_wishlist . '</i></span>
                         </a>';
 
@@ -245,7 +245,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
 
                         <div class="ps-block--user-header">
                             <div class="ps-block__left">
-                                <a class="header__extra" href="perfil">
+                                <a class="header__extra" href="perfil" title="Perfil">
                                     <i class="icon-user"></i><span><i>0</i></span>
                                 </a>
                                 <a class="ml-4" href="perfil"><?php echo $nombre_usuario_global; ?></a>
@@ -268,7 +268,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
 
                         <div class="ps-block--user-header">
                             <div class="ps-block__left">
-                                <a href="login"><i class="icon-user"></i></a>
+                                <a href="login" title="Ingresar"><i class="icon-user"></i></a>
                             </div>
                             <div class="ps-block__right">
                                 <a href="login">Ingresar</a>
@@ -454,7 +454,7 @@ Header Mobile
 
                     <div class="ps-block--user-header">
                         <div class="ps-block__left">
-                            <a href="login"><i class="icon-user"></i></a>
+                            <a href="login" title="Ingresar"><i class="icon-user" ></i></a>
                         </div>
                         <div class="ps-block__right">
                             <a href="login">Ingresar</a>

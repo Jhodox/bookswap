@@ -9,6 +9,25 @@
 error_reporting(E_ALL ^ E_DEPRECATED);
 //include_once 'timezone.php';
 
+function quitarAcentos($texto) {
+    $acentos = array(
+        'á' => 'a',
+        'é' => 'e',
+        'í' => 'i',
+        'ó' => 'o',
+        'ú' => 'u',
+        'Á' => 'A',
+        'É' => 'E',
+        'Í' => 'I',
+        'Ó' => 'O',
+        'Ú' => 'U',
+        'ñ' => 'n',
+        'Ñ' => 'N'
+    );
+
+    return str_replace(array_keys($acentos), array_values($acentos), $texto);
+}
+
 function Is_Server(){	
 	global $APP_Type;
 	return $APP_Type == 'SERVER';

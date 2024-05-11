@@ -211,6 +211,7 @@ function end_registro_user(xml){
 				timer: 1000,
 				timerProgressBar: true,
 			})
+			window.location.href  = 'index';
 		}else{		
 			 Swal.fire({
 				 icon: 'error',
@@ -633,6 +634,11 @@ function ver_sinopsis(id_libro, e){
 	$("#sinopsis_"+id_libro).toggle('fast');
 }
 
+function ver_waitlist(id_libro, e){
+	e.preventDefault();
+	$("#waitlist_"+id_libro).toggle('fast');
+}
+
 function abrir_modal(tipo){
 	console.log(tipo);
 	
@@ -1038,6 +1044,44 @@ function end_cambiar_status_libro(xml){
 			})
 
 			$("#div_mis_libros").load(location.href + " #div_mis_libros");  
+
+        }  else{
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+    });
+}
+
+
+function aceptar_denegar_prestamo(id_prestamo, id_libro, tipo, e){
+	e.preventDefault();
+
+	$.post("controller.php",
+    {    	action 		: "aceptar_denegar_prestamo",
+       	 	id_prestamo	: id_prestamo,
+			id_libro	: id_libro,
+			tipo		: tipo
+    }, end_aceptar_denegar_prestamo);
+}
+
+function end_aceptar_denegar_prestamo(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
+			$("#table_prestamo_"+$(this).find("id_libro").text()).load(location.href + " #table_prestamo_"+$(this).find("id_libro").text());  
 
         }  else{
 			Swal.fire({

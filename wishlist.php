@@ -200,7 +200,7 @@ session_start();
     <!-- Aqui se puede empezar a trabajar lo nuevo  -->
     <!--=====================================
     #region WISHLIST
-======================================-->
+    ======================================-->
 
     <div class="ps-vendor-dashboard pro">
 
@@ -228,8 +228,7 @@ session_start();
 
                     $url_producto = str_replace(" ", "-", $titulo);
                     $url_producto = str_replace("/", "-", $url_producto);
-                    $url_producto = str_replace("Ñ", "N", $url_producto);
-                    $url_producto = str_replace("ñ", "ñ", $url_producto);
+                    $url_producto = quitarAcentos($url_producto);
 
                     // $year == NULL ? "Sin Año" : $year;
                     if ($year == NULL) {

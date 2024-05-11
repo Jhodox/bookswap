@@ -126,15 +126,31 @@ if(Requesting("action")=="registro_user"){
 		} else{
 			$query3 = 'INSERT INTO usuarios (nombres, apellidos, codigo_usuario, carrera, ciclo_ingreso, correo, password, status)
 			VALUES ("'.$registro_nombre.'", "'.$registro_apellidos.'", "'.$registro_codigo.'", "'.$registro_carrera.'", "'.$registro_ciclo_ingreso.'", "'.$registro_email.'", "'.md5($registro_password).'", 2)';
-			
-			if(ExecuteSQL($query3)){
-				$resultText = 'Se ha creado la cuenta con éxito. Por favor inicia sesión.';
-				
-			} else{
-				$resultText = 'Ha ocurrido un error. Inténtalo de nuevo.';
-				$resultStatus = 'error';
 
-			}
+			$id_sesion = ExecuteSQL_returnID($query3);
+			 if($id_sesion !== false) {
+				$resultStatus = "ok";
+				$resultText = "Se inicio sesión con éxito";
+				session_start();
+				session_destroy();
+				session_start();
+				$_SESSION['id_sesion'] 		= $id_sesion; 
+				$_SESSION['email'] 			= $registro_email;
+
+			 } else {
+				$resultStatus = "error";
+				$resultText = "Error al iniciar sesión";
+			 }
+
+			// if(ExecuteSQL($query3)){
+			// 	$resultText = 'Se ha creado la cuenta con éxito.';
+				
+				
+			// } else{
+			// 	$resultText = 'Ha ocurrido un error. Inténtalo de nuevo.';
+			// 	$resultStatus = 'error';
+
+			// }
 		}
     }
 
@@ -322,7 +338,6 @@ if(Requesting("action")=="wishlist_add"){
 		#region solicitar libro
 	*/
 if(Requesting("action")=="solicitar_libro"){
-	//*NOTA: Al momento del dueño aceptar a un usuario, el sistema tiene que verificar que no haya un préstamo con dicho usuario con status 2, 3 o 5
 	$id_usuario_destino = Requesting("id_usuario");
     $id_libro = Requesting("id_libro");
 
@@ -340,13 +355,14 @@ if(Requesting("action")=="solicitar_libro"){
 
 	//Status de préstamos
 	//1. Solicitado			2. Aceptado 		3. En proceso 		4. Concluído 		5. Fecha de entrega excedida 		6. Denegado
+	//*NOTA: Al momento del dueño aceptar a un usuario, el sistema tiene que verificar que no haya un préstamo con dicho usuario con status 2, 3 o 5
 
-	$query9 = "SELECT COUNT(*) AS existe FROM prestamos WHERE id_usuario_destino = $id_usuario_destino AND (status = 2 OR status = 3 OR status = 5)";
+	$query9 = "SELECT COUNT(*) AS existe FROM prestamos WHERE id_usuario_destino = $id_usuario_destino AND (status_prestamo = 2 OR status_prestamo = 3 OR status_prestamo = 5)";
 	$existe = GetValueSQL($query9, 'existe');
 
 	if($existe == 0){ //El usuario no tiene ningun préstamo activo
 
-		$query5 = "SELECT COUNT(*) AS existe_prestamos_usuario FROM prestamos WHERE id_usuario_destino = $id_usuario_destino AND id_libro = $id_libro";
+		$query5 = "SELECT COUNT(*) AS existe_prestamos_usuario FROM prestamos WHERE id_usuario_destino = $id_usuario_destino AND id_libro = $id_libro AND (status_prestamo != 4 AND status_prestamo != 6)";
 		$existe_prestamos_usuario = GetValueSQL($query5, 'existe_prestamos_usuario');
 	
 		if($existe_prestamos_usuario == 0){ // No ha solicitado el libro
@@ -357,15 +373,19 @@ if(Requesting("action")=="solicitar_libro"){
 	
 			if($existe_waitlist == 0){ //No hay nadie en la waitlist que haya solicitado el libro
 	
-				$query8 = "SELECT COUNT(*) AS existe_prestamos FROM prestamos WHERE id_libro = $id_libro";
+				$query8 = "SELECT COUNT(*) AS existe_prestamos FROM prestamos WHERE id_libro = $id_libro AND (status_prestamo != 4 AND status_prestamo != 6)";
 				$existe_prestamos = GetValueSQL($query8, 'existe_prestamos');
 	
 				if($existe_prestamos == 0){ //El libro no se encuentra prestado
-					$query3 = "INSERT INTO prestamos (id_usuario_owner, id_usuario_destino, id_libro, status) VALUES ($id_usuario_owner, $id_usuario_destino, $id_libro, 1)";
+
+					$query3 = "INSERT INTO prestamos (id_usuario_owner, id_usuario_destino, id_libro, status_prestamo) VALUES ($id_usuario_owner, $id_usuario_destino, $id_libro, 1)";
 					$resultText = "Solicitud enviada. Espera a que el dueño del libro apruebe tu solicitud.";
+
 				} else{ //El libro se encuentra prestado. Se inserta en la waitlist con turno 1
+
 					$query3 = "INSERT INTO waitlist (id_usuario, id_libro, turno, fecha_inicio_turno) VALUES ($id_usuario_destino, $id_libro, 1, '$fecha_hoy')";
 					$resultText = "Solicitud enviada. Espera tu turno.";
+
 				}
 				
 				if(ExecuteSQL($query3)){
@@ -389,7 +409,7 @@ if(Requesting("action")=="solicitar_libro"){
 						$turno = $row6['turno'];
 					}
 					$turno = $turno + 1;
-					$query7 = "INSERT INTO waitlist (id_usuario, id_libro, turno, fecha_inicio_turno) VALUES($id_usuario_destino, $id_libro, $turno, '$fecha_hoy')";
+					$query7 = "INSERT INTO waitlist (id_usuario, id_libro, turno, fecha_inicio_turno) VALUES ($id_usuario_destino, $id_libro, $turno, '$fecha_hoy')";
 					if(ExecuteSQL($query7)){
 						$resultText = "Solicitud enviada. Espera tu turno.";
 						$resultStatus = "ok";
@@ -589,6 +609,8 @@ if(Requesting("action")=="agregar_libro"){
 	$year = $_POST["year"];
 	$sinopsis = $_POST["sinopsis"];
 
+	$fecha_actual = date("Y-m-d");
+
 	$ruta_nombre_libro = str_replace(' ', '_', strtolower($titulo));
     
 	$resultText = "Correcto.";
@@ -598,7 +620,12 @@ if(Requesting("action")=="agregar_libro"){
 	$query1 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario";
 	$codigo = GetValueSQL($query1, 'codigo_usuario');
 
-	$query_imagenes = "";
+	$query2 = "INSERT INTO libros (id_usuario, titulo, autor, editorial, year, sinopsis, fecha_agregado) 
+				VALUES ($id_usuario, '$titulo', '$autor', '$editorial', '$year', '$sinopsis', '$fecha_actual')";
+
+	$id_libro = ExecuteSQL_returnID($query2);		
+	
+	
 
 	if(isset($_FILES["foto_portada"]) && $_FILES["foto_portada"]["size"] > 0){
 		$foto_portada = $_FILES["foto_portada"];
@@ -607,20 +634,18 @@ if(Requesting("action")=="agregar_libro"){
 		$extension_foto = ".".strtolower(pathinfo($foto_portada["name"], PATHINFO_EXTENSION));
 
 		//Generar la ruta de la foto
-		$ruta_foto = "imagenes/libros/".$ruta_nombre_libro."_".$codigo."".$extension_foto;
+		$ruta_foto = "imagenes/libros/".$id_libro."_".$ruta_nombre_libro."_".$codigo."".$extension_foto;
+
 
 		//Mover la imagen a la ruta
 		move_uploaded_file($foto_portada["tmp_name"], $ruta_foto);
 
-		//query para concatenar en la sentencia sql
-		// $query_imagenes .= ", ruta_foto_portada = '".$ruta_foto."'";
 	}
 
-	$query2 = "INSERT INTO libros (id_usuario, titulo, autor, editorial, year, sinopsis, ruta_foto_portada) 
-				VALUES ($id_usuario, '$titulo', '$autor', '$editorial', '$year', '$sinopsis', '$ruta_foto')";
+	$query3 = "UPDATE libros SET ruta_foto_portada = '$ruta_foto' WHERE id_libro = $id_libro";
 
-
-	if(ExecuteSQL($query2)){
+	
+	if(ExecuteSQL($query3)){
 		$resultText = "El libro se ha añadido a tu colección.";
 		$resultStatus = "ok";
 	} else{
@@ -758,6 +783,85 @@ if(Requesting("action") == "cambiar_status_libro"){
 
 
 	$result = array(   
+		'result' 				=> $resultStatus, 
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;
+}
+
+
+if(Requesting("action") == "aceptar_denegar_prestamo"){
+	$id_prestamo = Requesting("id_prestamo");
+	$id_libro = Requesting("id_libro");
+	$tipo = Requesting("tipo");
+	
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+	$query0 = "SELECT * FROM libros WHERE id_libro = $id_libro";
+	$id_usuario_owner = GetValueSQL($query0, "id_usuario");
+	$status_libro = GetValueSQL($query0, 'status');
+
+	if($status_libro == 3){
+		$resultText = "Habilita el libro para realizar la operación.";
+		$resultStatus = "error";
+	} else{
+		switch($tipo){ //Si acepta o deniega al usuario 
+			case 1:
+				$query1 = "UPDATE prestamos SET status_prestamo = 2 WHERE id_prestamo = $id_prestamo";
+				$resultText = "Se ha aceptado el préstamo";
+			break;
+			case 2:
+				$query1 = "UPDATE prestamos SET status_prestamo = 6 WHERE id_prestamo = $id_prestamo";
+				$resultText = "Se ha denegado el préstamo";
+			break;
+		}
+	
+		if(ExecuteSQL($query1)){
+			$resultStatus = "ok";
+		} else{
+			$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo. ";
+			$resultStatus = "error";
+		}
+	
+		switch($tipo){
+			case 1: //Si lo acepta, cambia el status del libro
+				$query2 = "UPDATE libros SET status = 2 WHERE id_libro = $id_libro";
+				ExecuteSQL($query2);
+			break;
+			case 2: //Si no lo acepta, se recorre la waitlist.
+				$query2 = "SELECT COUNT(*) AS cuantos FROM waitlist WHERE id_libro = $id_libro";
+				$cuantos_waitlist = GetValueSQL($query2, 'cuantos');
+
+				if($cuantos_waitlist > 0){ //Hay mas de uno en waitlist 
+					$query3 = "SELECT * FROM waitlist WHERE id_libro = $id_libro AND turno = 1";
+                    $id_usuario_destino = GetValueSQL($query3, 'id_usuario');
+
+					$query4 = "INSERT INTO prestamos (id_usuario_owner, id_usuario_destino, id_libro, status_prestamo) 
+					VALUES ($id_usuario_owner, $id_usuario_destino, $id_libro, 1)"; //El turno 1 en la waitlist pasa a la tabla prestamos con status 1 (solicitado)
+                    ExecuteSQL($query4);
+
+					$query5 = "DELETE FROM waitlist WHERE id_libro = $id_libro AND turno = 1"; //Se borra el turno 1 de la waitlist
+					ExecuteSQL($query5);
+
+					$query6 = "SELECT COUNT(*) AS cuantos FROM waitlist WHERE id_libro = $id_libro";
+					$cuantos_post_eliminar = GetValueSQL($query6, 'cuantos');
+
+					if($cuantos_post_eliminar > 0){ //Si quedan mas usuarios en la waitlist, se recorre su turno
+						$query7 = "UPDATE waitlist SET turno = turno - 1 WHERE id_libro = $id_libro";
+						ExecuteSQL($query7);
+					}
+				}
+			break;
+		}
+	}
+
+
+
+	
+	$result = array(   
+		'id_libro'				=> $id_libro,
 		'result' 				=> $resultStatus, 
 		'result_text' 			=> $resultText
 	);		 

@@ -162,7 +162,7 @@ session_start();
 
 
     <!--=====================================
-	Header
+	#region Header
 	======================================-->
 
     <?php
@@ -225,7 +225,7 @@ session_start();
     ?>
 
     <!--=====================================
-    Breadcrumb
+    #region Breadcrumb
     ======================================-->  
 	
 	<div class="ps-breadcrumb">
@@ -251,7 +251,7 @@ session_start();
 
 
     <!--=====================================
-    Product Content
+    #region Product Content
     ======================================--> 
 
 	<div class="ps-page--product">
@@ -288,7 +288,7 @@ session_start();
 
                                     <div class="item">
                                         <a href="<?php echo $ruta_foto_portada; ?>">
-                                            <img src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                            <img style="width: 400px; height: auto;" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
                                         </a>
                                     </div>
 
@@ -297,7 +297,7 @@ session_start();
                             </div><!-- End Gallery -->
 
                             <!--=====================================
-                            Product Info
+                            #region Product Info
                             ======================================--> 
 
                             <div class="ps-product__info">
@@ -332,22 +332,27 @@ session_start();
 
                                     <p> 
                                                 
-                                        <div class="ps-product__actions" id="wishlist_spot">
+                                        <div class="ps-product__actions" id="wishlist_spot" title="Agregar a wishlist">
                                             <?php 
                                             $query10 = "SELECT COUNT(*) AS existe FROM wishlist WHERE id_usuario = $id_usuario_global AND id_libro = $id_libro_global";
                                             $existe_wishlist = GetValueSQL($query10, 'existe');
+                                            
+                                            if($id_usuario_global != $id_usuario){ //El libro no es del usuario con la sesión iniciada
 
-                                            if($existe_wishlist > 0){ //El producto está en la wishlist
-                                                $icon_wishlist = 
-                                                '<a onclick="wishlist_remove('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
-                                                    <i class="fas fa-heart fa-xl"></i>
-                                                </a>';
+                                               if($existe_wishlist > 0){ //El producto está en la wishlist
+                                                    $icon_wishlist = 
+                                                    '<a onclick="wishlist_remove('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
+                                                        <i class="fas fa-heart fa-xl"></i>
+                                                    </a>';
 
-                                            } else{ //El producto no está en la wishlist
-                                                $icon_wishlist = 
-                                                '<a onclick="wishlist_add('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
-                                                    <i class="fa-regular fa-heart fa-xl"></i>
-                                                </a>';
+                                                } else{ //El producto no está en la wishlist
+                                                    $icon_wishlist = 
+                                                    '<a onclick="wishlist_add('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
+                                                        <i class="fa-regular fa-heart fa-xl"></i>
+                                                    </a>';
+                                                }
+                                            } else{
+                                                $icon_wishlist = '';
                                             }
 
                                             echo $icon_wishlist;
@@ -406,7 +411,7 @@ session_start();
                 </div><!-- End Left Column -->
 
                 <!--=====================================
-                Right Column
+                #region Right Column
                 ======================================--> 
 
                 <div class="ps-page__right d-block d-sm-none d-xl-block">
@@ -443,8 +448,7 @@ session_start();
                                 
                                 $url_producto = str_replace(" ", "-", $row_titulo);
                                 $url_producto = str_replace("/", "-", $url_producto);
-                                $url_producto = str_replace("Ñ", "N", $url_producto);
-                                $url_producto = str_replace("ñ", "ñ", $url_producto);
+                                $url_producto = quitarAcentos($url_producto);
                                 ?>
 
                                 <div class="ps-product">
@@ -487,7 +491,7 @@ session_start();
             </div><!--  End Product Container -->
 
             <!--=====================================
-            Customers who bought
+             #region Customers who bought
             ======================================--> 
 
             <div class="ps-section--default ps-customer-bought">
@@ -503,8 +507,8 @@ session_start();
                     <div class="row">
                     
                     <?php 
-                    $cont = 0;
-                    do{
+                    // $cont = 0;
+                    // do{
 
                     
                         $query4 = "SELECT COUNT(*) AS cuantos FROM libros 
@@ -579,8 +583,7 @@ session_start();
                                 
                                 $url_producto = str_replace(" ", "-", $row_titulo);
                                 $url_producto = str_replace("/", "-", $url_producto);
-                                $url_producto = str_replace("Ñ", "N", $url_producto);
-                                $url_producto = str_replace("ñ", "ñ", $url_producto);
+                                $url_producto = quitarAcentos($url_producto);
                                 ?>
                                 <!-- Inicio Producto -->
                                 <div class="col-lg-2 col-md-4 col-6 ">
@@ -623,8 +626,8 @@ session_start();
                             <?php
                             }
                         }
-                        $cont++;
-                    } while($cont < 6);
+                    //     $cont++;
+                    // } while($cont < 6);
 
                     
                     ?>
@@ -636,7 +639,7 @@ session_start();
             </div><!--  End Customers who bought -->
 
             <!--=====================================
-            Related products
+            #region Related products
             ======================================--> 
 
             <div class="ps-section--default">
@@ -653,8 +656,8 @@ session_start();
                         <!-- Puedo añadir unos 10 libros -->
 
                         <?php 
-                    $cont = 0;
-                    do{
+                    // $cont = 0;
+                    // do{
 
                     
                         $query6 = "SELECT COUNT(*) AS cuantos FROM libros 
@@ -694,11 +697,12 @@ session_start();
                                 
                                 $url_producto = str_replace(" ", "-", $row_titulo);
                                 $url_producto = str_replace("/", "-", $url_producto);
-                                $url_producto = str_replace("Ñ", "N", $url_producto);
-                                $url_producto = str_replace("ñ", "ñ", $url_producto);
+                                $url_producto = quitarAcentos($url_producto);
                                 ?>
 
-                                <!-- Inicio Producto -->
+                                <!--=====================================
+                                #region Inicio producto
+                                ======================================-->
                                 
                                 <div class="ps-product">
                                     <div class="ps-product__thumbnail">
@@ -725,8 +729,8 @@ session_start();
                             <?php
                             }
                         }
-                        $cont++;
-                    } while($cont < 10);
+                    //     $cont++;
+                    // } while($cont < 10);
 
                     ?>
 

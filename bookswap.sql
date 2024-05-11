@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-05-2024 a las 00:11:03
+-- Tiempo de generación: 08-05-2024 a las 10:17:55
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -56,7 +56,41 @@ CREATE TABLE `carreras` (
 --
 
 INSERT INTO `carreras` (`id_carrera`, `carrera`) VALUES
-(1, 'Ingeniería Informática');
+(1, 'Ingeniería Informática'),
+(2, 'Ingeniería Biomédica'),
+(3, 'Ingeniería Civil'),
+(4, 'Ingeniería en Alimentos y Biotecnología'),
+(5, 'Ingeniería en Computación'),
+(6, 'Ingeniería en Comunicaciones y Electrónica'),
+(7, 'Ingeniería en Logística y Transporte'),
+(8, 'Ingeniería en Topografía Geomática'),
+(9, 'Ingeniería Fotónica'),
+(10, 'Ingeniería Industrial'),
+(11, 'Ingeniería Mecánica Eléctrica'),
+(12, 'Licenciatura en Químico Farmacéutico Biólogo'),
+(13, 'Ingeniería Química'),
+(14, 'Ingeniería Robótica'),
+(15, 'Licenciatura en Ciencia de Materiales'),
+(16, 'Licenciatura en Física'),
+(17, 'Licenciatura en Matemáticas'),
+(18, 'Licenciatura en Química'),
+(19, 'Ingeniería Biomédica'),
+(20, 'Ingeniería Civil'),
+(21, 'Ingeniería en Alimentos y Biotecnología'),
+(22, 'Ingeniería en Computación'),
+(23, 'Ingeniería en Comunicaciones y Electrónica'),
+(24, 'Ingeniería en Logística y Transporte'),
+(25, 'Ingeniería en Topografía Geomática'),
+(26, 'Ingeniería Fotónica'),
+(27, 'Ingeniería Industrial'),
+(28, 'Ingeniería Mecánica Eléctrica'),
+(29, 'Licenciatura en Químico Farmacéutico Biólogo'),
+(30, 'Ingeniería Química'),
+(31, 'Ingeniería Robótica'),
+(32, 'Licenciatura en Ciencia de Materiales'),
+(33, 'Licenciatura en Física'),
+(34, 'Licenciatura en Matemáticas'),
+(35, 'Licenciatura en Química');
 
 -- --------------------------------------------------------
 
@@ -116,9 +150,12 @@ CREATE TABLE `libros` (
 --
 
 INSERT INTO `libros` (`id_libro`, `id_usuario`, `titulo`, `autor`, `editorial`, `year`, `sinopsis`, `num_visitas`, `num_prestamos`, `ruta_foto_portada`, `fecha_agregado`, `status`) VALUES
-(1, 1, 'Juego de Tronos', 'George R. R. Martin', 'Debolsillo', '', 'Tras el largo verano, el invierno se acerca a los Siete Reinos. Lord Eddars Stark, señor de Invernalia, deja sus dominios para unirse a la corte del rey Robert Baratheon el Usurpador, hombre díscolo y otrora guerrero audaz cuyas mayores aficiones son comer, beber y engendrar bastardos. Eddard Stark desempeñará el cargo de Mano del Rey e intentará desentrañar una maraña de intrigas que pondrá en peligro su vida... y la de los suyos. En un mundo cuyas estaciones duran décadas y en el que retazos de una magia inmemorial y olvidada surgen en los rincones más sombrios y maravillosos, la traición y la lealtad, la compasión y la sed de venganza, el amor y el poder hacen del juego de tronos una poderosa trampa que atrapa en sus fauces a los personajes... y al lector.', 45, 0, 'imagenes/libros/juego_de_tronos_1.jpg', '2024-03-26', 1),
-(2, 1, 'Choque de Reyes', 'George R. R. Martin', 'Debolsillo', NULL, 'Choque de reyes continua donde acabó el Juego de Tronos. La guerra civil se ha extendido por los reinos de Poniente y pasará a conocerse como la Guerra de los Cinco Reyes. Mientras, la Guardia de la Noche envía un grupo de reconocimiento al norte, más allá del muro. En el lejano este, Daenerys Targaryen continua con su misión: volver a los Siete Reinos para reconquistarlos.', 40, 0, 'imagenes/libros/choque_de_reyes.jpg', '2024-03-31', 2),
-(4, 1, 'Tormenta de Espadasss', 'George R. R. Martin', 'DeBolsillo', '', 'Las huestes de los fugaces reyes de Poniente, descompuestas en hordas, asuelan y esquilman una tierra castigada por la guerra e indefensa ante un invierno que se anuncia inusitadamente crudo. Las alianzas nacen y se desvanecen como volutas de humo bajo el viento helado del Norte. Ajena a las intrigas palaciegas, e ignorante del auténtico peligro en ciernes, la Guardia de la Noche se ve desbordada por los salvajes. Y al otro lado del mundo, Daenerys Targaryen intenta reclutar en las Ciudades Libres un ejército con el que desembarcar en su tierra.\r\nMartin hace que lo imposible parezca sencillo. Tormenta de espadas confirma Canción de hielo y fuego como un hito de la fantasía épica. Brutal y poética, conmovedora y cruel, la magia de Martin, como la del mundo de Poniente, necesita apenas una pincelada para cautivar al lector, hacerlo reír y llorar, y conseguir que el asombro ceda paso a la más profunda admiración por la serie.', 0, 0, 'imagenes/libros/tormenta_de_espadas_222790641.jpg', NULL, 3);
+(1, 1, 'Juego de Tronos', 'George R. R. Martin', 'Debolsillo', '', 'Tras el largo verano, el invierno se acerca a los Siete Reinos. Lord Eddars Stark, señor de Invernalia, deja sus dominios para unirse a la corte del rey Robert Baratheon el Usurpador, hombre díscolo y otrora guerrero audaz cuyas mayores aficiones son comer, beber y engendrar bastardos. Eddard Stark desempeñará el cargo de Mano del Rey e intentará desentrañar una maraña de intrigas que pondrá en peligro su vida... y la de los suyos. En un mundo cuyas estaciones duran décadas y en el que retazos de una magia inmemorial y olvidada surgen en los rincones más sombrios y maravillosos, la traición y la lealtad, la compasión y la sed de venganza, el amor y el poder hacen del juego de tronos una poderosa trampa que atrapa en sus fauces a los personajes... y al lector.', 53, 0, 'imagenes/libros/1_juego_de_tronos_222790641.jpg', '2024-03-26', 2),
+(2, 1, 'Choque de Reyes', 'George R. R. Martin', 'Debolsillo', NULL, 'Choque de reyes continua donde acabó el Juego de Tronos. La guerra civil se ha extendido por los reinos de Poniente y pasará a conocerse como la Guerra de los Cinco Reyes. Mientras, la Guardia de la Noche envía un grupo de reconocimiento al norte, más allá del muro. En el lejano este, Daenerys Targaryen continua con su misión: volver a los Siete Reinos para reconquistarlos.', 47, 0, 'imagenes/libros/2_choque_de_reyes_222790641.jpg', '2024-04-02', 2),
+(4, 1, 'Tormenta de Espadas', 'George R. R. Martin', 'DeBolsillo', '', 'Las huestes de los fugaces reyes de Poniente, descompuestas en hordas, asuelan y esquilman una tierra castigada por la guerra e indefensa ante un invierno que se anuncia inusitadamente crudo. Las alianzas nacen y se desvanecen como volutas de humo bajo el viento helado del Norte. Ajena a las intrigas palaciegas, e ignorante del auténtico peligro en ciernes, la Guardia de la Noche se ve desbordada por los salvajes. Y al otro lado del mundo, Daenerys Targaryen intenta reclutar en las Ciudades Libres un ejército con el que desembarcar en su tierra.\r\nMartin hace que lo imposible parezca sencillo. Tormenta de espadas confirma Canción de hielo y fuego como un hito de la fantasía épica. Brutal y poética, conmovedora y cruel, la magia de Martin, como la del mundo de Poniente, necesita apenas una pincelada para cautivar al lector, hacerlo reír y llorar, y conseguir que el asombro ceda paso a la más profunda admiración por la serie.', 9, 0, 'imagenes/libros/4_tormenta_de_espadas_222790641.jpg', '2024-04-03', 1),
+(7, 2, 'Xochitl', 'Scarlett Lindero', 'Planeta México', '2023', 'De vender gelatinas a buscar la Presidencia de México', 11, 0, 'imagenes/libros/7_xochitl_219552308.jpg', '2024-05-06', 1),
+(8, 1, 'Festín de Cuervos', 'George R. R. Martin', 'DeBolsillo', '2009', '', 7, 0, 'imagenes/libros/8_festín_de_cuervos_222790641.jpg', '2024-05-06', 1),
+(9, 7, 'Los Juegos del Hambre', 'Suzanne Collins', 'Penguin Random House ', '2021', 'En una oscura versión del futuro próximo, doce chicos y doce chicas se ven obligados a participar en un reality show llamado los Juegos del Hambre.', 2, 0, 'imagenes/libros/9_los_juegos_del_hambre_219552308.jpg', '2024-05-08', 1);
 
 -- --------------------------------------------------------
 
@@ -133,16 +170,19 @@ CREATE TABLE `prestamos` (
   `id_libro` int(11) NOT NULL,
   `fecha_inicio` date DEFAULT NULL,
   `fecha_fin` date DEFAULT NULL,
-  `status` int(11) NOT NULL
+  `status_prestamo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `prestamos`
 --
 
-INSERT INTO `prestamos` (`id_prestamo`, `id_usuario_owner`, `id_usuario_destino`, `id_libro`, `fecha_inicio`, `fecha_fin`, `status`) VALUES
+INSERT INTO `prestamos` (`id_prestamo`, `id_usuario_owner`, `id_usuario_destino`, `id_libro`, `fecha_inicio`, `fecha_fin`, `status_prestamo`) VALUES
 (3, 1, 2, 2, NULL, NULL, 2),
-(4, 1, 2, 1, NULL, NULL, 1);
+(4, 1, 2, 1, NULL, NULL, 6),
+(5, 1, 1, 1, NULL, NULL, 6),
+(6, 1, 3, 1, NULL, NULL, 2),
+(7, 7, 1, 7, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -187,14 +227,14 @@ INSERT INTO `status_libro` (`id_status`, `status_nombre`) VALUES
 
 CREATE TABLE `status_prestamos` (
   `id_status` int(11) NOT NULL,
-  `status` varchar(50) NOT NULL
+  `status_nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `status_prestamos`
 --
 
-INSERT INTO `status_prestamos` (`id_status`, `status`) VALUES
+INSERT INTO `status_prestamos` (`id_status`, `status_nombre`) VALUES
 (1, 'Solicitado'),
 (2, 'Aceptado'),
 (3, 'En proceso'),
@@ -276,7 +316,9 @@ INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `codigo_usuario`, 
 (3, 'Brandon', 'Herrera', '218535254', 1, 12, 'brandon.herrera5352@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2),
 (4, 'Jorge', 'Aguilar', '219528685', 1, 12, 'jorge.aguilar5286@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2),
 (5, 'Cristian', 'Orozco', '222790978', 1, 12, 'cristian.orozco9097@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2),
-(6, 'Gerson', 'Flores', '222791192', 1, 12, 'gerson.flores9119@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2);
+(6, 'Gerson', 'Flores', '222791192', 1, 12, 'gerson.flores9119@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2),
+(7, 'Diego', 'Hernandez', '219552308', 1, 12, 'ivan.prueba@alumnos.udg.mx', '25d55ad283aa400af464c76d713c07ad', 'imagenes/perfil/perfil_219552308.jpg', 'imagenes/credenciales/credencial_219552308.jpg', 0, 0, 0, 2),
+(8, 'Angel', 'Ramirez Navarro', '219323202', 1, 10, 'angel.ramirez5119@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -297,12 +339,10 @@ CREATE TABLE `waitlist` (
 --
 
 INSERT INTO `waitlist` (`id_waitlist`, `id_usuario`, `id_libro`, `turno`, `fecha_inicio_turno`) VALUES
-(4, 1, 1, 1, '2024-04-02'),
 (5, 1, 2, 1, '2024-04-02'),
-(6, 3, 1, 2, '2024-04-02'),
 (8, 6, 2, 2, '2024-04-02'),
-(9, 6, 1, 3, '2024-04-04'),
-(11, 0, 2, 3, '2024-04-19');
+(9, 6, 1, 1, '2024-04-04'),
+(12, 7, 1, 2, '2024-05-08');
 
 -- --------------------------------------------------------
 
@@ -324,7 +364,8 @@ INSERT INTO `wishlist` (`id_wishlist`, `id_usuario`, `id_libro`) VALUES
 (41, 3, 1),
 (42, 6, 1),
 (45, 2, 1),
-(47, 1, 1);
+(50, 1, 7),
+(51, 7, 1);
 
 --
 -- Índices para tablas volcadas
@@ -422,7 +463,7 @@ ALTER TABLE `administradores`
 -- AUTO_INCREMENT de la tabla `carreras`
 --
 ALTER TABLE `carreras`
-  MODIFY `id_carrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_carrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `ciclos`
@@ -434,13 +475,13 @@ ALTER TABLE `ciclos`
 -- AUTO_INCREMENT de la tabla `libros`
 --
 ALTER TABLE `libros`
-  MODIFY `id_libro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_libro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `prestamos`
 --
 ALTER TABLE `prestamos`
-  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `reseñas`
@@ -476,19 +517,19 @@ ALTER TABLE `strikes`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `waitlist`
 --
 ALTER TABLE `waitlist`
-  MODIFY `id_waitlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_waitlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `id_wishlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id_wishlist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
