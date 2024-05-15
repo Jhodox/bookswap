@@ -1,3 +1,8 @@
+<?php
+ob_start();
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -268,6 +273,30 @@
 </head>
 
 <body>
+<?php
+    // Estos tres siempre se ponen despues del body, del archivo que estemos creando
+    require_once "include/functions.php";
+    require_once "include/db_tools.php";  
+    include('main-header.php'); 
+
+    if($sesion == 0){
+        header("Location: index");
+    }
+
+    ?>
+    <input type="hidden" id="id_usuario_global" value="<?php echo $id_usuario_global; ?>">
+
+    <?php
+        if($sesion != 0){
+            $query1 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario_global";
+            $nombres = GetValueSQL($query1, 'nombres');
+            $apellidos = GetValueSQL($query1, 'apellidos');
+            $codigo_usuario = GetValueSQL($query1, 'codigo_usuario');
+        }
+
+    ?>
+    <h2><?php echo $nombres . ' ' . $apellidos; ?></h2>
+
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <div class="container">
         <div class="row clearfix">
@@ -371,9 +400,9 @@
                         <div class="chat-message clearfix">
                             <div class="input-group mb-0">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-send"></i></span>
+                                    <span class="input-group-text"><button id="submit"><i class="fa fa-send"></i></button></span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="Enter text here...">
+                                <textarea name="message" id="message" type="text" class="form-control" placeholder="Enter text here..."></textarea>
                             </div>
                         </div>
                     </div>
@@ -384,5 +413,73 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript"></script>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getDatabase, set, ref, push, child, onValue, onChildAdded } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+    
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHNB64eKw2nyZFEXE0O482UqZQfx6I3Cw",
+            authDomain: "bookswap-33e37.firebaseapp.com",
+            projectId: "bookswap-33e37",
+            storageBucket: "bookswap-33e37.appspot.com",
+            messagingSenderId: "930267590",
+            appId: "1:930267590:web:cfc931bf6d38799a4df2c7"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        var nombres = "<?php echo $nombres; ?>";
+        var apellidos = "<?php echo $apellidos; ?>";
+
+        //Combinar nombre y apellidos
+        var myName = nombres + ' ' + apellidos;
+        var chatID = myName;
+
+        submit.addEventListener('click',(e) => {
+            e.preventDefault();
+            var message = document.getElementById('message').value;
+
+            if(message.trim() === ""){
+                alert("El mensaje no puede estar vacío");
+                return;
+            }
+
+            const id = push(child(ref(database, 'messages/' + chatID))).key;
+
+            set(ref(database, 'messages/' + chatID + '/' + id), {
+                sender: myName,
+                message: message,
+                timestamp: Date.now()
+            });
+            document.getElementById('message').value = "";
+            alert('El mensaje se ha enviado');
+        });
+
+        const newMsgRef = ref(database, 'messages/' + chatID);
+        onChildAdded(newMsgRef, (data) => {
+            var messageData = data.val();
+            var messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+
+            if(messageData.sender === myName){
+                messageElement.classList.add('my-message');
+                messageElement.textContent = messageData.message;
+            }else{
+                messageElement.classList.add('other-message');
+                messageElement.textContent = `${messageData.sender}: ${messageData.message}`;
+            }
+
+            document.querySelector('.chat-history ul').appendChild(messageElement);
+        });
+        </script>
+    
     </body>
 </html>
