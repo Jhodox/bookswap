@@ -1,7 +1,7 @@
 $("#btn_login").click(inicia_sesion);
 $("#btn_registro").click(registro_user);
 
-
+// #region activar_actualizar_datos
 function activar_actualizar_datos(id_usuario){
 	$("#actualizar_info_usuario").show('slow');
 	$("#cambiar_password").hide('slow');
@@ -10,7 +10,7 @@ function activar_actualizar_datos(id_usuario){
 	llenar_formulario_actualizar_datos(id_usuario);
 }
 
-
+// #region activar_cerrar_ventanas
 function activar_cerrar_ventanas(){
 	$("#actualizar_info_usuario").hide('slow');
 	$("#cambiar_password").hide('slow');
@@ -26,8 +26,6 @@ function activar_cerrar_ventanas(){
 }
 
 
-
-
 $(document).ready(function() { 
 	valida_sesion();	
 	$("#actualizar_info_usuario").hide();
@@ -39,7 +37,7 @@ $(document).ready(function() {
 	$("#div_historial_prestamos").hide();
 });
 
- 
+// #region valida_sesion
 function valida_sesion(){
 	console.log("Validando sesion...");
 	$.post("controller.php", 
@@ -47,6 +45,7 @@ function valida_sesion(){
 		}, end_valida_sesion);  
 	
 }
+
 function end_valida_sesion(xml){
 	$(xml).find("response").each(function(i){		  
 		if ($(this).find("result").text()=="ok"){ 
@@ -67,8 +66,7 @@ function end_valida_sesion(xml){
 	});
 }
 
-
-
+// #region inicia_sesion
 function inicia_sesion(e){
 	//Evita que se recargue la pagina
 	e.preventDefault();
@@ -81,6 +79,7 @@ function inicia_sesion(e){
 				login_password 		: login_password 
 		}, end_inicia_sesion);
 }
+
 function end_inicia_sesion(xml){	   
 	$(xml).find("response").each(function(i){		 
 		if ($(this).find("result").text()=="ok"){ 
@@ -99,8 +98,7 @@ function end_inicia_sesion(xml){
 	});
 }
 
-
-
+// #region registro_user
 function registro_user(e){
 	e.preventDefault();
 	// console.log("Registrando...");
@@ -224,9 +222,7 @@ function end_registro_user(xml){
 	});
 }
 
-
-
-
+// #region cerrar_sesion
 function cerrar_sesion(){	
 	console.log("Cerrando sesion");
 	$.post("controller.php",
@@ -243,10 +239,7 @@ function end_cerrar_sesion(xml){
 	});
 }
 
-
-
-
-
+// #region llenar_select_carreras
 function llenar_select_carreras(){
 	// console.log("llega aqui");
 	$.post("controller.php",
@@ -265,7 +258,7 @@ function end_llenar_select_carreras(xml){
 	}); 
 }
 
-
+// #region llenar_select_ciclos
 function llenar_select_ciclos(){
 	$.post("controller.php",
 	{	action : "llenar_select_ciclos",
@@ -280,7 +273,7 @@ function end_llenar_select_ciclos(xml){
 	}); 
 }
 
-
+// #region sumar_visitas
 function sumar_visitas(id_libro){
 	$.post("controller.php",
     {    action : "sumar_visitas",
@@ -296,6 +289,7 @@ function end_sumar_visitas(xml){
 	}); 
 }
 
+// #region wishlist_remove
 function wishlist_remove(id_usuario, id_libro, event){
 	event.preventDefault();
 
@@ -341,7 +335,7 @@ function end_wishlist_remove(xml){
     });
 }
 
-
+// #region wishlist_add
 function wishlist_add(id_usuario, id_libro, event){
 	event.preventDefault();
 
@@ -386,7 +380,7 @@ function end_wishlist_add(xml){
     });
 }
 
-
+// #region solicitar_libro
 function solicitar_libro(id_usuario, id_libro, event) { 
 	event.preventDefault();
 
@@ -422,7 +416,7 @@ function end_solicitar_libro(xml){
     });
 }
 
-
+// #region llenar_formulario_actualizar_datos
 function llenar_formulario_actualizar_datos(id_usuario){
 
 	$.post("controller.php",
@@ -430,7 +424,6 @@ function llenar_formulario_actualizar_datos(id_usuario){
        	 	id_usuario  : id_usuario
     }, end_llenar_formulario_actualizar_datos);
 }
-
 
 function end_llenar_formulario_actualizar_datos(xml){
 	$(xml).find("response").each(function(i){         
@@ -449,6 +442,7 @@ function end_llenar_formulario_actualizar_datos(xml){
     });
 }
 
+// #region actualizar_usuario
 function actualizar_usuario(id_usuario, e){
 	e.preventDefault();
 	var nombres = $("#nombres").val();
@@ -567,6 +561,7 @@ function end_actualizar_usuario(xml){
     });
 }
 
+// #region cambiar_password
 function cambiar_password(id_usuario){
 	var password_actual = $("#password_actual").val();
 	var nueva_password = $("#nueva_password").val();
@@ -595,9 +590,6 @@ function cambiar_password(id_usuario){
 				confirmar_nueva_password 	: confirmar_nueva_password,
 		}, end_cambiar_password);
 	}
-
-	
-
 }
 
 function end_cambiar_password(xml){
@@ -628,17 +620,19 @@ function end_cambiar_password(xml){
     });
 }
 
-
+// #region ver_sinopsis
 function ver_sinopsis(id_libro, e){
 	e.preventDefault();
 	$("#sinopsis_"+id_libro).toggle('fast');
 }
 
+// #region ver_waitlist
 function ver_waitlist(id_libro, e){
 	e.preventDefault();
 	$("#waitlist_"+id_libro).toggle('fast');
 }
 
+// #region abrir_modal
 function abrir_modal(tipo){
 	console.log(tipo);
 	
@@ -647,6 +641,7 @@ function abrir_modal(tipo){
 	}
 }
 
+// #region cambiar_opciones_perfil
 function cambiar_opciones_perfil(tipo, e){
 	e.preventDefault();
 	switch(tipo){
@@ -680,10 +675,7 @@ function cambiar_opciones_perfil(tipo, e){
 	}
 }
 
-
-
-
-
+// #region agregar_libro
 function agregar_libro(id_usuario){
 	var titulo = $("#al_titulo").val();
 	var autor = $("#al_autor").val();
@@ -838,7 +830,7 @@ function end_agregar_libro(xml){
     });
 }
 
-
+// #region llenar_form_editar_libro
 function llenar_form_editar_libro(id_libro){
     var id_libro = id_libro;
 
@@ -863,9 +855,7 @@ function end_llenar_form_editar_libro(xml){
     });
 }
 
-
-
-
+// #region editar_libro
 function editar_libro(id_usuario){
 	var id_libro = $("#el_id_libro").val();
 	var titulo = $("#el_titulo").val();
@@ -1022,6 +1012,7 @@ function end_editar_libro(xml){
     });
 }
 
+// #region cambiar_status_libro
 function cambiar_status_libro(id_libro, tipo){
 	
 	$.post("controller.php",
@@ -1091,7 +1082,7 @@ function end_validar_usuario(xml){
     });
 }
 
-
+// #region aceptar_denegar_prestamo
 function aceptar_denegar_prestamo(id_prestamo, id_libro, tipo, e){
 	e.preventDefault();
 
@@ -1130,21 +1121,14 @@ function end_aceptar_denegar_prestamo(xml){
 }
 
 
-
-
-
-
-
-
-
-
-
+// #region updateFileName
 function updateFileName(input, labelId) {
     var fileName = input.files[0].name;
     var label = document.getElementById(labelId);
     label.innerText = fileName;
 }
 
+// #region validateCodigoUDG
 function validateCodigoUDG(codigo) {
     var regex = /^[0-9]{9}$/;
     
@@ -1155,7 +1139,7 @@ function validateCodigoUDG(codigo) {
     }
 }
 
-
+// #region validateEmail
 function validateEmail(email) {
 	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	var dominioUdgReg = /\.udg\.mx$/;
@@ -1190,11 +1174,13 @@ function validateEmail(email) {
     return true;
 }
 
+// #region validarTexto
 function validarTexto(cadena){
     var regex = /^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/;
     return regex.test(cadena);
 }
 
+// #region validarTextoConSignos
 function validarTextoConSignos(texto) {
     // Expresión regular para validar texto con letras, números, signos de puntuación y acentos
     var regex = /^[a-zA-Z0-9\s\.,!?'"()\-áéíóúÁÉÍÓÚ]+$/;
@@ -1207,6 +1193,7 @@ function validarTextoConSignos(texto) {
     }
 }
 
+// #region validarYear
 function validarYear(year) {
     // Verificar si el año es una cadena de texto
     if (typeof year === 'string' || year instanceof String) {
