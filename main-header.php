@@ -183,8 +183,8 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
 
                                         $url_producto = str_replace(" ", "-", $titulo);
                                         $url_producto = str_replace("/", "-", $url_producto);
-                                        $url_producto = str_replace("Ñ", "N", $url_producto);
-                                        $url_producto = str_replace("ñ", "ñ", $url_producto);
+                                        $url_producto = quitarAcentos($url_producto);
+                                        $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
 
 
                                         $nombre_usuario = $row2['name'];
@@ -371,8 +371,8 @@ Header Mobile
 
                                     $url_producto = str_replace(" ", "-", $titulo);
                                     $url_producto = str_replace("/", "-", $url_producto);
-                                    $url_producto = str_replace("Ñ", "N", $url_producto);
-                                    $url_producto = str_replace("ñ", "ñ", $url_producto);
+                                    $url_producto = quitarAcentos($url_producto);
+                                    $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
 
                                     $nombre_usuario = $row2['nombres'];
                                     $apellido_usuario = $row2['apellidos'];

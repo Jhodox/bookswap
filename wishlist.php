@@ -18,7 +18,7 @@ session_start();
     <meta name="keywords" content="">
     <meta name="description" content="">
 
-    <title>BookSwap | Inicio</title>
+    <title>BookSwap | Wishlist</title>
     <?php include ("include/headertagbase.php"); ?>
 
     <link rel="icon" href="img/template/icono.png">
@@ -229,6 +229,7 @@ session_start();
                     $url_producto = str_replace(" ", "-", $titulo);
                     $url_producto = str_replace("/", "-", $url_producto);
                     $url_producto = quitarAcentos($url_producto);
+                    $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
 
                     // $year == NULL ? "Sin Año" : $year;
                     if ($year == NULL) {

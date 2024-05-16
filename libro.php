@@ -336,26 +336,30 @@ session_start();
                                             <?php 
                                             $query10 = "SELECT COUNT(*) AS existe FROM wishlist WHERE id_usuario = $id_usuario_global AND id_libro = $id_libro_global";
                                             $existe_wishlist = GetValueSQL($query10, 'existe');
-                                            
-                                            if($id_usuario_global != $id_usuario){ //El libro no es del usuario con la sesión iniciada
 
-                                               if($existe_wishlist > 0){ //El producto está en la wishlist
-                                                    $icon_wishlist = 
-                                                    '<a onclick="wishlist_remove('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
-                                                        <i class="fas fa-heart fa-xl"></i>
-                                                    </a>';
+                                            if($id_usuario_global != 0){
+                                                if($id_usuario_global != $id_usuario){ //El libro no es del usuario con la sesión iniciada
 
-                                                } else{ //El producto no está en la wishlist
-                                                    $icon_wishlist = 
-                                                    '<a onclick="wishlist_add('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
-                                                        <i class="fa-regular fa-heart fa-xl"></i>
-                                                    </a>';
+                                                if($existe_wishlist > 0){ //El producto está en la wishlist
+                                                        $icon_wishlist = 
+                                                        '<a onclick="wishlist_remove('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
+                                                            <i class="fas fa-heart fa-xl"></i>
+                                                        </a>';
+
+                                                    } else{ //El producto no está en la wishlist
+                                                        $icon_wishlist = 
+                                                        '<a onclick="wishlist_add('.$id_usuario_global.', '.$id_libro_global.', event)" href="">
+                                                            <i class="fa-regular fa-heart fa-xl"></i>
+                                                        </a>';
+                                                    }
+                                                } else{
+                                                    $icon_wishlist = '';
                                                 }
-                                            } else{
-                                                $icon_wishlist = '';
-                                            }
 
-                                            echo $icon_wishlist;
+                                                echo $icon_wishlist;
+                                            }
+                                            
+                                            
                                             ?>
                                             
                                         </div>
@@ -389,11 +393,14 @@ session_start();
                                 <div class="ps-product__shopping">
 
                                 <?php
-                                if($id_usuario_global == $id_usuario){ ?>
-                                    <a class="ps-btn ps-btn--black disabled" href="perfil" href="">Ver Lista de Espera</a>
-                                <?php } else{ ?>
-                                    <a class="ps-btn ps-btn--black disabled" onclick="solicitar_libro(<?php echo $id_usuario_global.', '.$id_libro_global.', event'; ?>)" href="">Solicitar</a>
-                                <?php }?>
+                                if($id_usuario_global != 0){
+                                    if($id_usuario_global == $id_usuario){ ?>
+                                        <a class="ps-btn ps-btn--black disabled" href="perfil" href="">Ver Lista de Espera</a>
+                                    <?php } else{ ?>
+                                        <a class="ps-btn ps-btn--black disabled" onclick="solicitar_libro(<?php echo $id_usuario_global.', '.$id_libro_global.', event'; ?>)" href="">Solicitar</a>
+                                    <?php }
+                                }
+                                ?>
 
                                     
 
@@ -449,6 +456,7 @@ session_start();
                                 $url_producto = str_replace(" ", "-", $row_titulo);
                                 $url_producto = str_replace("/", "-", $url_producto);
                                 $url_producto = quitarAcentos($url_producto);
+                                $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
                                 ?>
 
                                 <div class="ps-product">
@@ -518,7 +526,12 @@ session_start();
                             AND id_libro <> $id_libro_global";
                         // echo $query4;
                         $cuantos4 = GetValueSQL($query4, 'cuantos');
-                        $resto = 6 - $cuantos4;
+                        if($cuantos4 <= 6){
+                            $resto = 6 - $cuantos4;
+                        } else{
+                            $resto = 0;
+                        }
+                        
 
                         if($cuantos4 > 0){
                             // $query5 = "SELECT * FROM libros 
@@ -584,6 +597,7 @@ session_start();
                                 $url_producto = str_replace(" ", "-", $row_titulo);
                                 $url_producto = str_replace("/", "-", $url_producto);
                                 $url_producto = quitarAcentos($url_producto);
+                                $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
                                 ?>
                                 <!-- Inicio Producto -->
                                 <div class="col-lg-2 col-md-4 col-6 ">
@@ -698,6 +712,7 @@ session_start();
                                 $url_producto = str_replace(" ", "-", $row_titulo);
                                 $url_producto = str_replace("/", "-", $url_producto);
                                 $url_producto = quitarAcentos($url_producto);
+                                $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
                                 ?>
 
                                 <!--=====================================

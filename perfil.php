@@ -144,6 +144,8 @@ session_start();
 	<link href="assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>	
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-7U0k3Xu0BUw7+oTgnOUMW4JCxW3IaOwFNMDkPTi2B5cg7x17OOJUtGkObUcZDQw2FXmO1w+23r00Yod/7uCC3w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    
 </head>
 
 <body>
@@ -387,18 +389,342 @@ session_start();
                 <div class="ps-section__content">
 
                     <ul class="ps-section__links">
-                        <li id="li_mis_libros" class="active"><a type="button" href="" onclick="cambiar_opciones_perfil(1, event)">Mis Libros</a></li>
-                        <li id="li_prestamos_activos"><a type="button" href="" onclick="cambiar_opciones_perfil(2, event)">Préstamos activos</a></li>
+                        <li id="li_prestamos_activos" class="active"><a type="button" href="" onclick="cambiar_opciones_perfil(2, event)">Préstamos activos</a></li>
+                        <li id="li_mis_libros"><a type="button" href="" onclick="cambiar_opciones_perfil(1, event)">Mis Libros</a></li>
                         <li id="li_historial_prestamos"><a type="button" href=""  onclick="cambiar_opciones_perfil(3, event)">Historial de Préstamos</a></li>
                     </ul>
 
                     
-                    <!--------------------------------------- 
-                        #region Mis Libros
-                    ---------------------------------------->
 
                     <div class="ps-section--shopping ps-shopping-cart" style="margin-top: -120px;">
 
+                        
+                        <!-- Inicio sección 
+                            #region Prestamos Activos
+                        -->
+
+                        <div class="container" id="div_prestamos_activos">
+
+                            <div class="ps-section__header">
+
+                                <h1>Préstamos Activos</h1>
+
+                            </div>
+
+                            <div class="ps-section__content" style="margin-top: -50px;">
+
+                                <div class="table-responsive">
+                                    
+                                <div class="ps-section__cart-actions" style="margin-top: -100px; margin-bottom: -50px;">
+
+                                    <!-- <a class="ps-btn" onmouseover="this.style.color='white';" onmouseout="this.style.color='black';"  onclick="abrir_modal(1)">
+                                        <i class="fa-solid fa-circle-plus" data-bs-whatever="@mdo"></i> Agregar Libro
+                                    </a> -->
+
+
+                                </div>
+
+                                <table class="table ps-table--shopping-cart">
+
+                                    <thead>
+
+                                        <tr>
+
+                                            <th>Libro</th>
+                                            <th>Fecha de Préstamo</th>
+                                            <th>Fecha de Entrega</th>
+                                            <th>Estatus</th>
+                                            <th>Préstamos</th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        <?php 
+                                        $query5 = "SELECT COUNT(*) AS cuantos FROM libros WHERE id_usuario = $id_usuario_global";
+                                        $cuantos_libros = GetValueSQL($query5, 'cuantos');
+
+                                        if($cuantos_libros > 0){
+                                            $query6 = "SELECT * FROM libros
+                                            INNER JOIN status_libro ON libros.status = status_libro.id_status
+                                            WHERE id_usuario = $id_usuario_global
+                                            ORDER BY (id_libro = 3) DESC";
+                                            $mis_libros = DatasetSQL($query6);
+
+                                            while($row6 = mysqli_fetch_array($mis_libros)){
+                                                $id_libro = $row6['id_libro'];
+                                                $titulo = $row6['titulo'];
+                                                $autor = $row6['autor'];
+                                                $editorial = $row6['editorial'];
+                                                $year = $row6['year'];
+                                                $fecha_agregado = $row6['fecha_agregado']; 
+                                                $sinopsis = $row6['sinopsis'];
+                                                $id_libro = $row6['id_libro'];
+                                                $ruta_foto_portada = $row6['ruta_foto_portada'];
+                                                $status = $row6['status_nombre'];
+
+                                                $url_producto = str_replace(" ", "-", $titulo);
+                                                $url_producto = str_replace("/", "-", $url_producto);
+                                                $url_producto = quitarAcentos($url_producto);
+                                                $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
+
+                                                $id_status = $row6['id_status'];
+
+                                                switch($id_status){
+                                                    case 1:
+                                                        $cambiar_status_libro = '<a type="button" onclick="cambiar_status_libro('.$id_libro.', 1)" title="Cambiar estatus"><i class="fas fa-toggle-on"></i></a>';
+                                                        $mensaje_status = '<i class="fas fa-book-openfas fa-book-open"></i> '.$status;
+                                                    break;
+                                                    case 2:
+                                                        $cambiar_status_libro = '';
+                                                        $mensaje_status = '<i class="fas fa-book-reader"></i> '.$status;
+                                                    break;
+                                                    case 3:
+                                                        $cambiar_status_libro = '<a type="button" onclick="cambiar_status_libro('.$id_libro.', 3)"><i class="fas fa-toggle-off"></i></a>';
+                                                        $mensaje_status = '<i class="fas fa-book"></i> '.$status;
+                                                    break;
+                                                }
+
+                                                if($year == NULL){
+                                                    $year = "Sin Año";
+                                                }
+                                            
+                                                if($sinopsis == NULL){
+                                                    $sinopsis = "Sin Sinopsis";
+                                                }
+
+                                                if($ruta_foto_portada == NULL){
+                                                    $ruta_foto_portada = $ruta_foto_no_existente;
+                                                }
+
+                                                $query10 = "SELECT COUNT(*) AS existe FROM prestamos WHERE id_libro = $id_libro AND status_prestamo != 4 AND status_prestamo != 6";
+                                                $existe_prestamos = GetValueSQL($query10, 'existe');
+
+                                                if($existe_prestamos > 0){
+                                                    $query11 = "SELECT * FROM prestamos 
+                                                    INNER JOIN usuarios ON prestamos.id_usuario_destino = usuarios.id_usuario
+                                                    INNER JOIN status_prestamos ON prestamos.status_prestamo = status_prestamos.id_status
+                                                    WHERE id_libro = $id_libro AND status_prestamo != 4 AND status_prestamo != 6";
+
+                                                    $id_prestamo = GetValueSQL($query11, 'id_prestamo');
+                                                    $nombre_prestamo = GetValueSQL($query11, 'nombres'). " " .GetValueSQL($query11, 'apellidos');
+                                                    $correo_prestamo = GetValueSQL($query11, 'correo');
+                                                    $codigo_usuario_prestamo = GetValueSQL($query11, 'codigo_usuario');
+                                                    $fecha_inicio = GetValueSQL($query11, 'fecha_inicio');
+                                                    $fecha_fin = GetValueSQL($query11, 'fecha_fin');
+                                                    $id_status_prestamo = GetValueSQL($query11, 'status_prestamo');
+                                                    $status_prestamo = GetValueSQL($query11, 'status_nombre');
+
+                                                    if($fecha_fin == NULL){
+                                                        $fecha_fin = "Por acordar";
+                                                    }
+
+                                                    if($fecha_inicio == NULL){
+                                                        $fecha_inicio = "Por acordar";
+                                                    }
+
+                                                    $prestamo = '<div class="table-responsive">
+                                                                    <table class="table table-bordered" id="tabla_prestamo">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Status</th>
+                                                                                <th>Nombre</th>
+                                                                                <th>Correo Institucional</th>
+                                                                                <th>Código UDG</th>';
+                                                                                if($id_status_prestamo == 1 ){
+                                                                                    $prestamo .= '<th>Opciones</th>';
+                                                                                }
+                                                                                if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
+                                                                                    $prestamo .= '<th>Chat</th>';
+                                                                                } 
+                                                                            $prestamo .= '</tr>
+                                                                        </thead>
+                                                                        <tbody>';
+
+                                                    $prestamo .= '<tr>
+                                                        <td>' . $status_prestamo . '</td>
+                                                        <td>' . $nombre_prestamo . '</td>
+                                                        <td>' . $correo_prestamo . '</td>
+                                                        <td class="text-center">' . $codigo_usuario_prestamo . '</td>';
+                                                        
+                                                        if($id_status_prestamo == 1 ){
+                                                            $prestamo .= '<td class="text-center" >
+                                                                <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="aceptar_denegar_prestamo('.$id_prestamo.', '.$id_libro.', 1, event)">Aceptar</a> / 
+                                                                <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="aceptar_denegar_prestamo('.$id_prestamo.', '.$id_libro.', 2, event)">Denegar</a>
+                                                                    
+                                                            </td>';
+                                                        }
+
+                                                        if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
+                                                            $prestamo .= '<td class="text-center" >
+                                                                <a title="Ingresar a chat" class="btn btn-secondary" type="button" style="font-size: 16px;" href="chat/'.$codigo_usuario_prestamo.'"><i class="fa fa-comment chat-icon"></i></a>
+                                                                    
+                                                            </td>';
+                                                        } 
+
+                                                    $prestamo .= '</tr>';
+
+
+                                                    $prestamo .= '</tbody>
+                                                                </table>
+                                                            </div>';
+                                                    
+
+                                                    $query8 = "SELECT COUNT(*) AS cuantos FROM waitlist
+                                                    INNER JOIN usuarios ON waitlist.id_usuario = usuarios.id_usuario
+                                                    WHERE id_libro = $id_libro";
+                                                    $cuantos_waitlist = GetValueSQL($query8, 'cuantos');
+
+                                                    if ($cuantos_waitlist > 0) {
+
+                                                        $waitlist = '<div class="table-responsive">
+                                                                    <table class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Turno</th>
+                                                                                <th>Nombre</th>
+                                                                                <th>Correo Institucional</th>
+                                                                                <th>Código UDG</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>';
+
+                                                        $query9 = "SELECT * FROM waitlist
+                                                                    INNER JOIN usuarios ON waitlist.id_usuario = usuarios.id_usuario
+                                                                    WHERE id_libro = $id_libro ORDER BY turno";
+                                                        $query_waitlist = DatasetSQL($query9);
+                                                        
+                                                    
+                                                        while ($row9 = mysqli_fetch_array($query_waitlist)) {
+                                                            $turno = $row9['turno'];
+                                                            $nombre_waitlist = $row9['nombres'] . " " . $row9['apellidos'];
+                                                            $correo_waitlist = $row9['correo'];
+                                                            $codigo_usuario_waitlist = $row9['codigo_usuario'];
+                                                    
+                                                            $waitlist .= '<tr>
+                                                                            <td>' . $turno . '</td>
+                                                                            <td>' . $nombre_waitlist . '</td>
+                                                                            <td>' . $correo_waitlist . '</td>
+                                                                            <td class="text-center">' . $codigo_usuario_waitlist . '</td>
+                                                                        </tr>';
+                                                        }
+
+                                                        
+                                                        $waitlist .= '</tbody>
+                                                            </table>
+                                                        </div>';
+                                                    
+                                                    } else {
+                                                        $waitlist = "No existe lista de espera";
+                                                    }
+
+
+                                                } else{
+                                                    $prestamo = "No hay ningún préstamo activo.";
+                                                    $waitlist = "No existe lista de espera";
+                                                }
+
+
+                                                
+                                                
+
+                                                echo '<tr>
+                                                    <td>
+
+                                                        <div class="ps-product--cart">
+
+                                                            <div class="ps-product__thumbnail">
+
+                                                                <a href="libro/'.$id_libro.'/'.$url_producto.'"><img src="'.$ruta_foto_portada.'" alt="$titulo"></a>
+
+                                                            </div>
+
+                                                            <div class="ps-product__content">
+
+                                                                <a href="libro/'.$id_libro.'/'.$url_producto.'">'.$titulo.'</a>
+
+                                                                <p>Autor: <strong>'.$autor.'</strong></p>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </td>
+
+                                                    <td class="text-center">'.$fecha_agregado.'</td>
+
+                                                    <td class="text-center">'.$fecha_agregado.'</td>    
+
+                                                    <td class="text-center">'.$mensaje_status.'</td>                       
+
+
+                                                    <td class="text-center">                                                               
+                                                        <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="ver_waitlist('.$id_libro.', event)">Ver préstamos</a>
+                                                    </td>
+
+                                                </tr>'; 
+
+                                                echo '<tr id="sinopsis_'.$id_libro.'" style="display: none;">
+                                                    <td class="text-center " colspan="7"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
+                                                </tr>';
+
+                                                echo '<tr id="waitlist_'.$id_libro.'" style="display: none;">
+                                                    <td style="text-align: left !important;" colspan="7" id="table_prestamo_'.$id_libro.'">
+                                                        <strong>Préstamo: </strong><br>'
+                                                        .$prestamo.'
+                                                        <br>
+                                                        <strong>Lista de Espera: </strong><br>'
+                                                        .$waitlist.'
+                                                    </td>
+                                                </tr>';
+
+                                                //fas fa-book-openfas fa-book-open     - Disponible
+                                                //fas fa-book-reader                   - Prestado
+                                                //fas fa-book   -                      - Inactivo
+                                                
+
+                                            }
+                                        }
+
+                                        ?>
+
+                                    </tbody>
+
+                                    </table>
+
+                                </div>
+
+                                <hr>
+
+                                <!-- <div class="d-flex flex-row-reverse">
+                                <div class="p-2"><h3>Total <span>$414.00</span></h3></div>             
+                                </div>
+
+                                <div class="ps-section__cart-actions">
+
+                                    <a class="ps-btn" href="categories.html.html">
+                                        <i class="icon-arrow-left"></i> Back to Shop
+                                    </a>
+
+                                    <a class="ps-btn" href="checkout.html">
+                                        Proceed to checkout <i class="icon-arrow-right"></i> 
+                                    </a>
+
+                                </div> -->
+
+                            </div> 
+                            
+                        </div>
+
+                        <!-- Fin sección -->
+
+
+                        <!--------------------------------------- 
+                            #region Mis Libros
+                        ---------------------------------------->
+                        
                         <div class="container" id="div_mis_libros">
 
                             <div class="ps-section__header">
@@ -437,7 +763,6 @@ session_start();
                                                     <th>Fecha de Agregado</th>
                                                     <th>Estatus</th>
                                                     <th>Opciones</th>
-                                                    <th>Préstamos</th>
 
                                                 </tr>
 
@@ -471,6 +796,7 @@ session_start();
                                                         $url_producto = str_replace(" ", "-", $titulo);
                                                         $url_producto = str_replace("/", "-", $url_producto);
                                                         $url_producto = quitarAcentos($url_producto);
+                                                        $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
 
                                                         $id_status = $row6['id_status'];
 
@@ -663,9 +989,7 @@ session_start();
             
                                                             </td>
 
-                                                            <td class="text-center">                                                               
-                                                                <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="ver_waitlist('.$id_libro.', event)">Ver préstamos</a>
-                                                            </td>
+                                                            
             
                                                         </tr>'; 
 
@@ -673,15 +997,6 @@ session_start();
                                                             <td class="text-center " colspan="7"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
                                                         </tr>';
 
-                                                        echo '<tr id="waitlist_'.$id_libro.'" style="display: none;">
-                                                            <td style="text-align: left !important;" colspan="7" id="table_prestamo_'.$id_libro.'">
-                                                                <strong>Préstamo: </strong><br>'
-                                                                .$prestamo.'
-                                                                <br>
-                                                                <strong>Lista de Espera: </strong><br>'
-                                                                .$waitlist.'
-                                                            </td>
-                                                        </tr>';
 
                                                         //fas fa-book-openfas fa-book-open     - Disponible
                                                         //fas fa-book-reader                   - Prestado
@@ -725,162 +1040,6 @@ session_start();
 
                         <!-- Fin sección -->
 
-                        <!-- Inicio sección 
-                            #region Prestamos Activos
-                        -->
-
-                        <div class="container" id="div_prestamos_activos">
-
-                            <div class="ps-section__header">
-
-                                <h1>Préstamos Activos</h1>
-
-                            </div>
-
-                            <div class="ps-section__content" style="margin-top: -50px;">
-
-                                <div class="table-responsive">
-                                    
-                                <div class="ps-section__cart-actions" style="margin-top: -100px; margin-bottom: -50px;">
-
-                                    <!-- <a class="ps-btn" onmouseover="this.style.color='white';" onmouseout="this.style.color='black';"  onclick="abrir_modal(1)">
-                                        <i class="fa-solid fa-circle-plus" data-bs-whatever="@mdo"></i> Agregar Libro
-                                    </a> -->
-
-
-                                </div>
-
-                                    <table class="table ps-table--shopping-cart">
-
-                                        <thead>
-
-                                            <tr>
-
-                                                <th>Libro</th>
-                                                <th>Editorial</th>
-                                                <th>Año</th>
-                                                <th>Fecha de Agregado</th>
-                                                <th>Estatus</th>
-                                                <th>Opciones</th>
-
-                                            </tr>
-
-                                        </thead>
-
-                                        <tbody>
-
-                                            <?php 
-                                            $query5 = "SELECT COUNT(*) AS cuantos FROM libros WHERE id_usuario = $id_usuario_global";
-                                            $cuantos_libros = GetValueSQL($query5, 'cuantos');
-
-                                            if($cuantos_libros > 0){
-                                                $query6 = "SELECT * FROM libros
-                                                INNER JOIN status_libro ON libros.status = status_libro.id_status
-                                                WHERE id_usuario = $id_usuario_global";
-                                                $mis_libros = DatasetSQL($query6);
-
-                                                while($row6 = mysqli_fetch_array($mis_libros)){
-                                                    $id_libro = $row6['id_libro'];
-                                                    $titulo = $row6['titulo'];
-                                                    $autor = $row6['autor'];
-                                                    $editorial = $row6['editorial'];
-                                                    $year = $row6['year'];
-                                                    $sinopsis = $row6['sinopsis'];
-                                                    $id_libro = $row6['id_libro'];
-                                                    $ruta_foto_portada = $row6['ruta_foto_portada'];
-                                                    $status = $row6['status_nombre'];
-
-                                                    if($year == NULL){
-                                                        $year = "Sin Año";
-                                                    }
-                                                
-                                                    if($sinopsis == NULL){
-                                                        $sinopsis = "Sin Sinopsis";
-                                                    }
-
-                                                    if($ruta_foto_portada == NULL){
-                                                        $ruta_foto_portada = $ruta_foto_no_existente;
-                                                    }
-
-                                                    echo '<tr>
-                                                        <td>
-        
-                                                            <div class="ps-product--cart">
-        
-                                                                <div class="ps-product__thumbnail">
-        
-                                                                    <a href="product-default.html"><img src="'.$ruta_foto_portada.'" alt="$titulo"></a>
-        
-                                                                </div>
-        
-                                                                <div class="ps-product__content">
-        
-                                                                    <a href="product-default.html">'.$titulo.'</a>
-        
-                                                                    <p>Autor: <strong>'.$autor.'</strong></p>
-                                                                    <a type="button" href="" onclick="ver_sinopsis('.$id_libro.', event)">Ver sinopsis</a>
-        
-                                                                </div>
-        
-                                                            </div>
-        
-                                                        </td>
-
-                                                        <td class="text-center">'.$editorial.'</td>
-                                                        
-                                                        <td class="text-center">'.$year.'</td>
-        
-                                                        <td class="text-center">'.$fecha_agregado.'</td>
-        
-                                                        <td class="text-center">'.$status.'</td>                       
-        
-                                                        <td class="text-center">
-        
-                                                            <a type="button" href="" onclick=""><i class="fa-solid fa-pen-to-square"></i></a>&emsp;
-                                                            <a type="button" href="" onclick=""><i class="fa-solid fa-xmark"></i></a>
-        
-                                                        </td>
-        
-                                                    </tr>';
-
-                                                    echo '<tr id="sinopsis_'.$id_libro.'" style="display: none;">
-                                                        <td class="text-justify " colspan="5"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
-                                                    </tr>';
-
-                                                }
-                                            }
-
-                                            ?>
-
-                                        </tbody>
-
-                                    </table>
-
-                                </div>
-
-                                <hr>
-
-                                <!-- <div class="d-flex flex-row-reverse">
-                                <div class="p-2"><h3>Total <span>$414.00</span></h3></div>             
-                                </div>
-
-                                <div class="ps-section__cart-actions">
-
-                                    <a class="ps-btn" href="categories.html.html">
-                                        <i class="icon-arrow-left"></i> Back to Shop
-                                    </a>
-
-                                    <a class="ps-btn" href="checkout.html">
-                                        Proceed to checkout <i class="icon-arrow-right"></i> 
-                                    </a>
-
-                                </div> -->
-
-                            </div> 
-                            
-                        </div>
-
-                        <!-- Fin sección -->
 
                         <!-- Inicio sección 
                             #region Historial de Prestamos

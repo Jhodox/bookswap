@@ -35,7 +35,7 @@ $(document).ready(function() {
 	
 
 	//perfil.php
-	$("#div_prestamos_activos").hide();
+	$("#div_mis_libros").hide();
 	$("#div_historial_prestamos").hide();
 });
 
@@ -1081,7 +1081,7 @@ function end_aceptar_denegar_prestamo(xml){
 				timerProgressBar: true,
 			})
 
-			$("#table_prestamo_"+$(this).find("id_libro").text()).load(location.href + " #table_prestamo_"+$(this).find("id_libro").text());  
+			$("#tabla_prestamo").load(location.href + " #tabla_prestamo");  
 
         }  else{
 			Swal.fire({
