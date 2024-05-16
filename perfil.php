@@ -1210,6 +1210,115 @@ session_start();
     </div>
 
 
+    <!---------------------------------------
+        #region Validar Usuarios
+    ---------------------------------------->
+
+    <?php
+    if ($admin_usuario_global == 1) {
+        echo '
+        <div class="ps-section--shopping ps-shopping-cart" style="margin-top: -120px;"> <!-- 1 -->
+            <div class="container" id="div_mis_libros"> <!-- 2 -->
+                
+                <div class="ps-section__header"> <!-- 3 -->
+                    <h1>Usuarios por validar</h1>
+                </div> <!-- 2 -->
+
+                <div class="ps-section__content" style="margin-top: -50px;"> <!-- 3 -->
+                    <div class="table-responsive"> <!-- 4 -->
+                        <div class="ps-section__cart-actions" style="margin-top: -100px; margin-bottom: -50px;"> <!-- 5 -->
+
+                        </div> <!-- 4 -->
+                        <div class="table-responsive"> <!-- 5 -->
+                            <table class="table ps-table--shopping-cart">
+                                <thead>
+                                    <tr>
+                                        <th>Credencial</th>
+                                        <th>Nombres</th>
+                                        <th>Apellidos</th>
+                                        <th>Codigo</th>
+                                        <th>Correo</th>
+                                        <th>Carrera</th>
+                                        <th>Ingreso</th>
+                                        <th>Validar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>';
+        ?>
+        <?php
+        $query12 = "SELECT COUNT(*) AS cuantos FROM usuarios WHERE status = 2";
+        $cuantos_usuarios = GetValueSQL($query12, 'cuantos');
+
+        if ($cuantos_usuarios > 0) {
+            $query13 = "SELECT * FROM usuarios WHERE status = 2
+                                                        ORDER BY (id_usuario) DESC";
+            $mis_usuarios = DatasetSQL($query13);
+
+            while ($row13 = mysqli_fetch_array($mis_usuarios)) {
+                $ruta_foto_credencial = $row13['ruta_foto_credencial'];
+                $nombres = $row13['nombres'];
+                $apellidos = $row13['apellidos'];
+                $codigo = $row13['codigo_usuario'];
+                $correo = $row13['correo'];
+                $carrera = $row13['carrera'];
+                $ciclo = $row13['ciclo_ingreso'];
+                $id_usuario = $row13['id_usuario'];
+
+                $query14 = "SELECT * FROM carreras WHERE id_carrera = '$carrera'";
+                $carrera = GetValueSQL($query14, 'carrera');
+
+                $query15 = "SELECT * FROM ciclos WHERE id_ciclo = '$ciclo'";
+                $ciclo = GetValueSQL($query15, 'ciclo');
+
+                echo '<tr>
+                        <td>
+                            <div class="ps-product--cart">
+                                <div class="ps-product__thumbnail">
+                                    <img src="' . $ruta_foto_credencial . '" alt="No se logro cargar">
+                
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="text-center">' . $nombres . '</td>
+                                        
+                        <td class="text-center">' . $apellidos . '</td>
+                
+                        <td class="text-center">' . $codigo . '</td>
+                
+                        <td class="text-center">' . $correo . '</td>                       
+                                                                
+                        <td class="text-center">' . $carrera . '</td>                
+
+                        <td class="text-center">' . $ciclo . '</td>                       
+
+                        <td class="text-center">    
+                            <a class="btn btn-info btn-lg" type="button" style="font-size: 16px;" href="" onclick="validar_usuario(' . $id_usuario . ', event)">Validar</a>
+                        </td>
+                
+                    </tr>';
+            }
+        }
+    }
+
+    ?>
+
+                                </tbody>
+
+                            </table>
+
+                        </div> <!-- 4 -->
+
+                    </div> <!-- 3 -->
+
+                    <hr>
+
+                </div> <!-- 2 -->
+
+            </div> <!-- 1 -->
+
+        </div>
+
 
 
     <!---------------------------------------

@@ -52,6 +52,10 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
     $query0 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario_global";
     $nombre_usuario_global = GetValueSQL($query0, 'nombres');
 
+    $query1 = "SELECT CASE WHEN EXISTS (SELECT id_usuario FROM administradores WHERE id_usuario = $id_usuario_global) THEN 1 ELSE 0 END AS result";
+    $admin_usuario_global = GetValueSQL($query1, "result");
+    // echo "<script>console.log('Admin response: ', " . $admin_usuario_global . ");</script>";
+
 } else {
     $sesion = 0;
     $id_usuario_global = 0;
@@ -89,7 +93,8 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                 ======================================-->
 
                 <a class="ps-logo" href="index" title="Inicio">
-                    <img src="img/template/logo_light.png" alt="">
+                <img src="img/template/logo_light.png" alt="" width="70px" height="70px">
+                <img src="img/template/title_light.png" alt="" width="100px" height="30px">
                 </a>
 
                 <!--=====================================
@@ -310,7 +315,8 @@ Header Mobile
 
 
             <a class="ps-logo pl-3 pl-sm-5" href="index">
-                <img src="img/template/logo_light.png" class="pt-3" alt="">
+                <img src="img/template/logo_light.png" class="pt-3" width="70px" height="70px">
+                <img src="img/template/title_light.png" alt="" class="pt-3" width="100px" height="30px">
             </a>
 
         </div>

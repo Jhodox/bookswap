@@ -448,7 +448,7 @@ if(Requesting("action")=="solicitar_libro"){
     
 }
 
-
+#region llenar_formulario_actualizar_datos
 if(Requesting("action")=="llenar_formulario_actualizar_datos"){
 	$id_usuario = Requesting("id_usuario");
 
@@ -499,7 +499,7 @@ if(Requesting("action")=="llenar_formulario_actualizar_datos"){
 	exit;	
 }
 
-
+#region actualizar_usuario
 if(Requesting("action")=="actualizar_usuario"){
 	$id_usuario = $_POST["id_usuario"];
     $nombres = $_POST["nombres"];
@@ -565,6 +565,7 @@ if(Requesting("action")=="actualizar_usuario"){
 	exit;	
 }
 
+#region cambiar_password
 if(Requesting("action")=="cambiar_password"){
 	$id_usuario = Requesting("id_usuario");
 	$password_actual = Requesting("password_actual");
@@ -599,8 +600,7 @@ if(Requesting("action")=="cambiar_password"){
 	exit;
 }
 
-
-
+#region agregar_libro
 if(Requesting("action")=="agregar_libro"){
 	$id_usuario = $_POST["id_usuario"];
 	$titulo = $_POST["titulo"];
@@ -662,7 +662,7 @@ if(Requesting("action")=="agregar_libro"){
 	exit;	
 }
 
-
+#region llenar_form_editar_libro
 if(Requesting("action") == "llenar_form_editar_libro"){
 	$id_libro = Requesting("id_libro");
 
@@ -676,9 +676,6 @@ if(Requesting("action") == "llenar_form_editar_libro"){
     $year = GetValueSQL($query1, 'year');
     $sinopsis = GetValueSQL($query1,'sinopsis');
     $ruta_foto_portada = GetValueSQL($query1, 'ruta_foto_portada');
-
-
-
 
 	$result = array(   
 		'id_libro'				=> $id_libro,
@@ -694,6 +691,7 @@ if(Requesting("action") == "llenar_form_editar_libro"){
 	exit;	
 }
 
+#region editar_libro
 if(Requesting("action") == "editar_libro"){
 	$id_libro = $_POST["id_libro"];
 	$id_usuario = $_POST["id_usuario"];
@@ -737,8 +735,6 @@ if(Requesting("action") == "editar_libro"){
 	}
 
 	
-
-
 	if(ExecuteSQL($query2)){
 		$resultText = "El libro se ha actualizado.";
 		$resultStatus = "ok";
@@ -756,7 +752,7 @@ if(Requesting("action") == "editar_libro"){
 	exit;	
 }
 
-
+#region cambiar_status_libro
 if(Requesting("action") == "cambiar_status_libro"){
 	$id_libro = Requesting("id_libro");
 	$tipo = Requesting("tipo");
@@ -790,7 +786,32 @@ if(Requesting("action") == "cambiar_status_libro"){
 	exit;
 }
 
+#region validar_usuario
+if(Requesting("action") == "validar_usuario"){
+	$id_usuario = Requesting("id_usuario");
 
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+	$query1 = "UPDATE usuarios SET status = 1 WHERE id_usuario = $id_usuario";
+	$resultText = "El usuaruo se valido.";
+	
+	if(ExecuteSQL($query1)){
+        $resultStatus = "ok";
+	} else{
+		$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo. ";
+        $resultStatus = "error";
+	}
+
+	$result = array(   
+		'result' 				=> $resultStatus,
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);
+	exit;
+}
+
+#region aceptar_denegar_prestamo
 if(Requesting("action") == "aceptar_denegar_prestamo"){
 	$id_prestamo = Requesting("id_prestamo");
 	$id_libro = Requesting("id_libro");
@@ -858,8 +879,6 @@ if(Requesting("action") == "aceptar_denegar_prestamo"){
 	}
 
 
-
-	
 	$result = array(   
 		'id_libro'				=> $id_libro,
 		'result' 				=> $resultStatus, 

@@ -1057,6 +1057,40 @@ function end_cambiar_status_libro(xml){
     });
 }
 
+// #region validar_usuario
+function validar_usuario(id_usuario){
+	$.post("controller.php",
+    {    	action 			: "validar_usuario",
+       	 	id_usuario  	: id_usuario,
+    }, end_validar_usuario);
+}
+
+function end_validar_usuario(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Usuario validado!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
+			$("#div_mis_libros").load(location.href + " #div_mis_libros");  
+
+        }  else{
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+    });
+}
+
 
 function aceptar_denegar_prestamo(id_prestamo, id_libro, tipo, e){
 	e.preventDefault();
