@@ -93,7 +93,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                 ======================================-->
 
                 <a class="ps-logo" href="index" title="Inicio">
-                <img src="img/template/logo_light.png" alt="" width="70px" height="70px">
+                <!-- <img src="img/template/logo_light.png" alt="" width="70px" height="70px"> -->
                 <img src="img/template/title_light.png" alt="" width="100px" height="30px">
                 </a>
 
