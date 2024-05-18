@@ -392,9 +392,11 @@ session_start();
                         <li id="li_prestamos_activos" class="active"><a type="button" href="" onclick="cambiar_opciones_perfil(2, event)">Préstamos activos</a></li>
                         <li id="li_mis_libros"><a type="button" href="" onclick="cambiar_opciones_perfil(1, event)">Mis Libros</a></li>
                         <li id="li_historial_prestamos"><a type="button" href=""  onclick="cambiar_opciones_perfil(3, event)">Historial de Préstamos</a></li>
-                    </ul>
-
-                    
+                        <?php
+                        if ($admin_usuario_global == 1)
+                            echo '<li id="li_validar_usuarios"><a type="button" href=""  onclick="cambiar_opciones_perfil(4, event)">Validar usuarios</a></li>';
+                        ?>
+                    </ul>                    
 
                     <div class="ps-section--shopping ps-shopping-cart" style="margin-top: -120px;">
 
@@ -1198,60 +1200,46 @@ session_start();
 
                         <!-- Fin Sección -->
 
-                    </div>           
-
-                </div>
-
- 
-            </div>
-
-        </div>
-
-    </div>
-
-
     <!---------------------------------------
         #region Validar Usuarios
     ---------------------------------------->
 
-    <?php
-    if ($admin_usuario_global == 1) {
-        echo '
-        <div class="ps-section--shopping ps-shopping-cart" style="margin-top: -120px;"> <!-- 1 -->
-            <div class="container" id="div_mis_libros"> <!-- 2 -->
-                
-                <div class="ps-section__header"> <!-- 3 -->
-                    <h1>Usuarios por validar</h1>
-                </div> <!-- 2 -->
+    <?php 
+    if($admin_usuario_global == 1) {
+        echo ' 
+        <div class="container" id="div_validar_usuarios">
+            
+        <div class="ps-section__header">
+            <h1>Validar usuarios</h1>
+        </div>
 
-                <div class="ps-section__content" style="margin-top: -50px;"> <!-- 3 -->
-                    <div class="table-responsive"> <!-- 4 -->
-                        <div class="ps-section__cart-actions" style="margin-top: -100px; margin-bottom: -50px;"> <!-- 5 -->
+            <div class="ps-section__content" style="margin-top: -50px;">
 
-                        </div> <!-- 4 -->
-                        <div class="table-responsive"> <!-- 5 -->
-                            <table class="table ps-table--shopping-cart">
-                                <thead>
-                                    <tr>
-                                        <th>Credencial</th>
-                                        <th>Nombres</th>
-                                        <th>Apellidos</th>
-                                        <th>Codigo</th>
-                                        <th>Correo</th>
-                                        <th>Carrera</th>
-                                        <th>Ingreso</th>
-                                        <th>Validar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>';
-        ?>
-        <?php
+                <div class="table-responsive">
+                                        
+                    <div class="ps-section__cart-actions" style="margin-top: -100px; margin-bottom: -50px;">
+                    </div>
+
+                        <table class="table ps-table--shopping-cart">
+                            <thead>
+                                <tr>
+                                    <th>Credencial</th>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
+                                    <th>Codigo</th>
+                                    <th>Correo</th>
+                                    <th>Carrera</th>
+                                    <th>Ingreso</th>
+                                    <th>Validar</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
+        
         $query12 = "SELECT COUNT(*) AS cuantos FROM usuarios WHERE status = 2";
         $cuantos_usuarios = GetValueSQL($query12, 'cuantos');
 
         if ($cuantos_usuarios > 0) {
-            $query13 = "SELECT * FROM usuarios WHERE status = 2
-                                                        ORDER BY (id_usuario) DESC";
+            $query13 = "SELECT * FROM usuarios WHERE status = 2 ORDER BY (id_usuario) DESC";
             $mis_usuarios = DatasetSQL($query13);
 
             while ($row13 = mysqli_fetch_array($mis_usuarios)) {
@@ -1299,34 +1287,33 @@ session_start();
                     </tr>';
             }
         }
-    }
-
     ?>
 
-                                </tbody>
+                            </tbody>
 
-                            </table>
+                        </table>
 
-                        </div> <!-- 4 -->
-
-                    </div> <!-- 3 -->
+                    </div>
 
                     <hr>
 
-                </div> <!-- 2 -->
+                </div> 
 
-            </div> <!-- 1 -->
+            </div>
+            <!-- Fin sección -->
+            <?php } ?>
+        </div>           
 
-        </div>
+    </div>
 
+</div>
 
+</div>
 
+</div>
     <!---------------------------------------
     #region Ventanas Modales
     ---------------------------------------->
-
-
-
 
     <!-- 
         #region Modal Cambiar Información de Usuario

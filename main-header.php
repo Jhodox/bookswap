@@ -93,8 +93,8 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                 ======================================-->
 
                 <a class="ps-logo" href="index" title="Inicio">
-                <!-- <img src="img/template/logo_light.png" alt="" width="70px" height="70px"> -->
-                <img src="img/template/title_light.png" alt="" width="100px" height="30px">
+                    <!-- <img src="img/template/logo_light.png" alt="" width="70px" height="70px"> -->
+                    <img src="img/template/title_light.png" alt="" width="100px" height="30px">
                 </a>
 
                 <!--=====================================
@@ -117,9 +117,9 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
             ======================================-->
 
             <div class="header__content-center">
-                <form class="ps-form--quick-search" action="index.html" method="get">
-                    <input class="form-control" type="text" placeholder="Título, Autor, Usuario...">
-                    <button>Buscar</button>
+                <form class="ps-form--quick-search" action="busqueda.php" method="get">
+                    <input class="form-control" type="text" placeholder="Título del libro" name="search">
+                    <button type="submit" name="submit">Buscar</button>
                 </form>
             </div>
 
@@ -460,7 +460,7 @@ Header Mobile
 
                     <div class="ps-block--user-header">
                         <div class="ps-block__left">
-                            <a href="login" title="Ingresar"><i class="icon-user" ></i></a>
+                            <a href="login" title="Ingresar"><i class="icon-user"></i></a>
                         </div>
                         <div class="ps-block__right">
                             <a href="login">Ingresar</a>
