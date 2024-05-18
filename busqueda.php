@@ -217,14 +217,15 @@ session_start();
         $search = $_GET['search'];
         $query = "SELECT * FROM libros INNER JOIN status_libro ON libros.status = status_libro.id_status WHERE libros.titulo LIKE '%$search%'";
         $result = DatasetSQL($query);
+        $count = 0;
         while ($row = mysqli_fetch_array($result)) {
+            $count++;
             $id_libro = $row['id_libro'];
             $titulo = $row['titulo'];
             $autor = $row['autor'];
             $editorial = $row['editorial'];
             $sinopsis = $row['sinopsis'];
             $year = $row['year'];
-            $id_libro = $row['id_libro'];
             $status = $row['status_nombre'];
             $ruta_foto_portada = $row['ruta_foto_portada'];
 
@@ -237,15 +238,12 @@ session_start();
 
             switch($id_status){
                 case 1:
-                    $cambiar_status_libro = '<a type="button" onclick="cambiar_status_libro('.$id_libro.', 1)" title="Cambiar estatus"><i class="fas fa-toggle-on"></i></a>';
                     $mensaje_status = '<i class="fas fa-book-openfas fa-book-open"></i> '.$status;
                 break;
                 case 2:
-                    $cambiar_status_libro = '';
                     $mensaje_status = '<i class="fas fa-book-reader"></i> '.$status;
                 break;
                 case 3:
-                    $cambiar_status_libro = '<a type="button" onclick="cambiar_status_libro('.$id_libro.', 3)"><i class="fas fa-toggle-off"></i></a>';
                     $mensaje_status = '<i class="fas fa-book"></i> '.$status;
                 break;
             }
@@ -288,6 +286,9 @@ session_start();
                             echo '<tr id="sinopsis_'.$id_libro.'" style="display: none;">
                                 <td class="text-center " colspan="7"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
                             </tr>';
+        }
+        if($count <= 0) {
+            echo '<tr><td><h3>No se encontraron resultados</h3></td><td></td></tr>';
         }
                         echo '</tbody>
                     </table>
