@@ -86,7 +86,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
 
         <div class="container">
 
-            <div class="header__content-left">
+            <div class="header__content-left mt-3">
 
                 <!--=====================================
                 Logo
@@ -94,7 +94,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
 
                 <a class="ps-logo" href="index" title="Inicio">
                 <!-- <img src="img/template/logo_light.png" alt="" width="70px" height="70px"> -->
-                <img src="img/template/title_light.png" alt="" width="100px" height="30px">
+                <img src="img/template/title_light.png" alt="" width="150px" height="40px">
                 </a>
 
                 <!--=====================================
@@ -116,7 +116,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
             #region Search
             ======================================-->
 
-            <div class="header__content-center">
+            <div class="header__content-center mt-3">
                 <form class="ps-form--quick-search" action="index.html" method="get">
                     <input class="form-control" type="text" placeholder="Título, Autor, Usuario...">
                     <button>Buscar</button>
@@ -271,11 +271,11 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                         <?php
                     } else { ?>
 
-                        <div class="ps-block--user-header">
+                        <div class="ps-block--user-header mt-4">
                             <div class="ps-block__left">
                                 <a href="login" title="Ingresar"><i class="icon-user"></i></a>
                             </div>
-                            <div class="ps-block__right">
+                            <div class="ps-block__right mt-2">
                                 <a href="login">Ingresar</a>
                             </div>
                         </div>
