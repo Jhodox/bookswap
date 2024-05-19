@@ -27,6 +27,12 @@
     #region CSS
     ======================================-->
 
+    <style>
+        .text-justify {
+        text-align: justify;
+        }
+    </style>
+
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap" rel="stylesheet">
 
@@ -36,8 +42,8 @@
     <!-- linear icons -->
     <link rel="stylesheet" href="css/plugins/linearIcons.css">
 
-    <!-- Bootstrap 4 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="css/plugins/owl.carousel.css">
@@ -343,7 +349,71 @@
         </div>
 
     </div>
-
+    
+    <!--=====================================
+    #region TERMINOS Y CONDICIONES
+    ======================================-->
+    <div class="modal" id="modalTerminos" tabindex="-1" role="dialog" aria-labelledby="modalTerminosLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title title" id="modalTerminosLabel">Términos y Condiciones</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-justify">
+                        ¡Bienvenido a nuestra plataforma de intercambio de libros! Antes de sumergirte en la experiencia de descubrir nuevos mundos literarios y conectar con otros entusiastas de la lectura, es importante que revises y comprendas nuestros términos y condiciones:
+                    </p>
+                    <div class="text-justify">
+                        <ul>
+                            <li>
+                                <strong>Uso de la Plataforma:</strong>
+                                Nuestra plataforma está diseñada para facilitar el intercambio de libros entre usuarios registrados. Al utilizar nuestros servicios, aceptas respetar todas las políticas y normativas establecidas.
+                            </li><br>
+                            <li>
+                                <strong>Registro de Usuario:</strong>
+                                Para acceder a todas las funciones de la plataforma, es necesario crear una cuenta de usuario. Debes proporcionar información precisa y mantener tu cuenta segura. No compartas tus credenciales de inicio de sesión con terceros.
+                            </li><br>
+                            <li>
+                                <strong>Privacidad y Seguridad:</strong>
+                                Nos comprometemos a proteger tu privacidad y seguridad en línea. La información personal que compartas con nosotros será tratada con confidencialidad y no será compartida con terceros sin tu consentimiento.
+                            </li><br>
+                            <li>
+                                <strong>Contenido del Usuario:</strong>
+                                Al utilizar nuestra plataforma, aceptas que eres responsable del contenido que compartes, incluidas las fotos de perfil y las imágenes de tus libros. Te pedimos que respetes los derechos de autor y que no publiques contenido inapropiado o que infrinja las leyes vigentes.
+                            </li><br>
+                            <li>
+                                <strong>Intercambio de Libros:</strong>
+                                Al solicitar un intercambio de libros con otro usuario, aceptas cumplir con los términos y condiciones acordados. Nosotros facilitamos el proceso, pero no nos hacemos responsables de cualquier disputa que surja entre los usuarios.
+                            </li><br>
+                            <li>
+                                <strong>Chat entre Usuarios:</strong>
+                                Una vez que se haya aceptado un intercambio, podrás comunicarte con el otro usuario a través de nuestro chat integrado. Te recordamos que debes mantener un comportamiento respetuoso y cordial en todas tus interacciones.
+                            </li><br>
+                            <li>
+                                <strong>Responsabilidad del Usuario:</strong>
+                                Los usuarios son responsables de la condición de los libros intercambiados y deben asegurarse de enviarlos en buen estado. No nos hacemos responsables de daños causados por mal uso o negligencia de parte de los usuarios.
+                            </li><br>
+                        </ul>
+                    </div>
+                    <div class="form-check d-flex align-items-center">
+                        <div class="col">
+                            <label for="aceptoTerminos" class="d-flex align-items-center">
+                                <input class="form-check-label me-3" type="checkbox" id="aceptoTerminos">
+                                <span>Acepto los términos y condiciones</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button id="btnCerrar" type="button" class="btn ps-btn" data-bs-dismiss="modal" style="background-color: gray;">Cerrar</button>
+                        <button type="button" class="btn ps-btn" id="btnAceptarTerminos">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--=====================================
     Footer
@@ -366,7 +436,7 @@
 	<script src="assets/js/jquery.nice-select.js"></script>
 	<script src="assets/js/scripts.js"></script>
 	<script src="assets/js/funciones.js"></script>
-	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	<script src="assets/plugins/sweetalert/sweetalert.min.js"></script> 
 	<script src="assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
     

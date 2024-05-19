@@ -176,16 +176,8 @@ function registro_user(e){
 			$(this).css("border", "2px solid #dddddd");
 		});
 
-		$.post("controller.php",
-		{ 	action 					: "registro_user",
-				registro_nombre			: registro_nombre,
-				registro_apellidos		: registro_apellidos,
-				registro_codigo			: registro_codigo,
-				registro_carrera		: registro_carrera,
-				registro_ciclo_ingreso	: registro_ciclo_ingreso,
-				registro_email			: registro_email,
-				registro_password		: registro_password
-		}, end_registro_user);
+		$('#modalTerminos').show('slow');
+
 	 } else{
 		Swal.fire({
 			icon: 'error',
@@ -220,6 +212,80 @@ function end_registro_user(xml){
 			 })
 		}
 	});
+}
+
+// #region terminos y condiciones
+$(document).ready(function() {
+	$('#btnCerrar').on('click'), function(){
+		$("#modalTerminos").hide('slow');
+	}
+
+	$('#btnAceptarTerminos').on('click', function() {
+        if ($('#aceptoTerminos').is(':checked')) {
+            //Obtener los valores de los campos del formulario
+            var registro_nombre  	= $("#registro_nombre").val();
+            var registro_apellidos 	= $("#registro_apellidos").val();
+            var registro_codigo 	= $("#registro_codigo").val();
+            var registro_carrera 	= $("#registro_carrera").val();
+            var registro_ciclo_ingreso 	= $("#registro_ciclo_ingreso").val();
+            var registro_email 		= $("#registro_email").val();
+            var registro_password  	= $("#registro_password").val();
+
+            // Envío de los datos al controlador utilizando $.post()
+            $.post("controller.php", {
+                action: "registro_user",
+                registro_nombre: registro_nombre,
+                registro_apellidos: registro_apellidos,
+                registro_codigo: registro_codigo,
+                registro_carrera: registro_carrera,
+                registro_ciclo_ingreso: registro_ciclo_ingreso,
+                registro_email: registro_email,
+                registro_password: registro_password
+            }, function(xml) {
+                end_registro_user(xml);
+            });
+
+            // Llamar a la función modalTerminos con "ok" como resultado
+            modalTerminos("ok");
+
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Debes aceptar los términos y condiciones para continuar.',
+                timer: 1000,
+                timerProgressBar: true,
+            });
+        }
+    });
+
+	$('.btn-close').on('click', function() {
+        $('#modalTerminos').hide('slow'); 
+    });
+});
+
+function modalTerminos(result) {
+	if (result == "ok") {     
+		Swal.fire({
+			icon: 'success',
+			title: '¡Correcto!',
+			text: 'Términos y condiciones aceptados.',
+			timer: 1000,
+			timerProgressBar: true,
+			// success: end_modalTerminos 
+		});
+
+		$("#modalTerminos").hide('slow');
+
+	} else { 
+		Swal.fire({
+			icon: 'error',
+			title: '¡Error!',
+			text: 'Debes aceptar los términos y condiciones para continuar.',
+			timer: 1000,
+			timerProgressBar: true,
+		});
+	}
 }
 
 // #region cerrar_sesion
