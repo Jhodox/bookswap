@@ -2,6 +2,58 @@ body{
     background-color: #f4f7f6;
 }
 
+
+.chat-history {
+    height: 400px; /* Ajusta la altura según tus necesidades */
+    overflow-y: scroll;
+    padding: 20px;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.chat-history ul {
+    padding: 0;
+}
+
+.chat-history li {
+    list-style: none;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.message-data img {
+    border-radius: 50%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.people-list {
+    width: 100%;
+    padding: 20px;
+}
+.chat-list .clearfix {
+    padding: 10px;
+    border-bottom: 1px solid #f1f1f1;
+}
+.chat-list img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+.chat-list .about {
+    margin-left: 10px;
+}
+.chat-list .name {
+    font-weight: bold;
+}
+.chat-list .status {
+    color: grey;
+}
+
+
+
+
+
 .card {
     background: #fff;
     transition: .5s;
@@ -73,6 +125,7 @@ body{
 }
 
 .chat .chat-header {
+    font-size: 20px;
     padding: 15px 20px;
     border-bottom: 2px solid #f4f7f6
 }

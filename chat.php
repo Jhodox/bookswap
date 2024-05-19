@@ -226,7 +226,7 @@ session_start();
 	#region Breadcrumb
 	======================================-->
 
-	<div class="ps-breadcrumb">
+	<div class="ps-breadcrumb" >
 
 		<div class="container">
 
@@ -245,124 +245,83 @@ session_start();
 
 	</div>
 
-	<!-- Aqui se puede empezar a trabajar lo nuevo  -->
 
-
-
-
-	<div class="ps-section--gray">
-
-		<div class="container">
-			<div class="row clearfix">
-				<div class="col-lg-12">
-					<div class="card chat-app">
-						<div id="plist" class="people-list">
-							<div class="input-group">
-								<div class="input-group-prepend">
-									<span class="input-group-text"><i class="fa fa-search"></i></span>
-								</div>
-								<input type="text" class="form-control" placeholder="Search...">
+	<div class="ps-section--gray" style="margin-top: -60px;">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card chat-app">
+					<?php 
+					$query5 = "
+					SELECT usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.ruta_foto_perfil
+					FROM usuarios
+					JOIN prestamos ON (prestamos.id_usuario_owner = usuarios.id_usuario OR prestamos.id_usuario_destino = usuarios.id_usuario)
+					WHERE (prestamos.id_usuario_owner = ? OR prestamos.id_usuario_destino = ?)
+					AND usuarios.id != ?
+					GROUP BY usuarios.id, usuarios.nombre, usuarios.avatar
+					ORDER BY ultima_fecha DESC";
+					?>
+					<div id="plist" class="people-list">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fa fa-search"></i></span>
 							</div>
-							<ul class="list-unstyled chat-list mt-2 mb-0">
-								<li class="clearfix">
-									<img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
-									<div class="about">
-										<div class="name">Vincent Porter</div>
-										<div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>
-									</div>
-								</li>
-								<li class="clearfix active">
-									<img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-									<div class="about">
-										<div class="name">Aiden Chavez</div>
-										<div class="status"> <i class="fa fa-circle online"></i> online </div>
-									</div>
-								</li>
-								<li class="clearfix">
-									<img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-									<div class="about">
-										<div class="name">Mike Thomas</div>
-										<div class="status"> <i class="fa fa-circle online"></i> online </div>
-									</div>
-								</li>
-								<li class="clearfix">
-									<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-									<div class="about">
-										<div class="name">Christian Kelly</div>
-										<div class="status"> <i class="fa fa-circle offline"></i> left 10 hours ago </div>
-									</div>
-								</li>
-								<li class="clearfix">
-									<img src="https://bootdey.com/img/Content/avatar/avatar8.png" alt="avatar">
-									<div class="about">
-										<div class="name">Monica Ward</div>
-										<div class="status"> <i class="fa fa-circle online"></i> online </div>
-									</div>
-								</li>
-								<li class="clearfix">
-									<img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="avatar">
-									<div class="about">
-										<div class="name">Dean Henry</div>
-										<div class="status"> <i class="fa fa-circle offline"></i> offline since Oct 28 </div>
-									</div>
-								</li>
-							</ul>
+							<input type="text" class="form-control" placeholder="Search...">
 						</div>
-						<div class="chat">
-							<div class="chat-header clearfix">
-								<div class="row">
-									<div class="col-lg-6">
-										<a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-											<img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-										</a>
-										<div class="chat-about">
-											<h6 class="m-b-0">Aiden Chavez</h6>
-											<small>Last seen: 2 hours ago</small>
-										</div>
+						<ul class="list-unstyled chat-list mt-2 mb-0">
+							<?php while($row = $result->fetch_assoc()): ?>
+								<li class="clearfix">
+									<img src="<?php echo htmlspecialchars($row['avatar']); ?>" alt="avatar">
+									<div class="about">
+										<div class="name"><?php echo htmlspecialchars($row['nombre']); ?></div>
+										<div class="status"> <i class="fa fa-circle offline"></i> Último mensaje: <?php echo htmlspecialchars($row['ultima_fecha']); ?> </div>
 									</div>
-									<div class="col-lg-6 hidden-sm text-right">
-										<a href="javascript:void(0);" class="btn btn-outline-secondary"><i class="fa fa-camera"></i></a>
-										<a href="javascript:void(0);" class="btn btn-outline-primary"><i class="fa fa-image"></i></a>
-										<a href="javascript:void(0);" class="btn btn-outline-info"><i class="fa fa-cogs"></i></a>
-										<a href="javascript:void(0);" class="btn btn-outline-warning"><i class="fa fa-question"></i></a>
-									</div>
-								</div>
-							</div>
-							<!-- <div class="chat-history">
-								<ul class="m-b-0">
-									<li class="clearfix">
-										<div class="message-data text-right">
-											<span class="message-data-time">10:10 AM, Today</span>
-											<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-										</div>
-										<div class="message other-message float-right"> Hi Aiden, how are you? How is the project coming along? </div>
-									</li>
-									<li class="clearfix">
-										<div class="message-data">
-											<span class="message-data-time">10:12 AM, Today</span>
-										</div>
-										<div class="message my-message">Are we meeting today?</div>
-									</li>
-								</ul>
-							</div> -->
-							<div class="chat-history" id="chat-history">
-								<ul class="m-b-0" id="chat-list">
-									<!-- Aquí se mostrarán los mensajes -->
-								</ul>
-							</div>
-							<div class="chat-message clearfix">
-								<div class="input-group mb-0">
-									<div class="input-group-prepend">
-										<span class="input-group-text"><button id="submit"><i class="fa fa-send"></i></button></span>
-									</div>
-									<textarea name="message" id="message" type="text" class="form-control" placeholder="Enter text here..."></textarea>
-								</div>
-							</div>
-						</div>
+								</li>
+							<?php endwhile; ?>
+						</ul>
 					</div>
-				</div>
-			</div>
-		</div>
+
+                    <?php
+                    $query4 = "SELECT * FROM usuarios WHERE codigo_usuario = '".$codigo_usuario_receptor."'";
+                    // echo $query4;
+                    $nombres_rec = GetValueSQL($query4, 'nombres');
+                    $apellidos_rec = GetValueSQL($query4, 'apellidos');
+                    $ruta_foto_perfil_rec = GetValueSQL($query4, 'ruta_foto_perfil');
+                    ?>
+                    <div class="chat">
+                        <div class="chat-header clearfix">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                                        <img src="<?php echo $ruta_foto_perfil_rec ?>" alt="avatar">
+                                    </a>
+                                    <div class="chat-about ">
+                                        <h6 class="m-b-0 h1"><?php echo $nombres_rec." ".$apellidos_rec; ?> </h6>
+                                        <!-- <small>Last seen: 2 hours ago</small> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-history" id="chat-history">
+                            <ul class="m-b-0" id="chat-list">
+                                <!-- Aquí se mostrarán los mensajes -->
+                            </ul>
+                        </div>
+                        <div class="chat-message clearfix">
+                            <div class="input-group mb-0">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><button id="submit"><i class="fa fa-send"></i></button></span>
+                                </div>
+                                <textarea name="message" id="message" type="text" class="form-control" placeholder="Enter text here..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 	</div>
 
@@ -438,6 +397,7 @@ session_start();
     var nombres = "<?php echo $nombres; ?>";
     var apellidos = "<?php echo $apellidos; ?>";
     var nombre_prestador = nombres + ' ' + apellidos;
+    var perfil_receptor = "<?php echo $ruta_foto_perfil_rec; ?>"; // Ruta de la imagen de perfil del receptor
 
     // Función para cargar los mensajes existentes desde Firebase
     function cargarMensajes() {
@@ -465,29 +425,47 @@ session_start();
             messageDataTime.className = 'message-data-time';
             messageDataTime.textContent = formattedDateTime;
 
+            const messageAvatar = document.createElement('img');
+            messageAvatar.src = perfil_receptor; // Usa la ruta de la imagen de perfil del receptor
+            messageAvatar.alt = 'avatar';
+
             const messageContent = document.createElement('div');
             messageContent.className = 'message other-message float-right';
             messageContent.textContent = message.message;
 
             messageData.appendChild(messageDataTime);
+            messageData.appendChild(messageAvatar);
             li.appendChild(messageData);
             li.appendChild(messageContent);
         } else {
+            const messageData = document.createElement('div');
+            messageData.className = 'message-data';
+
+            const messageDataTime = document.createElement('span');
+            messageDataTime.className = 'message-data-time';
+            messageDataTime.textContent = formattedDateTime;
+
             const messageContent = document.createElement('div');
             messageContent.className = 'message my-message';
             messageContent.textContent = message.message;
 
+            messageData.appendChild(messageDataTime);
+            li.appendChild(messageData);
             li.appendChild(messageContent);
         }
 
         chatList.appendChild(li);
+
+        // Scroll to bottom after adding a new message
+        const chatHistory = document.getElementById('chat-history');
+        chatHistory.scrollTop = chatHistory.scrollHeight;
     }
 
     document.getElementById('submit').addEventListener('click', (e) => {
         e.preventDefault();
         var message = $("#message").val();
 
-        var maxLength = 1000; //Define el máximo número de caracteres permitidos
+        var maxLength = 1000; // Define el máximo número de caracteres permitidos
 
         if(message.length > maxLength){
             Swal.fire({
@@ -527,8 +505,18 @@ session_start();
     });
 
     // Llama a la función para cargar mensajes al cargar la página
-    window.addEventListener('load', cargarMensajes);
+    window.addEventListener('load', () => {
+        cargarMensajes();
+
+        // Scroll to bottom after loading all messages
+        const chatHistory = document.getElementById('chat-history');
+        setTimeout(() => {
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }, 1000); // Ajusta el tiempo de espera si es necesario
+    });
 </script>
+
+
 
 
 
