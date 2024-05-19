@@ -328,7 +328,7 @@ session_start();
 									</div>
 								</div>
 							</div>
-							<div class="chat-history">
+							<!-- <div class="chat-history">
 								<ul class="m-b-0">
 									<li class="clearfix">
 										<div class="message-data text-right">
@@ -343,6 +343,11 @@ session_start();
 										</div>
 										<div class="message my-message">Are we meeting today?</div>
 									</li>
+								</ul>
+							</div> -->
+							<div class="chat-history" id="chat-history">
+								<ul class="m-b-0" id="chat-list">
+									<!-- Aquí se mostrarán los mensajes -->
 								</ul>
 							</div>
 							<div class="chat-message clearfix">
@@ -402,184 +407,134 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 
 	<script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-        import { getDatabase, set, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getDatabase, set, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
 
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCHNB64eKw2nyZFEXE0O482UqZQfx6I3Cw",
-            authDomain: "bookswap-33e37.firebaseapp.com",
-            projectId: "bookswap-33e37",
-            storageBucket: "bookswap-33e37.appspot.com",
-            messagingSenderId: "930267590",
-            appId: "1:930267590:web:cfc931bf6d38799a4df2c7"
-        };
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCHNB64eKw2nyZFEXE0O482UqZQfx6I3Cw",
+        authDomain: "bookswap-33e37.firebaseapp.com",
+        projectId: "bookswap-33e37",
+        storageBucket: "bookswap-33e37.appspot.com",
+        messagingSenderId: "930267590",
+        appId: "1:930267590:web:cfc931bf6d38799a4df2c7"
+    };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
 
+    var codigo_usuario_prestador = "<?php echo $codigo_usuario_prestador ?>";
+    var codigo_usuario_receptor = "<?php echo $codigo_usuario_receptor; ?>";
 
-		var codigo_usuario_prestador = "<?php echo $codigo_usuario_prestador ?>";
-		var codigo_usuario_receptor = "<?php echo $codigo_usuario_receptor; ?>";
+    var id_chat;
+    if (codigo_usuario_prestador < codigo_usuario_receptor) {
+        id_chat = codigo_usuario_prestador + "_" + codigo_usuario_receptor;
+    } else {
+        id_chat = codigo_usuario_receptor + "_" + codigo_usuario_prestador;
+    }
 
-		var id_chat;
-		if (codigo_usuario_prestador < codigo_usuario_receptor) {
-			id_chat = codigo_usuario_prestador + "_" + codigo_usuario_receptor;
-		} else {
-			id_chat = codigo_usuario_receptor + "_" + codigo_usuario_prestador;
-		}
+    var nombres = "<?php echo $nombres; ?>";
+    var apellidos = "<?php echo $apellidos; ?>";
+    var nombre_prestador = nombres + ' ' + apellidos;
 
-
-        var nombres = "<?php echo $nombres; ?>";
-        var apellidos = "<?php echo $apellidos; ?>";
-        var nombre_prestador = nombres + ' ' + apellidos;
-
-        document.getElementById('submit').addEventListener('click', (e) => {
-            e.preventDefault();
-            var message = $("#message").val();
-
-			var maxLength = 1000; //Define el máximo número de caracteres permitidos
-
-			if(message.length > maxLength){
-				Swal.fire({
-					icon: 'error',
-					title: '¡Error!',
-					text: "El mensaje no debe sobrepasar los "+maxLength+" caracteres",
-					timer: 1000,
-					timerProgressBar: true,
-				})
-				return;
-			}
-
-
-            if (message.trim() === ""){
-                Swal.fire({
-					icon: 'error',
-					title: '¡Error!',
-					text: "El mensaje está vacío",
-					timer: 1000,
-					timerProgressBar: true,
-				})
-                return;
-            }
-
-            const messagesRef = ref(database, 'messages/' + id_chat);
-            const newMessageRef = push(messagesRef);
-
-            set(newMessageRef, {
-                sender: nombre_prestador,
-                message: message,
-                timestamp: Date.now()
-            }).then(() => {
-                document.getElementById('message').value = "";
-                alert('El mensaje se ha enviado');
-            }).catch((error) => {
-                alert('Error al enviar el mensaje: ' + error.message);
-            });
+    // Función para cargar los mensajes existentes desde Firebase
+    function cargarMensajes() {
+        const messagesRef = ref(database, 'messages/' + id_chat);
+        onChildAdded(messagesRef, (snapshot) => {
+            const message = snapshot.val();
+            renderizarMensaje(message);
         });
+    }
 
-        const newMsgRef = ref(database, 'messages/' + id_chat);
-        onChildAdded(newMsgRef, (data) => {
-            var messageData = data.val();
-            var messageElement = document.createElement('div');
-            messageElement.classList.add('message');
+    // Función para renderizar un mensaje en el chat
+    function renderizarMensaje(message) {
+        const chatList = document.getElementById('chat-list');
+        const formattedDateTime = new Date(message.timestamp).toLocaleString();
+        const isOwnMessage = message.sender === nombre_prestador;
 
-            if (messageData.sender === nombre_prestador) {
-                messageElement.classList.add('my-message');
-                messageElement.textContent = messageData.message;
-            } else {
-                messageElement.classList.add('other-message');
-                messageElement.textContent = `${messageData.sender}: ${messageData.message}`;
-            }
+        const li = document.createElement('li');
+        li.className = 'clearfix';
 
-            document.querySelector('.chat-history ul').appendChild(messageElement);
+        if (!isOwnMessage) {
+            const messageData = document.createElement('div');
+            messageData.className = 'message-data text-right';
+
+            const messageDataTime = document.createElement('span');
+            messageDataTime.className = 'message-data-time';
+            messageDataTime.textContent = formattedDateTime;
+
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message other-message float-right';
+            messageContent.textContent = message.message;
+
+            messageData.appendChild(messageDataTime);
+            li.appendChild(messageData);
+            li.appendChild(messageContent);
+        } else {
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message my-message';
+            messageContent.textContent = message.message;
+
+            li.appendChild(messageContent);
+        }
+
+        chatList.appendChild(li);
+    }
+
+    document.getElementById('submit').addEventListener('click', (e) => {
+        e.preventDefault();
+        var message = $("#message").val();
+
+        var maxLength = 1000; //Define el máximo número de caracteres permitidos
+
+        if(message.length > maxLength){
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: "El mensaje no debe sobrepasar los "+maxLength+" caracteres",
+                timer: 1000,
+                timerProgressBar: true,
+            })
+            return;
+        }
+
+        if (message.trim() === ""){
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: "El mensaje está vacío",
+                timer: 1000,
+                timerProgressBar: true,
+            })
+            return;
+        }
+
+        const messagesRef = ref(database, 'messages/' + id_chat);
+        const newMessageRef = push(messagesRef);
+
+        set(newMessageRef, {
+            sender: nombre_prestador,
+            message: message,
+            timestamp: Date.now()
+        }).then(() => {
+            document.getElementById('message').value = "";
+            alert('El mensaje se ha enviado');
+        }).catch((error) => {
+            alert('Error al enviar el mensaje: ' + error.message);
         });
-    </script>
+    });
+
+    // Llama a la función para cargar mensajes al cargar la página
+    window.addEventListener('load', cargarMensajes);
+</script>
 
 
 
-	<!-- 
-		#region PARA CARGAR
 
 
 
-
-		
-		#region LOS MENSAJES EXISTENTES
-	-->
-	<script>
-		$(document).ready(function() {
-			// Obtener referencia al elemento donde se mostrarán los mensajes
-			const chatHistory = document.querySelector('.chat-history ul');
-
-			// Función para imprimir un mensaje en la interfaz de chat
-			function printMessage(messageData) {
-				const messageElement = document.createElement('li');
-				messageElement.classList.add('clearfix');
-
-				// Construir el contenido del mensaje
-				const messageContent = `
-					<div class="message-data ${messageData.sender === nombre_prestador ? 'text-right' : ''}">
-						<span class="message-data-time">${new Date(messageData.timestamp).toLocaleTimeString()}, Today</span>
-						<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-					</div>
-					<div class="message ${messageData.sender === nombre_prestador ? 'my-message' : 'other-message'} ${messageData.sender === nombre_prestador ? 'float-right' : ''}">
-						${messageData.message}
-					</div>
-				`;
-
-				// Agregar el contenido del mensaje al elemento HTML
-				messageElement.innerHTML = messageContent;
-
-				// Agregar el mensaje al historial de chat
-				chatHistory.appendChild(messageElement);
-
-				// Desplazar automáticamente hacia abajo para mostrar los nuevos mensajes
-				chatHistory.scrollTop = chatHistory.scrollHeight;
-			}
-
-			// Obtener los mensajes existentes y mostrarlos en la interfaz de chat
-			const messagesRef = ref(database, 'messages/' + id_chat);
-			onChildAdded(messagesRef, (snapshot) => {
-				const messageData = snapshot.val();
-				printMessage(messageData);
-			});
-
-			// Escuchar el evento de clic en el botón de enviar mensaje
-			document.getElementById('submit').addEventListener('click', (e) => {
-				e.preventDefault();
-				const message = document.getElementById('message').value.trim();
-
-				// Validar que el mensaje no esté vacío
-				if (message === "") {
-					Swal.fire({
-						icon: 'error',
-						title: '¡Error!',
-						text: "El mensaje está vacío",
-						timer: 1000,
-						timerProgressBar: true,
-					});
-					return;
-				}
-
-				// Guardar el mensaje en la base de datos Firebase
-				const newMessageRef = push(messagesRef);
-				set(newMessageRef, {
-					sender: nombre_prestador,
-					message: message,
-					timestamp: Date.now()
-				}).then(() => {
-					// Limpiar el campo de texto después de enviar el mensaje
-					document.getElementById('message').value = "";
-					alert('El mensaje se ha enviado');
-				}).catch((error) => {
-					alert('Error al enviar el mensaje: ' + error.message);
-				});
-			});
-		});
-	</script>
     
     </body>
 </body>
