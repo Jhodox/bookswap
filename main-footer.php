@@ -16,17 +16,17 @@
 
                         <div class="widget_content">
 
-                            <p>Llamanos 24/7</p>
-                            <h3>1800 97 97 69</h3>
                             <p>CUCEI, Jalisco, México <br>
-                                <a target="_blank" href="mailto:contact@marketplace.com">contact@marketplace.com</a>
+                                <a target="_blank" href="mailto:bookswapcontacto@gmail.com">bookswapcontacto@gmail.com</a>
                             </p>
 
                             <ul class="ps-list--social">
-                                <li><a class="facebook" href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a class="twitter" href="#"><i class="fab fa-twitter"></i></a></li>
-                                <li><a class="google-plus" href="#"><i class="fab fa-youtube"></i></a></li>
-                                <li><a class="instagram" href="#"><i class="fab fa-instagram"></i></a></li>
+                                <li><a title="Ivan" class="instagram" target="_blank" href="https://www.instagram.com/ivanpillow"><i class="fab fa-instagram"></i></a></li>
+                                <li><a title="Angel" class="instagram" target="_blank" href="https://www.instagram.com/asc_angeel"><i class="fab fa-instagram"></i></a></li>
+                                <li><a title="Gerson" class="instagram" target="_blank" href="https://www.instagram.com/gerson_flores"><i class="fab fa-instagram"></i></a></li>
+                                <li><a title="Cristian" class="instagram" target="_blank" href="https://www.instagram.com/cristiancitorozkito"><i class="fab fa-instagram"></i></a></li>
+                                <li><a title="Brandon" class="instagram" target="_blank" href="https://www.instagram.com/__brandonhh__"><i class="fab fa-instagram"></i></a></li>
+                                <li><a title="Jorge" class="instagram" target="_blank" href="https://www.instagram.com/jorgeoliv.ag/"><i class="fab fa-instagram"></i></a></li>
                             </ul>
 
                         </div>
@@ -102,23 +102,20 @@
 <!--=====================================
 #region modal contacto
 ======================================-->  
-<!-- <body>
-
+<body>
+    <title>Modal Contacto</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-    <script src="path/to/funciones.js"></script>
 
     <div class="modal fade" id="modalContacto" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
                 <div class="modal-header">
-                    <h5 class="modal-title title" id="modalContactoLabel">Nuestro Contacto:</h5>
+                    <h5 class="h3 modal-title title" id="modalContactoLabel">Nuestro Contacto:</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="text-justify">
+                <div class="modal-body modal-body-custom">
+                    <div class="h4 text-justify">
                         <ul>
                             <li>
                                 <strong>Llamanos 24/7</strong><br>
@@ -134,30 +131,22 @@
                             </li><br>
                             <li>
                                 <strong>Nuestras redes son:</strong><br>
-                                
+                                <a href="https://www.twitch.tv/ingejorge_gg" target="_blank" ><i class="fab fa-twitch">&ensp;</i> JorgitoPlays</a>
                             </li><br>
                         </ul>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <p class="text-justify">
-                        Puedes contactarnos vía telefónica, o por correo. Nuestra dirección esta disponible por si llega a haber alguna consulta física.
+                        Puedes contactarnos vía telefónica, o por correo. Nuestra dirección es justo en el edificio X aula 20, disponible por si llega a haber alguna consulta física.
                     </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="js/main.js"></script>
-
-    <script src="assets/js/jquery-2.2.4.min.js"></script>
-    <script src="assets/js/slick.min.js"></script>
-    <script src="assets/js/jquery-ui.js"></script>
-    <script src="assets/js/jquery.nice-select.js"></script>
-    <script src="assets/js/scripts.js"></script>
-    <script src="assets/js/funciones.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="assets/plugins/sweetalert/sweetalert.min.js"></script> 
-    <script src="assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="path/to/funciones.js"></script>
 
-</body> -->
+</body>
