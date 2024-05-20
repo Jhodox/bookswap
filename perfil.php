@@ -212,7 +212,7 @@ session_start();
     #region Mi Perfil
     ======================================-->
 
-    <div class="ps-vendor-dashboard pro" style="margin-top: -50px">
+    <div class="ps-vendor-dashboard pro" style="margin-top: -100px">
 
         <div class="container">
 
@@ -1257,6 +1257,10 @@ session_start();
 
                                     $query15 = "SELECT * FROM ciclos WHERE id_ciclo = '$ciclo'";
                                     $ciclo = GetValueSQL($query15, 'ciclo');
+
+                                    if($ruta_foto_credencial == NULL){
+                                        $ruta_foto_credencial = $ruta_foto_no_existente;
+                                    }
 
                                     echo '<tr>
                                             <td>

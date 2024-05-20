@@ -19,7 +19,7 @@
                             <p>Llamanos 24/7</p>
                             <h3>1800 97 97 69</h3>
                             <p>CUCEI, Jalisco, México <br>
-                                <a href="mailto:contact@marketplace.com">contact@marketplace.com</a>
+                                <a target="_blank" href="mailto:contact@marketplace.com">contact@marketplace.com</a>
                             </p>
 
                             <ul class="ps-list--social">
