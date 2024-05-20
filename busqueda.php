@@ -18,7 +18,7 @@ session_start();
     <meta name="keywords" content="">
     <meta name="description" content="">
 
-    <title>BookSwap | Inicio</title>
+    <title>BookSwap | Busqueda</title>
     <?php include ("include/headertagbase.php"); ?>
 
     <link rel="icon" href="imagenes/bookswap/logoBookswap.png">
