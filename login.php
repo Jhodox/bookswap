@@ -20,7 +20,7 @@
     <title>BookSwap | Inicio</title>
     <?php include ("include/headertagbase.php"); ?>
 
-    <link rel="icon" href="imagenes/bookswap/logo.png">
+    <link rel="icon" href="imagenes/bookswap/logoBookswap.png">
 
     <!--=====================================
     CSS
@@ -332,7 +332,7 @@
 
                                 <div class="form-group submtit">
 
-                                    <button class="ps-btn ps-btn--fullwidth" id="btn_registro">Registrarse</button>
+                                    <a class="ps-btn ps-btn--fullwidth button" id="btn_registro" data-bs-toggle="modal" data-bs-target="#modalTerminos" data-bs-whatever="@mdo">Registrarse</a>
 
                                 </div>
 
@@ -353,8 +353,8 @@
     <!--=====================================
     #region TERMINOS Y CONDICIONES
     ======================================-->
-    <div class="modal" id="modalTerminos" tabindex="-1" role="dialog" aria-labelledby="modalTerminosLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal fade" id="modalTerminos" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title title" id="modalTerminosLabel">Términos y Condiciones</h5>
@@ -398,17 +398,17 @@
                     </div>
                     <div class="form-check d-flex align-items-center">
                         <div class="col">
-                            <label for="aceptoTerminos" class="d-flex align-items-center">
-                                <input class="form-check-label me-3" type="checkbox" id="aceptoTerminos">
-                                <span>Acepto los términos y condiciones</span>
+                            <input class="form-check-input me-2" type="checkbox" id="aceptoTerminos">
+                            <label for="aceptoTerminos" class="form-check-label">
+                                Acepto los términos y condiciones
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="form-group">
-                        <button id="btnCerrar" type="button" class="btn ps-btn" data-bs-dismiss="modal" style="background-color: gray;">Cerrar</button>
-                        <button type="button" class="btn ps-btn" id="btnAceptarTerminos">Aceptar</button>
+                        <button type="button" class="btn ps-btn" data-bs-dismiss="modal" style="background-color: gray;">Cerrar</button>
+                        <button type="button" class="btn ps-btn" id="btnAceptarTerminos" onclick='registro_user(event)'>Aceptar</button>
                     </div>
                 </div>
             </div>

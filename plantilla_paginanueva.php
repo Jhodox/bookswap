@@ -21,7 +21,7 @@ session_start();
 	<title>BookSwap | Inicio</title>
 	<?php include ("include/headertagbase.php"); ?>
 
-	<link rel="icon" href="imagenes/bookswap/logo.png">
+	<link rel="icon" href="imagenes/bookswap/logoBookswap.png">
 
 	<!--=====================================
 	#region CSS

@@ -1,5 +1,5 @@
 $("#btn_login").click(inicia_sesion);
-$("#btn_registro").click(registro_user);
+// $("#btn_registro").click(registro_user);
 
 // #region activar_actualizar_datos
 function activar_actualizar_datos(id_usuario){
@@ -102,137 +102,81 @@ function end_inicia_sesion(xml){
 function registro_user(e){
 	e.preventDefault();
 	// console.log("Registrando...");
+	if ($('#aceptoTerminos').is(':checked')) {
+		var registro_nombre  	= $("#registro_nombre").val();
+		var registro_apellidos 	= $("#registro_apellidos").val();
+		var registro_codigo 	= $("#registro_codigo").val();
+		var registro_carrera 	= $("#registro_carrera").val();
+		var registro_ciclo_ingreso 	= $("#registro_ciclo_ingreso").val();
+		var registro_email 		= $("#registro_email").val();
+		var registro_password  	= $("#registro_password").val();
+		var registro_confirm_password = $("#registro_confirm_password").val();
 
-	var registro_nombre  	= $("#registro_nombre").val();
-	var registro_apellidos 	= $("#registro_apellidos").val();
-	var registro_codigo 	= $("#registro_codigo").val();
-	var registro_carrera 	= $("#registro_carrera").val();
-	var registro_ciclo_ingreso 	= $("#registro_ciclo_ingreso").val();
-	var registro_email 		= $("#registro_email").val();
-	var registro_password  	= $("#registro_password").val();
-	var registro_confirm_password = $("#registro_confirm_password").val();
-
-	var continua = 1;
-	var motivo_error = '';
-
-
-	$("#form_registro .obligatorio").each(function (index) {
-		// if($(this).val() == ""){
-		// 		$(this).css("border", "2px solid #CB2413");
-		// 		continua = 0;
-		// 		motivo_error = "Llena todos los campos.";
-		// } else{
-		// 	$(this).css("border", "2px solid #dddddd");
-		// }
+		var continua = 1;
+		var motivo_error = '';
 
 
-		if ($(this).is('select')) { 
-			if ($(this).val() == 0) { 
-				$(this).css("border", "2px solid #CB2413");
-				continua = 0;
-				motivo_error = "Selecciona una opción en todos los campos.";
-			} else {
-				$(this).css("border", "2px solid #dddddd");
-			}
-		} else {
-			if ($(this).val() == "") {
-				$(this).css("border", "2px solid #CB2413");
-				continua = 0;
-				motivo_error = "Llena todos los campos.";
-			} else {
-				$(this).css("border", "2px solid #dddddd");
-			}
-		}
-	});
-
-
-	if(!validateCodigoUDG(registro_codigo)){
-		$("#registro_codigo").css("border", "2px solid #CB2413");
-		motivo_error = "Ingresa un código de estudiante válido.";
-		continua = 0; 
-	}
-
-	
-	if( !validateEmail(registro_email)) {
-		$("#registro_email").css("border", "2px solid #CB2413");
-		motivo_error = "Ingresa un correo institucional válido.";
-		continua = 0; 
-	}
-
-	if(!validarTexto(registro_nombre) || !validarTexto(registro_apellidos)){
-		motivo_error = "Por favor, ingresa tus nombres y apellidos.";
-		continua = 0;
-	}
-
-
-	if(registro_password != registro_confirm_password){
-		motivo_error = "Las contraseñas no coinciden.";
-		continua = 0; 
-	}
-
-
-	 if(continua == 1){
 		$("#form_registro .obligatorio").each(function (index) {
-			$(this).css("border", "2px solid #dddddd");
+			// if($(this).val() == ""){
+			// 		$(this).css("border", "2px solid #CB2413");
+			// 		continua = 0;
+			// 		motivo_error = "Llena todos los campos.";
+			// } else{
+			// 	$(this).css("border", "2px solid #dddddd");
+			// }
+
+
+			if ($(this).is('select')) { 
+				if ($(this).val() == 0) { 
+					$(this).css("border", "2px solid #CB2413");
+					continua = 0;
+					motivo_error = "Selecciona una opción en todos los campos.";
+				} else {
+					$(this).css("border", "2px solid #dddddd");
+				}
+			} else {
+				if ($(this).val() == "") {
+					$(this).css("border", "2px solid #CB2413");
+					continua = 0;
+					motivo_error = "Llena todos los campos.";
+				} else {
+					$(this).css("border", "2px solid #dddddd");
+				}
+			}
 		});
 
-		$('#modalTerminos').show('slow');
 
-	 } else{
-		Swal.fire({
-			icon: 'error',
-			title: '¡Error!',
-			text: motivo_error,
-			timer: 1000,
-			timerProgressBar: true,
-		})
-	 }
-	
-}
-
-function end_registro_user(xml){	   
-	$(xml).find("response").each(function(i){		 
-		if ($(this).find("result").text()=="ok"){  	
-			$("#form_registro")[0].reset();
-			Swal.fire({
-				icon: 'success',
-				title: '¡Correcto!',
-				text: $(this).find("result_text").text(),
-				timer: 1000,
-				timerProgressBar: true,
-			})
-			window.location.href  = 'index';
-		}else{		
-			 Swal.fire({
-				 icon: 'error',
-				 title: '¡Error!',
-				 text: $(this).find("result_text").text(),
-				 timer: 1000,
-				 timerProgressBar: true,
-			 })
+		if(!validateCodigoUDG(registro_codigo)){
+			$("#registro_codigo").css("border", "2px solid #CB2413");
+			motivo_error = "Ingresa un código de estudiante válido.";
+			continua = 0; 
 		}
-	});
-}
 
-// #region terminos y condiciones
-$(document).ready(function() {
-	$('#btnCerrar').on('click'), function(){
-		$("#modalTerminos").hide('slow');
-	}
+		
+		if( !validateEmail(registro_email)) {
+			$("#registro_email").css("border", "2px solid #CB2413");
+			motivo_error = "Ingresa un correo institucional válido.";
+			continua = 0; 
+		}
 
-	$('#btnAceptarTerminos').on('click', function() {
-        if ($('#aceptoTerminos').is(':checked')) {
-            //Obtener los valores de los campos del formulario
-            var registro_nombre  	= $("#registro_nombre").val();
-            var registro_apellidos 	= $("#registro_apellidos").val();
-            var registro_codigo 	= $("#registro_codigo").val();
-            var registro_carrera 	= $("#registro_carrera").val();
-            var registro_ciclo_ingreso 	= $("#registro_ciclo_ingreso").val();
-            var registro_email 		= $("#registro_email").val();
-            var registro_password  	= $("#registro_password").val();
+		if(!validarTexto(registro_nombre) || !validarTexto(registro_apellidos)){
+			motivo_error = "Por favor, ingresa tus nombres y apellidos.";
+			continua = 0;
+		}
 
-            // Envío de los datos al controlador utilizando $.post()
-            $.post("controller.php", {
+
+		if(registro_password != registro_confirm_password){
+			motivo_error = "Las contraseñas no coinciden.";
+			continua = 0; 
+		}
+
+		$("#modalTerminos").modal('hide');
+		if(continua == 1){
+			$("#form_registro .obligatorio").each(function (index) {
+				$(this).css("border", "2px solid #dddddd");
+			});
+
+			$.post("controller.php", {
                 action: "registro_user",
                 registro_nombre: registro_nombre,
                 registro_apellidos: registro_apellidos,
@@ -244,26 +188,57 @@ $(document).ready(function() {
             }, function(xml) {
                 end_registro_user(xml);
             });
+		} else{
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: motivo_error,
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: '¡Error!',
+			text: 'Debes aceptar los términos y condiciones para continuar.',
+			timer: 1000,
+			timerProgressBar: true,
+		});
+	}
+	
+}
 
-            // Llamar a la función modalTerminos con "ok" como resultado
-            modalTerminos("ok");
+function end_registro_user(xml) {	   
+    $(xml).find("response").each(function(i) {		 
+        if ($(this).find("result").text() == "ok") {  	
+            $("#form_registro")[0].reset();
+            Swal.fire({
+                icon: 'success',
+                title: '¡Correcto!',
+                text: $(this).find("result_text").text(),
+                timer: 1000,
+                timerProgressBar: true,
+            }).then(() => {
 
-        } else {
+
+                    window.location.href = 'index';
+
+            });
+        } else {		
             Swal.fire({
                 icon: 'error',
                 title: '¡Error!',
-                text: 'Debes aceptar los términos y condiciones para continuar.',
+                text: $(this).find("result_text").text(),
                 timer: 1000,
                 timerProgressBar: true,
             });
         }
     });
+}
 
-	$('.btn-close').on('click', function() {
-        $('#modalTerminos').hide('slow'); 
-    });
-});
 
+// #region terminos y condiciones
 function modalTerminos(result) {
 	if (result == "ok") {     
 		Swal.fire({
@@ -272,10 +247,9 @@ function modalTerminos(result) {
 			text: 'Términos y condiciones aceptados.',
 			timer: 1000,
 			timerProgressBar: true,
-			// success: end_modalTerminos 
 		});
 
-		$("#modalTerminos").hide('slow');
+		$("#modalTerminos").modal('hide');
 
 	} else { 
 		Swal.fire({

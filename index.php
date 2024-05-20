@@ -19,7 +19,7 @@ session_start();
 
 	<title>BookSwap | Inicio</title>
 
-	<link rel="icon" href="imagenes/bookswap/logo.png">
+	<link rel="icon" href="imagenes/bookswap/logoBookswap.png">
 
 	<!--=====================================
 	#region CSS
