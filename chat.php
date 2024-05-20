@@ -21,7 +21,7 @@ session_start();
 	<title>BookSwap | Inicio</title>
 	<?php include ("include/headertagbase.php"); ?>
 
-	<link rel="icon" href="imagenes/bookswap/logo.png">
+	<link rel="icon" href="imagenes/bookswap/logoBookswap.png">
 
 	<!--=====================================
 	#region CSS
@@ -253,31 +253,39 @@ session_start();
                 <div class="card chat-app">
 					<?php 
 					$query5 = "
-					SELECT usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.ruta_foto_perfil
+					SELECT DISTINCT usuarios.codigo_usuario, usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.ruta_foto_perfil
 					FROM usuarios
 					JOIN prestamos ON (prestamos.id_usuario_owner = usuarios.id_usuario OR prestamos.id_usuario_destino = usuarios.id_usuario)
-					WHERE (prestamos.id_usuario_owner = ? OR prestamos.id_usuario_destino = ?)
-					AND usuarios.id != ?
-					GROUP BY usuarios.id, usuarios.nombre, usuarios.avatar
-					ORDER BY ultima_fecha DESC";
+					WHERE (prestamos.id_usuario_owner = $id_usuario_global OR prestamos.id_usuario_destino = $id_usuario_global)
+					AND usuarios.id_usuario != $id_usuario_global AND usuarios.id_usuario != 0
+					";
+					// echo $query5;
+					$usuarios_relacionados = DatasetSQL($query5);
 					?>
 					<div id="plist" class="people-list">
 						<div class="input-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fa fa-search"></i></span>
 							</div>
-							<input type="text" class="form-control" placeholder="Search...">
+							<input id="searchInput" type="text" class="form-control" placeholder="Search...">
 						</div>
-						<ul class="list-unstyled chat-list mt-2 mb-0">
-							<?php while($row = $result->fetch_assoc()): ?>
+						<ul class="list-unstyled chat-list mt-2 mb-0" id="userList">
+							<?php while($row = mysqli_fetch_array($usuarios_relacionados)){ 
+								$ruta_foto_perfil_list = $row['ruta_foto_perfil'] ;
+								if($ruta_foto_perfil_list == NULL){
+									$ruta_foto_perfil_list = $ruta_foto_no_usuario;
+								}
+								?>
+								
+								<a class="text-secondary" href="chat/<?php echo $row['codigo_usuario']; ?>">
 								<li class="clearfix">
-									<img src="<?php echo htmlspecialchars($row['avatar']); ?>" alt="avatar">
+									<img class="profile-avatar" src="<?php echo $ruta_foto_perfil_list ?>" alt="avatar">
 									<div class="about">
-										<div class="name"><?php echo htmlspecialchars($row['nombre']); ?></div>
-										<div class="status"> <i class="fa fa-circle offline"></i> Último mensaje: <?php echo htmlspecialchars($row['ultima_fecha']); ?> </div>
+										<div class="name"><?php echo $row['nombres']." ".$row['apellidos']; ?></div>
+										<div class="status"> </div>
 									</div>
-								</li>
-							<?php endwhile; ?>
+								</li></a>
+							<?php } ?>
 						</ul>
 					</div>
 
@@ -287,13 +295,17 @@ session_start();
                     $nombres_rec = GetValueSQL($query4, 'nombres');
                     $apellidos_rec = GetValueSQL($query4, 'apellidos');
                     $ruta_foto_perfil_rec = GetValueSQL($query4, 'ruta_foto_perfil');
+
+					if($ruta_foto_perfil_rec == NULL){
+						$ruta_foto_perfil_rec = $ruta_foto_no_usuario;
+					}
                     ?>
                     <div class="chat">
                         <div class="chat-header clearfix">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                                        <img src="<?php echo $ruta_foto_perfil_rec ?>" alt="avatar">
+                                        <img class="profile-avatar" src="<?php echo $ruta_foto_perfil_rec ?>" alt="avatar">
                                     </a>
                                     <div class="chat-about ">
                                         <h6 class="m-b-0 h1"><?php echo $nombres_rec." ".$apellidos_rec; ?> </h6>
@@ -366,165 +378,181 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 
 	<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-    import { getDatabase, set, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+        // Tu script JavaScript
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getDatabase, set, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
 
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyCHNB64eKw2nyZFEXE0O482UqZQfx6I3Cw",
-        authDomain: "bookswap-33e37.firebaseapp.com",
-        projectId: "bookswap-33e37",
-        storageBucket: "bookswap-33e37.appspot.com",
-        messagingSenderId: "930267590",
-        appId: "1:930267590:web:cfc931bf6d38799a4df2c7"
-    };
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHNB64eKw2nyZFEXE0O482UqZQfx6I3Cw",
+            authDomain: "bookswap-33e37.firebaseapp.com",
+            projectId: "bookswap-33e37",
+            storageBucket: "bookswap-33e37.appspot.com",
+            messagingSenderId: "930267590",
+            appId: "1:930267590:web:cfc931bf6d38799a4df2c7"
+        };
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
-    var codigo_usuario_prestador = "<?php echo $codigo_usuario_prestador ?>";
-    var codigo_usuario_receptor = "<?php echo $codigo_usuario_receptor; ?>";
+        var codigo_usuario_prestador = "<?php echo $codigo_usuario_prestador ?>";
+        var codigo_usuario_receptor = "<?php echo $codigo_usuario_receptor; ?>";
 
-    var id_chat;
-    if (codigo_usuario_prestador < codigo_usuario_receptor) {
-        id_chat = codigo_usuario_prestador + "_" + codigo_usuario_receptor;
-    } else {
-        id_chat = codigo_usuario_receptor + "_" + codigo_usuario_prestador;
-    }
-
-    var nombres = "<?php echo $nombres; ?>";
-    var apellidos = "<?php echo $apellidos; ?>";
-    var nombre_prestador = nombres + ' ' + apellidos;
-    var perfil_receptor = "<?php echo $ruta_foto_perfil_rec; ?>"; // Ruta de la imagen de perfil del receptor
-
-    // Función para cargar los mensajes existentes desde Firebase
-    function cargarMensajes() {
-        const messagesRef = ref(database, 'messages/' + id_chat);
-        onChildAdded(messagesRef, (snapshot) => {
-            const message = snapshot.val();
-            renderizarMensaje(message);
-        });
-    }
-
-    // Función para renderizar un mensaje en el chat
-    function renderizarMensaje(message) {
-        const chatList = document.getElementById('chat-list');
-        const formattedDateTime = new Date(message.timestamp).toLocaleString();
-        const isOwnMessage = message.sender === nombre_prestador;
-
-        const li = document.createElement('li');
-        li.className = 'clearfix';
-
-        if (!isOwnMessage) {
-            const messageData = document.createElement('div');
-            messageData.className = 'message-data text-right';
-
-            const messageDataTime = document.createElement('span');
-            messageDataTime.className = 'message-data-time';
-            messageDataTime.textContent = formattedDateTime;
-
-            const messageAvatar = document.createElement('img');
-            messageAvatar.src = perfil_receptor; // Usa la ruta de la imagen de perfil del receptor
-            messageAvatar.alt = 'avatar';
-
-            const messageContent = document.createElement('div');
-            messageContent.className = 'message other-message float-right';
-            messageContent.textContent = message.message;
-
-            messageData.appendChild(messageDataTime);
-            messageData.appendChild(messageAvatar);
-            li.appendChild(messageData);
-            li.appendChild(messageContent);
+        var id_chat;
+        if (codigo_usuario_prestador < codigo_usuario_receptor) {
+            id_chat = codigo_usuario_prestador + "_" + codigo_usuario_receptor;
         } else {
-            const messageData = document.createElement('div');
-            messageData.className = 'message-data';
-
-            const messageDataTime = document.createElement('span');
-            messageDataTime.className = 'message-data-time';
-            messageDataTime.textContent = formattedDateTime;
-
-            const messageContent = document.createElement('div');
-            messageContent.className = 'message my-message';
-            messageContent.textContent = message.message;
-
-            messageData.appendChild(messageDataTime);
-            li.appendChild(messageData);
-            li.appendChild(messageContent);
+            id_chat = codigo_usuario_receptor + "_" + codigo_usuario_prestador;
         }
 
-        chatList.appendChild(li);
+        var nombres = "<?php echo $nombres; ?>";
+        var apellidos = "<?php echo $apellidos; ?>";
+        var nombre_prestador = nombres + ' ' + apellidos;
+        var perfil_receptor = "<?php echo $ruta_foto_perfil_rec; ?>"; // Ruta de la imagen de perfil del receptor
 
-        // Scroll to bottom after adding a new message
-        const chatHistory = document.getElementById('chat-history');
-        chatHistory.scrollTop = chatHistory.scrollHeight;
-    }
-
-    document.getElementById('submit').addEventListener('click', (e) => {
-        e.preventDefault();
-        var message = $("#message").val();
-
-        var maxLength = 1000; // Define el máximo número de caracteres permitidos
-
-        if(message.length > maxLength){
-            Swal.fire({
-                icon: 'error',
-                title: '¡Error!',
-                text: "El mensaje no debe sobrepasar los "+maxLength+" caracteres",
-                timer: 1000,
-                timerProgressBar: true,
-            })
-            return;
+        // Función para cargar los mensajes existentes desde Firebase
+        function cargarMensajes() {
+            const messagesRef = ref(database, 'messages/' + id_chat);
+            onChildAdded(messagesRef, (snapshot) => {
+                const message = snapshot.val();
+                renderizarMensaje(message);
+            });
         }
 
-        if (message.trim() === ""){
-            Swal.fire({
-                icon: 'error',
-                title: '¡Error!',
-                text: "El mensaje está vacío",
-                timer: 1000,
-                timerProgressBar: true,
-            })
-            return;
-        }
+        // Función para renderizar un mensaje en el chat
+        function renderizarMensaje(message) {
+            const chatList = document.getElementById('chat-list');
+            const formattedDateTime = new Date(message.timestamp).toLocaleString();
+            const isOwnMessage = message.sender === nombre_prestador;
 
-        const messagesRef = ref(database, 'messages/' + id_chat);
-        const newMessageRef = push(messagesRef);
+            const li = document.createElement('li');
+            li.className = 'clearfix';
 
-        set(newMessageRef, {
-            sender: nombre_prestador,
-            message: message,
-            timestamp: Date.now()
-        }).then(() => {
-            document.getElementById('message').value = "";
-            alert('El mensaje se ha enviado');
-        }).catch((error) => {
-            alert('Error al enviar el mensaje: ' + error.message);
-        });
-    });
+            if (!isOwnMessage) {
+                const messageData = document.createElement('div');
+                messageData.className = 'message-data text-right';
 
-    // Llama a la función para cargar mensajes al cargar la página
-    window.addEventListener('load', () => {
-        cargarMensajes();
+                const messageDataTime = document.createElement('span');
+                messageDataTime.className = 'message-data-time';
+                messageDataTime.textContent = formattedDateTime;
 
-        // Scroll to bottom after loading all messages
-        const chatHistory = document.getElementById('chat-history');
-        setTimeout(() => {
+                const messageAvatar = document.createElement('img');
+                messageAvatar.src = perfil_receptor; // Usa la ruta de la imagen de perfil del receptor
+                messageAvatar.alt = 'avatar';
+                messageAvatar.className = 'profile-avatar'; // Agrega esta línea para asignar la clase CSS
+
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message other-message float-right';
+                messageContent.textContent = message.message;
+
+                messageData.appendChild(messageDataTime);
+                messageData.appendChild(messageAvatar);
+                li.appendChild(messageData);
+                li.appendChild(messageContent);
+            } else {
+                const messageData = document.createElement('div');
+                messageData.className = 'message-data';
+
+                const messageDataTime = document.createElement('span');
+                messageDataTime.className = 'message-data-time';
+                messageDataTime.textContent = formattedDateTime;
+
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message my-message';
+                messageContent.textContent = message.message;
+
+                messageData.appendChild(messageDataTime);
+                li.appendChild(messageData);
+                li.appendChild(messageContent);
+            }
+
+            chatList.appendChild(li);
+
+            // Scroll to bottom after adding a new message
+            const chatHistory = document.getElementById('chat-history');
             chatHistory.scrollTop = chatHistory.scrollHeight;
-        }, 1000); // Ajusta el tiempo de espera si es necesario
-    });
-</script>
+        }
+
+        document.getElementById('submit').addEventListener('click', (e) => {
+            e.preventDefault();
+            var message = document.getElementById('message').value;
+
+            var maxLength = 1000; // Define el máximo número de caracteres permitidos
+
+            if (message.length > maxLength) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: "El mensaje no debe sobrepasar los " + maxLength + " caracteres",
+                    timer: 1000,
+                    timerProgressBar: true,
+                });
+                return;
+            }
+
+            if (message.trim() === "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: "El mensaje está vacío",
+                    timer: 1000,
+                    timerProgressBar: true,
+                });
+                return;
+            }
+
+            const messagesRef = ref(database, 'messages/' + id_chat);
+            const newMessageRef = push(messagesRef);
+
+            set(newMessageRef, {
+                sender: nombre_prestador,
+                message: message,
+                timestamp: Date.now()
+            }).then(() => {
+                document.getElementById('message').value = "";
+                // alert('El mensaje se ha enviado');
+            }).catch((error) => {
+				Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: 'Error al enviar el mensaje: ' + error.message,
+                    timer: 1000,
+                    timerProgressBar: true,
+                });
+                return;
+            });
+        });
+
+        // Llama a la función para cargar mensajes al cargar la página
+        window.addEventListener('load', () => {
+            cargarMensajes();
+
+            // Scroll to bottom after loading all messages
+            const chatHistory = document.getElementById('chat-history');
+            setTimeout(() => {
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            }, 1000); // Ajusta el tiempo de espera si es necesario
+        });
+
+
+		document.getElementById('searchInput').addEventListener('input', function() {
+			var searchTerm = this.value.toLowerCase();
+			var userList = document.getElementById('userList');
+			var users = userList.getElementsByTagName('li');
+			
+			for (var i = 0; i < users.length; i++) {
+				var userName = users[i].getElementsByClassName('name')[0].textContent.toLowerCase();
+				if (userName.indexOf(searchTerm) === -1) {
+					users[i].style.display = 'none';
+				} else {
+					users[i].style.display = 'block';
+				}
+			}
+		});
+    </script>
 
 
 
-
-
-
-
-
-    
-    </body>
 </body>
-
 </html>

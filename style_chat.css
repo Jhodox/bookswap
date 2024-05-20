@@ -50,7 +50,20 @@ body{
     color: grey;
 }
 
+.profile-avatar {
+    width: 40px; /* Ajusta el tamaño según sea necesario */
+    height: 40px; /* Ajusta el tamaño según sea necesario */
+    border-radius: 50%; /* Hace que la imagen sea circular */
+    object-fit: cover; /* Asegura que la imagen se ajuste bien dentro del contenedor circular */
+    margin-left: 10px; /* Añade espacio entre la imagen y la fecha/hora */
+}
 
+.top-profile-avatar {
+    width: 60px; /* Ajusta el tamaño según sea necesario */
+    height: 60px; /* Ajusta el tamaño según sea necesario */
+    border-radius: 50%; /* Hace que la imagen sea circular */
+    object-fit: cover; /* Asegura que la imagen se ajuste bien dentro del contenedor circular */
+}
 
 
 
