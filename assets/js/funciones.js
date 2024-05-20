@@ -35,6 +35,7 @@ $(document).ready(function() {
 	//perfil.php
 	$("#div_mis_libros").hide();
 	$("#div_historial_prestamos").hide();
+	$("#div_validar_usuarios").hide();
 });
 
 // #region valida_sesion
@@ -1240,7 +1241,7 @@ function validarTexto(cadena){
 // #region validarTextoConSignos
 function validarTextoConSignos(texto) {
     // Expresión regular para validar texto con letras, números, signos de puntuación y acentos
-    var regex = /^[a-zA-Z0-9\s\.,!?'"()\-áéíóúÁÉÍÓÚ]+$/;
+    var regex = /^[a-zA-Z0-9\s\.,:;!?'"()\-_áéíóúüñÁÉÍÓÚÜÑ¿¡]+$/;
     
     // Verificar si el texto cumple con la expresión regular
     if (regex.test(texto)) {
@@ -1249,6 +1250,7 @@ function validarTextoConSignos(texto) {
         return false; // El texto no es válido
     }
 }
+
 
 // #region validarYear
 function validarYear(year) {

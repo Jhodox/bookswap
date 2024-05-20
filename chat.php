@@ -247,95 +247,92 @@ session_start();
 
 
 	<div class="ps-section--gray" style="margin-top: -60px;">
-    <div class="container">
-        <div class="row clearfix">
-            <div class="col-lg-12">
-                <div class="card chat-app">
-					<?php 
-					$query5 = "
-					SELECT DISTINCT usuarios.codigo_usuario, usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.ruta_foto_perfil
-					FROM usuarios
-					JOIN prestamos ON (prestamos.id_usuario_owner = usuarios.id_usuario OR prestamos.id_usuario_destino = usuarios.id_usuario)
-					WHERE (prestamos.id_usuario_owner = $id_usuario_global OR prestamos.id_usuario_destino = $id_usuario_global)
-					AND usuarios.id_usuario != $id_usuario_global AND usuarios.id_usuario != 0
-					";
-					// echo $query5;
-					$usuarios_relacionados = DatasetSQL($query5);
-					?>
-					<div id="plist" class="people-list">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fa fa-search"></i></span>
+		<div class="container">
+			<div class="row clearfix">
+				<div class="col-lg-12">
+					<div class="card chat-app">
+						<?php 
+						$query5 = "
+						SELECT DISTINCT usuarios.codigo_usuario, usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.ruta_foto_perfil
+						FROM usuarios
+						JOIN prestamos ON (prestamos.id_usuario_owner = usuarios.id_usuario OR prestamos.id_usuario_destino = usuarios.id_usuario)
+						WHERE (prestamos.id_usuario_owner = $id_usuario_global OR prestamos.id_usuario_destino = $id_usuario_global)
+						AND usuarios.id_usuario != $id_usuario_global AND usuarios.id_usuario != 0
+						ORDER BY prestamos.id_prestamo DESC";
+						// echo $query5;
+						$usuarios_relacionados = DatasetSQL($query5);
+						?>
+						<div id="plist" class="people-list">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fa fa-search"></i></span>
+								</div>
+								<input id="searchInput" type="text" class="form-control" placeholder="Buscar...">
 							</div>
-							<input id="searchInput" type="text" class="form-control" placeholder="Search...">
+							<ul class="list-unstyled chat-list mt-2 mb-0" id="userList">
+								<?php while($row = mysqli_fetch_array($usuarios_relacionados)){ 
+									$ruta_foto_perfil_list = $row['ruta_foto_perfil'] ;
+									if($ruta_foto_perfil_list == NULL){
+										$ruta_foto_perfil_list = $ruta_foto_no_usuario;
+									}
+									?>
+									
+									<a class="text-secondary" href="chat/<?php echo $row['codigo_usuario']; ?>">
+									<li class="clearfix">
+										<img class="profile-avatar" src="<?php echo $ruta_foto_perfil_list ?>" alt="avatar">
+										<div class="about">
+											<div class="name"><?php echo $row['nombres']." ".$row['apellidos']; ?></div>
+											<div class="status"> </div>
+										</div>
+									</li></a>
+								<?php } ?>
+							</ul>
 						</div>
-						<ul class="list-unstyled chat-list mt-2 mb-0" id="userList">
-							<?php while($row = mysqli_fetch_array($usuarios_relacionados)){ 
-								$ruta_foto_perfil_list = $row['ruta_foto_perfil'] ;
-								if($ruta_foto_perfil_list == NULL){
-									$ruta_foto_perfil_list = $ruta_foto_no_usuario;
-								}
-								?>
-								
-								<a class="text-secondary" href="chat/<?php echo $row['codigo_usuario']; ?>">
-								<li class="clearfix">
-									<img class="profile-avatar" src="<?php echo $ruta_foto_perfil_list ?>" alt="avatar">
-									<div class="about">
-										<div class="name"><?php echo $row['nombres']." ".$row['apellidos']; ?></div>
-										<div class="status"> </div>
+
+						<?php
+						$query4 = "SELECT * FROM usuarios WHERE codigo_usuario = '".$codigo_usuario_receptor."'";
+						// echo $query4;
+						$nombres_rec = GetValueSQL($query4, 'nombres');
+						$apellidos_rec = GetValueSQL($query4, 'apellidos');
+						$ruta_foto_perfil_rec = GetValueSQL($query4, 'ruta_foto_perfil');
+
+						if($ruta_foto_perfil_rec == NULL){
+							$ruta_foto_perfil_rec = $ruta_foto_no_usuario;
+						}
+						?>
+						<div class="chat">
+							<div class="chat-header clearfix">
+								<div class="row">
+									<div class="col-lg-6">
+										<a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+											<img class="profile-avatar" src="<?php echo $ruta_foto_perfil_rec ?>" alt="avatar">
+										</a>
+										<div class="chat-about ">
+											<h6 class="m-b-0 h1"><?php echo $nombres_rec." ".$apellidos_rec; ?> </h6>
+											<!-- <small>Last seen: 2 hours ago</small> -->
+										</div>
 									</div>
-								</li></a>
-							<?php } ?>
-						</ul>
+								</div>
+							</div>
+							<div class="chat-history" id="chat-history">
+								<ul class="m-b-0" id="chat-list">
+									<!-- Aquí se mostrarán los mensajes -->
+								</ul>
+							</div>
+							<div class="chat-message clearfix">
+								<div class="input-group mb-0">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><button id="submit"><i class="fa fa-send"></i></button></span>
+									</div>
+									<textarea name="message" id="message" type="text" class="form-control" placeholder="Escribe aquí..."></textarea>
+								</div>
+							</div>
+						</div>
 					</div>
+				</div>
+			</div>
+		</div> 
 
-                    <?php
-                    $query4 = "SELECT * FROM usuarios WHERE codigo_usuario = '".$codigo_usuario_receptor."'";
-                    // echo $query4;
-                    $nombres_rec = GetValueSQL($query4, 'nombres');
-                    $apellidos_rec = GetValueSQL($query4, 'apellidos');
-                    $ruta_foto_perfil_rec = GetValueSQL($query4, 'ruta_foto_perfil');
-
-					if($ruta_foto_perfil_rec == NULL){
-						$ruta_foto_perfil_rec = $ruta_foto_no_usuario;
-					}
-                    ?>
-                    <div class="chat">
-                        <div class="chat-header clearfix">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                                        <img class="profile-avatar" src="<?php echo $ruta_foto_perfil_rec ?>" alt="avatar">
-                                    </a>
-                                    <div class="chat-about ">
-                                        <h6 class="m-b-0 h1"><?php echo $nombres_rec." ".$apellidos_rec; ?> </h6>
-                                        <!-- <small>Last seen: 2 hours ago</small> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chat-history" id="chat-history">
-                            <ul class="m-b-0" id="chat-list">
-                                <!-- Aquí se mostrarán los mensajes -->
-                            </ul>
-                        </div>
-                        <div class="chat-message clearfix">
-                            <div class="input-group mb-0">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><button id="submit"><i class="fa fa-send"></i></button></span>
-                                </div>
-                                <textarea name="message" id="message" type="text" class="form-control" placeholder="Enter text here..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-	</div>
 
 
 
@@ -392,7 +389,7 @@ session_start();
             appId: "1:930267590:web:cfc931bf6d38799a4df2c7"
         };
 
-        // Initialize Firebase
+        // Inicializar Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
@@ -420,7 +417,12 @@ session_start();
             });
         }
 
-        // Función para renderizar un mensaje en el chat
+
+
+		/*
+		#region Función para renderizar un mensaje en el chat
+		*/
+
         function renderizarMensaje(message) {
             const chatList = document.getElementById('chat-list');
             const formattedDateTime = new Date(message.timestamp).toLocaleString();
@@ -492,13 +494,6 @@ session_start();
             }
 
             if (message.trim() === "") {
-                Swal.fire({
-                    icon: 'error',
-                    title: '¡Error!',
-                    text: "El mensaje está vacío",
-                    timer: 1000,
-                    timerProgressBar: true,
-                });
                 return;
             }
 
@@ -524,7 +519,9 @@ session_start();
             });
         });
 
-        // Llama a la función para cargar mensajes al cargar la página
+		/*  
+		#region Llama a la función para cargar mensajes al cargar la página
+		*/
         window.addEventListener('load', () => {
             cargarMensajes();
 
@@ -550,7 +547,86 @@ session_start();
 				}
 			}
 		});
+
+
+		
+
+
+
+		/*  
+		#region Enviar mensajes con Enter
+		*/
+		document.getElementById('message').addEventListener('keypress', function(event) {
+			if (event.key === 'Enter') {
+				event.preventDefault(); // Evita que se añada un salto de línea al presionar Enter
+				enviarMensaje(); // Llama a la función que envía el mensaje
+			}
+		});
+
+		document.getElementById('submit').addEventListener('click', function() {
+			enviarMensaje(); // Llama a la función que envía el mensaje
+		});
+
+		function enviarMensaje() {
+			var message = document.getElementById('message').value.trim();
+
+			if (message !== '') {
+				var message = $("#message").val();
+
+				var maxLength = 1000; // Define el máximo número de caracteres permitidos
+
+				if (message.length > maxLength) {
+					Swal.fire({
+						icon: 'error',
+						title: '¡Error!',
+						text: "El mensaje no debe sobrepasar los " + maxLength + " caracteres",
+						timer: 1000,
+						timerProgressBar: true,
+					});
+					return;
+				}
+
+				if (message.trim() === "") {
+					Swal.fire({
+						icon: 'error',
+						title: '¡Error!',
+						text: "El mensaje está vacío",
+						timer: 1000,
+						timerProgressBar: true,
+					});
+					return;
+				}
+
+				const messagesRef = ref(database, 'messages/' + id_chat);
+				const newMessageRef = push(messagesRef);
+
+				set(newMessageRef, {
+					sender: nombre_prestador,
+					message: message,
+					timestamp: Date.now()
+				}).then(() => {
+					$("#message").val('');
+					// alert('El mensaje se ha enviado');
+				}).catch((error) => {
+					Swal.fire({
+						icon: 'error',
+						title: '¡Error!',
+						text: 'Error al enviar el mensaje: ' + error.message,
+						timer: 1000,
+						timerProgressBar: true,
+					});
+					return;
+				});
+
+				// Limpia el área de texto después de enviar el mensaje
+				$("#message").val('');
+			}
+		}
+
+		$("#message").focus();
     </script>
+
+
 
 
 

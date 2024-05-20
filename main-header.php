@@ -51,6 +51,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
 
     $query0 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario_global";
     $nombre_usuario_global = GetValueSQL($query0, 'nombres');
+    $codigo_usuario_global = GetValueSQL($query0, 'codigo_usuario');
 
     $query1 = "SELECT CASE WHEN EXISTS (SELECT id_usuario FROM administradores WHERE id_usuario = $id_usuario_global) THEN 1 ELSE 0 END AS result";
     $admin_usuario_global = GetValueSQL($query1, "result");
@@ -86,7 +87,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
 
         <div class="container">
 
-            <div class="header__content-left mt-3">
+            <div class="header__content-left" style="margin-top: -10px;     ">
 
                 <!--=====================================
                 Logo
@@ -123,9 +124,9 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                 </form>
             </div>
 
-            <div class="header__content-right">
+            <div class="header__content-right ">
 
-                <div class="header__actions">
+                <div class="header__actions mt-3">
 
                     <?php
                     if ($sesion != 0) { ?>
@@ -137,14 +138,18 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
 
                             <?php
                             $query1 = "SELECT COUNT(*) AS cuantos FROM wishlist
-                        INNER JOIN usuarios ON wishlist.id_usuario = usuarios.id_usuario
-                        INNER JOIN libros ON wishlist.id_libro = libros.id_libro
-                        WHERE wishlist.id_usuario = $id_usuario_global";
+                            INNER JOIN usuarios ON wishlist.id_usuario = usuarios.id_usuario
+                            INNER JOIN libros ON wishlist.id_libro = libros.id_libro
+                            WHERE wishlist.id_usuario = $id_usuario_global";
                             $cuantos_wishlist = GetValueSQL($query1, 'cuantos');
 
-                            echo '<a id="header_wishlist" class="header__extra" href="wishlist" title="Wishlist">
-                            <i class="icon-heart"></i><span><i>' . $cuantos_wishlist . '</i></span>
-                        </a>';
+                            echo '<div class="ps-block--user-header">
+                                <div class="ps-block__left">
+                                    <a id="header_wishlist" class="header__extra" href="wishlist" title="Wishlist">
+                                        <i style="color: black;" class="far fa-heart "></i><span><i>' . $cuantos_wishlist . '</i></span>
+                                    </a>
+                                </div>
+                            </div>';
 
 
 
@@ -162,12 +167,12 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                                     // ORDER BY id_wishlist DESC
                                     // LIMIT 4";
                                     $query2 = "SELECT wishlist.*, usuarios.*, libros.*, libros.id_usuario AS id_user, proporcionado.nombres AS name, proporcionado.apellidos AS lastname FROM wishlist
-                                INNER JOIN usuarios ON wishlist.id_usuario = usuarios.id_usuario
-                                INNER JOIN libros ON wishlist.id_libro = libros.id_libro
-                                INNER JOIN usuarios AS proporcionado ON proporcionado.id_usuario = libros.id_usuario 
-                                WHERE wishlist.id_usuario = $id_usuario_global
-                                ORDER BY id_wishlist DESC
-                                LIMIT 4";
+                                    INNER JOIN usuarios ON wishlist.id_usuario = usuarios.id_usuario
+                                    INNER JOIN libros ON wishlist.id_libro = libros.id_libro
+                                    INNER JOIN usuarios AS proporcionado ON proporcionado.id_usuario = libros.id_usuario 
+                                    WHERE wishlist.id_usuario = $id_usuario_global
+                                    ORDER BY id_wishlist DESC
+                                    LIMIT 4";
 
                                     $wishlist = DatasetSQL($query2);
 
@@ -244,6 +249,52 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
 
                         </div>
 
+
+                        
+                        <!--=====================================
+                    #region Chat
+                    ======================================-->
+                    <?php 
+                    $query4 = "SELECT 
+                        COUNT(*) AS cuantos
+                        FROM 
+                        (SELECT DISTINCT usuarios.codigo_usuario, usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.ruta_foto_perfil 
+                        FROM usuarios 
+                        JOIN prestamos 
+                        ON (prestamos.id_usuario_owner = usuarios.id_usuario OR prestamos.id_usuario_destino = usuarios.id_usuario) 
+                        WHERE (prestamos.id_usuario_owner = $id_usuario_global OR prestamos.id_usuario_destino = $id_usuario_global) AND usuarios.id_usuario != $id_usuario_global AND usuarios.id_usuario != 0) AS subconsulta";
+                        $cuantos_chat = GetValueSQL($query4, 'cuantos');
+                        // echo $query4;
+
+                        if($cuantos_chat > 0){
+                            $query5 = "
+                            SELECT DISTINCT usuarios.codigo_usuario, usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.ruta_foto_perfil
+                            FROM usuarios
+                            JOIN prestamos ON (prestamos.id_usuario_owner = usuarios.id_usuario OR prestamos.id_usuario_destino = usuarios.id_usuario)
+                            WHERE (prestamos.id_usuario_owner = $id_usuario_global OR prestamos.id_usuario_destino = $id_usuario_global)
+                            AND usuarios.id_usuario != $id_usuario_global AND usuarios.id_usuario != 0
+                            ORDER BY prestamos.id_prestamo DESC";
+                            $codigo_usuario_chat = GetValueSQL($query5, 'codigo_usuario');
+                        } else{
+                            $codigo_usuario_chat = $codigo_usuario_global;
+                            // echo $codigo_usuario_chat;
+                        }
+                    
+                    ?>
+
+                        <?php
+                        if($id_usuario_global != 0){
+                        ?>
+                        <div class="ps-block--user-header">
+                            <div class="ps-block__left">
+                                <a class="header__extra" href="chat/<?php echo $codigo_usuario_chat ?>" title="Chat">
+                                    <i style="color: black;" class="far fa-comments"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <?php } ?>
+
+
                         <!--=====================================
                     #region Perfil
                     ======================================-->
@@ -251,9 +302,9 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                         <div class="ps-block--user-header">
                             <div class="ps-block__left">
                                 <a class="header__extra" href="perfil" title="Perfil">
-                                    <i class="icon-user"></i><span><i>0</i></span>
+                                    <i style="color: black;" class="far fa-user-circle"></i><span><i>0</i></span>
                                 </a>
-                                <a class="ml-4" href="perfil"><?php echo $nombre_usuario_global; ?></a>
+                                <a style="color: black;" class="ml-4" href="perfil"><?php echo $nombre_usuario_global; ?></a>
                             </div>
                         </div>
 
@@ -264,19 +315,19 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                     ======================================-->
 
                         <a class="header__extra" href="javascript:cerrar_sesion()" title="Cerrar sesión">
-                            <i class="icon-exit" style="font-size: 30px"></i>
+                            <i style="color: black;" class="fas fa-sign-out-alt" style="font-size: 30px"></i>
                         </a>
 
 
                         <?php
                     } else { ?>
 
-                        <div class="ps-block--user-header mt-4">
+                        <div class="ps-block--user-header mt-2">
                             <div class="ps-block__left">
-                                <a href="login" title="Ingresar"><i class="icon-user"></i></a>
+                                <a style="color: black;" href="login" title="Ingresar"><i class="far fa-user-circle"></i></a>
                             </div>
                             <div class="ps-block__right mt-2">
-                                <a href="login">Ingresar</a>
+                                <a style="color: black;" href="login">Ingresar</a>
                             </div>
                         </div>
 
@@ -315,8 +366,8 @@ Header Mobile
 
 
             <a class="ps-logo pl-3 pl-sm-5" href="index">
-                <img src="img/template/logo_light.png" class="pt-3" width="70px" height="70px">
-                <img src="img/template/title_light.png" alt="" class="pt-3" width="100px" height="30px">
+                <img src="imagenes/bookswap/logo_light.png" class="pt-3" width="70px" height="70px">
+                <img src="imagenes/bookswap/title_light.png" alt="" class="pt-3" width="100px" height="30px">
             </a>
 
         </div>
@@ -341,7 +392,7 @@ Header Mobile
                         $cuantos_wishlist = GetValueSQL($query1, 'cuantos');
 
                         echo '<a class="header__extra" href="wishlist">
-                            <i class="icon-heart"></i><span><i>' . $cuantos_wishlist . '</i></span>
+                            <i style="color: black;" class="far fa-heart"></i><span><i>' . $cuantos_wishlist . '</i></span>
                         </a>';
 
 
@@ -439,9 +490,9 @@ Header Mobile
                     <div class="ps-block--user-header">
                         <div class="ps-block__left">
                             <a class="header__extra" href="perfil">
-                                <i class="icon-user"></i><span><i>0</i></span>
+                                <i style="color: black;" class="far fa-user-circle"></i><span><i>0</i></span>
                             </a>
-                            <a class="ml-4" href="perfil"><?php echo $nombre_usuario_global; ?></a>
+                            <a style="color: black;" class="ml-4" href="perfil"><?php echo $nombre_usuario_global; ?></a>
                         </div>
                     </div>
 
@@ -451,7 +502,7 @@ Header Mobile
                     ======================================-->
 
                     <a class="header__extra" href="javascript:cerrar_sesion()" title="Cerrar sesión">
-                        <i class="icon-exit" style="font-size: 30px"></i>
+                        <i style="color: black;" class="fas fa-sign-out-alt" style="font-size: 30px"></i>
                     </a>
 
 
@@ -460,10 +511,10 @@ Header Mobile
 
                     <div class="ps-block--user-header">
                         <div class="ps-block__left">
-                            <a href="login" title="Ingresar"><i class="icon-user"></i></a>
+                            <a style="color: black;" href="login" title="Ingresar"><i class="far fa-user-circle"></i></a>
                         </div>
                         <div class="ps-block__right">
-                            <a href="login">Ingresar</a>
+                            <a style="color: black;" href="login">Ingresar</a>
                         </div>
                     </div>
 
