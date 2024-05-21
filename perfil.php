@@ -7,7 +7,6 @@ session_start();
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1371,6 +1370,10 @@ session_start();
 
                             </div>
 
+                            
+
+
+
                             <div class="ps-section__content" style="margin-top: -50px;">
 
                                 <div class="table-responsive">
@@ -1389,13 +1392,16 @@ session_start();
                                         <thead>
 
                                             <tr>
+                                                <td colspan="6" style="background-color: #f8f9fa;"><p class="h1 text-secondary " style="font-size: 20px;">LIBROS QUE ME PRESTARON</p></td>
+                                            </tr>
+                                            <tr>
 
                                                 <th>Libro</th>
-                                                <th>Editorial</th>
-                                                <th>Año</th>
-                                                <th>Fecha de Agregado</th>
+                                                <th>Prestador</th>
+                                                <th>Fecha de Préstamo</th>
+                                                <th>Fecha de Entrega</th>
                                                 <th>Estatus</th>
-                                                <th>Opciones</th>
+                                                <th>Calificar usuario</th>
 
                                             </tr>
 
@@ -1404,13 +1410,17 @@ session_start();
                                         <tbody>
 
                                             <?php 
-                                            $query5 = "SELECT COUNT(*) AS cuantos FROM libros WHERE id_usuario = $id_usuario_global";
+                                            $query5 = "SELECT COUNT(*) AS cuantos FROM prestamos WHERE id_usuario_destino = $id_usuario_global AND status_prestamo = 4";
                                             $cuantos_libros = GetValueSQL($query5, 'cuantos');
+                                            // echo $query5;
 
                                             if($cuantos_libros > 0){
-                                                $query6 = "SELECT * FROM libros
-                                                INNER JOIN status_libro ON libros.status = status_libro.id_status
-                                                WHERE id_usuario = $id_usuario_global";
+                                                $query6 = "SELECT * FROM prestamos
+                                                INNER JOIN libros ON prestamos.id_libro = libros.id_libro
+                                                INNER JOIN usuarios ON prestamos.id_usuario_owner = usuarios.id_usuario
+                                                INNER JOIN status_prestamos ON prestamos.status_prestamo = status_prestamos.id_status
+                                                WHERE id_usuario_destino = $id_usuario_global AND status_prestamo = 4";
+                                                
                                                 $mis_libros = DatasetSQL($query6);
 
                                                 while($row6 = mysqli_fetch_array($mis_libros)){
@@ -1422,7 +1432,14 @@ session_start();
                                                     $sinopsis = $row6['sinopsis'];
                                                     $id_libro = $row6['id_libro'];
                                                     $ruta_foto_portada = $row6['ruta_foto_portada'];
-                                                    $status = $row6['status_nombre'];
+                                                    $status_prestamo = $row6['status_nombre'];
+
+                                                    $fecha_inicio = $row6['fecha_inicio'];
+                                                    $fecha_fin = $row6['fecha_fin'];
+
+                                                    $nombres_owner = $row6['nombres'];
+                                                    $apellidos_owner = $row6['apellidos'];
+                                                    $id_usuario_owner = $row6['id_usuario'];
 
                                                     if($year == NULL){
                                                         $year = "Sin Año";
@@ -1452,7 +1469,6 @@ session_start();
                                                                     <a href="product-default.html">'.$titulo.'</a>
         
                                                                     <p>Autor: <strong>'.$autor.'</strong></p>
-                                                                    <a type="button" href="" onclick="ver_sinopsis('.$id_libro.', event)">Ver sinopsis</a>
         
                                                                 </div>
         
@@ -1460,26 +1476,18 @@ session_start();
         
                                                         </td>
 
-                                                        <td class="text-center">'.$editorial.'</td>
+                                                        <td class="text-center"><a class="btn btn-link" style="font-size: 16px;" href="usuario/'.$id_usuario_owner.'">'.$nombres_owner.' '.$apellidos_owner.'</a></td>
                                                         
-                                                        <td class="text-center">'.$year.'</td>
+                                                        <td class="text-center">'.$fecha_inicio.'</td>
         
-                                                        <td class="text-center">'.$fecha_agregado.'</td>
+                                                        <td class="text-center">'.$fecha_fin.'</td>
         
-                                                        <td class="text-center">'.$status.'</td>                       
-        
-                                                        <td class="text-center">
-        
-                                                            <a type="button" href="" onclick=""><i class="fa-solid fa-pen-to-square"></i></a>&emsp;
-                                                            <a type="button" href="" onclick=""><i class="fa-solid fa-xmark"></i></a>
-        
-                                                        </td>
+                                                        <td class="text-center">'.$status_prestamo.'</td>     
+                                                        
+                                                        <td class="text-center">Estrellas aqui</td>                       
         
                                                     </tr>';
 
-                                                    echo '<tr id="sinopsis_'.$id_libro.'" style="display: none;">
-                                                        <td class="text-justify " colspan="5"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
-                                                    </tr>';
 
                                                 }
                                             }
@@ -1494,21 +1502,144 @@ session_start();
 
                                 <hr>
 
-                                <!-- <div class="d-flex flex-row-reverse">
-                                <div class="p-2"><h3>Total <span>$414.00</span></h3></div>             
+                                
+
+                            </div> 
+
+
+                            <!-- Libros que yo presté -->
+
+                            
+                            <div class="ps-section__content ">
+
+                                <div class="table-responsive">
+                                    
+                                <div class="ps-section__cart-actions" >
+
+                                    <!-- <a class="ps-btn" onmouseover="this.style.color='white';" onmouseout="this.style.color='black';"  onclick="abrir_modal(1)">
+                                        <i class="fa-solid fa-circle-plus" data-bs-whatever="@mdo"></i> Agregar Libro
+                                    </a> -->
+
+
                                 </div>
 
-                                <div class="ps-section__cart-actions">
+                                    <table class="table ps-table--shopping-cart">
 
-                                    <a class="ps-btn" href="categories.html.html">
-                                        <i class="icon-arrow-left"></i> Back to Shop
-                                    </a>
+                                        <thead>
 
-                                    <a class="ps-btn" href="checkout.html">
-                                        Proceed to checkout <i class="icon-arrow-right"></i> 
-                                    </a>
+                                            <tr>
+                                                <td colspan="6" style="background-color: #f8f9fa;"><p class="h1 text-secondary " style="font-size: 20px;">LIBROS QUE YO PRESTÉ</p></td>
+                                            </tr>
+                                            <tr>
 
-                                </div> -->
+                                                <th>Libro</th>
+                                                <th>Prestado a</th>
+                                                <th>Fecha de Préstamo</th>
+                                                <th>Fecha de Entrega</th>
+                                                <th>Estatus</th>
+                                                <th>Calificar usuario</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+
+                                            <?php 
+                                            $query5 = "SELECT COUNT(*) AS cuantos FROM prestamos WHERE id_usuario_owner = $id_usuario_global AND status_prestamo = 4";
+                                            $cuantos_libros = GetValueSQL($query5, 'cuantos');
+                                            // echo $query5;
+
+                                            if($cuantos_libros > 0){
+                                                $query6 = "SELECT * FROM prestamos
+                                                INNER JOIN libros ON prestamos.id_libro = libros.id_libro
+                                                INNER JOIN usuarios ON prestamos.id_usuario_destino = usuarios.id_usuario
+                                                INNER JOIN status_prestamos ON prestamos.status_prestamo = status_prestamos.id_status
+                                                WHERE id_usuario_owner = $id_usuario_global AND status_prestamo = 4";
+                                                // echo $query6;
+                                                
+                                                $mis_libros = DatasetSQL($query6);
+
+                                                while($row6 = mysqli_fetch_array($mis_libros)){
+                                                    $id_libro = $row6['id_libro'];
+                                                    $titulo = $row6['titulo'];
+                                                    $autor = $row6['autor'];
+                                                    $editorial = $row6['editorial'];
+                                                    $year = $row6['year'];
+                                                    $sinopsis = $row6['sinopsis'];
+                                                    $id_libro = $row6['id_libro'];
+                                                    $ruta_foto_portada = $row6['ruta_foto_portada'];
+                                                    $status_prestamo = $row6['status_nombre'];
+
+                                                    $fecha_inicio = $row6['fecha_inicio'];
+                                                    $fecha_fin = $row6['fecha_fin'];
+
+                                                    $nombres_destino = $row6['nombres'];
+                                                    $apellidos_destino = $row6['apellidos'];
+                                                    $id_usuario_destino = $row6['id_usuario'];
+
+                                                    if($year == NULL){
+                                                        $year = "Sin Año";
+                                                    }
+                                                
+                                                    if($sinopsis == NULL){
+                                                        $sinopsis = "Sin Sinopsis";
+                                                    }
+
+                                                    if($ruta_foto_portada == NULL){
+                                                        $ruta_foto_portada = $ruta_foto_no_existente;
+                                                    }
+
+                                                    echo '<tr>
+                                                        <td>
+        
+                                                            <div class="ps-product--cart">
+        
+                                                                <div class="ps-product__thumbnail">
+        
+                                                                    <a href="product-default.html"><img src="'.$ruta_foto_portada.'" alt="$titulo"></a>
+        
+                                                                </div>
+        
+                                                                <div class="ps-product__content">
+        
+                                                                    <a href="product-default.html">'.$titulo.'</a>
+        
+                                                                    <p>Autor: <strong>'.$autor.'</strong></p>
+        
+                                                                </div>
+        
+                                                            </div>
+        
+                                                        </td>
+
+                                                        <td class="text-center"><a class="btn btn-link" style="font-size: 16px;" href="usuario/'.$id_usuario_destino.'">'.$nombres_destino.' '.$apellidos_destino.'</a></td>
+                                                        
+                                                        <td class="text-center">'.$fecha_inicio.'</td>
+        
+                                                        <td class="text-center">'.$fecha_fin.'</td>
+        
+                                                        <td class="text-center">'.$status_prestamo.'</td>       
+                                                        
+                                                        <td class="text-center">Estrellas aqui</td>        
+        
+                                                    </tr>';
+
+
+                                                }
+                                            }
+
+                                            ?>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                                <hr>
+
+                                
 
                             </div> 
                             
@@ -2115,6 +2246,7 @@ session_start();
         </div>
     </div>
 
+    
 
 
     <!--=====================================
