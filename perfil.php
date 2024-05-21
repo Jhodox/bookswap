@@ -547,6 +547,10 @@ session_start();
                                                                                 if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
                                                                                     $prestamo .= '<th>Inicio / Fin</th>';
                                                                                     $prestamo .= '<th>Chat</th>';
+                                                                                    if($id_status_prestamo == 2)
+                                                                                    {
+                                                                                        $prestamo .= '<th>Denegar</th>';
+                                                                                    }
                                                                                 } 
                                                                             $prestamo .= '</tr>
                                                                         </thead>
@@ -567,6 +571,7 @@ session_start();
 
                                                         if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
                                                             if($id_status_prestamo == 2){
+
                                                                 if($fecha_inicio == "Por acordar" OR $fecha_fin == "Por acordar"){
                                                                     $prestamo .= '<td class="text-center">
                                                                         <a title="Acordar fechas" class="btn btn-secondary" type="button" style="font-size: 16px;"  data-bs-toggle="modal" data-bs-target="#modalAcordarFechas" data-bs-whatever="@mdo" data-id="'.$id_prestamo.'">Acordar fechas</a>
@@ -584,6 +589,11 @@ session_start();
                                                             $prestamo .= '<td class="text-center" >
                                                                 <a title="Ingresar a chat" class="btn btn-secondary" type="button" style="font-size: 16px;" href="chat/'.$codigo_usuario_prestamo.'"><i class="fa fa-comment chat-icon"></i></a>
                                                             </td>';
+                                                            if($id_status_prestamo == 2){
+                                                                $prestamo .= '<td class="text-center" >
+                                                                <a title="Cancelar prestamo" class="text-danger" type="button" style="font-size: 27px;" onclick = "cancelar_prestamo('.$id_prestamo.')" ><i class="fa-regular fa-circle-xmark"></i></a>
+                                                            </td>';
+                                                            }
                                                         } 
 
                                                     $prestamo .= '</tr>';

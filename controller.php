@@ -1164,4 +1164,68 @@ if(Requesting("action") == "finalizar_prestamo"){
 }
 
 
+
+#region Cancelar Prestamo Activo
+
+if(Requesting("action") == "cancelar_prestamo"){
+	$id_prestamo = Requesting("id_prestamo");
+	
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+	
+	$query1 = "UPDATE prestamos SET status_prestamo = 6 WHERE id_prestamo = $id_prestamo";
+	if(ExecuteSQL($query1)){
+		$resultText = "Se cancelo con éxito.";
+		$resultStatus = "ok";
+
+		//Recorrer waitlist
+		//////////////////////////////////
+		$query2 = "SELECT id_libro FROM prestamos WHERE id_prestamo = $id_prestamo";
+		$id_libro = GetValueSQL($query2, 'id_libro');
+
+
+		$query10 = "SELECT * FROM libros WHERE id_libro = $id_libro";
+			$id_usuario_owner = GetValueSQL($query10, "id_usuario");
+
+			$query2 = "SELECT COUNT(*) AS cuantos FROM waitlist WHERE id_libro = $id_libro";
+			$cuantos_waitlist = GetValueSQL($query2, 'cuantos');
+
+			if($cuantos_waitlist > 0){ //Hay mas de uno en waitlist 
+				$query3 = "SELECT * FROM waitlist WHERE id_libro = $id_libro AND turno = 1";
+				$id_usuario_destino = GetValueSQL($query3, 'id_usuario');
+
+				$query4 = "INSERT INTO prestamos (id_usuario_owner, id_usuario_destino, id_libro, status_prestamo) 
+				VALUES ($id_usuario_owner, $id_usuario_destino, $id_libro, 1)"; //El turno 1 en la waitlist pasa a la tabla prestamos con status 1 (solicitado)
+				ExecuteSQL($query4);
+
+				$query5 = "DELETE FROM waitlist WHERE id_libro = $id_libro AND turno = 1"; //Se borra el turno 1 de la waitlist
+				ExecuteSQL($query5);
+
+				$query6 = "SELECT COUNT(*) AS cuantos FROM waitlist WHERE id_libro = $id_libro";
+				$cuantos_post_eliminar = GetValueSQL($query6, 'cuantos');
+
+				if($cuantos_post_eliminar > 0){ //Si quedan mas usuarios en la waitlist, se recorre su turno
+					$query7 = "UPDATE waitlist SET turno = turno - 1 WHERE id_libro = $id_libro";
+					ExecuteSQL($query7);
+				}
+			}
+			/////////////////////////////
+			$query3 = "UPDATE libros SET status = 1 WHERE id_libro = $id_libro";
+			ExecuteSQL($query3);
+	} else {
+		$resultText = "Ocurrió un error. Inténtalo de nuevo.";
+		$resultStatus = "error";
+	}
+	$result = array(   
+		'result' 				=> $resultStatus, 
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;
+}
+
+
+
 ?>
+
+

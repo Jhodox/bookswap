@@ -1529,10 +1529,40 @@ function end_finalizar_prestamo(xml){
     });
 }
 
+// Funcion para cancelar un prestamo que ya fue aceptado.
+function cancelar_prestamo(id_prestamo){
+	$.post("controller.php",
+    {       action         : "cancelar_prestamo",
+			id_prestamo    : id_prestamo
+    }, end_cancelar_prestamo);
+}
+
+function end_cancelar_prestamo(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+			//$("#modalFinalizarPrestamo").modal('hide');
+			$("#tabla_prestamo").load(location.href + " #tabla_prestamo");  
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
 
 
-
-
+        }  else{
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+    });
+}
 
 
 
