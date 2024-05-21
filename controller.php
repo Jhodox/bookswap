@@ -537,7 +537,7 @@ if(Requesting("action")=="actualizar_usuario"){
 		$extension_credencial = ".".strtolower(pathinfo($foto_credencial["name"], PATHINFO_EXTENSION));
 		
 		//Generar la ruta de la foto
-		$ruta_foto_credencial = "imagenes/credenciales/credencial_".$codigo."".$extension_perfil;
+		$ruta_foto_credencial = "imagenes/credenciales/credencial_".$codigo."".$extension_credencial;
 
 		//Mover la imagen a la ruta
 		move_uploaded_file($foto_credencial["tmp_name"], $ruta_foto_credencial);
