@@ -394,11 +394,16 @@ session_start();
 
                                 <?php
                                 if($id_usuario_global != 0){
-                                    if($id_usuario_global == $id_usuario){ ?>
-                                        <a class="ps-btn ps-btn--black disabled" href="perfil" href="">Ver Lista de Espera</a>
-                                    <?php } else{ ?>
+                                    $query11 = "SELECT status FROM usuarios WHERE id_usuario = $id_usuario_global";
+                                    $status_usuario = GetValueSQL($query11, 'status');
+
+                                    if($id_usuario_global == $id_usuario){ ?> <!-- El usuario es el dueño del libro -->
+                                        <a class="ps-btn ps-btn--black disabled" href="perfil">Ver Lista de Espera</a>
+                                    <?php } else if($status_usuario == 2){ ?> <!-- Usuarios NO Validados -->
+                                        <a class="ps-btn ps-btn--black disabled" href="perfil">Actualiza tu información de usuario</a>
+                                    <?php } else { ?> 
                                         <a class="ps-btn ps-btn--black disabled" onclick="solicitar_libro(<?php echo $id_usuario_global.', '.$id_libro_global.', event'; ?>)" href="">Solicitar</a>
-                                    <?php }
+                                    <?php } 
                                 }
                                 ?>
 

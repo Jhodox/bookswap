@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-05-2024 a las 10:14:16
+-- Tiempo de generación: 21-05-2024 a las 11:29:40
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -156,8 +156,8 @@ INSERT INTO `libros` (`id_libro`, `id_usuario`, `titulo`, `autor`, `editorial`, 
 (7, 2, 'Xochitl', 'Scarlett Lindero', 'Planeta México', '2023', 'De vender gelatinas a buscar la Presidencia de México', 12, 0, 'imagenes/libros/7_xochitl_219552308.jpg', '2024-05-06', 2),
 (8, 1, 'Festín de Cuervos', 'George R. R. Martin', 'DeBolsillo', '2009', '', 8, 0, 'imagenes/libros/8_festín_de_cuervos_222790641.jpg', '2024-05-06', 3),
 (9, 7, 'Los Juegos del Hambre', 'Suzanne Collins', 'Penguin Random House ', '2021', 'En una oscura versión del futuro próximo, doce chicos y doce chicas se ven obligados a participar en un reality show llamado los Juegos del Hambre.', 3, 0, 'imagenes/libros/9_los_juegos_del_hambre_219552308.jpg', '2024-05-08', 1),
-(10, 3, 'El diario de Greg 1', 'Jeff Kinney', 'Rba Serres', '2009', 'Diario de Greg, Libro 1 nos ofrece una visión única y humorística de la vida de un adolescente común y corriente, con todas las dificultades y momentos embarazosos que esto implica. El humor y la escritura de Jeff Kinney hacen que esta serie sea muy entretenida y querida por los lectores', 2, 0, 'imagenes/libros/10_el_diario_de_greg_1_218535254.jpg', '2024-05-11', 1),
-(11, 3, 'El diario de Greg 2 La ley de Rodrick', 'Jeff Kinney', 'Rba Serres', '2010', 'En Diario de Greg 2, Greg se enfrenta a un nuevo y emocionante capítulo de su vida, la escuela secundaria. Sin embargo, pronto se da cuenta de que la vida en la secundaria no es tan fácil como esperaba. Durante las vacaciones de verano, Greg pasa por una experiencia vergonzosa que su hermano conoce y amenaza con revelar a sus amigos si Greg se chiva de algo.', 2, 0, 'imagenes/libros/11_el_diario_de_greg_2_218535254.jpg', '2024-05-11', 1),
+(10, 3, 'El diario de Greg 1', 'Jeff Kinney', 'Rba Serres', '2009', 'Diario de Greg, Libro 1 nos ofrece una visión única y humorística de la vida de un adolescente común y corriente, con todas las dificultades y momentos embarazosos que esto implica. El humor y la escritura de Jeff Kinney hacen que esta serie sea muy entretenida y querida por los lectores', 3, 0, 'imagenes/libros/10_el_diario_de_greg_1_218535254.jpg', '2024-05-11', 1),
+(11, 3, 'El diario de Greg 2 La ley de Rodrick', 'Jeff Kinney', 'Rba Serres', '2010', 'En Diario de Greg 2, Greg se enfrenta a un nuevo y emocionante capítulo de su vida, la escuela secundaria. Sin embargo, pronto se da cuenta de que la vida en la secundaria no es tan fácil como esperaba. Durante las vacaciones de verano, Greg pasa por una experiencia vergonzosa que su hermano conoce y amenaza con revelar a sus amigos si Greg se chiva de algo.', 3, 0, 'imagenes/libros/11_el_diario_de_greg_2_218535254.jpg', '2024-05-11', 1),
 (12, 3, 'El diario de Greg 3 Es el colmo!', 'Jeff Kinney', 'Rba Serres', '2011', 'Esto es el colmo de Jeff Kinney Seamos realistas, Greg Heffley nunca va a dejar de ser un pringao y alguien debería explicárselo a su padre. Resulta que Frank Heffley cree que su hijo puede cambiar. Y para endurecerlo, a apuntado a Greg a todo tipo de deportes de competición que para Greg es pan comido.', 3, 0, 'imagenes/libros/12_el_diario_de_greg_3_218535254.jpg', '2024-05-11', 1),
 (13, 3, 'El diario de Greg 4 Días de perros', 'Jeff Kinney', 'Rba Serres', '2012', 'Durante las vacaciones de verano, suele hacer buen tiempo, y la mayoría de las personas se divierten al aire libre. Sin embargo, nos preguntamos dónde estará Greg, pues en casa, jugando a los videojuegos prácticamente a oscuras. Greg se reconoce como una normal y está viviendo su última fantasía estival, sin responsabilidades ni normas.', 3, 0, 'imagenes/libros/13_el_diario_de_greg_4_218535254.jpg', '2024-05-11', 1),
 (14, 3, 'El diario de Greg 5 La cruda Realidad', 'Jeff Kinney', 'Rba Serres', '2013', 'En esta quinta entrega de la serie Diario de Greg, seguimos las peripecias de Greg Heffley mientras enfrenta los desafíos de crecer y lidiar con las responsabilidades de la adolescencia.', 2, 0, 'imagenes/libros/14_el_diario_de_greg_5_218535254.jpg', '2024-05-11', 1),
@@ -195,7 +195,8 @@ INSERT INTO `prestamos` (`id_prestamo`, `id_usuario_owner`, `id_usuario_destino`
 (8, 1, 0, 4, NULL, NULL, 6),
 (9, 3, 4, 18, NULL, NULL, 2),
 (10, 1, 6, 1, '2024-05-21', '2024-05-23', 4),
-(11, 1, 7, 1, NULL, NULL, 1);
+(11, 1, 7, 1, NULL, NULL, 1),
+(12, 3, 9, 10, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -295,8 +296,11 @@ CREATE TABLE `strikes` (
 --
 
 INSERT INTO `strikes` (`id_strike`, `id_usuario`, `id_administrador`, `detalles`, `fecha`, `status`) VALUES
-(1, '1', 1, 'Se robó un libro', '2024-05-01', 1),
-(2, '5', 0, 'Me cae mal', '2024-05-20', 2);
+(1, '1', 1, 'Se robó un libro', '2024-05-01', 0),
+(2, '5', 0, 'Me cae mal', '2024-05-20', 2),
+(3, '9', 0, 'por negro', '0000-00-00', 2),
+(4, '9', 0, 'hambreado', '0000-00-00', 2),
+(5, '9', 0, 'arrastrado', '0000-00-00', 2);
 
 -- --------------------------------------------------------
 
@@ -334,7 +338,8 @@ INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `codigo_usuario`, 
 (5, 'Cristian', 'Orozco', '222790978', 1, 12, 'cristian.orozco9097@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', 'imagenes/perfil/perfil_222790978.jpg', 'imagenes/credenciales/credencial_222790978.jpg', 0, 0, 3, 2),
 (6, 'Gerson', 'Flores', '222791192', 1, 12, 'gerson.flores9119@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1),
 (7, 'Diego', 'Hernandez', '219552308', 1, 12, 'ivan.prueba@alumnos.udg.mx', '25d55ad283aa400af464c76d713c07ad', 'imagenes/perfil/perfil_219552308.jpg', 'imagenes/credenciales/credencial_219552308.jpg', 0, 0, 0, 2),
-(8, 'Angel', 'Ramirez Navarro', '219323202', 1, 10, 'angel.ramirez5119@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2);
+(8, 'Angel', 'Ramirez Navarro', '219323202', 1, 10, 'angel.ramirez5119@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2),
+(9, 'Cristian', 'Baneado', '222790979', 2, 3, 'cristian.orozco9098@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -495,7 +500,7 @@ ALTER TABLE `libros`
 -- AUTO_INCREMENT de la tabla `prestamos`
 --
 ALTER TABLE `prestamos`
-  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `reseñas`
@@ -525,13 +530,13 @@ ALTER TABLE `status_usuario`
 -- AUTO_INCREMENT de la tabla `strikes`
 --
 ALTER TABLE `strikes`
-  MODIFY `id_strike` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_strike` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `waitlist`
