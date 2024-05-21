@@ -36,6 +36,7 @@ $(document).ready(function() {
 	$("#div_mis_libros").hide();
 	$("#div_historial_prestamos").hide();
 	$("#div_validar_usuarios").hide();
+	$("#div_strikes_usuarios").hide();
 });
 
 // #region valida_sesion
@@ -690,44 +691,65 @@ function cambiar_opciones_perfil(tipo, e){
 			$("#li_mis_libros").addClass("active");
 			$("#li_prestamos_activos").removeClass("active");
 			$("#li_historial_prestamos").removeClass("active");
+			$("#li_strikes_usuarios").removeClass("active");
 			$("#li_validar_usuarios").removeClass("active");
 
 			$("#div_mis_libros").show('slow');
 			$("#div_prestamos_activos").hide('slow');
 			$("#div_historial_prestamos").hide('slow');
+			$("#div_strikes_usuarios").hide('slow');
 			$("#div_validar_usuarios").hide('slow');
 		break;
 		case 2:
 			$("#li_mis_libros").removeClass("active");
 			$("#li_prestamos_activos").addClass("active");
 			$("#li_historial_prestamos").removeClass("active");
+			$("#li_strikes_usuarios").removeClass("active");
 			$("#li_validar_usuarios").removeClass("active");
 
 			$("#div_mis_libros").hide('slow');
 			$("#div_prestamos_activos").show('slow');
 			$("#div_historial_prestamos").hide('slow');
+			$("#div_strikes_usuarios").hide('slow');
 			$("#div_validar_usuarios").hide('slow');
 		break;
 		case 3:
 			$("#li_mis_libros").removeClass("active");
 			$("#li_prestamos_activos").removeClass("active");
 			$("#li_historial_prestamos").addClass("active");
+			$("#li_strikes_usuarios").removeClass("active");
 			$("#li_validar_usuarios").removeClass("active");
 
 			$("#div_mis_libros").hide('slow');
 			$("#div_prestamos_activos").hide('slow');
 			$("#div_historial_prestamos").show('slow');
+			$("#div_strikes_usuarios").hide('slow');
 			$("#div_validar_usuarios").hide('slow');
 		break;
 		case 4:
 			$("#li_mis_libros").removeClass("active");
 			$("#li_prestamos_activos").removeClass("active");
 			$("#li_historial_prestamos").removeClass("active");
+			$("#li_strikes_usuarios").addClass("active");
+			$("#li_validar_usuarios").removeClass("active");
+
+			$("#div_mis_libros").hide('slow');
+			$("#div_prestamos_activos").hide('slow');
+			$("#div_historial_prestamos").hide('slow');
+			$("#div_strikes_usuarios").show('slow');
+			$("#div_validar_usuarios").hide('slow');
+		break;
+		case 5:
+			$("#li_mis_libros").removeClass("active");
+			$("#li_prestamos_activos").removeClass("active");
+			$("#li_historial_prestamos").removeClass("active");
+			$("#li_strikes_usuarios").removeClass("active");
 			$("#li_validar_usuarios").addClass("active");
 
 			$("#div_mis_libros").hide('slow');
 			$("#div_prestamos_activos").hide('slow');
 			$("#div_historial_prestamos").hide('slow');
+			$("#div_strikes_usuarios").hide('slow');
 			$("#div_validar_usuarios").show('slow');
 		break;
 	}
@@ -1126,9 +1148,78 @@ function end_validar_usuario(xml){
 				timerProgressBar: true,
 			})
 
-			$("#div_mis_libros").load(location.href + " #div_mis_libros");  
+			$("#div_validar_usuarios").load(location.href + " #div_validar_usuarios");  
 
         }  else{
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+    });
+}
+
+// #region strike_usuario
+function strike_usuario(id_usuario, id_strike) {
+	$.post("controller.php",
+    {    	action 			: "strike_usuario",
+       	 	id_usuario  	: id_usuario,
+       	 	id_strike  	: id_strike,
+    }, end_strike_usuario);
+}
+
+function end_strike_usuario(xml) {
+	$(xml).find("response").each(function(i) {
+        if ($(this).find("result").text()=="ok") {
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Strike puesto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
+			$("#div_strikes_usuarios").load(location.href + " #div_strikes_usuarios");  
+
+        }  else {
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+    });
+}
+
+// #region ocultar_strike
+function ocultar_strike(id_strike) {
+	$.post("controller.php",
+    {    	action 			: "ocultar_strike",
+       	 	id_strike  	: id_strike,
+    }, end_ocultar_strike);
+}
+
+function end_ocultar_strike(xml) {
+	$(xml).find("response").each(function(i) {
+        if ($(this).find("result").text()=="ok") {
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Strike cancelado!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
+			$("#div_strikes_usuarios").load(location.href + " #div_strikes_usuarios");  
+
+        }  else {
 			Swal.fire({
 				icon: 'error',
 				title: '¡Error!',
