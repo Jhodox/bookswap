@@ -178,13 +178,14 @@ session_start();
         $query0 = "SELECT COUNT(*) AS existe FROM libros WHERE id_libro = '$id_libro_global'";
         $existe = GetValueSQL($query0, 'existe');
         if($existe == 0){
-            header("Location: ../../404");
+            header("Location: ../../404.php");
+            exit();
         }
 	}else{
 		$id_libro_global = 0;
         
-        header("Location: 404");
-        exit;
+        header("Location: 404.php");
+        exit();
 	}
 
     $query1 = "SELECT libros.*, usuarios.nombres, usuarios.apellidos

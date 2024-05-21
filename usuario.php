@@ -181,14 +181,14 @@ session_start();
         $existe = GetValueSQL($query0, 'existe');
         // echo "<script>console.log('Existe: ', $existe)</script>";
         if($existe == 0) {
-            header("Location: 404");
-			exit;
+            header("Location: ../404.php");
+			exit();
 		}
     } else {
         echo "<script>console.log('[-] No hubo id por get')</script>";
         $id_usuario_local = 0;
-        header("Location: 404");
-        exit;
+        header("Location: 404.php");
+        exit();
     }
 
 	$query1 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario_local";
