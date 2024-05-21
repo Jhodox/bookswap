@@ -739,12 +739,14 @@ function cambiar_opciones_perfil(tipo, e){
 			$("#li_historial_prestamos").removeClass("active");
 			$("#li_strikes_usuarios").addClass("active");
 			$("#li_validar_usuarios").removeClass("active");
+			$("#li_prestamos_recibidos").removeClass("active");
 
 			$("#div_mis_libros").hide('slow');
 			$("#div_prestamos_activos").hide('slow');
 			$("#div_historial_prestamos").hide('slow');
 			$("#div_strikes_usuarios").show('slow');
 			$("#div_validar_usuarios").hide('slow');
+			$("#div_prestamos_recibidos").hide('slow');
 		break;
 		case 5:
 			$("#li_mis_libros").removeClass("active");
@@ -761,16 +763,18 @@ function cambiar_opciones_perfil(tipo, e){
 			$("#div_validar_usuarios").show('slow');
 			$("#div_prestamos_recibidos").hide('slow');
 		break;
-		case 5:
+		case 6:
 			$("#li_mis_libros").removeClass("active");
 			$("#li_prestamos_activos").removeClass("active");
 			$("#li_historial_prestamos").removeClass("active");
+			$("#li_strikes_usuarios").removeClass("active");
 			$("#li_validar_usuarios").removeClass("active");
 			$("#li_prestamos_recibidos").addClass("active");
 
 			$("#div_mis_libros").hide('slow');
 			$("#div_prestamos_activos").hide('slow');
 			$("#div_historial_prestamos").hide('slow');
+			$("#div_strikes_usuarios").hide('slow');
 			$("#div_validar_usuarios").hide('slow');
 			$("#div_prestamos_recibidos").show('slow');
 		break;

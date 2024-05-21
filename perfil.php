@@ -390,7 +390,7 @@ session_start();
 
                     <ul class="ps-section__links">
                         <li id="li_prestamos_activos" class="active"><a type="button" href="" onclick="cambiar_opciones_perfil(2, event)">Mis Préstamos</a></li>
-                        <li id="li_prestamos_recibidos"><a type="button" href="" onclick="cambiar_opciones_perfil(5, event)">Préstamos Recibidos</a></li>
+                        <li id="li_prestamos_recibidos"><a type="button" href="" onclick="cambiar_opciones_perfil(6, event)">Préstamos Recibidos</a></li>
                         <li id="li_mis_libros"><a type="button" href="" onclick="cambiar_opciones_perfil(1, event)">Mis Libros</a></li>
                         <li id="li_historial_prestamos"><a type="button" href=""  onclick="cambiar_opciones_perfil(3, event)">Historial de Préstamos</a></li>
                         <?php
