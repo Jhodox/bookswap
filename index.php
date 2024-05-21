@@ -273,7 +273,7 @@ session_start();
 
                     <h3>Los Más <br> Buscados</h3>
 
-                        <a class="ps-block__more-link" href="#">Ver Todos</a>
+                        <a class="ps-block__more-link" href="https://localhost/bookswap/busqueda.php?search=&submit=">Ver Todos</a>
 
                 </div>
 
@@ -395,7 +395,7 @@ session_start();
 
                     <h3>Con Mayor Cantidad <br> De Intercambios</h3>
 
-                        <a class="ps-block__more-link" href="#">Ver Todos</a>
+                        <a class="ps-block__more-link" href="https://localhost/bookswap/busqueda.php?search=&submit=">Ver Todos</a>
 
                 </div>
 
@@ -517,7 +517,7 @@ session_start();
 
                     <h3>Añadidos <br> Recientemente</h3>
 
-                        <a class="ps-block__more-link" href="#">Ver Todos</a>
+                        <a class="ps-block__more-link" href="https://localhost/bookswap/busqueda.php?search=&submit=">Ver Todos</a>
 
                 </div>
 

@@ -234,6 +234,7 @@ session_start();
                         $ruta_foto_perfil = GetValueSQL($query1, 'ruta_foto_perfil');
                         $ruta_foto_credencial = GetValueSQL($query1, 'ruta_foto_credencial');
                         $id_status_usuario = GetValueSQL($query1, 'status');
+                        $num_strikes = GetValueSQL($query1, 'num_strikes');
 
 
                         $query2 = "SELECT * FROM carreras WHERE id_carrera = '$id_carrera'";
@@ -253,16 +254,16 @@ session_start();
                             $ruta_foto_credencial = $ruta_foto_no_existente;
                         }
 
-                        if($id_status_usuario != 1){
+                        if($id_status_usuario != 1) {
                             $mensaje_status = "* Para validar tu cuenta, actualiza tu foto de perfil y la credencial de UDG.";
+                            if($num_strikes > 2) {
+                                $mensaje_status = "* Tu cuenta a sido bloqueada debido a que cometiste 3 infracciones.";
+                            }
                         } else{
                             $mensaje_status = "";
                         }
 
-                        $query7 = "SELECT COUNT(*) AS cuantos FROM strikes WHERE id_usuario = $id_usuario_global";
-                        $cuantos_strikes = GetValueSQL($query7, 'cuantos');
-
-                        if($cuantos_strikes > 0){
+                        if($num_strikes > 0) {
                             $mensaje_strikes = "<a class='text-decoration-underline' href=''>(Ver detalles)</a>";
                         } else{
                             $mensaje_strikes = "";
@@ -322,9 +323,9 @@ session_start();
                                         <p><i class="fas fa-envelope"></i> Correo Institucional: <?php echo $correo; ?></p>
                                         <p><i class="fas fa-graduation-cap"></i>Carrera: <?php echo $carrera; ?></p>
                                         <p><i class="fas fa-calendar-days"></i> Ciclo de ingreso: <?php echo $ciclo_ingreso; ?></p>
-                                        <p><i class="fa-solid fa-xmark"></i> Strikes: <?php echo $cuantos_strikes." ".$mensaje_strikes; ?> </p>
+                                        <p><i class="fa-solid fa-xmark"></i> Strikes: <?php echo $num_strikes." ".$mensaje_strikes; ?> </p>
                                         <p><i class="fas fa-flag"></i> Status: <?php echo $status ?></p>
-                                        <p><?php echo $mensaje_status; ?></p>
+                                        <p style="color: yellow;"><?php echo $mensaje_status; ?></p>
                                     </div>
 
                                     <!-- Columna derecha (imagen de la credencial) -->
@@ -392,8 +393,10 @@ session_start();
                         <li id="li_mis_libros"><a type="button" href="" onclick="cambiar_opciones_perfil(1, event)">Mis Libros</a></li>
                         <li id="li_historial_prestamos"><a type="button" href=""  onclick="cambiar_opciones_perfil(3, event)">Historial de Préstamos</a></li>
                         <?php
-                        if ($admin_usuario_global == 1)
-                            echo '<li id="li_validar_usuarios"><a type="button" href=""  onclick="cambiar_opciones_perfil(4, event)">Validar usuarios</a></li>';
+                        if ($admin_usuario_global == 1) {
+                            echo '<li id="li_strikes_usuarios"><a type="button" href=""  onclick="cambiar_opciones_perfil(4, event)">Strikes usuarios</a></li>';
+                            echo '<li id="li_validar_usuarios"><a type="button" href=""  onclick="cambiar_opciones_perfil(5, event)">Validar usuarios</a></li>';
+                        }
                         ?>
                     </ul>                    
 
@@ -749,7 +752,7 @@ session_start();
                                     
                                 <div class="ps-section__cart-actions" style="margin-top: -100px; margin-bottom: -50px;">
                                     <?php
-                                    if($id_status_usuario != 1){  ?>
+                                    if($id_status_usuario != 2){  ?>
                                         <!-- 
                                             #region CAMBIAR IF A != 2
                                         -->
@@ -1208,6 +1211,133 @@ session_start();
 
                         <!-- Fin Sección -->
 
+                        <!-- Inicio sección 
+                            #region Strikes usuarios
+                        -->
+
+                        <div class="container" id="div_strikes_usuarios">
+
+                            <div class="ps-section__header">
+
+                                <h1>Strikes usuarios</h1>
+
+                            </div>
+
+                            <div class="ps-section__content" style="margin-top: -50px;">
+
+                                <div class="table-responsive">
+                                    
+                                <div class="ps-section__cart-actions" style="margin-top: -100px; margin-bottom: -50px;">
+
+                                    <!-- <a class="ps-btn" onmouseover="this.style.color='white';" onmouseout="this.style.color='black';"  onclick="abrir_modal(1)">
+                                        <i class="fa-solid fa-circle-plus" data-bs-whatever="@mdo"></i> Agregar Libro
+                                    </a> -->
+
+
+                                </div>
+
+                                    <table class="table ps-table--shopping-cart">
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th>ID</th>
+                                                <th>usuario</th>
+                                                <th>Detalles</th>
+                                                <th>Fecha</th>
+                                                <th>Strikes</th>
+                                                <th>Opciones</th>
+                                                
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+
+                                            <?php 
+                                            $query16 = "SELECT COUNT(*) AS cuantos FROM strikes WHERE status = 1";
+                                            $cuantos_strikes = GetValueSQL($query16, 'cuantos');
+
+                                            if($cuantos_strikes > 0) {
+                                                $query17 = "SELECT * FROM `strikes` INNER JOIN usuarios ON strikes.id_usuario = usuarios.id_usuario WHERE strikes.status = 1";
+                                                $strikes = DatasetSQL($query17);
+
+                                                while($row17 = mysqli_fetch_array($strikes)){
+                                                    $id_strike = $row17['id_strike'];
+                                                    $id_usuario = $row17['id_usuario'];
+                                                    $detalles = $row17['detalles'];
+                                                    $fecha = $row17['fecha'];
+                                                    $nombres = $row17['nombres'];
+                                                    $apellidos = $row17['apellidos'];
+                                                    $num_strikes = $row17['num_strikes'];
+
+                                                    if($fecha == NULL){
+                                                        $fecha = "Sin Año";
+                                                    }
+                                                
+                                                    if($detalles == NULL){
+                                                        $detalles = "Sin detalle";
+                                                    }
+
+                                                    // if($ruta_foto_portada == NULL){
+                                                    //     $ruta_foto_portada = $ruta_foto_no_existente;
+                                                    // }
+
+                                                    echo '<tr>
+                                                        <td class="text-center">    
+                                                            ID Usuario<br><strong>'.$id_usuario.'</strong>
+                                                        </td>
+
+                                                        <td class="text-center">Nombre<br><strong>'.$nombres.' '. $apellidos.'</strong></td>
+
+                                                        <td class="text-center"><strong>Detalle</strong><br>'.$detalles.'</td>
+                                                        
+                                                        <td class="text-center">'.$fecha.'</td>
+        
+                                                        <td class="text-center">Número de strikes<br><strong>'.$num_strikes.'</strong></td>
+
+                                                        <td class="text-center">        
+                                                            <a type="button" onclick="strike_usuario(' . $id_usuario . ', '. $id_strike . ', event)"><i class="fa-solid fa-check"></i></a>&emsp;
+                                                            <a type="button" onclick="ocultar_strike(' . $id_strike . ', event)"><i class="fa-solid fa-xmark"></i></a>
+                                                        </td>
+        
+                                                    </tr>';
+                                                }
+                                            }
+
+                                            ?>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                                <hr>
+
+                                <!-- <div class="d-flex flex-row-reverse">
+                                <div class="p-2"><h3>Total <span>$414.00</span></h3></div>             
+                                </div>
+
+                                <div class="ps-section__cart-actions">
+
+                                    <a class="ps-btn" href="categories.html.html">
+                                        <i class="icon-arrow-left"></i> Back to Shop
+                                    </a>
+
+                                    <a class="ps-btn" href="checkout.html">
+                                        Proceed to checkout <i class="icon-arrow-right"></i> 
+                                    </a>
+
+                                </div> -->
+
+                            </div> 
+                            
+                        </div>
+
+                        <!-- Fin Sección -->
+
     <!---------------------------------------
         #region Validar Usuarios
     ---------------------------------------->
@@ -1247,7 +1377,7 @@ session_start();
                             $cuantos_usuarios = GetValueSQL($query12, 'cuantos');
 
                             if ($cuantos_usuarios > 0) {
-                                $query13 = "SELECT * FROM usuarios WHERE status = 2 ORDER BY (id_usuario) DESC";
+                                $query13 = "SELECT * FROM usuarios WHERE status = 2 && num_strikes < 3 ORDER BY (id_usuario) DESC";
                                 $mis_usuarios = DatasetSQL($query13);
 
                                 while ($row13 = mysqli_fetch_array($mis_usuarios)) {

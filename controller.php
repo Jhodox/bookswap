@@ -794,10 +794,81 @@ if(Requesting("action") == "validar_usuario"){
 	$resultStatus = "ok";
 
 	$query1 = "UPDATE usuarios SET status = 1 WHERE id_usuario = $id_usuario";
-	$resultText = "El usuaruo se valido.";
+	$resultText = "El usuario se valido.";
 	
 	if(ExecuteSQL($query1)){
         $resultStatus = "ok";
+	} else{
+		$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo. ";
+        $resultStatus = "error";
+	}
+
+	$result = array(   
+		'result' 				=> $resultStatus,
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);
+	exit;
+}
+
+#region strike_usuarios
+if(Requesting("action") == "strike_usuario"){
+	$id_usuario = Requesting("id_usuario");
+	$id_strike = Requesting("id_strike");
+
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+	$query0 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario";
+	$num_strikes = GetValueSQL($query0, 'num_strikes');
+
+	$query1 = "UPDATE usuarios SET num_strikes = $num_strikes + 1 WHERE id_usuario = $id_usuario";
+	$query2 = "UPDATE strikes SET status = 2 WHERE id_strike = $id_strike";
+	$query3 = "UPDATE usuarios SET status = 2 WHERE id_usuario = $id_usuario";
+	
+	if(ExecuteSQL($query1)){
+		if(ExecuteSQL($query2)) {
+			if($num_strikes + 1 > 2) {
+				if(ExecuteSQL($query3)) {
+					$resultText = "El strike fue añadido y el usuario suspendido.";
+					$resultStatus = "ok";
+				} else {
+					$resultText = "Ocurrió un error en status. Por favor, inténtalo de nuevo. ";
+        			$resultStatus = "error";
+				}
+			} else {
+				$resultText = "El strike fue añadido.";
+				$resultStatus = "ok";
+			}
+		} else {
+			$resultText = "Ocurrió un error en strikes. Por favor, inténtalo de nuevo. ";
+        	$resultStatus = "error";
+		}
+	} else{
+		$resultText = "Ocurrió un error en usuarios. Por favor, inténtalo de nuevo. ";
+        $resultStatus = "error";
+	}
+
+	$result = array(   
+		'result' 				=> $resultStatus,
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);
+	exit;
+}
+
+#region ocultar_strike
+if(Requesting("action") == "ocultar_strike"){
+	$id_strike = Requesting("id_strike");
+
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+	$query1 = "UPDATE strikes SET status = 0 WHERE id_strike = $id_strike";
+	
+	if(ExecuteSQL($query1)){
+		$resultText = "El strike fue cancelado.";
+		$resultStatus = "ok";
 	} else{
 		$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo. ";
         $resultStatus = "error";
