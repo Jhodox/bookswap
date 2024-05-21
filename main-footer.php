@@ -69,6 +69,8 @@
 
                             <li><a href="#AbrirModalContacto" data-bs-toggle="modal" data-bs-target="#modalContacto" data-bs-whatever="@mdo">Contacto</a></li>
 
+                            <li><a href="preguntas_frecuentes">Preguntas Frecuentes</a></li> 
+
                         </ul>
 
                     </aside>

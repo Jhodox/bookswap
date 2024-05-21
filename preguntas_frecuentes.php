@@ -196,49 +196,45 @@ session_start();
 	</div>
 
 	<!--=====================================
-	#region Sobre Nosotros
+	#Preguntas Frecuentes
 	======================================-->
 
 
     <div class="container">
         <div class="bg-light p-5 rounded shadow-sm">
-            <h2 class="text-center mb-4">Sobre Nosotros</h2>
-            
-            <p class="text-justify">Somos un grupo de estudiantes apasionados de la <strong>Ingeniería en Informática</strong> del 
-            <strong>Centro Universitario de Ciencias Exactas e Ingenierías (CUCEI)</strong> de la <strong>Universidad de Guadalajara</strong>. Nuestro equipo está compuesto por:</p>
-            
-            <ul class="h5 text-justify">
-                <li class="mt-1"><strong>Aguilar Olivares Jorge Isaac</strong></li>
-                <li class="mt-2"><strong>De la Cruz Ascencio Luis Angel</strong></li>
-                <li class="mt-2"><strong>Flores Sánchez Gerson Ismael</strong></li>
-                <li class="mt-2"><strong>Hernández Muñoz Diego Iván</strong></li>
-                <li class="mt-2"><strong>Herrera Hernández Brandon</strong></li>
-                <li class="mt-2"><strong>Orozco Jiménez Cristian Isaí</strong></li>
-            </ul><br><br>
-            
-            <h3>Nuestra Misión</h3>
-            <p class="text-justify">En el marco de la materia de <strong>Ingeniería de Software</strong>, nos propusimos abordar un problema real que afecta a muchos estudiantes: el acceso a los libros necesarios para
-            nuestros estudios al igual que para lectura de recreación.
-            Nuestro objetivo es crear una plataforma eficiente y accesible que facilite el intercambio de libros entre los estudiantes del CUCEI.</p>
-            <br><br>
 
-            <h3>¿Por qué Hicimos Este Proyecto?</h3>
-            <p class="text-justify">El alto costo de los libros puede ser un obstáculo significativo para muchos estudiantes. Queremos ofrecer una solución práctica y económica mediante el intercambio de libros usados,
-            promoviendo la reutilización y el acceso equitativo a los recursos educativos.</p>
-            <p class="text-justify">Este proyecto no solo busca aliviar la carga financiera de los estudiantes, sino también fomentar la lectura y reutilización dentro de nuestra comunidad
-            universitaria. Creemos que, al facilitar el intercambio de libros, podemos contribuir a este entorno académico.</p>
-            <br><br>
-
-            <h3>Nuetros Valores</h3>
-            <ul class="h5 text-justify">
-                <li class="mt-4"><strong>Colaboración:</strong> Promovemos la cooperación entre estudiantes para alcanzar objetivos comunes.</li>
-                <li class="mt-2"><strong>Sostenibilidad:</strong> Fomentamos la reutilización de recursos para reducir el impacto ambiental.</li>
-                <li class="mt-2"><strong>Accesibilidad:</strong> Queremos asegurar que todos los estudiantes tengan acceso.</li>
-                <li class="mt-2"><strong>Innovación:</strong> Aplicamos nuestros conocimientos en ingeniería de software para crear soluciones.</li>
-            </ul><br><br>
+            <h2 class="text-center mb-4">Preguntas Frecuentes</h2>
             
-            <h3>Contacto</h3>
-            <p class="text-justify">Si deseas saber más sobre nuestro proyecto, colaborar con nosotros o tienes alguna sugerencia, contáctanos. De esta manera podemos seguir mejorando nuestra plataforma.</p>
+            <p class="text-justify">En esta sección se muestran preguntas y sus respuestas con el objetivo de aclarar tus dudas
+            sobre el funcionamiento y desarrollo de la pagina, para que de esta forma puedas intercambiar tus libros favoritos sin ningun problema,
+            sin mas que agregar, nosotros los desarrolladores, esperamos que tengas una buena experiencia.
+            
+            <br>
+            <h3 class = "mt-4">Preguntas</h3>
+            <p class="text-justify"><strong>¿Como puedo verificar mi usuario?</strong></p>
+            <p class="text-justify">Para verificar tu usuario primero tienes que cumplir con la carga de documentosen la pestaña de  <a href="perfil"><strong>perfil</strong></a>.</p>
+
+            <p class="text-justify"><strong>¿Como puedo solicitar un libro?</strong></p>
+            <p class="text-justify">Para solicitar un libro puedes ir a la pagina de inicio donde podras encontrar la variedad de libros que hay dentro de 
+            la pagina, pero si quieres un libro en especifico puedes ir a la barra de busqueda, e ingresar el libro que quieras, una vez seleccionado y si ya te
+            encuentras verificado podras solicitar el libro para que el dueño considere el prestamo del libro. Si este decide aceptar, entonces podran comunicarse
+            por medio del chat. Aqui esta la pagina de <a href="index"><strong>inicio</strong></a>, donde encontraras todo tipo de libros.</p>
+
+
+            <p class="text-justify"><strong>¿Como puedo agregar libros?</strong></p>
+            <p class="text-justify">Para agregar libros tendras que ir a la pagina de <a href="perfil"><strong>perfil</strong></a> y despues tendras que ir al apartado 
+            de mis libros, donde podras observar un boton de agregar libros y tendras que llenar la información correspondiente.</p>
+
+            <p class="text-justify"><strong>¿Como puedo iniciar un chat?</strong></p>
+            <p class="text-justify">Para iniciar una conversación, es necesario que primero se acepte la solicitud de un libro, de esta forma se habilitara un apartado para
+            ambos, donde sera posible comenzar la conversación y llegar a un acuerdo sobre las fechas.</p>
+
+            <p class="text-justify"><strong>¿Como funciona la wishlist?</strong></p>
+            <p class="text-justify">La wishlist es un poco mas privada y personal, ya que aqui podras poner todos esos libros que te gustan pero que aun no quieres solicitar
+            de hecho puedes consultar tu wishlist justo aqui <a href="wishlist"><strong>wishlist</strong></a>. Para acceder solo tienes que darle corazon a un libro que te guste.</p>
+
+
+            
         </div>
     </div>
 
