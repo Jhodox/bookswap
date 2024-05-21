@@ -65,7 +65,7 @@
 
                         <ul class="ps-list--link">
 
-                            <li><a href="about-us">Sobre nosotros</a></li>
+                            <li><a href="aboutUs">Sobre nosotros</a></li>   
 
                             <li><a href="#AbrirModalContacto" data-bs-toggle="modal" data-bs-target="#modalContacto" data-bs-whatever="@mdo">Contacto</a></li>
 

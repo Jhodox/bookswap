@@ -20,7 +20,7 @@ session_start();
 
 	<title>BookSwap | Sobre nosotros</title>
 	<?php include ("include/headertagbase.php"); ?>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link rel="icon" href="imagenes/bookswap/logoBookswap.png">
 
 	<!--=====================================
@@ -36,8 +36,8 @@ session_start();
 	<!-- linear icons -->
 	<link rel="stylesheet" href="css/plugins/linearIcons.css">
 
-	<!-- Bootstrap 4 -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 	<!-- Owl Carousel -->
 	<link rel="stylesheet" href="css/plugins/owl.carousel.css">
@@ -187,7 +187,7 @@ session_start();
 
 				<li><a href="index.php">Inicio</a></li>
 
-				<li>Perfil</li>
+				<li>Sobre Nosotros</li>
 
 			</ul>
 
@@ -195,9 +195,54 @@ session_start();
 
 	</div>
 
-	<!-- Aqui se puede empezar a trabajar lo nuevo  -->
+	<!--=====================================
+	#region Sobre Nosotros
+	======================================-->
 
 
+    <div class="container">
+        <div class="bg-light p-5 rounded shadow-sm">
+            <h2 class="text-center mb-4">Sobre Nosotros</h2>
+            
+            <p class="text-justify">Somos un grupo de estudiantes apasionados de la <strong>Ingeniería en Informática</strong> del 
+            <strong>Centro Universitario de Ciencias Exactas e Ingenierías (CUCEI)</strong> de la <strong>Universidad de Guadalajara</strong>. Nuestro equipo está compuesto por:</p>
+            
+            <ul class="h5 text-justify">
+                <li class="mt-1"><strong>Aguilar Olivares Jorge Isaac</strong></li>
+                <li class="mt-2"><strong>De la Cruz Ascencio Luis Angel</strong></li>
+                <li class="mt-2"><strong>Flores Sánchez Gerson Ismael</strong></li>
+                <li class="mt-2"><strong>Hernández Muñoz Diego Iván</strong></li>
+                <li class="mt-2"><strong>Herrera Hernández Brandon</strong></li>
+                <li class="mt-2"><strong>Orozco Jiménez Cristian Isaí</strong></li>
+            </ul><br><br>
+            
+            <h3>Nuestra Misión</h3>
+            <p class="text-justify">En el marco de la materia de <strong>Ingeniería de Software</strong>, nos propusimos abordar un problema real que afecta a muchos estudiantes: el acceso a los libros necesarios para
+            nuestros estudios al igual que para lectura de recreación.
+            Nuestro objetivo es crear una plataforma eficiente y accesible que facilite el intercambio de libros entre los estudiantes del CUCEI.</p>
+            <br><br>
+
+            <h3>¿Por qué Hicimos Este Proyecto?</h3>
+            <p class="text-justify">El alto costo de los libros puede ser un obstáculo significativo para muchos estudiantes. Queremos ofrecer una solución práctica y económica mediante el intercambio de libros usados,
+            promoviendo la reutilización y el acceso equitativo a los recursos educativos.</p>
+            <p class="text-justify">Este proyecto no solo busca aliviar la carga financiera de los estudiantes, sino también fomentar la lectura y reutilización dentro de nuestra comunidad
+            universitaria. Creemos que, al facilitar el intercambio de libros, podemos contribuir a este entorno académico.</p>
+            <br><br>
+
+            <h3>Nuetros Valores</h3>
+            <ul class="h5 text-justify">
+                <li class="mt-4"><strong>Colaboración:</strong> Promovemos la cooperación entre estudiantes para alcanzar objetivos comunes.</li>
+                <li class="mt-2"><strong>Sostenibilidad:</strong> Fomentamos la reutilización de recursos para reducir el impacto ambiental.</li>
+                <li class="mt-2"><strong>Accesibilidad:</strong> Queremos asegurar que todos los estudiantes tengan acceso.</li>
+                <li class="mt-2"><strong>Innovación:</strong> Aplicamos nuestros conocimientos en ingeniería de software para crear soluciones.</li>
+            </ul><br><br>
+            
+            <h3>Contacto</h3>
+            <p class="text-justify">Si deseas saber más sobre nuestro proyecto, colaborar con nosotros o tienes alguna sugerencia, contáctanos. De esta manera podemos seguir mejorando nuestra plataforma.</p>
+        </div>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 
 

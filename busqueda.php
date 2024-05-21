@@ -185,7 +185,7 @@ session_start();
 
             <ul class="breadcrumb">
 
-                <li><a href="index.php">Inicio</a></li>
+                <li><a href="index">Inicio</a></li>
 
                 <li>Busqueda</li>
 
