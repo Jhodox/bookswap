@@ -483,11 +483,15 @@ session_start();
                                                     break;
                                                     case 2:
                                                         $cambiar_status_libro = '';
-                                                        $mensaje_status = '<i class="fas fa-book-reader"></i> '.$status;
+                                                        $mensaje_status = '<i class="fa-solid fa-stopwatch"></i> '.$status;
                                                     break;
                                                     case 3:
                                                         $cambiar_status_libro = '<a type="button" onclick="cambiar_status_libro('.$id_libro.', 3)"><i class="fas fa-toggle-off"></i></a>';
                                                         $mensaje_status = '<i class="fas fa-book"></i> '.$status;
+                                                    break;
+                                                    case 4:
+                                                        $cambiar_status_libro = '';
+                                                        $mensaje_status = '<i class="fas fa-book-reader"></i> '.$status.' | <a class="btn btn-link text-danger" style="font-size: 16px;" data-bs-toggle="modal" data-bs-target="#modalFinalizarPrestamo" data-bs-whatever="@mdo" data-id="'.$id_libro.'">Finalizar préstamo</a>';
                                                     break;
                                                 }
 
@@ -533,7 +537,7 @@ session_start();
                                                                     <table class="table table-bordered">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th>Status</th>
+                                                                                <th>Estatus</th>
                                                                                 <th>Nombre</th>
                                                                                 <th>Correo Institucional</th>
                                                                                 <th>Código UDG</th>';
@@ -670,25 +674,30 @@ session_start();
                                                         </div>
 
                                                     </td>';
-                                                    
-                                                    if($id_status_prestamo == 2){
-                                                        if($fecha_inicio == "Por acordar" OR $fecha_fin == "Por acordar"){
-                                                            echo '<td class="text-center">'.$fecha_inicio.'</td>
-                                                                <td class="text-center">'.$fecha_fin.'</td>';
+                                                    if($existe_prestamos > 0){
+                                                        if($id_status_prestamo == 2){
+                                                            if($fecha_inicio == "Por acordar" OR $fecha_fin == "Por acordar"){
+                                                                echo '<td class="text-center">'.$fecha_inicio.'</td>
+                                                                    <td class="text-center">'.$fecha_fin.'</td>';
+                                                            } else{
+                                                                echo '<td class="text-center">Espera confirmación</td>
+                                                                        <td class="text-center">Espera confirmación</td>';
+                                                            }
                                                         } else{
-                                                            echo '<td class="text-center">Espera confirmación</td>
-                                                                    <td class="text-center">Espera confirmación</td>';
+                                                            echo '<td class="text-center">'.$fecha_inicio.'</td>
+                                                            <td class="text-center">'.$fecha_fin.'</td>';
                                                         }
                                                     } else{
-                                                        echo '<td class="text-center">'.$fecha_inicio.'</td>
-                                                        <td class="text-center">'.$fecha_fin.'</td>';
+                                                        echo '<td class="text-center">-</td>
+                                                            <td class="text-center">-</td>';
                                                     }
+                                                    
 
                                                     echo '<td class="text-center">'.$mensaje_status.'</td>                       
 
 
                                                     <td class="text-center">                                                               
-                                                        <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="ver_waitlist('.$id_libro.', event)">Ver préstamos</a>
+                                                        <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="ver_waitlist('.$id_libro.', event)">Ver detalles</a>
                                                     </td>
 
                                                 </tr>'; 
@@ -769,17 +778,18 @@ session_start();
 
                                 </div>
 
-                                <table class="table ps-table--shopping-cart" id="tabla_prestamo">
+                                <table class="table ps-table--shopping-cart" id="tabla_prestamos_recibidos">
 
                                     <thead>
 
                                         <tr>
 
+                                            <th>Estatus</th>
                                             <th>Libro</th>
+                                            <th>Dueño</th>
                                             <th>Fecha de Préstamo</th>
                                             <th>Fecha de Entrega</th>
-                                            <th>Estatus</th>
-                                            <th>Préstamos</th>
+                                            <th>Detalles</th>
 
                                         </tr>
 
@@ -788,17 +798,20 @@ session_start();
                                     <tbody>
 
                                         <?php 
-                                        $query5 = "SELECT COUNT(*) AS cuantos FROM libros WHERE id_usuario = $id_usuario_global";
-                                        $cuantos_libros = GetValueSQL($query5, 'cuantos');
+                                        $query5 = "SELECT COUNT(*) AS cuantos FROM prestamos WHERE id_usuario_destino = $id_usuario_global AND status_prestamo = 2 OR status_prestamo = 3";
+                                        $cuantos_prestamos = GetValueSQL($query5, 'cuantos');
 
-                                        if($cuantos_libros > 0){
-                                            $query6 = "SELECT * FROM libros
-                                            INNER JOIN status_libro ON libros.status = status_libro.id_status
-                                            WHERE id_usuario = $id_usuario_global
-                                            ORDER BY (id_libro = 3) DESC";
-                                            $mis_libros = DatasetSQL($query6);
+                                        if($cuantos_prestamos > 0){
+                                            $query6 = "SELECT * FROM prestamos
+                                            INNER JOIN libros ON prestamos.id_libro = libros.id_libro
+                                            INNER JOIN status_libro ON prestamos.status_prestamo = status_libro.id_status
+                                            WHERE id_usuario_destino = $id_usuario_global AND status_prestamo = 2 OR status_prestamo = 3
+                                            ORDER BY id_prestamo DESC";
+                                            $prestamos_recibidos = DatasetSQL($query6);
 
-                                            while($row6 = mysqli_fetch_array($mis_libros)){
+                                            while($row6 = mysqli_fetch_array($prestamos_recibidos)){
+                                                $id_prestamo = $row6['id_prestamo'];
+                                                $id_usuario_owner = $row6['id_usuario_owner'];
                                                 $id_libro = $row6['id_libro'];
                                                 $titulo = $row6['titulo'];
                                                 $autor = $row6['autor'];
@@ -844,152 +857,82 @@ session_start();
                                                     $ruta_foto_portada = $ruta_foto_no_existente;
                                                 }
 
-                                                $query10 = "SELECT COUNT(*) AS existe FROM prestamos WHERE id_libro = $id_libro AND status_prestamo != 4 AND status_prestamo != 6";
-                                                $existe_prestamos = GetValueSQL($query10, 'existe');
+                                                $query18 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario_owner";
+                                                $nombres_owner = GetValueSQL($query18, 'nombres');
+                                                $apellidos_owner = GetValueSQL($query18, 'apellidos');
+                                                $nombre_owner = $nombres_owner.' '.$apellidos_owner;
 
-                                                if($existe_prestamos > 0){
-                                                    $query11 = "SELECT * FROM prestamos 
-                                                    INNER JOIN usuarios ON prestamos.id_usuario_destino = usuarios.id_usuario
-                                                    INNER JOIN status_prestamos ON prestamos.status_prestamo = status_prestamos.id_status
-                                                    WHERE id_libro = $id_libro AND status_prestamo != 4 AND status_prestamo != 6";
+                                                $query11 = "SELECT * FROM prestamos 
+                                                INNER JOIN usuarios ON prestamos.id_usuario_owner = usuarios.id_usuario
+                                                INNER JOIN status_prestamos ON prestamos.status_prestamo = status_prestamos.id_status
+                                                WHERE id_prestamo = $id_prestamo";
 
-                                                    $id_prestamo = GetValueSQL($query11, 'id_prestamo');
-                                                    $nombre_prestamo = GetValueSQL($query11, 'nombres'). " " .GetValueSQL($query11, 'apellidos');
-                                                    $correo_prestamo = GetValueSQL($query11, 'correo');
-                                                    $codigo_usuario_prestamo = GetValueSQL($query11, 'codigo_usuario');
-                                                    $fecha_inicio = GetValueSQL($query11, 'fecha_inicio');
-                                                    $fecha_fin = GetValueSQL($query11, 'fecha_fin');
-                                                    $id_status_prestamo = GetValueSQL($query11, 'status_prestamo');
-                                                    $status_prestamo = GetValueSQL($query11, 'status_nombre');
+                                                $nombre_prestamo = GetValueSQL($query11, 'nombres'). " " .GetValueSQL($query11, 'apellidos');
+                                                $correo_prestamo = GetValueSQL($query11, 'correo');
+                                                $codigo_usuario_prestamo = GetValueSQL($query11, 'codigo_usuario');
+                                                $fecha_inicio = GetValueSQL($query11, 'fecha_inicio');
+                                                $fecha_fin = GetValueSQL($query11, 'fecha_fin');
+                                                $id_status_prestamo = GetValueSQL($query11, 'status_prestamo');
+                                                $status_prestamo = GetValueSQL($query11, 'status_nombre');
 
-                                                    if($fecha_fin == NULL){
-                                                        $fecha_fin = "Por acordar";
-                                                    }
-
-                                                    if($fecha_inicio == NULL){
-                                                        $fecha_inicio = "Por acordar";
-                                                    }
-
-                                                    $prestamo = '<div class="table-responsive" id="tabla_prestamo_'.$id_prestamo.'">
-                                                                    <table class="table table-bordered">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Status</th>
-                                                                                <th>Nombre</th>
-                                                                                <th>Correo Institucional</th>
-                                                                                <th>Código UDG</th>';
-                                                                                if($id_status_prestamo == 1 ){
-                                                                                    $prestamo .= '<th>Opciones</th>';
-                                                                                }
-                                                                                if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
-                                                                                    $prestamo .= '<th>Inicio / Fin</th>';
-                                                                                    $prestamo .= '<th>Chat</th>';
-                                                                                } 
-                                                                            $prestamo .= '</tr>
-                                                                        </thead>
-                                                                        <tbody>';
-
-                                                    $prestamo .= '<tr>
-                                                        <td>' . $status_prestamo . '</td>
-                                                        <td>' . $nombre_prestamo . '</td>
-                                                        <td>' . $correo_prestamo . '</td>
-                                                        <td class="text-center">' . $codigo_usuario_prestamo . '</td>';
-                                                        
-                                                        if($id_status_prestamo == 1 ){
-                                                            $prestamo .= '<td class="text-center" >
-                                                                <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="aceptar_denegar_prestamo('.$id_prestamo.', '.$id_libro.', 1, event)">Aceptar</a> / 
-                                                                <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="aceptar_denegar_prestamo('.$id_prestamo.', '.$id_libro.', 2, event)">Denegar</a>
-                                                            </td>';
-                                                        }
-
-                                                        if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
-                                                            if($id_status_prestamo == 2){
-                                                                if($fecha_inicio == "Por acordar" OR $fecha_fin == "Por acordar"){
-                                                                    $prestamo .= '<td class="text-center">
-                                                                        <a title="Acordar fechas" class="btn btn-secondary" type="button" style="font-size: 16px;"  data-bs-toggle="modal" data-bs-target="#modalAcordarFechas" data-bs-whatever="@mdo" data-id="'.$id_prestamo.'">Acordar fechas</a>
-                                                                    </td>';
-                                                                } else{
-                                                                    $prestamo .= '<td class="text-center">Espera confirmación</td>';
-                                                                }
-                                                                
-                                                            } else{
-                                                                $prestamo .= '<td class="text-center">
-                                                                '.$fecha_inicio.' / '.$fecha_fin.'
-                                                            </td>';
-                                                            }
-                                                            
-                                                            $prestamo .= '<td class="text-center" >
-                                                                <a title="Ingresar a chat" class="btn btn-secondary" type="button" style="font-size: 16px;" href="chat/'.$codigo_usuario_prestamo.'"><i class="fa fa-comment chat-icon"></i></a>
-                                                            </td>';
-                                                        } 
-
-                                                    $prestamo .= '</tr>';
-
-
-                                                    $prestamo .= '</tbody>
-                                                                </table>
-                                                            </div>';
-                                                    
-
-                                                    $query8 = "SELECT COUNT(*) AS cuantos FROM waitlist
-                                                    INNER JOIN usuarios ON waitlist.id_usuario = usuarios.id_usuario
-                                                    WHERE id_libro = $id_libro";
-                                                    $cuantos_waitlist = GetValueSQL($query8, 'cuantos');
-
-                                                    if ($cuantos_waitlist > 0) {
-
-                                                        $waitlist = '<div class="table-responsive">
-                                                                    <table class="table table-bordered">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Turno</th>
-                                                                                <th>Nombre</th>
-                                                                                <th>Correo Institucional</th>
-                                                                                <th>Código UDG</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>';
-
-                                                        $query9 = "SELECT * FROM waitlist
-                                                                    INNER JOIN usuarios ON waitlist.id_usuario = usuarios.id_usuario
-                                                                    WHERE id_libro = $id_libro ORDER BY turno";
-                                                        $query_waitlist = DatasetSQL($query9);
-                                                        
-                                                    
-                                                        while ($row9 = mysqli_fetch_array($query_waitlist)) {
-                                                            $turno = $row9['turno'];
-                                                            $nombre_waitlist = $row9['nombres'] . " " . $row9['apellidos'];
-                                                            $correo_waitlist = $row9['correo'];
-                                                            $codigo_usuario_waitlist = $row9['codigo_usuario'];
-                                                    
-                                                            $waitlist .= '<tr>
-                                                                            <td>' . $turno . '</td>
-                                                                            <td>' . $nombre_waitlist . '</td>
-                                                                            <td>' . $correo_waitlist . '</td>
-                                                                            <td class="text-center">' . $codigo_usuario_waitlist . '</td>
-                                                                        </tr>';
-                                                        }
-
-                                                        
-                                                        $waitlist .= '</tbody>
-                                                            </table>
-                                                        </div>';
-                                                    
-                                                    } else {
-                                                        $waitlist = "No existe lista de espera";
-                                                    }
-
-
-                                                } else{
-                                                    $prestamo = "No hay ningún préstamo activo.";
-                                                    $waitlist = "No existe lista de espera";
+                                                if($fecha_fin == NULL){
+                                                    $fecha_fin = "Por acordar";
                                                 }
 
+                                                if($fecha_inicio == NULL){
+                                                    $fecha_inicio = "Por acordar";
+                                                }
 
-                                                
-                                                
+                                                $detalles = '<div class="table-responsive" id="tabla_prestamo_'.$id_prestamo.'">
+                                                                <table class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Prestador</th>
+                                                                            <th>Correo Institucional</th>
+                                                                            <th>Código UDG</th>';
+                                                                            if($id_status_prestamo == 1 ){
+                                                                                $detalles .= '<th>Opciones</th>';
+                                                                            }
+                                                                            if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
+                                                                                $detalles .= '<th>Chat</th>';
+                                                                            } 
+                                                                        $detalles .= '</tr>
+                                                                    </thead>
+                                                                    <tbody>';
 
+                                                $detalles .= '<tr>
+                                                    <td>' . $nombre_prestamo . '</td>
+                                                    <td>' . $correo_prestamo . '</td>
+                                                    <td class="text-center">' . $codigo_usuario_prestamo . '</td>';
+                                                    
+                                                    if($id_status_prestamo == 1 ){
+                                                        $detalles .= '<td class="text-center" >
+                                                            <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="aceptar_denegar_prestamo('.$id_prestamo.', '.$id_libro.', 1, event)">Aceptar</a> / 
+                                                            <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="aceptar_denegar_prestamo('.$id_prestamo.', '.$id_libro.', 2, event)">Denegar</a>
+                                                        </td>';
+                                                    }
+
+                                                    if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
+                                                        
+                                                        
+                                                        $detalles .= '<td class="text-center" >
+                                                            <a title="Ingresar a chat" class="btn btn-secondary" type="button" style="font-size: 16px;" href="chat/'.$codigo_usuario_prestamo.'"><i class="fa fa-comment chat-icon"></i></a>
+                                                        </td>';
+                                                    } 
+
+                                                $detalles .= '</tr>';
+
+
+                                                $detalles .= '</tbody>
+                                                            </table>
+                                                        </div>';
+                                                                                        
+                                                
                                                 echo '<tr>
+
+                                                <td class="text-center">
+                                                        '.$status_prestamo.'
+                                                    </td>
                                                     <td>
 
                                                         <div class="ps-product--cart">
@@ -1011,6 +954,8 @@ session_start();
                                                         </div>
 
                                                     </td>';
+
+                                                    echo '<td class="text-center"><a class="btn btn-link" style="font-size: 16px;" href="usuario/'.$id_usuario_owner.'">'.$nombre_owner.'</a></td>';
                                                     
                                                     if($id_status_prestamo == 2){
                                                         if($fecha_inicio == "Por acordar" OR $fecha_fin == "Por acordar"){
@@ -1018,29 +963,28 @@ session_start();
                                                                 <td class="text-center">'.$fecha_fin.'</td>';
                                                         } else{
                                                             echo '<td class="text-center">Espera confirmación</td>
-                                                                    <td class="text-center">Espera confirmación</td>';
+                                                                    <td class="text-center">
+                                                                        <a href="" class="btn btn-danger" style="font-size: 16px;" data-bs-toggle="modal" data-bs-target="#modalVerificarFechas" data-bs-whatever="@mdo" data-id="'.$id_prestamo.'" onclick="llenar_form_confirmar_fechas('.$id_prestamo.')">Acciones necesarias *</a>
+                                                                    </td>';
                                                         }
                                                     } else{
                                                         echo '<td class="text-center">'.$fecha_inicio.'</td>
                                                         <td class="text-center">'.$fecha_fin.'</td>';
                                                     }
 
-                                                    echo '<td class="text-center">'.$mensaje_status.'</td>                       
 
-
+                                                    echo '              
                                                     <td class="text-center">                                                               
-                                                        <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="ver_waitlist('.$id_libro.', event)">Ver préstamos</a>
+                                                        <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="ver_waitlist('.$id_libro.', event)">Ver detalles</a>
                                                     </td>
 
                                                 </tr>'; 
 
                                                 echo '<tr id="waitlist_'.$id_libro.'" style="display: none;">
                                                     <td style="text-align: left !important;" colspan="7" id="table_prestamo_'.$id_libro.'">
-                                                        <strong>Préstamo: </strong><br>'
-                                                        .$prestamo.'
+                                                        <strong>Detalles: </strong><br>'
+                                                        .$detalles.'
                                                         <br>
-                                                        <strong>Lista de Espera: </strong><br>'
-                                                        .$waitlist.'
                                                     </td>
                                                 </tr>';
 
@@ -2099,6 +2043,71 @@ session_start();
     </div>
 
 
+    
+    <!-- 
+        #region Modal Verificar Fechas
+    -->
+    <div class="modal fade" id="modalVerificarFechas"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title title" id="exampleModalLabel">Confirmar Fechas</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="id_prestamo_fechas">
+                    <form id="form_acordar_fechas" name="form_acordar_fechas">
+
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Fecha de Inicio: <span class="text-danger">*</span></p>
+                            <input class="form-control" type="text" id="conf_fecha_inicio" name="conf_fecha_inicio" disabled>
+                        </div>
+                            
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Fecha Final: <span class="text-danger">*</span></p>
+                            <input class="form-control" type="text" id="conf_fecha_final" name="conf_fecha_final" disabled>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="font-size: 16px; padding: 12px 30px;"  onclick='verificar_fechas(2)'>NO Confirmar</button>
+                        <button type="button" class="btn btn-info" style="font-size: 16px; padding: 12px 30px;" onclick='verificar_fechas(1)'>Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- 
+        #region Modal Finalizar Préstamo
+    -->
+    <div class="modal fade" id="modalFinalizarPrestamo" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title title" id="exampleModalLabel">Finalizar Préstamo</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="fp_id_libro">
+                    <p class="h4">¿Estas seguro de finalizar el préstamo?</p>
+                    
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" class="btn ps-btn" data-bs-dismiss="modal" style="background-color: gray;">Cancelar</button>
+                        <button type="button" class="btn ps-btn" onclick='finalizar_prestamo()'>Continuar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <!--=====================================
@@ -2147,6 +2156,24 @@ session_start();
             var modal = $(this);
             // console.log(id);
             modal.find('#id_prestamo').val(id_prestamo);
+        });
+
+        
+        $('#modalVerificarFechas').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id_prestamo = button.data('id');
+            var modal = $(this);
+            // console.log(id);
+            modal.find('#id_prestamo_fechas').val(id_prestamo);
+        });
+
+        
+        $('#modalFinalizarPrestamo').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id_libro = button.data('id');
+            var modal = $(this);
+            // console.log(id);
+            modal.find('#fp_id_libro').val(id_libro);
         });
 	</script>
 </body>

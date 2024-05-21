@@ -1399,6 +1399,98 @@ function end_acordar_fechas(xml){
 }
 
 
+function llenar_form_confirmar_fechas(id_prestamo){
+	$.post("controller.php",
+	{    	action 		: "llenar_form_confirmar_fechas",
+			id_prestamo  	: id_prestamo,
+	}, end_llenar_form_confirmar_fechas);
+}
+
+function end_llenar_form_confirmar_fechas(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+			$("#conf_fecha_inicio").val($(this).find("fecha_inicio").text());
+			$("#conf_fecha_final").val($(this).find("fecha_fin").text());
+
+        } 
+    });
+}
+
+
+function verificar_fechas(accion){
+	var id_prestamo = $("#id_prestamo_fechas").val();
+	
+	$.post("controller.php",
+	{    	action 		: "verificar_fechas",
+			accion  	: accion,
+			id_prestamo	: id_prestamo
+	}, end_verificar_fechas);
+}
+
+function end_verificar_fechas(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+			$("#modalVerificarFechas").modal('hide');
+			$("#tabla_prestamos_recibidos").load(location.href + " #tabla_prestamos_recibidos");  
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
+
+        }  else{
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+    });
+}
+
+
+function finalizar_prestamo(){
+	var id_libro = $("#fp_id_libro").val();
+
+    $.post("controller.php",
+    {       action         : "finalizar_prestamo",
+			id_libro      : id_libro
+    }, end_finalizar_prestamo);
+}
+
+function end_finalizar_prestamo(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+			$("#modalFinalizarPrestamo").modal('hide');
+			$("#tabla_prestamo").load(location.href + " #tabla_prestamo");  
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
+
+        }  else{
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+    });
+}
+
 
 
 
