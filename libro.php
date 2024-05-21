@@ -196,6 +196,7 @@ session_start();
     $id_usuario = GetValueSQL($query1, 'id_usuario');
     $titulo = GetValueSQL($query1, 'titulo');
     $autor = GetValueSQL($query1, 'autor');
+    $isbn = GetValueSQL($query1, 'isbn');
     $editorial = GetValueSQL($query1, 'editorial');
     $year = GetValueSQL($query1, 'year');
     $sinopsis = GetValueSQL($query1, 'sinopsis');
@@ -306,6 +307,7 @@ session_start();
                                 <h1><?php echo $titulo; ?></h1> 
                                 
                                 <p><?php echo $autor;  ?></p>
+                                <p><?php echo $isbn;   ?></p>
 
                                 <div class="ps-product__meta">
 
@@ -453,6 +455,7 @@ session_start();
                                 $row_id_libro = $row3['id_libro'];
                                 $row_titulo = $row3['titulo'];
                                 $row_autor = $row3['autor'];
+                                $row_isbn = $row3['isbn'];
                                 $row_year = $row3['year'];
                                 $row_sinopsis = $row3['sinopsis'];
                                 $row_ruta_foto_portada = $row3['ruta_foto_portada'];
@@ -586,6 +589,7 @@ session_start();
                                 $row_id_libro = $row5['id_libro'];
                                 $row_titulo = $row5['titulo'];
                                 $row_autor = $row5['autor'];
+                                $row_isbn = $row5['isbn'];
                                 $row_year = $row5['year'];
                                 $row_sinopsis = $row5['sinopsis'];
                                 $row_ruta_foto_portada = $row5['ruta_foto_portada'];
@@ -701,6 +705,7 @@ session_start();
                                 $row_id_libro = $row7['id_libro'];
                                 $row_titulo = $row7['titulo'];
                                 $row_autor = $row7['autor'];
+                                $row_isbn = $row7['isbn'];
                                 $row_year = $row7['year'];
                                 $row_sinopsis = $row7['sinopsis'];
                                 $row_ruta_foto_portada = $row7['ruta_foto_portada'];

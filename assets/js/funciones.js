@@ -783,6 +783,7 @@ function cambiar_opciones_perfil(tipo, e){
 function agregar_libro(id_usuario){
 	var titulo = $("#al_titulo").val();
 	var autor = $("#al_autor").val();
+	var isbn = $("#al_isbn").val();
 	var editorial = $("#al_editorial").val();
 	var year = $("#al_año").val();
 	var sinopsis = $("#al_sinopsis").val();
@@ -837,6 +838,19 @@ function agregar_libro(id_usuario){
 		})
 	}
 
+	if(isbn){
+		if(!validarISBN(isbn)){
+			continua = 0;
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "El formato del ISBN es incorrecto.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+	}
+
 	if(year){
 		if(!validarYear(year)){
 			continua = 0;
@@ -885,6 +899,7 @@ function agregar_libro(id_usuario){
 		formData.append('id_usuario', id_usuario);
 		formData.append('titulo', titulo);
 		formData.append('autor', autor);
+		formData.append('isbn', isbn);
 		formData.append('editorial', editorial);
 		formData.append('year', year);
 		formData.append('sinopsis', sinopsis);
@@ -951,6 +966,7 @@ function end_llenar_form_editar_libro(xml){
 			$("#el_id_libro").val($(this).find("id_libro").text());
 			$("#el_titulo").val($(this).find("titulo").text());
 			$("#el_autor").val($(this).find("autor").text());
+			$("#el_isbn").val($(this).find("isbn").text());
 			$("#el_editorial").val($(this).find("editorial").text());
 			$("#el_año").val($(this).find("year").text());
 			$("#el_sinopsis").val($(this).find("sinopsis").text());
@@ -964,6 +980,7 @@ function editar_libro(id_usuario){
 	var id_libro = $("#el_id_libro").val();
 	var titulo = $("#el_titulo").val();
 	var autor = $("#el_autor").val();
+	var isbn = $("#el_isbn").val();
 	var editorial = $("#el_editorial").val();
 	var year = $("#el_año").val();
 	var sinopsis = $("#el_sinopsis").val();
@@ -1018,6 +1035,19 @@ function editar_libro(id_usuario){
 		})
 	}
 
+	if(isbn){
+		if(!validarISBN(isbn)){
+			continua = 0;
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "El formato del ISBN es incorrecto.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+	}
+
 	if(year){
 		if(!validarYear(year)){
 			continua = 0;
@@ -1067,6 +1097,7 @@ function editar_libro(id_usuario){
 		formData.append('id_usuario', id_usuario);
 		formData.append('titulo', titulo);
 		formData.append('autor', autor);
+		formData.append('isbn', isbn);
 		formData.append('editorial', editorial);
 		formData.append('year', year);
 		formData.append('sinopsis', sinopsis);
@@ -1640,6 +1671,46 @@ function validarTextoConSignos(texto) {
     }
 }
 
+// #region validarISBN
+function validarISBN(isbn) {
+    // Eliminar cualquier guión o espacio del ISBN
+    isbn = isbn.replace(/[\s-]/g, '');
+    
+    // Verificar si es un ISBN-10
+    if (/^\d{9}[\dX]$/.test(isbn)) {
+        return validarISBN10(isbn);
+    }
+    
+    // Verificar si es un ISBN-13
+    if (/^\d{13}$/.test(isbn)) {
+        return validarISBN13(isbn);
+    }
+    
+    // No es un formato válido de ISBN
+    return false;
+}
+
+function validarISBN10(isbn) {
+    let sum = 0;
+    for (let i = 0; i < 9; i++) {
+        sum += (i + 1) * parseInt(isbn.charAt(i));
+    }
+    // El último dígito puede ser 'X' que representa el valor 10
+    let lastChar = isbn.charAt(9);
+    sum += (lastChar === 'X' ? 10 : parseInt(lastChar)) * 10;
+    
+    return sum % 11 === 0;
+}
+
+function validarISBN13(isbn) {
+    let sum = 0;
+    for (let i = 0; i < 12; i++) {
+        sum += parseInt(isbn.charAt(i)) * (i % 2 === 0 ? 1 : 3);
+    }
+    let checkDigit = (10 - (sum % 10)) % 10;
+    
+    return checkDigit === parseInt(isbn.charAt(12));
+}
 
 // #region validarYear
 function validarYear(year) {

@@ -605,6 +605,7 @@ if(Requesting("action")=="agregar_libro"){
 	$id_usuario = $_POST["id_usuario"];
 	$titulo = $_POST["titulo"];
 	$autor = $_POST["autor"];
+	$isbn = $_POST["isbn"];
 	$editorial = $_POST["editorial"];
 	$year = $_POST["year"];
 	$sinopsis = $_POST["sinopsis"];
@@ -620,8 +621,8 @@ if(Requesting("action")=="agregar_libro"){
 	$query1 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario";
 	$codigo = GetValueSQL($query1, 'codigo_usuario');
 
-	$query2 = "INSERT INTO libros (id_usuario, titulo, autor, editorial, year, sinopsis, fecha_agregado) 
-				VALUES ($id_usuario, '$titulo', '$autor', '$editorial', '$year', '$sinopsis', '$fecha_actual')";
+	$query2 = "INSERT INTO libros (id_usuario, titulo, autor, isbn, editorial, year, sinopsis, fecha_agregado) 
+				VALUES ($id_usuario, '$titulo', '$autor', '$isbn', '$editorial', '$year', '$sinopsis', '$fecha_actual')";
 
 	$id_libro = ExecuteSQL_returnID($query2);		
 	
@@ -672,6 +673,7 @@ if(Requesting("action") == "llenar_form_editar_libro"){
     $query1 = "SELECT * FROM libros WHERE id_libro = $id_libro";
     $titulo = GetValueSQL($query1, 'titulo');
     $autor = GetValueSQL($query1, 'autor');
+	$isbn = GetValueSQL($query1, 'isbn');
     $editorial = GetValueSQL($query1, 'editorial');
     $year = GetValueSQL($query1, 'year');
     $sinopsis = GetValueSQL($query1,'sinopsis');
@@ -681,6 +683,7 @@ if(Requesting("action") == "llenar_form_editar_libro"){
 		'id_libro'				=> $id_libro,
 		'titulo'                => $titulo,
         'autor'                 => $autor,
+		'isbn'					=> $isbn,
         'editorial'             => $editorial,
         'year'                  => $year,
         'sinopsis'              => $sinopsis,
@@ -697,6 +700,7 @@ if(Requesting("action") == "editar_libro"){
 	$id_usuario = $_POST["id_usuario"];
 	$titulo = $_POST["titulo"];
 	$autor = $_POST["autor"];
+	$isbn = $_POST["isbn"];
 	$editorial = $_POST["editorial"];
 	$year = $_POST["year"];
 	$sinopsis = $_POST["sinopsis"];
@@ -727,10 +731,10 @@ if(Requesting("action") == "editar_libro"){
 		//query para concatenar en la sentencia sql
 		// $query_imagenes .= ", ruta_foto_portada = '".$ruta_foto."'";
 
-		$query2 = "UPDATE libros SET titulo = '$titulo', autor = '$autor', editorial = '$editorial', year = '$year', sinopsis = '$sinopsis', ruta_foto_portada = '$ruta_foto' 
+		$query2 = "UPDATE libros SET titulo = '$titulo', autor = '$autor', isbn = '$isbn', editorial = '$editorial', year = '$year', sinopsis = '$sinopsis', ruta_foto_portada = '$ruta_foto' 
 		WHERE id_libro = $id_libro AND id_usuario = $id_usuario";
 	} else{
-		$query2 = "UPDATE libros SET titulo = '$titulo', autor = '$autor', editorial = '$editorial', year = '$year', sinopsis = '$sinopsis' 
+		$query2 = "UPDATE libros SET titulo = '$titulo', autor = '$autor', isbn = '$isbn', editorial = '$editorial', year = '$year', sinopsis = '$sinopsis' 
         WHERE id_libro = $id_libro AND id_usuario = $id_usuario";
 	}
 
