@@ -36,6 +36,7 @@ $(document).ready(function() {
 	$("#div_mis_libros").hide();
 	$("#div_historial_prestamos").hide();
 	$("#div_validar_usuarios").hide();
+	$("#div_prestamos_recibidos").hide();
 });
 
 // #region valida_sesion
@@ -691,44 +692,65 @@ function cambiar_opciones_perfil(tipo, e){
 			$("#li_prestamos_activos").removeClass("active");
 			$("#li_historial_prestamos").removeClass("active");
 			$("#li_validar_usuarios").removeClass("active");
+			$("#li_prestamos_recibidos").removeClass("active");
 
 			$("#div_mis_libros").show('slow');
 			$("#div_prestamos_activos").hide('slow');
 			$("#div_historial_prestamos").hide('slow');
 			$("#div_validar_usuarios").hide('slow');
+			$("#div_prestamos_recibidos").hide('slow');
 		break;
 		case 2:
 			$("#li_mis_libros").removeClass("active");
 			$("#li_prestamos_activos").addClass("active");
 			$("#li_historial_prestamos").removeClass("active");
 			$("#li_validar_usuarios").removeClass("active");
+			$("#li_prestamos_recibidos").removeClass("active");
 
 			$("#div_mis_libros").hide('slow');
 			$("#div_prestamos_activos").show('slow');
 			$("#div_historial_prestamos").hide('slow');
 			$("#div_validar_usuarios").hide('slow');
+			$("#div_prestamos_recibidos").hide('slow');
 		break;
 		case 3:
 			$("#li_mis_libros").removeClass("active");
 			$("#li_prestamos_activos").removeClass("active");
 			$("#li_historial_prestamos").addClass("active");
 			$("#li_validar_usuarios").removeClass("active");
+			$("#li_prestamos_recibidos").removeClass("active");
 
 			$("#div_mis_libros").hide('slow');
 			$("#div_prestamos_activos").hide('slow');
 			$("#div_historial_prestamos").show('slow');
 			$("#div_validar_usuarios").hide('slow');
+			$("#div_prestamos_recibidos").hide('slow');
 		break;
 		case 4:
 			$("#li_mis_libros").removeClass("active");
 			$("#li_prestamos_activos").removeClass("active");
 			$("#li_historial_prestamos").removeClass("active");
 			$("#li_validar_usuarios").addClass("active");
+			$("#li_prestamos_recibidos").removeClass("active");
 
 			$("#div_mis_libros").hide('slow');
 			$("#div_prestamos_activos").hide('slow');
 			$("#div_historial_prestamos").hide('slow');
 			$("#div_validar_usuarios").show('slow');
+			$("#div_prestamos_recibidos").hide('slow');
+		break;
+		case 5:
+			$("#li_mis_libros").removeClass("active");
+			$("#li_prestamos_activos").removeClass("active");
+			$("#li_historial_prestamos").removeClass("active");
+			$("#li_validar_usuarios").removeClass("active");
+			$("#li_prestamos_recibidos").addClass("active");
+
+			$("#div_mis_libros").hide('slow');
+			$("#div_prestamos_activos").hide('slow');
+			$("#div_historial_prestamos").hide('slow');
+			$("#div_validar_usuarios").hide('slow');
+			$("#div_prestamos_recibidos").show('slow');
 		break;
 	}
 }
@@ -1258,7 +1280,7 @@ function end_acordar_fechas(xml){
 	$(xml).find("response").each(function(i){         
         if ($(this).find("result").text()=="ok"){     
 			$("#modalAcordarFechas").modal('hide');
-			$("#tabla_prestamo_"+$(this).find("id_prestamo").text()).load(location.href + " #tabla_prestamo_"+$(this).find("id_prestamo").text());  
+			$("#tabla_prestamo").load(location.href + " #tabla_prestamo");  
 
 			Swal.fire({
 				icon: 'success',
