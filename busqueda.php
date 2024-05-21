@@ -199,17 +199,17 @@ session_start();
 
     <?php
     if (isset($_GET['submit'])) {
-        echo '<div class="container" id="div_validar_usuarios">
+        echo '<div class="container" id="div_buscar_libro">
             
             <div class="ps-section__header" style="margin-top: 50px;">
                 <h1>Resultados</h1>
             </div>
 
-            <div class="ps-section__content" style="margin-top: 100px;">
+            <div class="ps-section__content" style="margin-top: -20px;">
 
                 <div class="table-responsive">
                                         
-                    <div class="ps-section__cart-actions" style="margin-top: -100px; margin-bottom: -50px;"></div>
+                    <div class="ps-section__cart-actions" style="margin-top: 100px; margin-bottom: -50px;"></div>
 
                     <table class="table ps-table--shopping-cart">
                         <tbody>';
