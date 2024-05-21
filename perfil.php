@@ -257,7 +257,7 @@ session_start();
                         if($id_status_usuario != 1) {
                             $mensaje_status = "* Para validar tu cuenta, actualiza tu foto de perfil y la credencial de UDG.";
                             if($num_strikes > 2) {
-                                $mensaje_status = "* Tu cuenta a sido bloqueada debido a que cometiste 3 infracciones.";
+                                $mensaje_status = "* Tu cuenta ha sido bloqueada debido a que cometiste 3 infracciones.";
                             }
                         } else{
                             $mensaje_status = "";

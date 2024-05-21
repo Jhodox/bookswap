@@ -1,5 +1,5 @@
 <?php
-//ob_start();
+ob_start();
 session_start();
 ?>
 
@@ -225,7 +225,7 @@ session_start();
     #region Usuario
     ======================================-->
 
-    <div class="ps-vendor-dashboard pro" style="margin-top: -100px">
+    <div class="ps-vendor-dashboard pro" style="margin-top: -50px">
         <div class="container">
             <div class="ps-section__header" id="div_usuario">
 

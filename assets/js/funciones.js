@@ -1236,6 +1236,9 @@ function end_nuevo_strike_usuario(xml) {
 	$(xml).find("response").each(function(i) {
         if ($(this).find("result").text()=="ok") {
 
+			$("#form_reportar_usuario")[0].reset();
+			$('#modalReportarUsuario').modal("hide");
+
 			Swal.fire({
 				icon: 'success',
 				title: '¡Strike enviado a consulta!',
