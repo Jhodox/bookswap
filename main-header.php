@@ -189,6 +189,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                                         $ruta_foto_portada = $row2['ruta_foto_portada'];
                                         $fecha_agregado = $row2['fecha_agregado'];
                                         $status = $row2['status'];
+                                        $id_usuario = $row2['id_usuario'];
 
 
                                         $url_producto = str_replace(" ", "-", $titulo);
@@ -233,7 +234,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                                                         href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $titulo; ?></a>
                                                     <p><?php echo $autor; ?></p>
                                                     <p><strong>Ofrecido por: </strong>
-                                                        <?php echo rtrim($nombre_usuario) . " " . rtrim($apellido_usuario); ?></p>
+                                                        <a href="usuario/<?php echo $id_usuario?>"><?php echo rtrim($nombre_usuario) . " " . rtrim($apellido_usuario); ?></a></p>
                                                 </div>
 
                                             </div>

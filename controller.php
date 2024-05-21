@@ -566,7 +566,7 @@ if(Requesting("action")=="actualizar_usuario"){
 }
 
 #region cambiar_password
-if(Requesting("action")=="cambiar_password"){
+if(Requesting("action")=="cambiar_password") {
 	$id_usuario = Requesting("id_usuario");
 	$password_actual = Requesting("password_actual");
 	$nueva_password = Requesting("nueva_password");
@@ -882,8 +882,34 @@ if(Requesting("action") == "ocultar_strike"){
 	exit;
 }
 
+#region nuevo_strike_usuario
+if(Requesting("action") == "nuevo_strike_usuario"){
+	$id_usuario = Requesting("id_usuario");
+	$detalles = Requesting("detalles");
+
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+	$query1 = "INSERT INTO strikes (id_usuario, detalles, status) VALUES ($id_usuario, '$detalles', 1)";
+	
+	if(ExecuteSQL($query1)) {
+		$resultText = "El strike se revisara proximamente.";
+		$resultStatus = "ok";
+	} else {
+		$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo. ";
+        $resultStatus = "error";
+	}
+
+	$result = array(   
+		'result' 				=> $resultStatus,
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);
+	exit;
+}
+
 #region aceptar_denegar_prestamo
-if(Requesting("action") == "aceptar_denegar_prestamo"){
+if(Requesting("action") == "aceptar_denegar_prestamo") {
 	$id_prestamo = Requesting("id_prestamo");
 	$id_libro = Requesting("id_libro");
 	$tipo = Requesting("tipo");

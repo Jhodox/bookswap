@@ -308,7 +308,7 @@ session_start();
 
                                 <div class="ps-product__meta">
 
-                                    <p>Ofrecido por: <a href="#"><?php echo $nombre_usuario_completo;  ?></a></p>
+                                    <p>Ofrecido por: <a href="usuario/<?php echo $id_usuario?>"><?php echo $nombre_usuario_completo;  ?></a></p>
 
                                     <div class="ps-product__rating" style="min-width: 180px;">
 
@@ -618,14 +618,14 @@ session_start();
 
                                                 <a onclick="sumar_visitas(<?php echo $row_id_libro; ?>)" class="ps-product__title" href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $row_titulo; ?></a>
                                                 <p><?php echo $row_autor; ?></p>
-                                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo "Luis Angel De La Cruz Ascencio"; ?></a></p>
+                                                <p>Ofrecido por: <a class="ps-product__title" href="usuario/<?php echo $row_id_usuario?>"><?php echo $row_nombres; ?></a></p>
                                             </div>
 
                                             <div class="ps-product__content hover">
 
                                                 <a onclick="sumar_visitas(<?php echo $row_id_libro; ?>)" class="ps-product__title" href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $row_titulo; ?></a>
                                                 <p><?php echo $row_autor; ?></p>
-                                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo $row_nombre_usuario_completo; ?></a></p>
+                                                <p>Ofrecido por: <a class="ps-product__title" href="usuario/<?php echo $row_id_usuario?>"><?php echo $row_nombre_usuario_completo; ?></a></p>
 
                                             </div>
 
@@ -729,12 +729,12 @@ session_start();
                                         <div class="ps-product__content">
                                             <a class="ps-product__title" onclick="sumar_visitas(<?php echo $row_id_libro; ?>)" class="ps-product__title" href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $row_titulo; ?></a>
                                             <p><?php echo $row_autor; ?></p>
-                                            <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo $row_nombre_usuario_completo; ?></a></p>
+                                            <p>Ofrecido por: <a class="ps-product__title" href="usuario/<?php echo $row_id_usuario?>"><?php echo $row_nombres; ?></a></p>
                                         </div>
                                         <div class="ps-product__content hover">
                                             <a class="ps-product__title" onclick="sumar_visitas(<?php echo $row_id_libro; ?>)" class="ps-product__title" href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $row_titulo; ?></a>
                                             <p><?php echo $row_autor; ?></p>
-                                            <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo $row_nombre_usuario_completo; ?></a></p>
+                                            <p>Ofrecido por: <a class="ps-product__title" href="usuario/<?php echo $row_id_usuario?>"><?php echo $row_nombre_usuario_completo; ?></a></p>
                                         </div>
                                     </div>
                                 </div>

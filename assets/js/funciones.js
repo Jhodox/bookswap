@@ -5,7 +5,6 @@ $("#btn_login").click(inicia_sesion);
 function activar_actualizar_datos(id_usuario){
 	$("#actualizar_info_usuario").show('slow');
 	$("#cambiar_password").hide('slow');
-
 	
 	llenar_formulario_actualizar_datos(id_usuario);
 }
@@ -14,7 +13,7 @@ function activar_actualizar_datos(id_usuario){
 function activar_cerrar_ventanas(){
 	$("#actualizar_info_usuario").hide('slow');
 	$("#cambiar_password").hide('slow');
-
+	
 	var div_perfil = $("#div-perfil");
 	if(div_perfil.length) {
 		var offset = div_perfil.offset().top;
@@ -24,7 +23,6 @@ function activar_cerrar_ventanas(){
 		}, 400);
 	}
 }
-
 
 $(document).ready(function() { 
 	valida_sesion();	
@@ -1210,6 +1208,43 @@ function end_strike_usuario(xml) {
 			})
 
 			$("#div_strikes_usuarios").load(location.href + " #div_strikes_usuarios");  
+
+        }  else {
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+    });
+}
+
+// #region nuevo_strike_usuario
+function nuevo_strike_usuario(id_usuario, detalles) {
+	var detalles = $("#ns_detalles").val();
+	console.log("Detalles: ", detalles);
+	$.post("controller.php",
+    {    	action 		: "nuevo_strike_usuario",
+       	 	id_usuario  : id_usuario,
+       	 	detalles  	: detalles,
+    }, end_nuevo_strike_usuario);
+}
+
+function end_nuevo_strike_usuario(xml) {
+	$(xml).find("response").each(function(i) {
+        if ($(this).find("result").text()=="ok") {
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Strike enviado a consulta!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
+			$("#div_usuario").load(location.href + " #div_usuario");  
 
         }  else {
 			Swal.fire({
