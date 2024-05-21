@@ -1593,11 +1593,10 @@ session_start();
 
                                             <tr>
 
-                                                <th>ID</th>
+                                                <th>ID Usuario</th>
                                                 <th>usuario</th>
                                                 <th>Detalles</th>
-                                                <th>Fecha</th>
-                                                <th>Strikes</th>
+                                                <th>No. Strikes</th>
                                                 <th>Opciones</th>
                                                 
                                             </tr>
@@ -1637,16 +1636,14 @@ session_start();
 
                                                     echo '<tr>
                                                         <td class="text-center">    
-                                                            ID Usuario<br><strong>'.$id_usuario.'</strong>
+                                                            <strong>'.$id_usuario.'</strong>
                                                         </td>
 
-                                                        <td class="text-center">Nombre<br><strong>'.$nombres.' '. $apellidos.'</strong></td>
+                                                        <td class="text-center">'.$nombres.' '. $apellidos.'</td>
 
-                                                        <td class="text-center"><strong>Detalle</strong><br>'.$detalles.'</td>
+                                                        <td class="text-center">'.$detalles.'</td>
                                                         
-                                                        <td class="text-center">'.$fecha.'</td>
-        
-                                                        <td class="text-center">Número de strikes<br><strong>'.$num_strikes.'</strong></td>
+                                                        <td class="text-center"><strong>'.$num_strikes.'</strong></td>
 
                                                         <td class="text-center">        
                                                             <a type="button" onclick="strike_usuario(' . $id_usuario . ', '. $id_strike . ', event)"><i class="fa-solid fa-check"></i></a>&emsp;

@@ -317,6 +317,7 @@ session_start();
                         $ruta_foto_portada = $row1['ruta_foto_portada'];
                         $fecha_agregado = $row1['fecha_agregado'];
                         $status = $row1['status'];
+                        $id_usuario = $row1['id_usuario'];
 
                         $url_producto = str_replace(" ", "-", $titulo);
                         $url_producto = str_replace("/", "-", $url_producto);
@@ -364,7 +365,7 @@ session_start();
 
                                 <br>
 
-                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo $nombre_usuario_completo; ?></a></p>
+                                <p>Ofrecido por: <a class="ps-product__title" href="usuario/<?php echo $id_usuario?>"><?php echo $nombre_usuario_completo; ?></a></p>
 
                             </div>
 
@@ -439,6 +440,7 @@ session_start();
                         $ruta_foto_portada = $row1['ruta_foto_portada'];
                         $fecha_agregado = $row1['fecha_agregado'];
                         $status = $row1['status'];
+                        $id_usuario = $row1['id_usuario'];
 
                         $url_producto = str_replace(" ", "-", $titulo);
                         $url_producto = str_replace("/", "-", $url_producto);
@@ -486,7 +488,7 @@ session_start();
 
                                 <br>
 
-                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo $nombre_usuario_completo; ?></a></p>
+                                <p>Ofrecido por: <a class="ps-product__title" href="usuario/<?php echo $id_usuario?>"><?php echo $nombre_usuario_completo; ?></a></p>
 
                             </div>
 
@@ -561,6 +563,7 @@ session_start();
                         $ruta_foto_portada = $row1['ruta_foto_portada'];
                         $fecha_agregado = $row1['fecha_agregado'];
                         $status = $row1['status'];
+                        $id_usuario = $row1['id_usuario'];
 
                         $url_producto = str_replace(" ", "-", $titulo);
                         $url_producto = str_replace("/", "-", $url_producto);
@@ -608,7 +611,7 @@ session_start();
 
                                 <br>
 
-                                <p>Ofrecido por: <a class="ps-product__title" href="#"><?php echo $nombre_usuario_completo; ?></a></p>
+                                <p>Ofrecido por: <a class="ps-product__title" href="usuario/<?php echo $id_usuario?>"><?php echo $nombre_usuario_completo; ?></a></p>
 
                             </div>
 
