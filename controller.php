@@ -880,7 +880,45 @@ if(Requesting("action") == "aceptar_denegar_prestamo"){
 
 
 	$result = array(   
+		'id_prestamo'			=> $id_prestamo,
 		'id_libro'				=> $id_libro,
+		'result' 				=> $resultStatus, 
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;
+}
+
+if(Requesting("action") == "acordar_fechas"){
+	$id_prestamo = Requesting("id_prestamo");
+	$fecha_inicio = Requesting("fecha_inicio");
+	$fecha_fin = Requesting("fecha_fin");
+	
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+	$query1 = "SELECT COUNT(*) AS existe FROM prestamos WHERE id_prestamo = $id_prestamo";
+	$existe = GetValueSQL($query1, 'existe');
+
+	if($existe > 0){
+		$query2 = "UPDATE prestamos SET fecha_inicio = '$fecha_inicio', fecha_fin = '$fecha_fin' WHERE id_prestamo = $id_prestamo";
+        if(ExecuteSQL($query2)){
+			$resultStatus = "ok";
+			$resultText = "Las fechas se han actualizado.";
+		} else {
+			$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo. ";
+            $resultStatus = "error";
+		}
+	} else{
+		$resultText = "El préstamo no existe.";
+        $resultStatus = "error";
+	}
+
+
+
+
+	$result = array(   
+		'id_prestamo'			=> $id_prestamo,
 		'result' 				=> $resultStatus, 
 		'result_text' 			=> $resultText
 	);		 

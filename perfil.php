@@ -339,8 +339,7 @@ session_start();
                                         <button class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#modalCambiarPassword" data-bs-whatever="@mdo">Cambiar contraseña</button>
                                     </div>
                                 </div>
-                            </div>
-                            
+                            </div>                            
                         </div>
 
                         <!-- Aqui se muestra lo del peerfil -->
@@ -422,7 +421,6 @@ session_start();
                                     <!-- <a class="ps-btn" onmouseover="this.style.color='white';" onmouseout="this.style.color='black';"  onclick="abrir_modal(1)">
                                         <i class="fa-solid fa-circle-plus" data-bs-whatever="@mdo"></i> Agregar Libro
                                     </a> -->
-
 
                                 </div>
 
@@ -520,15 +518,15 @@ session_start();
                                                     $status_prestamo = GetValueSQL($query11, 'status_nombre');
 
                                                     if($fecha_fin == NULL){
-                                                        $fecha_fin = "Por acordar";
+                                                        // $fecha_fin = "Por acordar";
                                                     }
 
                                                     if($fecha_inicio == NULL){
-                                                        $fecha_inicio = "Por acordar";
+                                                        // $fecha_inicio = "Por acordar";
                                                     }
 
-                                                    $prestamo = '<div class="table-responsive">
-                                                                    <table class="table table-bordered" id="tabla_prestamo">
+                                                    $prestamo = '<div class="table-responsive" id="tabla_prestamo_'.$id_prestamo.'">
+                                                                    <table class="table table-bordered">
                                                                         <thead>
                                                                             <tr>
                                                                                 <th>Status</th>
@@ -539,6 +537,7 @@ session_start();
                                                                                     $prestamo .= '<th>Opciones</th>';
                                                                                 }
                                                                                 if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
+                                                                                    $prestamo .= '<th>Inicio / Fin</th>';
                                                                                     $prestamo .= '<th>Chat</th>';
                                                                                 } 
                                                                             $prestamo .= '</tr>
@@ -555,14 +554,27 @@ session_start();
                                                             $prestamo .= '<td class="text-center" >
                                                                 <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="aceptar_denegar_prestamo('.$id_prestamo.', '.$id_libro.', 1, event)">Aceptar</a> / 
                                                                 <a class="btn btn-link" type="button" style="font-size: 16px;" href="" onclick="aceptar_denegar_prestamo('.$id_prestamo.', '.$id_libro.', 2, event)">Denegar</a>
-                                                                    
                                                             </td>';
                                                         }
 
                                                         if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
+                                                            if($id_status_prestamo == 2){
+                                                                if($fecha_inicio == NULL OR $fecha_fin == NULL){
+                                                                    $prestamo .= '<td class="text-center">
+                                                                        <a title="Acordar fechas" class="btn btn-secondary" type="button" style="font-size: 16px;"  data-bs-toggle="modal" data-bs-target="#modalAcordarFechas" data-bs-whatever="@mdo" data-id="'.$id_prestamo.'">Acordar fechas</a>
+                                                                    </td>';
+                                                                } else{
+                                                                    $prestamo .= '<td class="text-center">Espera confirmación</td>';
+                                                                }
+                                                                
+                                                            } else{
+                                                                $prestamo .= '<td class="text-center">
+                                                                '.$fecha_inicio.' / '.$fecha_fin.'
+                                                            </td>';
+                                                            }
+                                                            
                                                             $prestamo .= '<td class="text-center" >
                                                                 <a title="Ingresar a chat" class="btn btn-secondary" type="button" style="font-size: 16px;" href="chat/'.$codigo_usuario_prestamo.'"><i class="fa fa-comment chat-icon"></i></a>
-                                                                    
                                                             </td>';
                                                         } 
 
@@ -667,10 +679,6 @@ session_start();
                                                     </td>
 
                                                 </tr>'; 
-
-                                                echo '<tr id="sinopsis_'.$id_libro.'" style="display: none;">
-                                                    <td class="text-center " colspan="7"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
-                                                </tr>';
 
                                                 echo '<tr id="waitlist_'.$id_libro.'" style="display: none;">
                                                     <td style="text-align: left !important;" colspan="7" id="table_prestamo_'.$id_libro.'">
@@ -1571,6 +1579,47 @@ session_start();
     </div>
 
 
+    
+    <!-- 
+        #region Modal Acordar Fechas
+    -->
+    <div class="modal fade" id="modalAcordarFechas"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title title" id="exampleModalLabel">Acordar Fechas</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="id_prestamo">
+                    <form id="form_acordar_fechas" name="form_acordar_fechas">
+
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Fecha de Inicio: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="date" id="fecha_inicio" name="fecha_inicio" required>
+                        </div>
+                            
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">Fecha Final: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="date" id="fecha_final" name="fecha_final" required>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" class="btn ps-btn" data-bs-dismiss="modal" style="background-color: gray;">Cancelar</button>
+                        <button type="button" class="btn ps-btn" onclick='acordar_fechas()'>Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
     <!--=====================================
 	Footer
 	======================================-->  
@@ -1610,6 +1659,15 @@ session_start();
         //     // console.log(id);
         //     modal.find('#el_id_libro').val(id);
         // });
+
+
+        $('#modalAcordarFechas').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id_prestamo = button.data('id');
+            var modal = $(this);
+            // console.log(id);
+            modal.find('#id_prestamo').val(id_prestamo);
+        });
 	</script>
 </body>
 </html>

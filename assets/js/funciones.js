@@ -1164,7 +1164,7 @@ function end_aceptar_denegar_prestamo(xml){
 				timerProgressBar: true,
 			})
 
-			$("#tabla_prestamo").load(location.href + " #tabla_prestamo");  
+			$("#tabla_prestamo_"+$(this).find("id_prestamo").text()).load(location.href + " #tabla_prestamo_"+$(this).find("id_prestamo").text());  
 
         }  else{
 			Swal.fire({
@@ -1177,6 +1177,118 @@ function end_aceptar_denegar_prestamo(xml){
 		}
     });
 }
+
+
+
+function acordar_fechas(){
+	var id_prestamo = $("#id_prestamo").val();
+	var fecha_inicio = $("#fecha_inicio").val();
+	var fecha_fin = $("#fecha_final").val();
+
+	console.log(fecha_fin);
+
+	continua = 1;
+
+	$("#form_acordar_fechas .obligatorio").each(function (index) {
+		
+		if ($(this).val() == "") {
+			continua = 0;
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: "Llena todos los campos obligatorios.",
+				timer: 1000,
+				timerProgressBar: true,
+			})
+			return;
+		} 
+
+	});
+
+	if(fecha_inicio > fecha_fin){
+		continua = 0;
+		Swal.fire({
+			icon: 'error',
+			title: '¡Error!',
+			text: "Fechas no válidas.",
+			timer: 1000,
+			timerProgressBar: true,
+		})
+		return;
+	}
+
+
+	// if(!comprobarFecha(fecha_inicio)){
+	// 	continua = 0;
+	// 	Swal.fire({
+	// 		icon: 'error',
+	// 		title: '¡Error!',
+	// 		text: "Fecha de inicio no válida.",
+	// 		timer: 1000,
+	// 		timerProgressBar: true,
+	// 	})
+	// 	return;
+	// }
+
+	// if(!comprobarFecha(fecha_fin)){
+	// 	continua = 0;
+    //     Swal.fire({
+    //         icon: 'error',
+    //         title: '¡Error!',
+    //         text: "Fecha final no válida.",
+    //         timer: 1000,
+    //         timerProgressBar: true,
+    //     })
+	// 	return;
+	// }
+
+
+	if(continua == 1){
+		$.post("controller.php",
+		{    	action 		: "acordar_fechas",
+				id_prestamo  	: id_prestamo,
+				fecha_inicio	: fecha_inicio,
+				fecha_fin		: fecha_fin
+		}, end_acordar_fechas);
+	}
+}
+
+
+function end_acordar_fechas(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+			$("#modalAcordarFechas").modal('hide');
+			$("#tabla_prestamo_"+$(this).find("id_prestamo").text()).load(location.href + " #tabla_prestamo_"+$(this).find("id_prestamo").text());  
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
+
+        }  else{
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+		}
+    });
+}
+
+
+
+
+
+
+
+
+
 
 
 // #region updateFileName
@@ -1272,6 +1384,31 @@ function validarYear(year) {
         return false; // No es una cadena de texto
     }
 }
+
+function comprobarFecha(fecha) {
+    // Obtener la fecha actual
+    var fechaActual = new Date();
+    
+    // Obtener la fecha actual en formato UTC sin la hora
+    var fechaActualFormato = new Date(fechaActual.getUTCFullYear(), fechaActual.getUTCMonth(), fechaActual.getUTCDate());
+    
+    // Obtener la fecha recibida en formato UTC sin la hora
+    var fechaFormato = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
+    
+    // Verificar si la fecha recibida es válida y está después de la fecha actual
+    if (fechaFormato >= fechaActualFormato) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
+
+
+
+
 
 
   function fecha_formato_sql(fecha){  
