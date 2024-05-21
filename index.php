@@ -346,7 +346,7 @@ session_start();
 
                             <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
 
-                                <img style="width: 300px; height: auto;" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                <img style="width: 300px; height: 440px src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
                             </a>
 
@@ -468,7 +468,7 @@ session_start();
 
                             <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
 
-                                <img style="width: 300px; height: auto;" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                <img style="width: 300px; height: 440px" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
                             </a>
 
@@ -590,7 +590,7 @@ session_start();
 
                             <a onclick="sumar_visitas(<?php echo $id_libro; ?>)" href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> ">
 
-                                <img style="width: 300px; height: auto;" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
+                                <img style="width: 300px; height: 440px" src="<?php echo $ruta_foto_portada; ?>" alt="<?php echo $titulo; ?>">
 
                             </a>
 

@@ -722,7 +722,7 @@ session_start();
                                 <div class="ps-product">
                                     <div class="ps-product__thumbnail">
                                         <a onclick="sumar_visitas(<?php echo $row_id_libro; ?>)"  href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> ">
-                                            <img src="<?php echo $row_ruta_foto_portada ?>" alt="<?php $row_titulo ?>">
+                                            <img style="height: 320px" src="<?php echo $row_ruta_foto_portada ?>" alt="<?php $row_titulo ?>">
                                         </a>
                                     </div>
                                     <div class="ps-product__container">
