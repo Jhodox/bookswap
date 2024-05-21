@@ -461,6 +461,7 @@ session_start();
                                                 $titulo = $row6['titulo'];
                                                 $autor = $row6['autor'];
                                                 $editorial = $row6['editorial'];
+                                                $isbn = $row6['isbn'];
                                                 $year = $row6['year'];
                                                 $fecha_agregado = $row6['fecha_agregado']; 
                                                 $sinopsis = $row6['sinopsis'];
@@ -824,6 +825,7 @@ session_start();
                                                 $id_libro = $row6['id_libro'];
                                                 $titulo = $row6['titulo'];
                                                 $autor = $row6['autor'];
+                                                $isbn = $row6['isbn'];
                                                 $editorial = $row6['editorial'];
                                                 $year = $row6['year'];
                                                 $fecha_agregado = $row6['fecha_agregado']; 
@@ -1102,6 +1104,7 @@ session_start();
                                                         $id_libro = $row6['id_libro'];
                                                         $titulo = $row6['titulo'];
                                                         $autor = $row6['autor'];
+                                                        $isbn = $row6['isbn'];
                                                         $editorial = $row6['editorial'];
                                                         $year = $row6['year'];
                                                         $fecha_agregado = $row6['fecha_agregado']; 
@@ -1283,6 +1286,7 @@ session_start();
                                                                         <a href="libro/'.$id_libro.'/'.$url_producto.'">'.$titulo.'</a>
             
                                                                         <p>Autor: <strong>'.$autor.'</strong></p>
+                                                                        <p>ISBN: <strong>'.$isbn.'</strong></p>
                                                                         <a type="button" href="" onclick="ver_sinopsis('.$id_libro.', event)">Ver sinopsis</a>
             
                                                                     </div>
@@ -1427,6 +1431,7 @@ session_start();
                                                     $id_libro = $row6['id_libro'];
                                                     $titulo = $row6['titulo'];
                                                     $autor = $row6['autor'];
+                                                    $isbn = $row6['isbn'];
                                                     $editorial = $row6['editorial'];
                                                     $year = $row6['year'];
                                                     $sinopsis = $row6['sinopsis'];
@@ -1469,6 +1474,7 @@ session_start();
                                                                     <a href="product-default.html">'.$titulo.'</a>
         
                                                                     <p>Autor: <strong>'.$autor.'</strong></p>
+                                                                    <p>ISBN: <strong>'.$isbn.'</strong></p>
         
                                                                 </div>
         
@@ -1564,6 +1570,7 @@ session_start();
                                                     $id_libro = $row6['id_libro'];
                                                     $titulo = $row6['titulo'];
                                                     $autor = $row6['autor'];
+                                                    $isbn = $row6['isbn'];
                                                     $editorial = $row6['editorial'];
                                                     $year = $row6['year'];
                                                     $sinopsis = $row6['sinopsis'];
@@ -1606,6 +1613,7 @@ session_start();
                                                                     <a href="product-default.html">'.$titulo.'</a>
         
                                                                     <p>Autor: <strong>'.$autor.'</strong></p>
+                                                                    <p>ISBN: <strong>'.$isbn.'</strong></p>
         
                                                                 </div>
         
@@ -2023,6 +2031,11 @@ session_start();
                         </div>
 
                         <div class="form-group row m-2">
+                            <p class="h3 text-dark">ISBN: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="text" id="al_isbn" name="al_isbn" placeholder="ISBN" required>
+                        </div>
+
+                        <div class="form-group row m-2">
                             <p class="h3 text-dark">Editorial: <span class="text-danger">*</span></p>
                             <input class="obligatorio form-control" type="text" id="al_editorial" name="al_editorial" placeholder="Editorial" required>
                         </div>
@@ -2080,6 +2093,11 @@ session_start();
                         <div class="form-group row m-2">
                             <p class="h3 text-dark">Autor: <span class="text-danger">*</span></p>
                             <input class="obligatorio form-control" type="text" id="el_autor" name="el_autor" placeholder="Autor" required>
+                        </div>
+
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark">ISBN: <span class="text-danger">*</span></p>
+                            <input class="obligatorio form-control" type="text" id="el_isbn" name="el_isbn" placeholder="ISBN" required>
                         </div>
 
                         <div class="form-group row m-2">
