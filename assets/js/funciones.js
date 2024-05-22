@@ -1595,6 +1595,10 @@ function stars(id_evaluador, id_evaluado, id_prestamo, puntuacion) {
 		else
 			star.classList.remove("checked");
     });
+	console.log("EValuador: "+ id_evaluador);
+	console.log("Evaludado: " + id_evaluado);
+	console.log("Prestamo: " + id_prestamo);
+	console.log("Puntuacion: " + puntuacion);
 
 	$.post("controller.php",
     {       action         : "stars",
@@ -1608,7 +1612,14 @@ function stars(id_evaluador, id_evaluado, id_prestamo, puntuacion) {
 
 // #region end_stars
 function end_stars(xml){
-	$(xml).find("response").each(function(i){         
+	$(xml).find("response").each(function(i){ 
+		const id_usuario_evaluador = parseInt($(this).find('id_usuario_evaluador').text(), 10);
+		const id_usuario_evaluado = parseInt($(this).find('id_usuario_evaluado').text(), 10);
+		const id_prestamo = parseInt($(this).find('id_prestamo').text(), 10);
+
+		rellenar_estrellas_rese(id_prestamo, id_usuario_evaluador, id_usuario_evaluado);
+			
+			
         if ($(this).find("result").text()=="ok"){     
 
 			Swal.fire({
@@ -1619,6 +1630,8 @@ function end_stars(xml){
 				timerProgressBar: true,
 			})
 
+			// $("#tabla_historial_prestamos").load(location.href + " #tabla_historial_prestamos");
+			// $("#tabla_historial_preste").load(location.href + " #tabla_historial_preste");
         }  else{
 			Swal.fire({
 				icon: 'error',
@@ -1627,8 +1640,8 @@ function end_stars(xml){
 				timer: 1000,
 				timerProgressBar: true,
 			})
-			$("#tabla_historial_prestamos").load(location.href + " #tabla_historial_prestamos");
-			$("#tabla_historial_preste").load(location.href + " #tabla_historial_preste");
+			// $("#tabla_historial_prestamos").load(location.href + " #tabla_historial_prestamos");
+			// $("#tabla_historial_preste").load(location.href + " #tabla_historial_preste");
 		}
     });
 }
@@ -1651,6 +1664,62 @@ function end_llenar_stars(xml){
 	// console.log("pasa aqui");
 	}); 
 }
+
+
+
+function rellenar_estrellas_rese(id_prestamo, id_usuario_evaluador, id_usuario_evaluado){
+	// console.log("Volver a rellenar estrellas");
+	$.post("controller.php",
+	{	action 					: "rellenar_estrellas_rese",
+		id_prestamo 		 	: id_prestamo,
+		id_usuario_evaluador 	: id_usuario_evaluador,
+        id_usuario_evaluado 	: id_usuario_evaluado
+	}, end_rellenar_estrellas_rese);
+}
+
+
+function end_rellenar_estrellas_rese(xml){
+	$(xml).find("response").each(function(i){		 
+		if ($(this).find("result").text()=="ok"){       
+			// console.log($(this).find("puntuacion").text());
+
+			const id_usuario_evaluador = parseInt($(this).find('id_usuario_evaluador').text(), 10);
+			const id_usuario_evaluado = parseInt($(this).find('id_usuario_evaluado').text(), 10);
+			const id_prestamo = parseInt($(this).find('id_prestamo').text(), 10);
+
+			// console.log("Evaluado: " + id_usuario_evaluado);
+
+			switch($(this).find("puntuacion").text()){
+				case "0":
+					$("#rating-"+$(this).find("id_prestamo").text()).html("<i class='fa-solid fa-star star' data-rating='1' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 1)'></i><i class='fa-solid fa-star star' data-rating='2' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 2)'></i><i class='fa-solid fa-star star' data-rating='3' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 3)'></i><i class='fa-solid fa-star star' data-rating='4' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 4)'></i><i class='fa-solid fa-star star' data-rating='5' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 5)'></i>");
+				break;
+				case "1":
+					$("#rating-"+$(this).find("id_prestamo").text()).html("<i class='fa-solid fa-star star checked' data-rating='1' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 1)'></i><i class='fa-solid fa-star star' data-rating='2' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 2)'></i><i class='fa-solid fa-star star' data-rating='3' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 3)'></i><i class='fa-solid fa-star star' data-rating='4' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 4)'></i><i class='fa-solid fa-star star' data-rating='5' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 5)'></i>");
+				break;
+				case "2":
+					$("#rating-"+$(this).find("id_prestamo").text()).html("<i class='fa-solid fa-star star checked' data-rating='1' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 1)'></i><i class='fa-solid fa-star star checked' data-rating='2' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 2)'></i><i class='fa-solid fa-star star' data-rating='3' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 3)'></i><i class='fa-solid fa-star star' data-rating='4' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 4)'></i><i class='fa-solid fa-star star' data-rating='5' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 5)'></i>");
+				break;
+				case "3":
+					$("#rating-"+$(this).find("id_prestamo").text()).html("<i class='fa-solid fa-star star checked' data-rating='1' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 1)'></i><i class='fa-solid fa-star star checked' data-rating='2' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 2)'></i><i class='fa-solid fa-star star checked' data-rating='3' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 3)'></i><i class='fa-solid fa-star star' data-rating='4' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 4)'></i><i class='fa-solid fa-star star' data-rating='5' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 5)'></i>");
+				break;
+				case "4":
+					$("#rating-"+$(this).find("id_prestamo").text()).html("<i class='fa-solid fa-star star checked' data-rating='1' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 1)'></i><i class='fa-solid fa-star star checked' data-rating='2' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 2)'></i><i class='fa-solid fa-star star checked' data-rating='3' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 3)'></i><i class='fa-solid fa-star star checked' data-rating='4' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 4)'></i><i class='fa-solid fa-star star' data-rating='5' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 5)'></i>");
+				break;
+				case "5":
+					$("#rating-"+$(this).find("id_prestamo").text()).html("<i class='fa-solid fa-star star checked' data-rating='1' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 1)'></i><i class='fa-solid fa-star star checked' data-rating='2' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 2)'></i><i class='fa-solid fa-star star checked' data-rating='3' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 3)'></i><i class='fa-solid fa-star star checked' data-rating='4' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 4)'></i><i class='fa-solid fa-star star checked' data-rating='5' onclick='stars("+id_usuario_evaluador+", "+id_usuario_evaluado+", "+id_prestamo+", 5)'></i>");
+				break;
+			}
+
+		}
+		
+	}); 
+}
+
+
+
+
+
+
 
 // #region validateCodigoUDG
 function validateCodigoUDG(codigo) {

@@ -941,8 +941,10 @@ if(Requesting("action") == "stars"){
 	$query0 = "SELECT COUNT(*) AS cuantos FROM reseñas WHERE id_prestamo = $id_prestamo AND id_usuario_evaluador = $id_evaluador AND id_usuario_evaluado = $id_evaluado";
 	$cuantos = GetValueSQL($query0, "cuantos");
 	if($cuantos > 0) {
-		$resultText = "La reseña ya existe.";
-		$resultStatus = "error";
+		$query1 = "UPDATE reseñas SET puntuacion = $puntuacion WHERE id_prestamo = $id_prestamo AND id_usuario_evaluador = $id_evaluador AND id_usuario_evaluado = $id_evaluado";
+		ExecuteSQL($query1);
+		$resultText = "La calificación se actualizó correctamente.";
+		$resultStatus = "ok";
 	} else {
 		$query1 = "INSERT INTO reseñas (id_usuario_evaluador, id_usuario_evaluado, id_prestamo, puntuacion) VALUES ($id_evaluador, $id_evaluado, $id_prestamo, $puntuacion)";
 			
@@ -956,6 +958,9 @@ if(Requesting("action") == "stars"){
 	}
 
 	$result = array(
+		'id_prestamo'			=> $id_prestamo,
+		'id_evaluador' 			=> $id_evaluador,	
+		'id_evaluado' 			=> $id_evaluado,
 		'result' 				=> $resultStatus,
 		'result_text' 			=> $resultText
 	);		 
@@ -1295,6 +1300,41 @@ if(Requesting("action") == "cancelar_prestamo"){
 		$resultStatus = "error";
 	}
 	$result = array(   
+		'result' 				=> $resultStatus, 
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;
+}
+
+
+if(Requesting("action") == "rellenar_estrellas_rese"){
+	$id_prestamo = Requesting("id_prestamo");
+	$id_usuario_evaluador = Requesting("id_usuario_evaluador");
+	$id_usuario_evaluado = Requesting("id_usuario_evaluado");
+	
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+
+	$query1 = "SELECT COUNT(*) AS existe FROM reseñas WHERE id_prestamo = $id_prestamo AND id_usuario_evaluador = $id_usuario_evaluador";
+	$existe = GetValueSQL($query1, 'existe');
+
+	if($existe > 0){
+		$query2 = "SELECT * FROM reseñas WHERE id_prestamo = $id_prestamo AND id_usuario_evaluador = $id_usuario_evaluador";
+		$puntuacion = GetValueSQL($query2, 'puntuacion');
+
+
+	} else{
+		$puntuacion = 0;
+	}
+
+	
+	$result = array(   
+		'id_prestamo'			=> $id_prestamo,
+		'id_usuario_evaluador'	=> $id_usuario_evaluador,
+		'id_usuario_evaluado'	=> $id_usuario_evaluado,
+		'puntuacion'			=> $puntuacion,
 		'result' 				=> $resultStatus, 
 		'result_text' 			=> $resultText
 	);		 

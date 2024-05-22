@@ -152,6 +152,7 @@ session_start();
 </head>
 
 <body>
+	<script src="assets/js/funciones.js"></script>
 
     <!--=====================================
     Preload
@@ -1458,6 +1459,11 @@ session_start();
                                                         $ruta_foto_portada = $ruta_foto_no_existente;
                                                     }
 
+                                                    echo "<script>
+                                                    rellenar_estrellas_rese($id_prestamo, $id_usuario_global, $id_usuario_owner);
+                                                    </script>";
+
+
                                                     echo '<tr>
                                                         <td>
         
@@ -1492,11 +1498,7 @@ session_start();
                                                         
                                                         <td class="text-center">
                                                             <div class="rating" id="rating-'.$id_prestamo.'">
-                                                                <i class="fa-solid fa-star star" data-rating="1" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_owner . ', ' .$id_prestamo . ', 1)"></i>
-                                                                <i class="fa-solid fa-star star" data-rating="2" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_owner . ', ' .$id_prestamo . ', 2)"></i>
-                                                                <i class="fa-solid fa-star star" data-rating="3" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_owner . ', ' .$id_prestamo . ', 3)"></i>
-                                                                <i class="fa-solid fa-star star" data-rating="4" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_owner . ', ' .$id_prestamo . ', 4)"></i>
-                                                                <i class="fa-solid fa-star star" data-rating="5" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_owner . ', ' .$id_prestamo . ', 5)"></i>
+                                                                
                                                             </div>
                                                         </td>                       
                                                     </tr>';
@@ -1595,6 +1597,10 @@ session_start();
                                                     $id_usuario_destino = $row6['id_usuario_destino'];
                                                     $id_prestamo = $row6['id_prestamo'];
 
+                                                    echo "<script>
+                                                    rellenar_estrellas_rese($id_prestamo, $id_usuario_global, $id_usuario_destino);
+                                                    </script>";
+
                                                     if($year == NULL){
                                                         $year = "Sin Año";
                                                     }
@@ -1641,11 +1647,7 @@ session_start();
                                                         
                                                         <td class="text-center">
                                                             <div class="rating" id="rating-'.$id_prestamo.'">
-                                                                <i class="fa-solid fa-star star" data-rating="1" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_destino . ', ' .$id_prestamo . ', 1)"></i>
-                                                                <i class="fa-solid fa-star star" data-rating="2" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_destino . ', ' .$id_prestamo . ', 2)"></i>
-                                                                <i class="fa-solid fa-star star" data-rating="3" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_destino . ', ' .$id_prestamo . ', 3)"></i>
-                                                                <i class="fa-solid fa-star star" data-rating="4" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_destino . ', ' .$id_prestamo . ', 4)"></i>
-                                                                <i class="fa-solid fa-star star" data-rating="5" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_destino . ', ' .$id_prestamo . ', 5)"></i>
+                                                                
                                                             </div>
                                                         </td>        
         
@@ -2072,7 +2074,7 @@ session_start();
 	<script src="assets/js/jquery-ui.js"></script>
 	<script src="assets/js/jquery.nice-select.js"></script>
 	<script src="assets/js/scripts.js"></script>
-	<script src="assets/js/funciones.js"></script>
+	<!-- <script src="assets/js/funciones.js"></script> -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	<script src="assets/plugins/sweetalert/sweetalert.min.js"></script> 
 	<script src="assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
@@ -2083,6 +2085,8 @@ session_start();
 		 $(document).ready(function() { 
 			llenar_select_carreras();
 			llenar_select_ciclos();
+
+            
 		});
 
         // $('#modalEditarLibro').on('show.bs.modal', function (event) {
