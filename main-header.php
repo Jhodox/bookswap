@@ -93,9 +93,11 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                 Logo
                 ======================================-->
 
-                <a class="ps-logo" href="index">
+                <a class="" href="index">
                     <img src="imagenes/bookswap/logo_light.png" class="pt-3" width="70px" height="70px">
-                    <img src="imagenes/bookswap/title_light.png" class="pt-3" width="110px" height="40px">
+                    <a href="index" class="ps-logo ml-5">
+                        <img src="imagenes/bookswap/title_light.png" class="pt-3" width="110px" height="40px">
+                    </a>
                 </a>
 
                 <!--=====================================
@@ -234,7 +236,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                                                         href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $titulo; ?></a>
                                                     <p><?php echo $autor; ?></p>
                                                     <p><strong>Ofrecido por: </strong>
-                                                        <a href="usuario/<?php echo $id_usuario?>"><?php echo rtrim($nombre_usuario) . " " . rtrim($apellido_usuario); ?></a></p>
+                                                        <a style="font-size: 16px;" href="usuario/<?php echo $id_usuario?>"><?php echo rtrim($nombre_usuario) . " " . rtrim($apellido_usuario); ?></a></p>
                                                 </div>
 
                                             </div>

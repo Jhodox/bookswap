@@ -18,7 +18,7 @@ RewriteRule ^([a-zA-Z0-9_-]+)$ $1.php
  RewriteRule ^usuario/([a-zA-Z0-9_-]+)$ usuario.php?id=$1
 # RewriteRule ^tienda/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ tienda.php?tipo=$1&opc=$2&page=$3
 
-# ErrorDocument 404 http://localhost/bookswap/404    ---> Activar esteeeeeeeeeeeeee
+ErrorDocument 404 http://localhost/bookswap/404  
 
 # php -- BEGIN cPanel-generated handler, do not edit
 # This domain inherits the “PHP” package.

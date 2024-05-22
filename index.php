@@ -277,7 +277,7 @@ session_start();
 
                 <div class="ps-block__categories">
 
-                    <h3 class="title-section" style="font-weight: bold; font-size: 2em;">Los Más <br> Buscados</h3>
+                    <h3 class="" style="font-weight: bold; font-size: 2em;">Los Más <br> Buscados</h3>
 
                         <a class="ps-block__more-link" href="https://localhost/bookswap/busqueda.php?search=&submit=">Ver Todos</a>
 
@@ -400,7 +400,7 @@ session_start();
 
                 <div class="ps-block__categories">
 
-                    <h3 class="title-section" style="font-weight: bold; font-size: 2em;">Mayormente<br>Intercambios</h3>
+                    <h3 class="" style="font-weight: bold; font-size: 2em;">Mayormente<br>Intercambios</h3>
 
                         <a class="ps-block__more-link" href="https://localhost/bookswap/busqueda.php?search=&submit=">Ver Todos</a>
 
@@ -523,7 +523,7 @@ session_start();
 
                 <div class="ps-block__categories">
 
-                    <h3  class="title-section" style="font-weight: bold; font-size: 2em;">Añadidos <br> Recientemente</h3>
+                    <h3  class="" style="font-weight: bold; font-size: 2em;">Añadidos <br> Recientemente</h3>
 
                         <a class="ps-block__more-link" href="https://localhost/bookswap/busqueda.php?search=&submit=">Ver Todos</a>
 
