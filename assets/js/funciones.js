@@ -34,7 +34,7 @@ $(document).ready(function() {
 	$("#div_mis_libros").hide();
 	$("#div_historial_prestamos").hide();
 	$("#div_validar_usuarios").hide();
-	$("#div_strikes_usuarios").hide();
+	// $("#div_strikes_usuarios").hide();
 	$("#div_prestamos_recibidos").hide();
 });
 
@@ -986,6 +986,8 @@ function editar_libro(id_usuario){
 	var sinopsis = $("#el_sinopsis").val();
 	var foto_portada = $("#el_foto_portada")[0].files[0];
 
+	console.log(isbn);
+
 	var continua = 1;
 
 	// Verificar la imagen de portada
@@ -1653,11 +1655,13 @@ function validarISBN(isbn) {
     
     // Verificar si es un ISBN-10
     if (/^\d{9}[\dX]$/.test(isbn)) {
+		// console.log("Primera funcion");
         return validarISBN10(isbn);
     }
     
     // Verificar si es un ISBN-13
     if (/^\d{13}$/.test(isbn)) {
+		// console.log("Segunda funcion");
         return validarISBN13(isbn);
     }
     
@@ -1666,25 +1670,19 @@ function validarISBN(isbn) {
 }
 
 function validarISBN10(isbn) {
-    let sum = 0;
-    for (let i = 0; i < 9; i++) {
-        sum += (i + 1) * parseInt(isbn.charAt(i));
-    }
-    // El último dígito puede ser 'X' que representa el valor 10
-    let lastChar = isbn.charAt(9);
-    sum += (lastChar === 'X' ? 10 : parseInt(lastChar)) * 10;
-    
-    return sum % 11 === 0;
+    // Expresión regular para validar un ISBN-10
+  const regex = /^\d{9}[\dX]$/;
+
+  // Retorna true si la cadena cumple con la expresión regular, de lo contrario, false
+  return regex.test(isbn);
 }
 
 function validarISBN13(isbn) {
-    let sum = 0;
-    for (let i = 0; i < 12; i++) {
-        sum += parseInt(isbn.charAt(i)) * (i % 2 === 0 ? 1 : 3);
-    }
-    let checkDigit = (10 - (sum % 10)) % 10;
-    
-    return checkDigit === parseInt(isbn.charAt(12));
+    // Expresión regular para validar un ISBN-13
+    const regex = /^\d{13}$/;
+
+  // Retorna true si la cadena cumple con la expresión regular, de lo contrario, false
+  return regex.test(isbn);
 }
 
 // #region validarYear

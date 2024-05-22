@@ -101,16 +101,16 @@
     </footer>
 
     <?php
-        if($admin_usuario_global == 1){
-        echo 
-        '<!-- Icono flotante -->
-        <div class="floating-icon">
-            <a title="Administradores" href="admins">
-                <i class="fa-solid fa-gear"></i>
-            </a>
-        </div>'
-        ;    
-        }
+    if($id_usuario_global != 0 &&  $admin_usuario_global == 1){
+    echo 
+    '<!-- Icono flotante -->
+    <div class="floating-icon">
+        <a title="Administradores" href="admins">
+            <i class="fa-solid fa-gear"></i>
+        </a>
+    </div>'
+    ;    
+    }
     ?>
 
 

@@ -265,7 +265,8 @@ session_start();
                         }
 
                         if($num_strikes > 0) {
-                            $mensaje_strikes = "<a class='text-decoration-underline' href=''>(Ver detalles)</a>";
+                            // $mensaje_strikes = "<a class='text-decoration-underline' href=''>(Ver detalles)</a>";
+                            $mensaje_strikes = "";
                         } else{
                             $mensaje_strikes = "";
                         }
@@ -360,7 +361,7 @@ session_start();
                     <ul class="ps-section__links">
                         <?php
                         if ($admin_usuario_global == 1) {
-                            echo '<li id="li_strikes_usuarios"><a type="button" href=""  onclick="cambiar_opciones_perfil(4, event)">Strikes usuarios</a></li>';
+                            echo '<li id="li_strikes_usuarios" class="active"><a type="button" href=""  onclick="cambiar_opciones_perfil(4, event)">Strikes usuarios</a></li>';
                             echo '<li id="li_validar_usuarios"><a type="button" href=""  onclick="cambiar_opciones_perfil(5, event)">Validar usuarios</a></li>';
                         }
                         ?>

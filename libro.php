@@ -309,11 +309,11 @@ session_start();
                                 <p><?php echo $autor;  ?></p>
                                 <p><?php echo $isbn;   ?></p>
 
-                                <div class="ps-product__meta">
+                                <div class="ps-product__meta mb-2">
 
                                     <p>Ofrecido por: <a href="usuario/<?php echo $id_usuario?>"><?php echo $nombre_usuario_completo;  ?></a></p>
 
-                                    <div class="ps-product__rating" style="min-width: 180px;">
+                                    <!-- <div class="ps-product__rating" style="min-width: 180px;">
 
                                         <select class="ps-rating" data-read-only="true">
 
@@ -327,7 +327,7 @@ session_start();
 
                                         <span>(1 review)</span>
 
-                                    </div>
+                                    </div> -->
 
                                 </div>
 
