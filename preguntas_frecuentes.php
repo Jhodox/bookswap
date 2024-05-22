@@ -212,32 +212,32 @@ session_start();
             <h2 class="text-center mb-4">Preguntas Frecuentes</h2>
             
             <p class="text-justify">En esta sección se muestran preguntas y sus respuestas con el objetivo de aclarar tus dudas
-            sobre el funcionamiento y desarrollo de la pagina, para que de esta forma puedas intercambiar tus libros favoritos sin ningun problema,
-            sin mas que agregar, nosotros los desarrolladores, esperamos que tengas una buena experiencia.
+            sobre el funcionamiento y desarrollo de la página, para que de esta forma puedas intercambiar tus libros favoritos sin ningun problema,
+            sin más que agregar, nosotros los desarrolladores, esperamos que tengas una buena experiencia.
             
             <br>
-            <h3 class = "mt-4">Preguntas</h3>
-            <p class="text-justify"><strong>¿Como puedo verificar mi usuario?</strong></p>
-            <p class="text-justify">Para verificar tu usuario primero tienes que cumplir con la carga de documentosen la pestaña de  <a href="perfil"><strong>perfil</strong></a>.</p>
+            <h3 class="mt-4">Preguntas</h3>
+			<p class="text-justify"><strong>¿Cómo puedo verificar mi usuario?</strong></p>
+			<p class="text-justify">Para verificar tu usuario primero tienes que cumplir con la carga de documentos en la pestaña de <a href="perfil"><strong>perfil</strong></a>.</p>
 
-            <p class="text-justify"><strong>¿Como puedo solicitar un libro?</strong></p>
-            <p class="text-justify">Para solicitar un libro puedes ir a la pagina de inicio donde podras encontrar la variedad de libros que hay dentro de 
-            la pagina, pero si quieres un libro en especifico puedes ir a la barra de busqueda, e ingresar el libro que quieras, una vez seleccionado y si ya te
-            encuentras verificado podras solicitar el libro para que el dueño considere el prestamo del libro. Si este decide aceptar, entonces podran comunicarse
-            por medio del chat. Aqui esta la pagina de <a href="index"><strong>inicio</strong></a>, donde encontraras todo tipo de libros.</p>
+			<p class="text-justify"><strong>¿Cómo puedo solicitar un libro?</strong></p>
+			<p class="text-justify">Para solicitar un libro puedes ir a la página de inicio donde podrás encontrar la variedad de libros que hay dentro de 
+			la página, pero si quieres un libro en específico puedes ir a la barra de búsqueda, e ingresar el libro que quieras, una vez seleccionado y si ya te
+			encuentras verificado podrás solicitar el libro para que el dueño considere el préstamo del libro. Si este decide aceptar, entonces podrán comunicarse
+			por medio del chat. Aquí está la página de <a href="index"><strong>inicio</strong></a>, donde encontrarás todo tipo de libros.</p>
 
 
-            <p class="text-justify"><strong>¿Como puedo agregar libros?</strong></p>
-            <p class="text-justify">Para agregar libros tendras que ir a la pagina de <a href="perfil"><strong>perfil</strong></a> y despues tendras que ir al apartado 
-            de mis libros, donde podras observar un boton de agregar libros y tendras que llenar la información correspondiente.</p>
+			<p class="text-justify"><strong>¿Cómo puedo agregar libros?</strong></p>
+			<p class="text-justify">Para agregar libros tendrás que ir a la página de <a href="perfil"><strong>perfil</strong></a> y después tendrás que ir al apartado 
+			de mis libros, donde podrás observar un botón de agregar libros y tendrás que llenar la información correspondiente.</p>
 
-            <p class="text-justify"><strong>¿Como puedo iniciar un chat?</strong></p>
-            <p class="text-justify">Para iniciar una conversación, es necesario que primero se acepte la solicitud de un libro, de esta forma se habilitara un apartado para
-            ambos, donde sera posible comenzar la conversación y llegar a un acuerdo sobre las fechas.</p>
+			<p class="text-justify"><strong>¿Cómo puedo iniciar un chat?</strong></p>
+			<p class="text-justify">Para iniciar una conversación, es necesario que primero se acepte la solicitud de un libro, de esta forma se habilitará un apartado para
+			ambos, donde será posible comenzar la conversación y llegar a un acuerdo sobre las fechas.</p>
 
-            <p class="text-justify"><strong>¿Como funciona la wishlist?</strong></p>
-            <p class="text-justify">La wishlist es un poco mas privada y personal, ya que aqui podras poner todos esos libros que te gustan pero que aun no quieres solicitar
-            de hecho puedes consultar tu wishlist justo aqui <a href="wishlist"><strong>wishlist</strong></a>. Para acceder solo tienes que darle corazon a un libro que te guste.</p>
+			<p class="text-justify"><strong>¿Cómo funciona la wishlist?</strong></p>
+			<p class="text-justify">La wishlist es un poco más privada y personal, ya que aquí podrás poner todos esos libros que te gustan pero que aún no quieres solicitar
+			de hecho puedes consultar tu wishlist justo aquí <a href="wishlist"><strong>wishlist</strong></a>. Para acceder solo tienes que darle corazón a un libro que te guste.</p>
 
 
             
