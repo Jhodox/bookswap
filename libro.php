@@ -432,7 +432,8 @@ session_start();
 
                 ?>
 
-                    <aside class="widget widget_same-brand">
+                    <aside class="widget widget_same-brand" style="box-shadow: 9px 9px 8px #A3B1C6,
+    -9px -9px 16px #FFF;">
 
                         <h3>Por el mismo usuario</h3>
 
@@ -459,7 +460,7 @@ session_start();
                                 $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
                                 ?>
 
-                                <div class="ps-product">
+                                <div class="ps-product ps-product--simple">
 
                                     <div class="ps-product__thumbnail">
 
