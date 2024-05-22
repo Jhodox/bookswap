@@ -343,7 +343,7 @@ session_start();
                 
 				<!-- Inicio Producto -->
                 <div class="col-lg-2 col-md-4 col-6 ">
-                    <div class="ps-product">
+                    <div class="ps-product ps-product--simple">
                         <div class="ps-product__thumbnail">
                             <a onclick="sumar_visitas(<?php echo $row_id_libro; ?>)" href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> ">
                                 <img src="<?php echo $row_ruta_foto_portada ?>" alt="<?php echo $row_titulo ?>">
@@ -351,15 +351,8 @@ session_start();
                         </div>
                     
 						<div class="ps-product__container">
-                            <div class="ps-product__content">
-                                <a onclick="sumar_visitas(<?php echo $row_id_libro; ?>)" class="ps-product__title" href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $row_titulo; ?></a>
-                                <p><?php echo $row_autor; ?></p>
-                            </div>
-
-                            <div class="ps-product__content hover">
-                                <a onclick="sumar_visitas(<?php echo $row_id_libro; ?>)" class="ps-product__title" href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $row_titulo; ?></a>
-                                <p><?php echo $row_autor; ?></p>
-                            </div>
+                            <a onclick="sumar_visitas(<?php echo $row_id_libro; ?>)" class="ps-product__title" href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $row_titulo; ?></a>
+                            <p><?php echo $row_autor; ?></p>
                         </div>
 					</div>
                 </div>
