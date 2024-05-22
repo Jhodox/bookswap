@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-05-2024 a las 01:12:13
+-- Tiempo de generación: 22-05-2024 a las 03:12:31
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -90,7 +90,9 @@ INSERT INTO `carreras` (`id_carrera`, `carrera`) VALUES
 (32, 'Licenciatura en Ciencia de Materiales'),
 (33, 'Licenciatura en Física'),
 (34, 'Licenciatura en Matemáticas'),
-(35, 'Licenciatura en Química');
+(35, 'Licenciatura en Química'),
+(36, 'Académico'),
+(37, 'No Aplica');
 
 -- --------------------------------------------------------
 
@@ -122,7 +124,8 @@ INSERT INTO `ciclos` (`id_ciclo`, `ciclo`) VALUES
 (12, '2022B'),
 (13, '2023A'),
 (14, '2023B'),
-(15, '2024A');
+(15, '2024A'),
+(16, 'N/A');
 
 -- --------------------------------------------------------
 
@@ -484,13 +487,13 @@ ALTER TABLE `administradores`
 -- AUTO_INCREMENT de la tabla `carreras`
 --
 ALTER TABLE `carreras`
-  MODIFY `id_carrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_carrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `ciclos`
 --
 ALTER TABLE `ciclos`
-  MODIFY `id_ciclo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_ciclo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `libros`
