@@ -358,7 +358,8 @@ function end_wishlist_remove(xml){
             var id_libro = $(this).find("id_libro").text();      
             $("#wishlist_spot").html('<a onclick="wishlist_add('+id_usuario+', '+id_libro+', event)" href=""><i class="fa-regular fa-heart fa-xl"></i></a>');
 			// $("#wishlist_spot").load(location.href + " #wishlist_spot"); 
-
+			
+			$("#div-wishlist").load(location.href + " #div-wishlist"); 
 			$("#header_icons").load(location.href + " #header_icons"); 
 			$("#header_icons_mobile").load(location.href + " #header_icons_mobile"); 
 

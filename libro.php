@@ -400,11 +400,14 @@ session_start();
 
                                 <?php
                                 if($id_usuario_global != 0){
-                                    $query11 = "SELECT status FROM usuarios WHERE id_usuario = $id_usuario_global";
+                                    $query11 = "SELECT status, num_strikes FROM usuarios WHERE id_usuario = $id_usuario_global";
                                     $status_usuario = GetValueSQL($query11, 'status');
+                                    $num_strikes = GetValueSQL($query11, 'num_strikes');
 
                                     if($id_usuario_global == $id_usuario){ ?> <!-- El usuario es el dueño del libro -->
                                         <a class="ps-btn ps-btn--black disabled" href="perfil">Ver Lista de Espera</a>
+                                    <?php } else if($status_usuario == 2 AND $num_strikes >= 3){ ?>
+                                        <p class="btn btn-danger ps-btn ps-btn--black disabled">Te encuentras baneado</p>
                                     <?php } else if($status_usuario == 2){ ?> <!-- Usuarios NO Validados -->
                                         <a class="ps-btn ps-btn--black disabled" href="perfil">Actualiza tu información de usuario</a>
                                     <?php } else { ?> 

@@ -133,11 +133,11 @@
                         <ul>
                             <li>
                                 <strong>Llamanos 24/7</strong><br>
-                                1800 97 97 69
+                                +52 33 2210 7178
                             </li><br>
                             <li>
                                 <strong>Nuestro correo:</strong><br>
-                                contact@marketplace.com
+                                bookswapcontacto@gmail.com
                             </li><br>
                             <li>
                                 <strong>Nos ubicamos en:</strong><br>

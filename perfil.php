@@ -72,8 +72,6 @@ session_start();
 	<!-- Market Place 4 -->
 	<link rel="stylesheet" href="css/market-place-4.css">
 
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 	<!--=====================================
 	PLUGINS JS
@@ -273,6 +271,16 @@ session_start();
                         } else{
                             $mensaje_strikes = "";
                         }
+
+                        $query19 = "SELECT COUNT(*) AS cuantas FROM reseñas WHERE id_usuario_evaluado = $id_usuario_global";
+                        $cuantas_reseñas = GetValueSQL($query19, 'cuantas');
+                        if($cuantas_reseñas == 0){
+                            $calificacion = 5.0;
+                        } else{
+                            $query20 = "SELECT AVG(puntuacion) AS promedio FROM reseñas WHERE id_usuario_evaluado = $id_usuario_global";
+                            $calificacion = GetValueSQL($query20, 'promedio');
+                            $calificacion = round($calificacion, 1);
+                        }
                     
                     }
                 
@@ -328,6 +336,7 @@ session_start();
                                         <p><i class="fas fa-envelope"></i> Correo Institucional: <?php echo $correo; ?></p>
                                         <p><i class="fas fa-graduation-cap"></i>Carrera: <?php echo $carrera; ?></p>
                                         <p><i class="fas fa-calendar-days"></i> Ciclo de ingreso: <?php echo $ciclo_ingreso; ?></p>
+                                        <p><i class="fas fa-star"></i> Calificación: <?php echo $calificacion; ?></p>
                                         <p><i class="fa-solid fa-xmark"></i> Strikes: <?php echo $num_strikes." ".$mensaje_strikes; ?> </p>
                                         <p><i class="fas fa-flag"></i> Status: <?php echo $status ?></p>
                                         <p style="color: yellow;"><?php echo $mensaje_status; ?></p>

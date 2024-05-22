@@ -172,7 +172,7 @@ session_start();
 	include ('main-header.php');
 
 	if($sesion == 0){
-        header("Location: index");
+        header("Location: 404");
     }
 
 	if(isset($_GET['codigo_usuario_prestamo'])){

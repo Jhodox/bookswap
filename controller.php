@@ -818,7 +818,7 @@ if(Requesting("action") == "validar_usuario"){
 		XML_Envelope($result);
 		exit;
 	} else {
-		$resultText = "No se ha encontrado una foto de perfil o credencial.";
+		$resultText = "No se ha encontrado una foto de credencial.";
 		$resultStatus = "error";
 	}
 	

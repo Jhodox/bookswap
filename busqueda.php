@@ -221,7 +221,7 @@ session_start();
                         <tbody>';
 
         $search = $_GET['search'];
-        $query = "SELECT * FROM libros INNER JOIN status_libro ON libros.status = status_libro.id_status WHERE libros.titulo LIKE '%$search%'";
+        $query = "SELECT * FROM libros INNER JOIN status_libro ON libros.status = status_libro.id_status WHERE libros.titulo LIKE '%$search%' AND status != 3";
         $result = DatasetSQL($query);
         $count = 0;
         while ($row = mysqli_fetch_array($result)) {

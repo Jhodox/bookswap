@@ -179,6 +179,11 @@ session_start();
 	require_once "include/db_tools.php";
 	include ('main-header.php');
 
+	if($id_usuario_global == 0){
+		header("Location: ../404");
+		exit();
+	}
+
     if(isset($_GET['id'])) {
 		$id_usuario_local = $_GET['id'];
         // echo "<script>console.log('ID: " . addsslashes($id_usuario_local) . "');</script>";
@@ -186,13 +191,13 @@ session_start();
         $existe = GetValueSQL($query0, 'existe');
         // echo "<script>console.log('Existe: ', $existe)</script>";
         if($existe == 0) {
-            header("Location: ../404.php");
+            header("Location: ../404");
 			exit();
 		}
     } else {
         echo "<script>console.log('[-] No hubo id por get')</script>";
         $id_usuario_local = 0;
-        header("Location: 404.php");
+        header("Location: 404");
         exit();
     }
 
@@ -264,6 +269,17 @@ session_start();
                         if($ruta_foto_perfil == NULL){
                             $ruta_foto_perfil = $ruta_foto_no_usuario;
                         }
+
+
+						$query19 = "SELECT COUNT(*) AS cuantas FROM reseñas WHERE id_usuario_evaluado = $id_usuario_local";
+                        $cuantas_reseñas = GetValueSQL($query19, 'cuantas');
+                        if($cuantas_reseñas == 0){
+                            $calificacion = 5.0;
+                        } else{
+                            $query20 = "SELECT AVG(puntuacion) AS promedio FROM reseñas WHERE id_usuario_evaluado = $id_usuario_local";
+                            $calificacion = GetValueSQL($query20, 'promedio');
+                            $calificacion = round($calificacion, 1);
+                        }
                     }
                 ?> 
 
@@ -287,6 +303,7 @@ session_start();
                                         <p><i class="fas fa-envelope"></i> Correo Institucional: <?php echo $correo; ?></p>
                                         <p><i class="fas fa-graduation-cap"></i>Carrera: <?php echo $carrera; ?></p>
                                         <p><i class="fas fa-calendar-days"></i> Ciclo de ingreso: <?php echo $ciclo_ingreso; ?></p>
+                                        <p><i class="fas fa-star"></i> Calificación: <?php echo $calificacion; ?></p>
                                     </div>
 									<div class="col-12">
 										<button class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#modalReportarUsuario" data-bs-whatever="@mdo"><strong>Reportar</strong></button>
