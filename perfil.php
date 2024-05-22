@@ -72,6 +72,9 @@ session_start();
 	<!-- Market Place 4 -->
 	<link rel="stylesheet" href="css/market-place-4.css">
 
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 	<!--=====================================
 	PLUGINS JS
 	======================================-->
@@ -264,7 +267,8 @@ session_start();
                         }
 
                         if($num_strikes > 0) {
-                            $mensaje_strikes = "<a class='text-decoration-underline' href=''>(Ver detalles)</a>";
+                            // $mensaje_strikes = "<a class='text-decoration-underline' href=''>(Ver detalles)</a>";
+                            $mensaje_strikes = "";
                         } else{
                             $mensaje_strikes = "";
                         }
@@ -1386,7 +1390,7 @@ session_start();
 
                                 </div>
 
-                                    <table class="table ps-table--shopping-cart">
+                                    <table class="table ps-table--shopping-cart" id="tabla_historial_prestamos">
 
                                         <thead>
 
@@ -1440,6 +1444,7 @@ session_start();
                                                     $nombres_owner = $row6['nombres'];
                                                     $apellidos_owner = $row6['apellidos'];
                                                     $id_usuario_owner = $row6['id_usuario'];
+                                                    $id_prestamo = $row6['id_prestamo'];
 
                                                     if($year == NULL){
                                                         $year = "Sin Año";
@@ -1485,8 +1490,15 @@ session_start();
         
                                                         <td class="text-center">'.$status_prestamo.'</td>     
                                                         
-                                                        <td class="text-center">Estrellas aqui</td>                       
-        
+                                                        <td class="text-center">
+                                                            <div class="rating" id="rating-'.$id_prestamo.'">
+                                                                <i class="fa-solid fa-star star" data-rating="1" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_owner . ', ' .$id_prestamo . ', 1)"></i>
+                                                                <i class="fa-solid fa-star star" data-rating="2" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_owner . ', ' .$id_prestamo . ', 2)"></i>
+                                                                <i class="fa-solid fa-star star" data-rating="3" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_owner . ', ' .$id_prestamo . ', 3)"></i>
+                                                                <i class="fa-solid fa-star star" data-rating="4" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_owner . ', ' .$id_prestamo . ', 4)"></i>
+                                                                <i class="fa-solid fa-star star" data-rating="5" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_owner . ', ' .$id_prestamo . ', 5)"></i>
+                                                            </div>
+                                                        </td>                       
                                                     </tr>';
 
 
@@ -1508,7 +1520,9 @@ session_start();
                             </div> 
 
 
-                            <!-- Libros que yo presté -->
+                            <!-- 
+                                #region Libros que yo presté
+                            -->
 
                             
                             <div class="ps-section__content ">
@@ -1524,7 +1538,7 @@ session_start();
 
                                 </div>
 
-                                    <table class="table ps-table--shopping-cart">
+                                    <table class="table ps-table--shopping-cart" id="tabla_historial_preste">
 
                                         <thead>
 
@@ -1578,7 +1592,8 @@ session_start();
 
                                                     $nombres_destino = $row6['nombres'];
                                                     $apellidos_destino = $row6['apellidos'];
-                                                    $id_usuario_destino = $row6['id_usuario'];
+                                                    $id_usuario_destino = $row6['id_usuario_destino'];
+                                                    $id_prestamo = $row6['id_prestamo'];
 
                                                     if($year == NULL){
                                                         $year = "Sin Año";
@@ -1624,7 +1639,15 @@ session_start();
         
                                                         <td class="text-center">'.$status_prestamo.'</td>       
                                                         
-                                                        <td class="text-center">Estrellas aqui</td>        
+                                                        <td class="text-center">
+                                                            <div class="rating" id="rating-'.$id_prestamo.'">
+                                                                <i class="fa-solid fa-star star" data-rating="1" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_destino . ', ' .$id_prestamo . ', 1)"></i>
+                                                                <i class="fa-solid fa-star star" data-rating="2" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_destino . ', ' .$id_prestamo . ', 2)"></i>
+                                                                <i class="fa-solid fa-star star" data-rating="3" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_destino . ', ' .$id_prestamo . ', 3)"></i>
+                                                                <i class="fa-solid fa-star star" data-rating="4" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_destino . ', ' .$id_prestamo . ', 4)"></i>
+                                                                <i class="fa-solid fa-star star" data-rating="5" onclick="stars(' .$id_usuario_global . ', ' . $id_usuario_destino . ', ' .$id_prestamo . ', 5)"></i>
+                                                            </div>
+                                                        </td>        
         
                                                     </tr>';
 
@@ -2097,5 +2120,12 @@ session_start();
             modal.find('#fp_id_libro').val(id_libro);
         });
 	</script>
+
+    <!--
+        #region stars
+    -->
+    <script>
+        
+    </script>
 </body>
 </html>

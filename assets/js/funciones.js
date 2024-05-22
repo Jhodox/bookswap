@@ -1581,6 +1581,74 @@ function updateFileName(input, labelId) {
     label.innerText = fileName;
 }
 
+// #region stars
+function stars(id_evaluador, id_evaluado, id_prestamo, puntuacion) {
+	const ratingElement = document.getElementById("rating-"+id_prestamo);
+	const stars = ratingElement.querySelectorAll(".star");
+
+    stars.forEach((star, index) => {
+        if(index < puntuacion)
+			star.classList.add("checked");
+		else
+			star.classList.remove("checked");
+    });
+
+	$.post("controller.php",
+    {       action         : "stars",
+			id_evaluador	: id_evaluador,
+			id_evaluado    : id_evaluado,
+			id_prestamo    : id_prestamo,
+			puntuacion   	: puntuacion
+    }, end_stars);
+
+}
+
+// #region end_stars
+function end_stars(xml){
+	$(xml).find("response").each(function(i){         
+        if ($(this).find("result").text()=="ok"){     
+
+			Swal.fire({
+				icon: 'success',
+				title: '¡Correcto!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+
+        }  else{
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: $(this).find("result_text").text(),
+				timer: 1000,
+				timerProgressBar: true,
+			})
+			$("#tabla_historial_prestamos").load(location.href + " #tabla_historial_prestamos");
+			$("#tabla_historial_preste").load(location.href + " #tabla_historial_preste");
+		}
+    });
+}
+
+// #region llenar_stars
+function llenar_stars(){
+	// console.log("llega aqui");
+	$.post("controller.php",
+	{	action : "llenar_stars",
+	}, end_llenar_stars);
+}
+
+function end_llenar_stars(xml){
+	$(xml).find("response").each(function(i){		 
+		if ($(this).find("result").text()=="ok"){       
+			$("#tabla_historial_prestamos").html($(this).find("select_carrera").text()); 
+
+		}
+		
+	// console.log("pasa aqui");
+	}); 
+}
+
 // #region validateCodigoUDG
 function validateCodigoUDG(codigo) {
     var regex = /^[0-9]{9}$/;

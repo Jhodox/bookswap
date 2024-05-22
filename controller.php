@@ -925,6 +925,64 @@ if(Requesting("action") == "nuevo_strike_usuario"){
 	exit;
 }
 
+#region stars
+if(Requesting("action") == "stars"){
+	$id_evaluador = Requesting("id_evaluador");
+	$id_evaluado = Requesting("id_evaluado");
+	$id_prestamo = Requesting("id_prestamo");
+	$puntuacion = Requesting("puntuacion");
+
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+	$query0 = "SELECT COUNT(*) AS cuantos FROM reseñas WHERE id_prestamo = $id_prestamo AND id_usuario_evaluador = $id_evaluador AND id_usuario_evaluado = $id_evaluado";
+	$cuantos = GetValueSQL($query0, "cuantos");
+	if($cuantos > 0) {
+		$resultText = "La reseña ya existe.";
+		$resultStatus = "error";
+	} else {
+		$query1 = "INSERT INTO reseñas (id_usuario_evaluador, id_usuario_evaluado, id_prestamo, puntuacion) VALUES ($id_evaluador, $id_evaluado, $id_prestamo, $puntuacion)";
+			
+		if(ExecuteSQL($query1)) {
+			$resultText = "El usuario fue calificado correctamente";
+			$resultStatus = "ok";
+		} else {
+			$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo.";
+			$resultStatus = "error";
+		}
+	}
+
+	$result = array(
+		'result' 				=> $resultStatus,
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);
+	exit;
+}
+
+/*
+	#region llenar stars
+*/
+if(Requesting("action")=="llenar_stars"){
+		$resultStatus 	= "ok";
+		$resultText 	= "Correcto.";	 
+		$xmlRow = "<option value='0'>Selecciona carrera...</option>";
+	
+		$query = "SELECT * FROM carreras ORDER BY id_carrera ASC";
+		$carreras = DatasetSQL($query);
+		while($row1 = mysqli_fetch_array($carreras)){
+			$xmlRow .= "<option value='".$row1['id_carrera']."'>".$row1['carrera']."</option>";
+		}
+		
+		$result = array( 
+			'select_carrera' 	=> $xmlRow,   
+			'result' 			=> $resultStatus, 
+			'result_text' 		=> $resultText
+		);		 
+		XML_Envelope($result);  
+		exit;		
+}
+
 #region aceptar_denegar_prestamo
 if(Requesting("action") == "aceptar_denegar_prestamo") {
 	$id_prestamo = Requesting("id_prestamo");

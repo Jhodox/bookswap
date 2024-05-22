@@ -35,6 +35,7 @@
              3.3 search
              3.4 section
              3.5 pages
+             3.6 stars
         4. MODULES
             4.1 header
             4.2 footer
@@ -4448,12 +4449,6 @@ textarea.form-control {
     font-weight: bold;
     color: #fcb800;
     font-size: 1.8em;
-    text-shadow:
-        1px 1px 0 #000,
-        2px 2px 0 #000,
-        3px 3px 0 #000,
-        4px 4px 0 #000,
-        5px 5px 0 #000;
 }
 
 .ps-block--products-of-category {
@@ -15786,6 +15781,19 @@ textarea.form-control {
 }
 
 /*4. MODULES */
+
+.star {
+    transition: color 0.3s;
+    cursor: pointer;
+    color: gray;
+    font-size: 24px;
+}
+
+.star:hover,
+.star.checked {
+    color: gold;
+}
+
 .navigation {
     background-color: #fcb800;
 }
