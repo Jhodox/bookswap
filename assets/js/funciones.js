@@ -36,6 +36,12 @@ $(document).ready(function() {
 	$("#div_validar_usuarios").hide();
 	// $("#div_strikes_usuarios").hide();
 	$("#div_prestamos_recibidos").hide();
+
+
+
+	$('#input_busqueda').on('input', function() {
+        busqueda();
+    });
 });
 
 // #region valida_sesion
@@ -1717,9 +1723,31 @@ function end_rellenar_estrellas_rese(xml){
 }
 
 
+function busqueda(){
+	var input_busqueda = $("#input_busqueda").val();
+
+	// console.log("Volver a rellenar estrellas");
+	$.post("controller.php",
+	{	action 					: "busqueda",
+		input_busqueda 		 	: input_busqueda,
+	}, end_busqueda);
+
+
+}
 
 
 
+function end_busqueda(xml){
+	$(xml).find("response").each(function(i){	
+		console.log($(this).find("busqueda").text());	 
+		if ($(this).find("result").text()=="ok"){       
+			// console.log($(this).find("puntuacion").text());
+			$("#div_buscar_libro").html($(this).find("busqueda").text());
+
+		}
+		
+	}); 
+}
 
 
 // #region validateCodigoUDG

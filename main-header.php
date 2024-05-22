@@ -121,7 +121,7 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
 
             <div class="header__content-center mt-3">
                 <form class="ps-form--quick-search" action="busqueda.php" method="get">
-                    <input class="form-control" type="text" placeholder="Título del libro" name="search">
+                    <input id="input_busqueda" class="form-control" type="text" placeholder="Título del libro" name="search">
                     <button type="submit" name="submit">Buscar</button>
                 </form>
             </div>

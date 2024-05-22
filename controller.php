@@ -1343,6 +1343,123 @@ if(Requesting("action") == "rellenar_estrellas_rese"){
 }
 
 
+if(Requesting("action") == "busqueda"){
+	$search = Requesting("input_busqueda");
+
+	
+	$resultText = "Correcto.";
+	$resultStatus = "ok";
+
+
+	$xmlRow = "";
+
+	$xmlRow .= '<div class="container" id="div_buscar_libro">
+            
+            <div class="ps-section__header" style="margin-top: 50px;">
+                <h1>Resultados</h1>
+            </div>
+
+            <div class="ps-section__content" style="margin-top: -20px;">
+
+                <div class="table-responsive">
+                                        
+                    <div class="ps-section__cart-actions" style="margin-top: 100px; margin-bottom: -50px;"></div>
+
+                    <table class="table ps-table--shopping-cart">
+                        <tbody>';
+
+        $query = "SELECT * FROM libros INNER JOIN status_libro ON libros.status = status_libro.id_status WHERE libros.titulo LIKE '%$search%' AND status != 3";
+        $result = DatasetSQL($query);
+        $count = 0;
+        while ($row = mysqli_fetch_array($result)) {
+            $count++;
+            $id_libro = $row['id_libro'];
+            $titulo = $row['titulo'];
+            $autor = $row['autor'];
+            $editorial = $row['editorial'];
+            $sinopsis = $row['sinopsis'];
+            $year = $row['year'];
+            $status = $row['status_nombre'];
+            $ruta_foto_portada = $row['ruta_foto_portada'];
+
+            $url_producto = str_replace(" ", "-", $titulo);
+            $url_producto = str_replace("/", "-", $url_producto);
+            $url_producto = quitarAcentos($url_producto);
+            $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
+
+            $id_status = $row['id_status'];
+
+            switch($id_status){
+                case 1:
+                    $mensaje_status = '<i class="fas fa-book-openfas fa-book-open"></i> '.$status;
+                break;
+                case 2:
+                    $mensaje_status = '<i class="fas fa-book-reader"></i> '.$status;
+                break;
+                case 3:
+                    $mensaje_status = '<i class="fas fa-book"></i> '.$status;
+                break;
+            }
+
+            if($year == NULL){
+                $year = "Sin Año";
+            }
+        
+            if($sinopsis == NULL){
+                $sinopsis = "Sin Sinopsis";
+            }
+
+            if($ruta_foto_portada == NULL){
+                $ruta_foto_portada = $ruta_foto_no_existente;
+            }
+
+			$xmlRow .= '<tr>
+                                <td>
+                                    <div class="ps-product--cart">
+                                        <div class="ps-product__thumbnail">
+                                            <a href="libro/'.$id_libro.'/'.$url_producto.'"><img src="'.$ruta_foto_portada.'" alt="$titulo"></a>
+                                        </div>
+                            
+                                        <div class="ps-product__content">
+                                            <a href="libro/'.$id_libro.'/'.$url_producto.'">'.$titulo.'</a>
+                                            <p>Autor: <strong>'.$autor.'</strong></p>
+                                            <a type="button" href="" onclick="ver_sinopsis('.$id_libro.', event)">Ver sinopsis</a>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="text-center"><p>Editorial</p>'.$editorial.'</td>
+
+                                <td class="text-center"><p>Año de publicación</p>'.$year.'</td>
+
+                                <td class="text-center">'.$mensaje_status.'</td>                       
+
+                            </tr>'; 
+
+                            $xmlRow .= '<tr id="sinopsis_'.$id_libro.'" style="display: none;">
+                                <td class="text-center " colspan="7"><strong>Sinopsis: </strong>'.$sinopsis.'</td>
+                            </tr>';
+        }
+        if($count <= 0) {
+            $xmlRow .= '<tr><td><h3>No se encontraron resultados</h3></td><td></td></tr>';
+        }
+		$xmlRow .= '</tbody>
+                    </table>
+                </div>
+                <hr>
+            </div> 
+        </div>';
+
+
+	$result = array(
+		'busqueda'				=> $xmlRow,
+		'result' 				=> $resultStatus, 
+		'result_text' 			=> $resultText
+	);		 
+	XML_Envelope($result);  
+	exit;
+}
+
 
 ?>
 
