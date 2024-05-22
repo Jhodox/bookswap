@@ -1186,7 +1186,8 @@ function end_cambiar_status_libro(xml){
 }
 
 // #region validar_usuario
-function validar_usuario(id_usuario){
+function validar_usuario(id_usuario, e){
+	e.preventDefault();
 	$.post("controller.php",
     {    	action 			: "validar_usuario",
        	 	id_usuario  	: id_usuario,
