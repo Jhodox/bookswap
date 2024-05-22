@@ -1365,7 +1365,7 @@ function end_aceptar_denegar_prestamo(xml){
 }
 
 
-
+// #region acordar fechas
 function acordar_fechas(){
 	var id_prestamo = $("#id_prestamo").val();
 	var fecha_inicio = $("#fecha_inicio").val();
@@ -1402,31 +1402,6 @@ function acordar_fechas(){
 		})
 		return;
 	}
-
-
-	// if(!comprobarFecha(fecha_inicio)){
-	// 	continua = 0;
-	// 	Swal.fire({
-	// 		icon: 'error',
-	// 		title: '¡Error!',
-	// 		text: "Fecha de inicio no válida.",
-	// 		timer: 1000,
-	// 		timerProgressBar: true,
-	// 	})
-	// 	return;
-	// }
-
-	// if(!comprobarFecha(fecha_fin)){
-	// 	continua = 0;
-    //     Swal.fire({
-    //         icon: 'error',
-    //         title: '¡Error!',
-    //         text: "Fecha final no válida.",
-    //         timer: 1000,
-    //         timerProgressBar: true,
-    //     })
-	// 	return;
-	// }
 
 
 	if(continua == 1){
@@ -1467,7 +1442,7 @@ function end_acordar_fechas(xml){
     });
 }
 
-
+// #region llenar form fechas
 function llenar_form_confirmar_fechas(id_prestamo){
 	$.post("controller.php",
 	{    	action 		: "llenar_form_confirmar_fechas",
@@ -1485,7 +1460,7 @@ function end_llenar_form_confirmar_fechas(xml){
     });
 }
 
-
+// #region verificar fechas
 function verificar_fechas(accion){
 	var id_prestamo = $("#id_prestamo_fechas").val();
 	
@@ -1523,7 +1498,7 @@ function end_verificar_fechas(xml){
     });
 }
 
-
+// #region finalizar prestamo
 function finalizar_prestamo(){
 	var id_libro = $("#fp_id_libro").val();
 
@@ -1560,7 +1535,7 @@ function end_finalizar_prestamo(xml){
     });
 }
 
-// Funcion para cancelar un prestamo que ya fue aceptado.
+// #region Cancelar prestamo
 function cancelar_prestamo(id_prestamo){
 	$.post("controller.php",
     {       action         : "cancelar_prestamo",

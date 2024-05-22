@@ -796,23 +796,36 @@ if(Requesting("action") == "validar_usuario"){
 
 	$resultText = "Correcto.";
 	$resultStatus = "ok";
-
-	$query1 = "UPDATE usuarios SET status = 1 WHERE id_usuario = $id_usuario";
-	$resultText = "El usuario se valido.";
 	
-	if(ExecuteSQL($query1)){
-        $resultStatus = "ok";
-	} else{
-		$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo. ";
-        $resultStatus = "error";
+	if($ruta_foto_perfil != null && $ruta_foto_credencial != null){
+		$query1 = "UPDATE usuarios SET status = 1 WHERE id_usuario = $id_usuario";
+		$resultText = "El usuario se validó.";
+		
+		if(ExecuteSQL($query1)){
+			$resultStatus = "ok";
+		} else{
+			$resultText = "Ocurrió un error. Por favor, inténtalo de nuevo.";
+			$resultStatus = "error";
+		}
+	
+		$result = array(
+			'result'       => $resultStatus,
+			'result_text'  => $resultText
+		);     
+		XML_Envelope($result);
+		exit;
+	} else {
+		$resultText = "No se ha encontrado una foto de perfil o credencial.";
+		$resultStatus = "error";
 	}
-
-	$result = array(   
-		'result' 				=> $resultStatus,
-		'result_text' 			=> $resultText
-	);		 
+	
+	$result = array(
+		'result'       => $resultStatus,
+		'result_text'  => $resultText
+	);     
 	XML_Envelope($result);
 	exit;
+	
 }
 
 #region strike_usuarios
@@ -990,6 +1003,7 @@ if(Requesting("action") == "aceptar_denegar_prestamo") {
 	exit;
 }
 
+#region acordar fechas
 if(Requesting("action") == "acordar_fechas"){
 	$id_prestamo = Requesting("id_prestamo");
 	$fecha_inicio = Requesting("fecha_inicio");
@@ -1051,7 +1065,7 @@ if(Requesting("action") == "llenar_form_confirmar_fechas"){
 	exit;
 }
 
-
+#region verificar fechas
 if(Requesting("action") == "verificar_fechas"){
 	$accion = Requesting("accion");
 	$id_prestamo = Requesting("id_prestamo");
@@ -1072,7 +1086,6 @@ if(Requesting("action") == "verificar_fechas"){
 
 			
         break;
-		break;
 		case 2:
 			$query1 = "UPDATE prestamos SET fecha_inicio = NULL, fecha_fin = NULL WHERE id_prestamo = $id_prestamo";
 			// echo $query1;
@@ -1098,7 +1111,7 @@ if(Requesting("action") == "verificar_fechas"){
 }
 
 
-
+#region finalizar prestamo
 if(Requesting("action") == "finalizar_prestamo"){
 	$id_libro = Requesting("id_libro");
 
