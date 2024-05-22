@@ -1,5 +1,5 @@
 <?php
-//ob_start();
+ob_start();
 session_start();
 ?>
 
@@ -26,6 +26,9 @@ session_start();
 	<!--=====================================
 	#region CSS
 	======================================-->
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap" rel="stylesheet">
@@ -180,6 +183,10 @@ session_start();
         header("Location: index");
     }
 
+    if($id_usuario_global != 0 &&  $admin_usuario_global != 1){
+        header("Location: index");
+    }
+
     ?>
 
     <input type="hidden" id="id_usuario_global" value="<?php echo $id_usuario_global; ?>">
@@ -265,7 +272,8 @@ session_start();
                         }
 
                         if($num_strikes > 0) {
-                            $mensaje_strikes = "<a class='text-decoration-underline' href=''>(Ver detalles)</a>";
+                            // $mensaje_strikes = "<a class='text-decoration-underline' href=''>(Ver detalles)</a>";
+                            $mensaje_strikes = "";
                         } else{
                             $mensaje_strikes = "";
                         }
@@ -360,7 +368,7 @@ session_start();
                     <ul class="ps-section__links">
                         <?php
                         if ($admin_usuario_global == 1) {
-                            echo '<li id="li_strikes_usuarios"><a type="button" href=""  onclick="cambiar_opciones_perfil(4, event)">Strikes usuarios</a></li>';
+                            echo '<li id="li_strikes_usuarios" class="active"><a type="button" href=""  onclick="cambiar_opciones_perfil(4, event)">Strikes usuarios</a></li>';
                             echo '<li id="li_validar_usuarios"><a type="button" href=""  onclick="cambiar_opciones_perfil(5, event)">Validar usuarios</a></li>';
                         }
                         ?>

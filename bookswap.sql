@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-05-2024 a las 01:12:13
+-- Tiempo de generación: 22-05-2024 a las 05:01:53
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -90,7 +90,9 @@ INSERT INTO `carreras` (`id_carrera`, `carrera`) VALUES
 (32, 'Licenciatura en Ciencia de Materiales'),
 (33, 'Licenciatura en Física'),
 (34, 'Licenciatura en Matemáticas'),
-(35, 'Licenciatura en Química');
+(35, 'Licenciatura en Química'),
+(36, 'Académico'),
+(37, 'No Aplica');
 
 -- --------------------------------------------------------
 
@@ -122,7 +124,8 @@ INSERT INTO `ciclos` (`id_ciclo`, `ciclo`) VALUES
 (12, '2022B'),
 (13, '2023A'),
 (14, '2023B'),
-(15, '2024A');
+(15, '2024A'),
+(16, 'N/A');
 
 -- --------------------------------------------------------
 
@@ -334,12 +337,12 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id_usuario`, `nombres`, `apellidos`, `codigo_usuario`, `carrera`, `ciclo_ingreso`, `correo`, `password`, `ruta_foto_perfil`, `ruta_foto_credencial`, `num_prestamos`, `num_prestados`, `num_strikes`, `status`) VALUES
 (0, 'Anónimo', '', '0', 0, 0, '', '', 'imagenes/perfil/perfil_jpg', 'imagenes/credenciales/credencial_jpg', 0, 0, 0, 1),
 (1, 'Angel', 'De La Cruz', '222790641', 1, 12, 'luis.delacruz9064@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', 'imagenes/perfil/perfil_222790641.gif', 'imagenes/credenciales/credencial_222790641.jpeg', 0, 0, 1, 1),
-(2, 'Diego', 'Hernández', '219552306', 1, 12, 'diego.hernandez5523@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', 'imagenes/perfil/perfil_219552306.jpg', '', 0, 0, 0, 2),
+(2, 'Diego', 'Hernández', '219552306', 1, 12, 'diego.hernandez5523@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', 'imagenes/perfil/perfil_219552306.jpg', 'imagenes/credenciales/credencial_219552306.jpg', 0, 0, 0, 1),
 (3, 'Brandon', 'Herrera', '218535254', 1, 12, 'brandon.herrera5352@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', 'imagenes/perfil/perfil_218535254.jpg', 'imagenes/credenciales/credencial_218535254.jpg', 0, 0, 0, 1),
 (4, 'Jorge', 'Aguilar', '219528685', 1, 12, 'jorge.aguilar5286@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2),
 (5, 'Cristian', 'Orozco', '222790978', 1, 12, 'cristian.orozco9097@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', 'imagenes/perfil/perfil_222790978.jpg', 'imagenes/credenciales/credencial_222790978.jpg', 0, 0, 3, 2),
 (6, 'Gerson', 'Flores', '222791192', 1, 12, 'gerson.flores9119@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 1),
-(7, 'Diego', 'Hernandez', '219552308', 1, 12, 'ivan.prueba@alumnos.udg.mx', '25d55ad283aa400af464c76d713c07ad', 'imagenes/perfil/perfil_219552308.jpg', 'imagenes/credenciales/credencial_219552308.jpg', 0, 0, 0, 2),
+(7, 'Diego', 'Hernandez', '219552308', 1, 12, 'ivan.prueba@alumnos.udg.mx', '25d55ad283aa400af464c76d713c07ad', 'imagenes/perfil/perfil_219552308.jpg', 'imagenes/credenciales/credencial_219552308.jpg', 0, 0, 0, 1),
 (8, 'Angel', 'Ramirez Navarro', '219323202', 1, 10, 'angel.ramirez5119@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 0, 2),
 (9, 'Cristian', 'Baneado', '222790979', 2, 3, 'cristian.orozco9098@alumnos.udg.mx', '81dc9bdb52d04dc20036dbd8313ed055', '', '', 0, 0, 3, 2);
 
@@ -484,13 +487,13 @@ ALTER TABLE `administradores`
 -- AUTO_INCREMENT de la tabla `carreras`
 --
 ALTER TABLE `carreras`
-  MODIFY `id_carrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_carrera` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `ciclos`
 --
 ALTER TABLE `ciclos`
-  MODIFY `id_ciclo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_ciclo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `libros`

@@ -25,6 +25,9 @@ session_start();
 	<!--=====================================
 	CSS
 	======================================-->
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 	
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap" rel="stylesheet">
@@ -309,11 +312,11 @@ session_start();
                                 <p><?php echo $autor;  ?></p>
                                 <p><?php echo $isbn;   ?></p>
 
-                                <div class="ps-product__meta">
+                                <div class="ps-product__meta mb-2">
 
                                     <p>Ofrecido por: <a href="usuario/<?php echo $id_usuario?>"><?php echo $nombre_usuario_completo;  ?></a></p>
 
-                                    <div class="ps-product__rating" style="min-width: 180px;">
+                                    <!-- <div class="ps-product__rating" style="min-width: 180px;">
 
                                         <select class="ps-rating" data-read-only="true">
 
@@ -327,7 +330,7 @@ session_start();
 
                                         <span>(1 review)</span>
 
-                                    </div>
+                                    </div> -->
 
                                 </div>
 

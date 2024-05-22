@@ -797,7 +797,10 @@ if(Requesting("action") == "validar_usuario"){
 	$resultText = "Correcto.";
 	$resultStatus = "ok";
 	
-	if($ruta_foto_perfil != null && $ruta_foto_credencial != null){
+	$query3 = "SELECT ruta_foto_credencial FROM usuarios WHERE id_usuario = $id_usuario"; 
+	$ruta_foto_credencial = GetValueSQL($query3, "ruta_foto_credencial");
+
+	if($ruta_foto_credencial != null){
 		$query1 = "UPDATE usuarios SET status = 1 WHERE id_usuario = $id_usuario";
 		$resultText = "El usuario se validó.";
 		

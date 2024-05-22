@@ -18,7 +18,7 @@ session_start();
 	<meta name="keywords" content="">
 	<meta name="description" content="">
 
-	<title>BookSwap | Inicio</title>
+	<title>BookSwap | Usuario</title>
 	<?php include ("include/headertagbase.php"); ?>
 
 	<link rel="icon" href="imagenes/bookswap/logoBookswap.png">
@@ -26,6 +26,9 @@ session_start();
 	<!--=====================================
 	#region CSS
 	======================================-->
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 	<!-- google font -->
 	<link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&display=swap" rel="stylesheet">
@@ -39,6 +42,8 @@ session_start();
 	<!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
+    <!-- Estilo Admin -->
+    <link rel="stylesheet" href="assets/css/admin-style.css">
 
 	<!-- Owl Carousel -->
 	<link rel="stylesheet" href="css/plugins/owl.carousel.css">
@@ -300,69 +305,76 @@ session_start();
 	<!--=====================================
         #region Customers who bought
     ======================================--> 
+	<div class="ps-page--product">
 
-    <div class="ps-section--default ps-customer-bought">
-        <div class="ps-section__header">
-            <h3>Libros del usuario</h3>
-        </div>
-        <div class="ps-section__content">
-			<div class="row">        
-                <?php 
-                    $query5 = "SELECT * FROM libros WHERE 
-					id_usuario = $id_usuario_local AND status != 3 UNION ALL (
-						SELECT * FROM libros WHERE id_usuario = $id_usuario_local AND status != 3 UNION ALL (
-						SELECT * FROM libros WHERE id_usuario = $id_usuario_local AND status != 3 UNION ALL (
-						SELECT * FROM libros WHERE id_usuario = $id_usuario_local AND status != 3 UNION ALL (
-						SELECT * FROM libros WHERE id_usuario = $id_usuario_local AND status != 3 UNION ALL (
-						SELECT * FROM libros WHERE id_usuario = $id_usuario_local AND status != 3))))) LIMIT 6";
-                        
-                    $libros_usuario = DatasetSQL($query5);
-                    
-					while($row5 = mysqli_fetch_array($libros_usuario)){
-                        $row_id_libro = $row5['id_libro'];
-                        $row_titulo = $row5['titulo'];
-                        $row_autor = $row5['autor'];
-                        $row_year = $row5['year'];
-                        $row_sinopsis = $row5['sinopsis'];
-                        $row_ruta_foto_portada = $row5['ruta_foto_portada'];
-                        $row_statusLibro = $row5['status'];
-                        $row_id_usuario = $row5['id_usuario'];
+        <div class="ps-container">
 
-                        $row_query = "SELECT * FROM usuarios WHERE id_usuario = $row_id_usuario";
-                        $row_nombres = GetValueSQL($row_query, 'nombres');
-                        $row_apellidos = GetValueSQL($row_query, 'apellidos');
-                                
-                        $row_nombre_usuario_completo = rtrim($row_nombres)." ".rtrim($row_apellidos);
+			<div class="ps-section--default ps-customer-bought">
+				<div class="ps-section__header">
+					<h3>Libros del usuario</h3>
+				</div>
+				<div class="ps-section__content">
+					<div class="row">        
+						<?php 
+							// $query5 = "SELECT * FROM libros WHERE 
+							// id_usuario = $id_usuario_local AND status != 3 UNION ALL (
+							// 	SELECT * FROM libros WHERE id_usuario = $id_usuario_local AND status != 3 UNION ALL (
+							// 	SELECT * FROM libros WHERE id_usuario = $id_usuario_local AND status != 3 UNION ALL (
+							// 	SELECT * FROM libros WHERE id_usuario = $id_usuario_local AND status != 3 UNION ALL (
+							// 	SELECT * FROM libros WHERE id_usuario = $id_usuario_local AND status != 3 UNION ALL (
+							// 	SELECT * FROM libros WHERE id_usuario = $id_usuario_local AND status != 3))))) LIMIT 6";
+							$query5 = "SELECT * FROM libros WHERE 
+							id_usuario = $id_usuario_local AND status != 3";
+								
+							$libros_usuario = DatasetSQL($query5);
+							
+							while($row5 = mysqli_fetch_array($libros_usuario)){
+								$row_id_libro = $row5['id_libro'];
+								$row_titulo = $row5['titulo'];
+								$row_autor = $row5['autor'];
+								$row_year = $row5['year'];
+								$row_sinopsis = $row5['sinopsis'];
+								$row_ruta_foto_portada = $row5['ruta_foto_portada'];
+								$row_statusLibro = $row5['status'];
+								$row_id_usuario = $row5['id_usuario'];
 
-                                
-                        $url_producto = str_replace(" ", "-", $row_titulo);
-                        $url_producto = str_replace("/", "-", $url_producto);
-                        $url_producto = quitarAcentos($url_producto);
-                        $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
-                ?>
-                
-				<!-- Inicio Producto -->
-                <div class="col-lg-2 col-md-4 col-6 ">
-                    <div class="ps-product ps-product--simple">
-                        <div class="ps-product__thumbnail">
-                            <a onclick="sumar_visitas(<?php echo $row_id_libro; ?>)" href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> ">
-                                <img src="<?php echo $row_ruta_foto_portada ?>" alt="<?php echo $row_titulo ?>">
-							</a>
-                        </div>
-                    
-						<div class="ps-product__container">
-                            <a onclick="sumar_visitas(<?php echo $row_id_libro; ?>)" class="ps-product__title" href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $row_titulo; ?></a>
-                            <p><?php echo $row_autor; ?></p>
-                        </div>
+								$row_query = "SELECT * FROM usuarios WHERE id_usuario = $row_id_usuario";
+								$row_nombres = GetValueSQL($row_query, 'nombres');
+								$row_apellidos = GetValueSQL($row_query, 'apellidos');
+										
+								$row_nombre_usuario_completo = rtrim($row_nombres)." ".rtrim($row_apellidos);
+
+										
+								$url_producto = str_replace(" ", "-", $row_titulo);
+								$url_producto = str_replace("/", "-", $url_producto);
+								$url_producto = quitarAcentos($url_producto);
+								$url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
+						?>
+						
+						<!-- Inicio Producto -->
+						<div class="col-lg-2 col-md-4 col-6 ">
+							<div class="ps-product ps-product--simple">
+								<div class="ps-product__thumbnail">
+									<a onclick="sumar_visitas(<?php echo $row_id_libro; ?>)" href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> ">
+										<img src="<?php echo $row_ruta_foto_portada ?>" alt="<?php echo $row_titulo ?>">
+									</a>
+								</div>
+							
+								<div class="ps-product__container">
+									<a onclick="sumar_visitas(<?php echo $row_id_libro; ?>)" class="ps-product__title" href="libro/<?php echo $row_id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $row_titulo; ?></a>
+									<p><?php echo $row_autor; ?></p>
+								</div>
+							</div>
+						</div>
+						<!-- Fin Producto -->
+						<?php
+						}    
+						?>
 					</div>
-                </div>
-				<!-- Fin Producto -->
-                <?php
-                }    
-                ?>
-            </div>
-        </div>
-    </div><!--  End Customers who bought -->
+				</div>
+   			</div><!--  End Customers who bought -->
+		</div>
+    </div>
 
 	<!-- 
         #region Modal Reportar Usuario
