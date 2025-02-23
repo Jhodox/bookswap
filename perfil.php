@@ -725,8 +725,6 @@ session_start();
                                                         <strong>Préstamo: </strong><br>'
                                                         .$prestamo.'
                                                         <br>
-                                                        <strong>Lista de Espera: </strong><br>'
-                                                        .$waitlist.'
                                                     </td>
                                                 </tr>';
 
