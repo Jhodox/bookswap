@@ -336,7 +336,6 @@ session_start();
                                         <p><i class="fas fa-envelope"></i> Correo Institucional: <?php echo $correo; ?></p>
                                         <p><i class="fas fa-graduation-cap"></i>Carrera: <?php echo $carrera; ?></p>
                                         <p><i class="fas fa-calendar-days"></i> Ciclo de ingreso: <?php echo $ciclo_ingreso; ?></p>
-                                        <p><i class="fas fa-star"></i> Calificación: <?php echo $calificacion; ?></p>
                                         <p><i class="fas fa-flag"></i> Status: <?php echo $status ?></p>
                                         <p style="color: yellow;"><?php echo $mensaje_status; ?></p>
                                     </div>
@@ -554,7 +553,6 @@ session_start();
                                                                                 }
                                                                                 if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
                                                                                     $prestamo .= '<th>Inicio / Fin</th>';
-                                                                                    $prestamo .= '<th>Chat</th>';
                                                                                     if($id_status_prestamo == 2)
                                                                                     {
                                                                                         $prestamo .= '<th>Denegar</th>';
@@ -594,9 +592,6 @@ session_start();
                                                             </td>';
                                                             }
                                                             
-                                                            $prestamo .= '<td class="text-center" >
-                                                                <a title="Ingresar a chat" class="btn btn-secondary" type="button" style="font-size: 16px;" href="chat/'.$codigo_usuario_prestamo.'"><i class="fa fa-comment chat-icon"></i></a>
-                                                            </td>';
                                                             if($id_status_prestamo == 2){
                                                                 $prestamo .= '<td class="text-center" >
                                                                 <a title="Cancelar prestamo" class="text-danger" type="button" style="font-size: 27px;" onclick = "cancelar_prestamo('.$id_prestamo.')" ><i class="fa-regular fa-circle-xmark"></i></a>
@@ -911,7 +906,6 @@ session_start();
                                                                                 $detalles .= '<th>Opciones</th>';
                                                                             }
                                                                             if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
-                                                                                $detalles .= '<th>Chat</th>';
                                                                                 if($id_status_prestamo == 2)
                                                                                     $detalles .= '<th>Denegar</th>';
                                                                             }
@@ -932,9 +926,6 @@ session_start();
                                                     }
 
                                                     if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
-                                                        $detalles .= '<td class="text-center" >
-                                                            <a title="Ingresar a chat" class="btn btn-secondary" type="button" style="font-size: 16px;" href="chat/'.$codigo_usuario_prestamo.'"><i class="fa fa-comment chat-icon"></i></a>
-                                                        </td>';
                                                         if($id_status_prestamo == 2){
                                                             $detalles .= '<td class="text-center" >
                                                             <a title="Cancelar prestamo" class="text-danger" type="button" style="font-size: 27px;" onclick = "cancelar_prestamo('.$id_prestamo.')" ><i class="fa-regular fa-circle-xmark"></i></a>
@@ -1415,7 +1406,6 @@ session_start();
                                                 <th>Fecha de Préstamo</th>
                                                 <th>Fecha de Entrega</th>
                                                 <th>Estatus</th>
-                                                <th>Calificar usuario</th>
 
                                             </tr>
 
@@ -1505,12 +1495,7 @@ session_start();
                                                         <td class="text-center">'.$fecha_fin.'</td>
         
                                                         <td class="text-center">'.$status_prestamo.'</td>     
-                                                        
-                                                        <td class="text-center">
-                                                            <div class="rating" id="rating-'.$id_prestamo.'">
-                                                                
-                                                            </div>
-                                                        </td>                       
+                                                                               
                                                     </tr>';
 
 
@@ -1564,7 +1549,6 @@ session_start();
                                                 <th>Fecha de Préstamo</th>
                                                 <th>Fecha de Entrega</th>
                                                 <th>Estatus</th>
-                                                <th>Calificar usuario</th>
 
                                             </tr>
 
@@ -1653,13 +1637,7 @@ session_start();
         
                                                         <td class="text-center">'.$fecha_fin.'</td>
         
-                                                        <td class="text-center">'.$status_prestamo.'</td>       
-                                                        
-                                                        <td class="text-center">
-                                                            <div class="rating" id="rating-'.$id_prestamo.'">
-                                                                
-                                                            </div>
-                                                        </td>        
+                                                        <td class="text-center">'.$status_prestamo.'</td>
         
                                                     </tr>';
 

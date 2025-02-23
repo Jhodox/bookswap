@@ -253,51 +253,6 @@ if (isset($_SESSION['id_sesion']) and isset($_SESSION['email'])) {
                         </div>
 
 
-                        
-                        <!--=====================================
-                    #region Chat
-                    ======================================-->
-                    <?php 
-                    $query4 = "SELECT 
-                        COUNT(*) AS cuantos
-                        FROM 
-                        (SELECT DISTINCT usuarios.codigo_usuario, usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.ruta_foto_perfil 
-                        FROM usuarios 
-                        JOIN prestamos 
-                        ON (prestamos.id_usuario_owner = usuarios.id_usuario OR prestamos.id_usuario_destino = usuarios.id_usuario) 
-                        WHERE (prestamos.id_usuario_owner = $id_usuario_global OR prestamos.id_usuario_destino = $id_usuario_global) AND usuarios.id_usuario != $id_usuario_global AND usuarios.id_usuario != 0) AS subconsulta";
-                        $cuantos_chat = GetValueSQL($query4, 'cuantos');
-                        // echo $query4;
-
-                        if($cuantos_chat > 0){
-                            $query5 = "
-                            SELECT DISTINCT usuarios.codigo_usuario, usuarios.id_usuario, usuarios.nombres, usuarios.apellidos, usuarios.ruta_foto_perfil
-                            FROM usuarios
-                            JOIN prestamos ON (prestamos.id_usuario_owner = usuarios.id_usuario OR prestamos.id_usuario_destino = usuarios.id_usuario)
-                            WHERE (prestamos.id_usuario_owner = $id_usuario_global OR prestamos.id_usuario_destino = $id_usuario_global)
-                            AND usuarios.id_usuario != $id_usuario_global AND usuarios.id_usuario != 0
-                            ORDER BY prestamos.id_prestamo DESC";
-                            $codigo_usuario_chat = GetValueSQL($query5, 'codigo_usuario');
-                        } else{
-                            $codigo_usuario_chat = $codigo_usuario_global;
-                            // echo $codigo_usuario_chat;
-                        }
-                    
-                    ?>
-
-                        <?php
-                        if($id_usuario_global != 0){
-                        ?>
-                        <div class="ps-block--user-header">
-                            <div class="ps-block__left">
-                                <a class="header__extra" href="chat/<?php echo $codigo_usuario_chat ?>" title="Chat">
-                                    <i style="color: black;" class="far fa-comments"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <?php } ?>
-
-
                         <!--=====================================
                     #region Perfil
                     ======================================-->

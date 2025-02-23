@@ -303,7 +303,6 @@ session_start();
                                         <p><i class="fas fa-envelope"></i> Correo Institucional: <?php echo $correo; ?></p>
                                         <p><i class="fas fa-graduation-cap"></i>Carrera: <?php echo $carrera; ?></p>
                                         <p><i class="fas fa-calendar-days"></i> Ciclo de ingreso: <?php echo $ciclo_ingreso; ?></p>
-                                        <p><i class="fas fa-star"></i> Calificación: <?php echo $calificacion; ?></p>
                                     </div>
                                 </div>
                             </div>                            
