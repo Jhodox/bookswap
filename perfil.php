@@ -915,7 +915,9 @@ session_start();
                                                                             }
                                                                             if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
                                                                                 $detalles .= '<th>Chat</th>';
-                                                                            } 
+                                                                                if($id_status_prestamo == 2)
+                                                                                    $detalles .= '<th>Denegar</th>';
+                                                                            }
                                                                         $detalles .= '</tr>
                                                                     </thead>
                                                                     <tbody>';
@@ -933,11 +935,14 @@ session_start();
                                                     }
 
                                                     if($id_status_prestamo == 2 || $id_status_prestamo == 3 || $id_status_prestamo == 4){
-                                                        
-                                                        
                                                         $detalles .= '<td class="text-center" >
                                                             <a title="Ingresar a chat" class="btn btn-secondary" type="button" style="font-size: 16px;" href="chat/'.$codigo_usuario_prestamo.'"><i class="fa fa-comment chat-icon"></i></a>
                                                         </td>';
+                                                        if($id_status_prestamo == 2){
+                                                            $detalles .= '<td class="text-center" >
+                                                            <a title="Cancelar prestamo" class="text-danger" type="button" style="font-size: 27px;" onclick = "cancelar_prestamo('.$id_prestamo.')" ><i class="fa-regular fa-circle-xmark"></i></a>
+                                                        </td>';
+                                                        }
                                                     } 
 
                                                 $detalles .= '</tr>';
