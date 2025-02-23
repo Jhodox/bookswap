@@ -337,7 +337,6 @@ session_start();
                                         <p><i class="fas fa-graduation-cap"></i>Carrera: <?php echo $carrera; ?></p>
                                         <p><i class="fas fa-calendar-days"></i> Ciclo de ingreso: <?php echo $ciclo_ingreso; ?></p>
                                         <p><i class="fas fa-star"></i> Calificación: <?php echo $calificacion; ?></p>
-                                        <p><i class="fa-solid fa-xmark"></i> Strikes: <?php echo $num_strikes." ".$mensaje_strikes; ?> </p>
                                         <p><i class="fas fa-flag"></i> Status: <?php echo $status ?></p>
                                         <p style="color: yellow;"><?php echo $mensaje_status; ?></p>
                                     </div>

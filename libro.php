@@ -387,8 +387,7 @@ session_start();
                                         <?php
                                         $query8 = "SELECT COUNT(*) AS cuantos FROM waitlist WHERE id_libro = $id_libro_global";
                                         $cuantos_waitlist = GetValueSQL($query8, 'cuantos');
-                                        ?>
-                                        En Espera:<a ><strong> <?php echo $cuantos_waitlist ?></strong></a> 
+                                        ?> 
 
                                     </p>
 
@@ -410,7 +409,9 @@ session_start();
                                         <p class="btn btn-danger ps-btn ps-btn--black disabled">Te encuentras baneado</p>
                                     <?php } else if($status_usuario == 2){ ?> <!-- Usuarios NO Validados -->
                                         <a class="ps-btn ps-btn--black disabled" href="perfil">Actualiza tu información de usuario</a>
-                                    <?php } else { ?> 
+                                    <?php } else if($cuantos_waitlist > 0 || $status_libro_text == "Prestado") { ?> <!-- En espera o prestado -->
+                                        <p class="btn ps-btn ps-btn--black disabled">Prestado</p>
+                                        <?php } else { ?> 
                                         <a class="ps-btn ps-btn--black disabled" onclick="solicitar_libro(<?php echo $id_usuario_global.', '.$id_libro_global.', event'; ?>)" href="">Solicitar</a>
                                     <?php } 
                                 }

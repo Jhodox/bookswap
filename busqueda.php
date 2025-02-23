@@ -252,6 +252,9 @@ session_start();
                 case 3:
                     $mensaje_status = '<i class="fas fa-book"></i> '.$status;
                 break;
+                case 4:
+                    $mensaje_status = '<i class="fas fa-book-reader"></i> '.$status;
+                break;
             }
 
             if($year == NULL){

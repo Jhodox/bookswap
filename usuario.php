@@ -305,9 +305,6 @@ session_start();
                                         <p><i class="fas fa-calendar-days"></i> Ciclo de ingreso: <?php echo $ciclo_ingreso; ?></p>
                                         <p><i class="fas fa-star"></i> Calificación: <?php echo $calificacion; ?></p>
                                     </div>
-									<div class="col-12">
-										<button class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#modalReportarUsuario" data-bs-whatever="@mdo"><strong>Reportar</strong></button>
-                                    </div>
                                 </div>
                             </div>                            
                         </div>
