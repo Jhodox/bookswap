@@ -213,73 +213,84 @@ session_start();
 
                 <?php
                 // echo "<script> console.log('ID Usuario: " . $id_usuario_global . "');</script>";
-                $cont = 0;
-                $query = "SELECT DISTINCT libros.* FROM wishlist JOIN libros ON libros.id_libro = wishlist.id_libro WHERE libros.status != 3 AND wishlist.id_usuario = $id_usuario_global";
-                $wishlist = DatasetSQL($query);
-                while ($row = mysqli_fetch_array($wishlist)) {
-                    $id_libro = $row['id_libro'];
-                    $titulo = $row['titulo'];
-                    $autor = $row['autor'];
-                    $editorial = $row['editorial'];
-                    $year = $row['year'];
-                    $sinopsis = $row['sinopsis'];
-                    $num_visitas = $row['num_visitas'];
-                    $num_prestamos = $row['num_prestamos'];
-                    $ruta_foto_portada = $row['ruta_foto_portada'];
-                    $fecha_agregado = $row['fecha_agregado'];
-                    $status = $row['status'];
+                $query_count = "SELECT COUNT(*) as total FROM wishlist 
+                JOIN libros ON libros.id_libro = wishlist.id_libro 
+                WHERE libros.status != 3 AND wishlist.id_usuario = $id_usuario_global";
+                $result_count = DatasetSQL($query_count);
+                $row_count = mysqli_fetch_assoc($result_count);
+                $total_libros = $row_count['total'];
+                if ($total_libros == 0) {
+                    echo "<div class='ps-block--store-banner'><h4>Wishlist vacía</h4></div>";
+                } else {
+                    $query = "SELECT DISTINCT libros.* FROM wishlist JOIN libros ON libros.id_libro = wishlist.id_libro WHERE libros.status != 3 AND wishlist.id_usuario = $id_usuario_global";
+                    $wishlist = DatasetSQL($query);
+                    while ($row = mysqli_fetch_array($wishlist)) {
+                        $id_libro = $row['id_libro'];
+                        $titulo = $row['titulo'];
+                        $autor = $row['autor'];
+                        $editorial = $row['editorial'];
+                        $year = $row['year'];
+                        $sinopsis = $row['sinopsis'];
+                        $num_visitas = $row['num_visitas'];
+                        $num_prestamos = $row['num_prestamos'];
+                        $ruta_foto_portada = $row['ruta_foto_portada'];
+                        $fecha_agregado = $row['fecha_agregado'];
+                        $status = $row['status'];
 
-                    $url_producto = str_replace(" ", "-", $titulo);
-                    $url_producto = str_replace("/", "-", $url_producto);
-                    $url_producto = quitarAcentos($url_producto);
-                    $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
+                        $url_producto = str_replace(" ", "-", $titulo);
+                        $url_producto = str_replace("/", "-", $url_producto);
+                        $url_producto = quitarAcentos($url_producto);
+                        $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
 
-                    // $year == NULL ? "Sin Año" : $year;
-                    if ($year == NULL) {
-                        $year = "Sin Año";
-                    }
+                        // $year == NULL ? "Sin Año" : $year;
+                        if ($year == NULL) {
+                            $year = "Sin Año";
+                        }
 
-                    if ($sinopsis == NULL) {
-                        $sinopsis = "Sin Sinopsis";
-                    }
+                        if ($sinopsis == NULL) {
+                            $sinopsis = "Sin Sinopsis";
+                        }
 
-                    if ($ruta_foto_portada == NULL) {
-                        $ruta_foto_portada = "imagenes/libros/no-image.jpg";
-                    }
-                    ?>
-                    <aside class="ps-block--store-banner" id="div-wishlist">
+                        if ($ruta_foto_portada == NULL) {
+                            $ruta_foto_portada = "imagenes/libros/no-image.jpg";
+                        }
+                        ?>
+                        <aside class="ps-block--store-banner" id="div-wishlist">
 
-                        <div class="ps-block__user ps-block__wishlist">
+                            <div class="ps-block__user ps-block__wishlist">
 
-                            <div class="ps-product ps-product--simple ps-book">
-                                <div class="grid-book__wishlist">
-                                    <div class="ps-product__thumbnail ps-book">
-                                        <a onclick="sumar_visitas(<?php echo $id_libro; ?>)"
-                                            href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?>">
-
-                                            <img height="250" class="img-book" src="<?php echo $ruta_foto_portada; ?>"
-                                                alt="<?php echo $titulo; ?>">
-                                        </a>
-                                    </div>
-
-                                    <div class="ps-product__container ps-book">
-                                        <div class="ps-product__content" data-mh="clothing">
+                                <div class="ps-product ps-product--simple ps-book">
+                                    <div class="grid-book__wishlist">
+                                        <div class="ps-product__thumbnail ps-book">
                                             <a onclick="sumar_visitas(<?php echo $id_libro; ?>)"
-                                                class="ps-product__title ps-wishlist__text"
-                                                href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $titulo; ?></a>
-                                            <a class="ps-product__author ps-wishlist__text"><?php echo $autor; ?></a>
+                                                href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?>">
+
+                                                <img height="250" class="img-book" src="<?php echo $ruta_foto_portada; ?>"
+                                                    alt="<?php echo $titulo; ?>">
+                                            </a>
+                                        </div>
+
+                                        <div class="ps-product__container ps-book">
+                                            <div class="ps-product__content" data-mh="clothing">
+                                                <a onclick="sumar_visitas(<?php echo $id_libro; ?>)"
+                                                    class="ps-product__title ps-wishlist__text"
+                                                    href="libro/<?php echo $id_libro; ?>/<?php echo $url_producto; ?> "><?php echo $titulo; ?></a>
+                                                <a class="ps-product__author ps-wishlist__text"><?php echo $autor; ?></a>
+                                            </div>
+                                        </div>
+
+                                        <div class="ps-product__container ps-book">
+                                            <button class="btn btn-warning btn-lg btn-delete"
+                                                onclick="wishlist_remove(<?php echo $id_usuario_global . ', ' . $id_libro . ', event' ?>)">Eliminar</button>
                                         </div>
                                     </div>
-
-                                    <div class="ps-product__container ps-book">
-                                        <button class="btn btn-warning btn-lg btn-delete"
-                                            onclick="wishlist_remove(<?php echo $id_usuario_global . ', ' . $id_libro . ', event' ?>)">Eliminar</button>
-                                    </div>
                                 </div>
-                            </div>
-                        <?php } ?>
-                    </div> <!-- End ps-block__user -->
-                </aside> <!-- End ps-block--store-banner -->
+                            </div> <!-- End ps-block__user -->
+                        </aside> <!-- End ps-block--store-banner -->
+                    <?php
+                    }
+                }
+                ?>
             </div> <!-- End ps-section__header-->
         </div> <!-- End Container-->
     </div> <!-- End ps-vendor-dashboard pro -->

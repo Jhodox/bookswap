@@ -25,8 +25,6 @@
                                 <li><a title="Angel" class="instagram" target="_blank" href="https://www.instagram.com/asc_angeel"><i class="fab fa-instagram"></i></a></li>
                                 <li><a title="Gerson" class="instagram" target="_blank" href="https://www.instagram.com/gerson_flores"><i class="fab fa-instagram"></i></a></li>
                                 <li><a title="Cristian" class="instagram" target="_blank" href="https://www.instagram.com/cristiancitorozkito"><i class="fab fa-instagram"></i></a></li>
-                                <li><a title="Brandon" class="instagram" target="_blank" href="https://www.instagram.com/__brandonhh__"><i class="fab fa-instagram"></i></a></li>
-                                <li><a title="Jorge" class="instagram" target="_blank" href="https://www.instagram.com/jorgeoliv.ag/"><i class="fab fa-instagram"></i></a></li>
                             </ul>
 
                         </div>

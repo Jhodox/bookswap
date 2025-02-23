@@ -214,18 +214,16 @@ session_start();
             <strong>Centro Universitario de Ciencias Exactas e Ingenierías (CUCEI)</strong> de la <strong>Universidad de Guadalajara</strong>. Nuestro equipo está compuesto por:</p>
             
             <ul class="h5 text-justify">
-                <li class="mt-1"><strong>Aguilar Olivares Jorge Isaac</strong></li>
-                <li class="mt-2"><strong>De la Cruz Ascencio Luis Angel</strong></li>
-                <li class="mt-2"><strong>Flores Sánchez Gerson Ismael</strong></li>
-                <li class="mt-2"><strong>Hernández Muñoz Diego Iván</strong></li>
-                <li class="mt-2"><strong>Herrera Hernández Brandon</strong></li>
-                <li class="mt-2"><strong>Orozco Jiménez Cristian Isaí</strong></li>
+                <li class="mt-1"><strong>Pablo Celik Mercado Hael</strong></li>
+                <li class="mt-2"><strong>Erick Alexander Castillo Chávez</strong></li>
+                <li class="mt-2"><strong>Pedro Ignacio Limon Vera</strong></li>
+                <li class="mt-2"><strong>Cristian Isaí Orozco Jiménez</strong></li>
             </ul><br><br>
             
             <h3>Nuestra Misión</h3>
-            <p class="text-justify">En el marco de la materia de <strong>Ingeniería de Software</strong>, nos propusimos abordar un problema real que afecta a muchos estudiantes: el acceso a los libros necesarios para
+            <p class="text-justify">En el marco de la materia de <strong>Ingeniería de Software II</strong>, nos propusimos mejorar un proyecto que abordar un problema real que afecta a muchos estudiantes: el acceso a los libros necesarios para
             nuestros estudios al igual que para lectura de recreación.
-            Nuestro objetivo es crear una plataforma eficiente y accesible que facilite el intercambio de libros entre los estudiantes del CUCEI.</p>
+            Nuestro objetivo es mejorar la plataforma ya creada para que sea mas eficiente y accesible, de esta forma facilitando el intercambio de libros entre los estudiantes del CUCEI.</p>
             <br><br>
 
             <h3>¿Por qué Hicimos Este Proyecto?</h3>
