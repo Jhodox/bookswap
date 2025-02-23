@@ -1320,7 +1320,6 @@ session_start();
                                                             <td class="text-center">
             
                                                                 <a type="button" data-bs-toggle="modal" data-bs-target="#modalEditarLibro" data-bs-whatever="@mdo" onclick="llenar_form_editar_libro('.$id_libro.')" title="Editar libro"><i class="fa-solid fa-pen-to-square"></i></a>&emsp;
-                                                                '.$cambiar_status_libro.'
             
                                                             </td>
 
