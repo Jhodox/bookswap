@@ -1461,6 +1461,11 @@ session_start();
                                                     $id_usuario_owner = $row6['id_usuario'];
                                                     $id_prestamo = $row6['id_prestamo'];
 
+                                                    $url_producto = str_replace(" ", "-", $titulo);
+                                                    $url_producto = str_replace("/", "-", $url_producto);
+                                                    $url_producto = quitarAcentos($url_producto);
+                                                    $url_producto = preg_replace('/[^a-zA-Z0-9\s-]/', '', $url_producto);
+
                                                     if($year == NULL){
                                                         $year = "Sin Año";
                                                     }
@@ -1485,13 +1490,13 @@ session_start();
         
                                                                 <div class="ps-product__thumbnail">
         
-                                                                    <a href="product-default.html"><img src="'.$ruta_foto_portada.'" alt="$titulo"></a>
+                                                                    <a href="libro/'.$id_libro.'/'.$url_producto.'"><img src="'.$ruta_foto_portada.'" alt="$titulo"></a>
         
                                                                 </div>
         
                                                                 <div class="ps-product__content">
-        
-                                                                    <a href="product-default.html">'.$titulo.'</a>
+                                                                    
+                                                                    <a href="libro/'.$id_libro.'/'.$url_producto.'">'.$titulo.'</a>
         
                                                                     <p>Autor: <strong>'.$autor.'</strong></p>
                                                                     <p>ISBN: <strong>'.$isbn.'</strong></p>
@@ -1512,9 +1517,10 @@ session_start();
                                                         
                                                         <td class="text-center">
                                                             <div class="rating" id="rating-'.$id_prestamo.'">
-                                                                
                                                             </div>
-                                                        </td>                       
+                                                            <button class="btn btn-info btn-lg" onclick="activar_agregar_review(<?php echo $id_libro; ?>)" data-bs-toggle="modal" data-bs-target="#modalAgregarReview" data-bs-whatever="@mdo" data-id="'.$id_libro.'">Agregar reseña</button>
+                                                        </td>
+                                                        
                                                     </tr>';
 
 
@@ -1634,13 +1640,13 @@ session_start();
         
                                                                 <div class="ps-product__thumbnail">
         
-                                                                    <a href="product-default.html"><img src="'.$ruta_foto_portada.'" alt="$titulo"></a>
+                                                                    <a href="libro/'.$id_libro.'/'.$url_producto.'"><img src="'.$ruta_foto_portada.'" alt="$titulo"></a>
         
                                                                 </div>
         
                                                                 <div class="ps-product__content">
         
-                                                                    <a href="product-default.html">'.$titulo.'</a>
+                                                                    <a href="libro/'.$id_libro.'/'.$url_producto.'">'.$titulo.'</a>
         
                                                                     <p>Autor: <strong>'.$autor.'</strong></p>
                                                                     <p>ISBN: <strong>'.$isbn.'</strong></p>
@@ -2067,6 +2073,33 @@ session_start();
         </div>
     </div>
 
+    <!-- 
+        #region Modal Agregar Review
+    -->
+    <div class="modal fade" id="modalAgregarReview"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title title" id="exampleModalLabel">Agregar reseña</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_agregar_review" name="form_agregar_review">
+                        <div class="form-group row m-2">
+                            <p class="h3 text-dark" >Reseña</p>
+                            <textarea class="obligatorio form-control" rows="5" id="review" name="review" placeholder="...."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" class="btn ps-btn" data-bs-dismiss="modal" style="background-color: gray;">Cancelar</button>
+                        <button type="button" class="btn ps-btn" id="submit">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
 
 
@@ -2137,13 +2170,121 @@ session_start();
             // console.log(id);
             modal.find('#fp_id_libro').val(id_libro);
         });
+
+
+        // $('#modalAgregarReview').on('show.bs.modal', function (event) {
+        //     var button = $(event.relatedTarget);
+        //     var id_libro = button.data('id');
+        //     var modal = $(this);
+        //     // console.log(id);
+        //     modal.find('#fp_id_libro').val(id_libro);
+        // });
+        
+
 	</script>
 
-    <!--
-        #region stars
-    -->
-    <script>
-        
+<!-- 
+		#region Reseñas
+	-->
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script type="module">
+        // Tu script JavaScript
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getDatabase, set, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHNB64eKw2nyZFEXE0O482UqZQfx6I3Cw",
+            authDomain: "bookswap-33e37.firebaseapp.com",
+            projectId: "bookswap-33e37",
+            storageBucket: "bookswap-33e37.appspot.com",
+            messagingSenderId: "930267590",
+            appId: "1:930267590:web:cfc931bf6d38799a4df2c7"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        var id_libro = "<?php echo $id_libro ?>";
+        var codigo_reviewer = "<?php echo $id_usuario_global ?>";
+
+        var id_review = codigo_reviewer;
+
+        var nombres = "<?php echo $nombres; ?>";
+        var apellidos = "<?php echo $apellidos; ?>";
+        var nombre_completo = nombres + ' ' + apellidos;
+        var foto_perfil = "<?php echo $ruta_foto_perfil; ?>";
+
+		document.getElementById('submit').addEventListener('click', function() {
+			enviarReview(); // Llama a la función que envía la reseña
+		});
+
+		function enviarReview() {
+			var review = document.getElementById('review').value.trim();
+
+			
+				var review = $("#review").val();
+
+				var maxLength = 1000; // Define el máximo número de caracteres permitidos
+
+				if (review.length > maxLength) {
+					Swal.fire({
+						icon: 'error',
+						title: '¡Error!',
+						text: "La reseña no debe sobrepasar los " + maxLength + " caracteres",
+						timer: 1000,
+						timerProgressBar: true,
+					});
+					return;
+				}
+                
+                console.log("Review -> ", review);
+				if (review.trim() === "") {
+                    Swal.fire({
+                        icon: 'error',
+						title: '¡Error!',
+						text: "La reseña está vacía",
+						timer: 1000,
+						timerProgressBar: true,
+					});
+					return;
+				}
+
+				const reviewsRef = ref(database, 'reviews/' + id_libro + '/' + id_review);
+
+				set(reviewsRef, {
+					sender: nombre_completo,
+					review: review,
+					timestamp: Date.now()
+				}).then(() => {
+                    Swal.fire({
+						icon: 'success',
+						title: 'Reseña enviada!',
+						timer: 1000,
+						timerProgressBar: true,
+                        didOpen: () => {
+                            $("#modalAgregarReview").modal('hide'); // Cierra el modal
+                        }
+					});
+					$("#review").val('');
+				}).catch((error) => {
+					Swal.fire({
+						icon: 'error',
+						title: '¡Error!',
+						text: 'Error al enviar la review: ' + error.message,
+						timer: 1000,
+						timerProgressBar: true,
+					});
+					return;
+				});
+
+				// Limpia el área de texto después de enviar el mensaje
+				$("#review").val('');
+		}
     </script>
-</body>
+
+</body> 
 </html>

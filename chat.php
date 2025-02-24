@@ -3,7 +3,6 @@ ob_start();
 session_start();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -154,12 +153,10 @@ session_start();
 
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
 		
 </head>
 
 <body>
-
 
 	<!--=====================================
 	#region HEADER
@@ -191,15 +188,11 @@ session_start();
 		// echo $query2;
 		$existe1 = GetValueSQL($query2, 'existe'); 
 
-
 		//Cuando a mi me prestan el libro
 		$query3 = "SELECT COUNT(*) AS existe FROM prestamos
 		INNER JOIN usuarios ON prestamos.id_usuario_owner = usuarios.id_usuario
 		WHERE codigo_usuario = '$codigo_usuario_receptor' AND id_usuario_destino = $id_usuario_global";
         $existe2 = GetValueSQL($query3, 'existe');
-
-		
-		// echo $query3;
 
         if($existe1 == 0 && $existe2 == 0){
             header("Location: ../perfil");
@@ -211,16 +204,12 @@ session_start();
 		exit;
 	}
 
-
-
 	if($sesion != 0){
 		$query1 = "SELECT * FROM usuarios WHERE id_usuario = $id_usuario_global";
 		$nombres = GetValueSQL($query1, 'nombres');
 		$apellidos = GetValueSQL($query1, 'apellidos');
 		$codigo_usuario_prestador = GetValueSQL($query1, 'codigo_usuario');
 	}
-
-	
 
 	?>
 
@@ -241,7 +230,6 @@ session_start();
 				
 				<li><a href="perfil">Perfil</a></li>
 
-
 				<li>Chat</li>
 
 			</ul>
@@ -249,7 +237,6 @@ session_start();
 		</div>
 
 	</div>
-
 
 	<div class="ps-section--gray" style="margin-top: -60px;">
 		<div class="container">
@@ -338,26 +325,11 @@ session_start();
 			</div>
 		</div> 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	<!--=====================================
 	#region Footer
 	======================================-->
 	<!-- Este es el pie de pagina, el cual va antes de que se acabe el body -->
 	<?php include ('main-footer.php'); ?>
-
 
 	<!--=====================================
 	#region JS PERSONALIZADO
@@ -375,7 +347,9 @@ session_start();
 	<script src="assets/plugins/sweetalert/sweetalert.min.js"></script>
 	<script src="assets/plugins/sweetalert/jquery.sweet-alert.custom.js"></script>
 
-    <!-- Chat -->
+    <!-- 
+		#region CHAT
+	-->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -421,8 +395,6 @@ session_start();
                 renderizarMensaje(message);
             });
         }
-
-
 
 		/*
 		#region Función para renderizar un mensaje en el chat
@@ -553,11 +525,6 @@ session_start();
 			}
 		});
 
-
-		
-
-
-
 		/*  
 		#region Enviar mensajes con Enter
 		*/
@@ -630,10 +597,6 @@ session_start();
 
 		$("#message").focus();
     </script>
-
-
-
-
 
 </body>
 </html>

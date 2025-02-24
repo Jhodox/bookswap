@@ -515,6 +515,24 @@ session_start();
             </div><!--  End Product Container -->
 
             <!--=====================================
+             #region Reviews
+            ======================================-->
+
+            <div class="ps-section--default ps-customer-bought">
+                <div class="ps-section__header">
+                    <h3>Reseñas</h3>
+                </div>
+
+                <div class="ps-section__content">
+                    <div class="chat-history" id="chat-history">
+                        <ul class="m-b-0" id="review-list" style="list-style: none;">
+                            <!-- Aquí se mostrarán las reviews -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!--=====================================
              #region Customers who bought
             ======================================--> 
 
@@ -776,16 +794,6 @@ session_start();
     </div><!-- End Product Content -->
 
 
-
-
-
-
-
-
-
-
-
-
     <!--=====================================
 	Footer
 	======================================-->  
@@ -815,5 +823,71 @@ session_start();
 			// llenar_select_ciclos();
 		});
 	</script>
+
+     <!-- 
+		#region CHAT
+	-->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script type="module">
+        // Tu script JavaScript
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getDatabase, set, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHNB64eKw2nyZFEXE0O482UqZQfx6I3Cw",
+            authDomain: "bookswap-33e37.firebaseapp.com",
+            projectId: "bookswap-33e37",
+            storageBucket: "bookswap-33e37.appspot.com",
+            messagingSenderId: "930267590",
+            appId: "1:930267590:web:cfc931bf6d38799a4df2c7"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        var id_libro = "<?php echo $id_libro_global ?>";
+        
+        /*
+        #region Función para cargar las reviews existentes desde Firebase
+        */
+        function cargarReviews() {
+            const reviewsRef = ref(database, 'reviews/' + id_libro);
+            onChildAdded(reviewsRef, (snapshot) => {
+                const review = snapshot.val();
+                renderizarMensaje(review);
+            });
+        }
+
+        function renderizarMensaje(review) {
+            const reviewList = document.getElementById('review-list');
+            const formattedDateTime = new Date(review.timestamp).toLocaleDateString();
+            
+            const li = document.createElement('li');
+            li.className = 'review-item mb-20';
+
+            li.innerHTML = `
+                <div class="review-header">
+                    <strong class="fs-3">${review.sender}</strong>
+                    <span class="review-date fs-5">${formattedDateTime}</span>
+                </div>
+                <div class="review-content fs-4">
+                    ${review.review}
+                </div>
+            `;
+
+            reviewList.appendChild(li);
+        }
+		/*  
+		#region Llama a la función para cargar mensajes al cargar la página
+		*/
+        window.addEventListener('load', () => {
+            cargarReviews();
+        });
+
+    </script>
 </body>
 </html>
